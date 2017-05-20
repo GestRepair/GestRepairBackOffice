@@ -12,8 +12,11 @@ import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import org.json.simple.JSONArray;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -36,11 +39,11 @@ public class Postlogin {
         
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream()); 
         
-        JSONObject obj = new JSONObject();
-        obj.put("password",user);
-        obj.put("login",pass);
-        System.out.println(obj);
-        out.write(obj.toString());
+        JSONObject objp = new JSONObject();
+        objp.put("password",pass);
+        objp.put("login",user);
+        System.out.println(objp);
+        out.write(objp.toString());
         out.flush();
         out.close();
         int res = connection.getResponseCode();
@@ -48,9 +51,25 @@ public class Postlogin {
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = null;
+        String json = "";
         while((line = br.readLine() ) != null) {
-            System.out.println(line);
+            json += line;
         }
+        System.out.println(json);
+        
+        JSONParser parser = new JSONParser();
+        try{
+            JSONObject newjson = (JSONObject)new JSONParser().parse(json);
+            String data = newjson.get("data").toString();
+            JSONObject newjsondata = (JSONObject)new JSONParser().parse(data);
+            System.out.println(newjsondata.get("id"));
+            System.out.println(newjsondata.get("name"));
+            System.out.println(newjsondata.get("role"));
+            System.out.println(newjsondata.get("isadmin"));
+        }catch(ParseException pe){
+            
+        }
+        
         connection.disconnect();
     }
 }
