@@ -5,7 +5,10 @@
  */
 package gestrepairjavafrontend;
 
-import org.json.simple.JSONObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  *
@@ -117,13 +120,12 @@ public class login_menu extends javax.swing.JFrame {
 
     private void bt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_loginActionPerformed
         // TODO add your handling code here:
-        JSONObject obj = new JSONObject();
-        Login log = new Login(txt_username.getText(),txp_password.getText());
-        obj.put("password",log.getPassword());
-        obj.put("login",log.getUsername());
-        
-        
-        System.out.println(obj);
+        Postlogin pl = new Postlogin();
+        try {
+            pl.post("192.168.1.22", txt_username.getText(),txp_password.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(login_menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_loginActionPerformed
 
     /**
@@ -155,6 +157,7 @@ public class login_menu extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new login_menu().setVisible(true);
             }
