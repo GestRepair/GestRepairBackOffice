@@ -25,7 +25,7 @@ import org.json.simple.parser.ParseException;
 public class Postlogin {
 
 
-    public void post(String ip,String user, String pass) throws Exception{
+    public String [] post(String ip,String user, String pass) throws Exception{
         URL url = new URL("http://"+ip+":8080/login");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
@@ -55,21 +55,9 @@ public class Postlogin {
         while((line = br.readLine() ) != null) {
             json += line;
         }
-        System.out.println(json);
-        
-        JSONParser parser = new JSONParser();
-        try{
-            JSONObject newjson = (JSONObject)new JSONParser().parse(json);
-            String data = newjson.get("data").toString();
-            JSONObject newjsondata = (JSONObject)new JSONParser().parse(data);
-            System.out.println(newjsondata.get("id"));
-            System.out.println(newjsondata.get("name"));
-            System.out.println(newjsondata.get("role"));
-            System.out.println(newjsondata.get("isadmin"));
-        }catch(ParseException pe){
-            
-        }
-        
-        connection.disconnect();
+        String[] senddata = {objp.toString(),json.toString()};
+        //System.out.println(json);
+         connection.disconnect();
+        return senddata;
     }
 }

@@ -5,8 +5,12 @@
  */
 package gestrepairjavafrontend;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 
@@ -122,7 +126,26 @@ public class login_menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         Postlogin pl = new Postlogin();
         try {
-            pl.post("192.168.1.22", txt_username.getText(),txp_password.getText());
+            String[] session = pl.post("192.168.1.22", txt_username.getText(),txp_password.getText());
+            for (int i = 0; i < session.length; i++) {
+                System.out.println(session[i]);
+            }
+            JSONParser parser = new JSONParser();
+            try{
+                JSONObject newjson = (JSONObject)new JSONParser().parse(session[1]);
+                String result = newjson.get("result").toString();
+                //System.out.println(result);
+                String data = newjson.get("data").toString();
+                //System.out.println(data);
+                JSONObject newjsondata = (JSONObject)new JSONParser().parse(data);
+                System.out.println(newjsondata.get("nome"));
+                if (newjsondata.get("nomeRole").toString() != "Cliente"){
+                    new MainMenu(session[0],session[1]).setVisible(true);
+                };
+            }catch(ParseException pe){
+                System.out.println("Erro");
+
+            }
         } catch (Exception ex) {
             Logger.getLogger(login_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -139,7 +162,7 @@ public class login_menu extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
