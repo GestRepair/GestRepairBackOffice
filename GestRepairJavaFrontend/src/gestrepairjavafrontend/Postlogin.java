@@ -9,22 +9,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import org.json.simple.JSONArray;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author Rui Barcelos
  */
 public class Postlogin {
-
-
     public String [] post(String ip,String user, String pass) throws Exception{
         URL url = new URL("http://"+ip+":8080/login");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -55,8 +50,7 @@ public class Postlogin {
         while((line = br.readLine() ) != null) {
             json += line;
         }
-        String[] senddata = {objp.toString(),json.toString()};
-        //System.out.println(json);
+        String[] senddata = {objp.toString(),json};
          connection.disconnect();
         return senddata;
     }
