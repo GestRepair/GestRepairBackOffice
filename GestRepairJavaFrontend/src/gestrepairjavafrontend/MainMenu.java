@@ -72,6 +72,10 @@ public class MainMenu extends javax.swing.JFrame {
         bt_orc_aprovados = new javax.swing.JButton();
         bt_orc_naoaprov = new javax.swing.JButton();
         bt_orc_historico = new javax.swing.JButton();
+        bt_orc_historico.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         l_id_nome = new javax.swing.JLabel();
         l_id_funcao = new javax.swing.JLabel();
         l_nome = new javax.swing.JLabel();
@@ -92,9 +96,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         l_utilizadores.setText("Utilizadores");
 
-        bt_rep_execucao.setText("Execu\u00E7\u00E3o");
+        bt_rep_execucao.setText("Execução");
 
-        bt_rep_historico.setText("Hist\u00F3rico");
+        bt_rep_historico.setText("Histórico");
 
         bt_stock.setText("Stock");
         bt_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -105,28 +109,28 @@ public class MainMenu extends javax.swing.JFrame {
 
         bt_encomendas.setText("Encomendas");
 
-        l_reparacoes.setText("Repara\u00E7\u00F5es");
+        l_reparacoes.setText("Reparações");
 
-        l_Pecas.setText("Pe\u00E7as");
+        l_Pecas.setText("Peças");
 
-        bt_orc_execucao.setText("Execu\u00E7\u00E3o");
+        bt_orc_execucao.setText("Execução");
         bt_orc_execucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_orc_execucaoActionPerformed(evt);
             }
         });
 
-        l_orcamento.setText("Or\u00E7amento");
+        l_orcamento.setText("Orçamento");
 
         bt_orc_aprovados.setText("Aprovados");
 
-        bt_orc_naoaprov.setText("N\u00E3o Aprovados");
+        bt_orc_naoaprov.setText("Não Aprovados");
 
-        bt_orc_historico.setText("Hist\u00F3rico");
+        bt_orc_historico.setText("Histórico");
 
         l_id_nome.setText("Nome:");
 
-        l_id_funcao.setText("Fun\u00E7\u00E3o:");
+        l_id_funcao.setText("Função:");
 
         l_nome.setText("Exemplo de Nome");
 
@@ -240,6 +244,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
         // TODO add your handling code here:
+        new userTable().setVisible(true);
     }//GEN-LAST:event_bt_utilizadoresActionPerformed
 
     private void bt_stockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_stockActionPerformed
