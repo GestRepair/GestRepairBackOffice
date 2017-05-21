@@ -8,6 +8,8 @@ package gestrepairjavafrontend;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -56,11 +58,15 @@ public class MainMenu extends javax.swing.JFrame {
         bt_veiculos = new javax.swing.JButton();
         l_utilizadores = new javax.swing.JLabel();
         bt_rep_execucao = new javax.swing.JButton();
+        bt_rep_execucao.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        	}
+        });
         bt_rep_historico = new javax.swing.JButton();
         bt_stock = new javax.swing.JButton();
         bt_encomendas = new javax.swing.JButton();
         l_reparacoes = new javax.swing.JLabel();
-        l_Peças = new javax.swing.JLabel();
+        l_Pecas = new javax.swing.JLabel();
         bt_orc_execucao = new javax.swing.JButton();
         l_orcamento = new javax.swing.JLabel();
         bt_orc_aprovados = new javax.swing.JButton();
@@ -86,9 +92,9 @@ public class MainMenu extends javax.swing.JFrame {
 
         l_utilizadores.setText("Utilizadores");
 
-        bt_rep_execucao.setText("Execução");
+        bt_rep_execucao.setText("Execu\u00E7\u00E3o");
 
-        bt_rep_historico.setText("Histórico");
+        bt_rep_historico.setText("Hist\u00F3rico");
 
         bt_stock.setText("Stock");
         bt_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -99,28 +105,28 @@ public class MainMenu extends javax.swing.JFrame {
 
         bt_encomendas.setText("Encomendas");
 
-        l_reparacoes.setText("Reparações");
+        l_reparacoes.setText("Repara\u00E7\u00F5es");
 
-        l_Peças.setText("Peças");
+        l_Pecas.setText("Pe\u00E7as");
 
-        bt_orc_execucao.setText("Execução");
+        bt_orc_execucao.setText("Execu\u00E7\u00E3o");
         bt_orc_execucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_orc_execucaoActionPerformed(evt);
             }
         });
 
-        l_orcamento.setText("Orçamento");
+        l_orcamento.setText("Or\u00E7amento");
 
         bt_orc_aprovados.setText("Aprovados");
 
-        bt_orc_naoaprov.setText("Não Aprovados");
+        bt_orc_naoaprov.setText("N\u00E3o Aprovados");
 
-        bt_orc_historico.setText("Histórico");
+        bt_orc_historico.setText("Hist\u00F3rico");
 
         l_id_nome.setText("Nome:");
 
-        l_id_funcao.setText("Função:");
+        l_id_funcao.setText("Fun\u00E7\u00E3o:");
 
         l_nome.setText("Exemplo de Nome");
 
@@ -170,7 +176,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addGap(80, 80, 80)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(l_Peças)
+                        .addComponent(l_Pecas)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(bt_encomendas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bt_stock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -197,7 +203,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_rep_historico)
                         .addGap(143, 143, 143)
-                        .addComponent(l_Peças)
+                        .addComponent(l_Pecas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_stock)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,7 +264,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bt_veiculos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel l_Peças;
+    private javax.swing.JLabel l_Pecas;
     private javax.swing.JLabel l_funcao;
     private javax.swing.JLabel l_id_funcao;
     private javax.swing.JLabel l_id_nome;

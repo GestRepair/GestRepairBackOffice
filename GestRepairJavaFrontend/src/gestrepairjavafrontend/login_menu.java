@@ -5,7 +5,6 @@
  */
 package gestrepairjavafrontend;
 
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONObject;
@@ -127,7 +126,8 @@ public class login_menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         Postlogin pl = new Postlogin();
         try {
-            String[] session = pl.post("192.168.1.25", txt_username.getText(),txp_password.getText());
+            @SuppressWarnings("deprecation")
+			String[] session = pl.post("127.0.0.1", txt_username.getText(),txp_password.getText());
             for (int i = 0; i < session.length; i++) {
                 System.out.println(session[i]);
             }
