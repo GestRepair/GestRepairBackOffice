@@ -129,4 +129,8 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 	public static String escape(String s){
 		return JSONValue.escape(s);
 	}
+
+    public JSONArray getJSONArray(String data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -10,15 +10,20 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Rui Barcelos
  */
-public class MainMenu extends javax.swing.JFrame {
+public final class MainMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form MainMenu
+     * @param login
+     * @param dados
      */
     public MainMenu(String login,String dados) {
         initComponents();
@@ -26,7 +31,15 @@ public class MainMenu extends javax.swing.JFrame {
         
         System.out.println(login);
         System.out.println(dados);
+        setLogin(login);
     }
+    private String login;
+    public void setLogin(String log){
+        this.login= log;
+    }
+    public String getLogin(){
+        return login;
+    };
     public void setMenu(String login,String dados){
         JSONParser parser = new JSONParser();
             try{
@@ -243,8 +256,15 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
-        // TODO add your handling code here:
-        new userTable().setVisible(true);
+        try {
+            // TODO add your handling code here:
+            new tableUsers(getLogin()).setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_bt_utilizadoresActionPerformed
 
     private void bt_stockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_stockActionPerformed
