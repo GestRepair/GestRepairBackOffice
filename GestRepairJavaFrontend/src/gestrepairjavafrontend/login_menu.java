@@ -11,8 +11,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-
 /**
  *
  * @author Rui Barcelos
@@ -25,7 +23,6 @@ public class login_menu extends javax.swing.JFrame {
     public login_menu() {
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,36 +116,36 @@ public class login_menu extends javax.swing.JFrame {
 
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usernameActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txt_usernameActionPerformed
 
+    @SuppressWarnings("empty-statement")
     private void bt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_loginActionPerformed
         // TODO add your handling code here:
         Postlogin pl = new Postlogin();
         try {
             @SuppressWarnings("deprecation")
-			String[] session = pl.post("127.0.0.1", txt_username.getText(),txp_password.getText());
-            for (int i = 0; i < session.length; i++) {
-                System.out.println(session[i]);
-            }
+            String[] session = pl.post(txt_username.getText(), txp_password.getText());
             JSONParser parser = new JSONParser();
-            try{
-                JSONObject newjson = (JSONObject)new JSONParser().parse(session[1]);
+            try {
+                JSONObject newjson = (JSONObject) new JSONParser().parse(session[1]);
+                //Obtém o resultado do Post: "OK" ou "NOK"
                 String result = newjson.get("result").toString();
-                //System.out.println(result);
+                //Obtém os dados recebidos do post
                 String data = newjson.get("data").toString();
-                //System.out.println(data);
-                JSONObject newjsondata = (JSONObject)new JSONParser().parse(data);
-                System.out.println(newjsondata.get("nome"));
-                if (newjsondata.get("nomeRole") != "Cliente"){
-                    new MainMenu(session[0],session[1]).setVisible(true);
+                //Transforma a String JSON em objecto
+                JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+                if (newjsondata.get("nomeRole") != "Cliente") {
+                    new MainMenu(session[0], session[1]).setVisible(true);
                 };
+                //Depois de Fazer Login Fecha o Menu de Login 
                 dispose();
-            }catch(ParseException pe){
-                System.out.println("Erro");
-
+            } catch (ParseException pe) {
+                //caso exista erro no parse
+                System.err.println(pe);
             }
         } catch (Exception ex) {
+            //outro erro
             Logger.getLogger(login_menu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_loginActionPerformed

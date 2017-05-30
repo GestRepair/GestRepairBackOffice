@@ -28,9 +28,8 @@ public final class MainMenu extends javax.swing.JFrame {
     public MainMenu(String login,String dados) {
         initComponents();
         setMenu(login, dados);
-        
-        System.out.println(login);
-        System.out.println(dados);
+        //System.out.println(login);
+        //System.out.println(dados);
         setLogin(login);
     }
     private String login;

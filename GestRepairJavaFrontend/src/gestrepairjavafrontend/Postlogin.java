@@ -20,38 +20,58 @@ import org.json.simple.JSONObject;
  * @author Rui Barcelos
  */
 public class Postlogin {
-    public String [] post(String ip,String user, String pass) throws Exception{
-        URL url = new URL("http://"+ip+":8080/login");
+    //Introduz ip para a classe Inteira
+    Ip ip = new Ip();
+    
+    /**
+     *
+     * @param user
+     * @param pass
+     * @return senddata
+     * @throws Exception
+     */
+    public String[] post(String user, String pass) throws Exception {
+        //URL para a API
+        URL url = new URL(ip.stIp() + "/login");
+        //Conexão à API
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        //Tempo de leitura
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
-
+        //Metodo
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
-        byte[] message = (user+":"+pass).getBytes("UTF-8");
+        //Headers
+        byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        connection.setRequestProperty("Authorization", "Basic "+encoded);
-        
-        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream()); 
-        
-        JSONObject objp = new JSONObject();
-        objp.put("password",pass);
-        objp.put("login",user);
-        System.out.println(objp);
-        out.write(objp.toString());
-        out.flush();
-        out.close();
+        connection.setRequestProperty("Authorization", "Basic " + encoded);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        //Cria um JSON objp e insere os dados a enviar
+        JSONObject objp;
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            objp = new JSONObject();
+            objp.put("password", pass);
+            objp.put("login", user);
+            out.write(objp.toString());
+            out.flush();
+        }
+        //res
         int res = connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line = null;
+        String line = "";
         String json = "";
-        while((line = br.readLine() ) != null) {
+        //insere linha a linha a string json
+        while ((line = br.readLine()) != null) {
             json += line;
         }
-        String[] senddata = {objp.toString(),json};
-         connection.disconnect();
+        //Insere o objecto com o username e password e o JSON com o informação do utilizador
+        String[] senddata = {objp.toString(), json};
+        //Desliga a conexão desta class à API 
+        connection.disconnect();
+        //dados Retornados
         return senddata;
     }
 }
