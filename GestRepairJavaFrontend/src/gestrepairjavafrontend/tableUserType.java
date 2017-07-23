@@ -6,10 +6,12 @@
 package gestrepairjavafrontend;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,22 +21,32 @@ import org.json.simple.parser.ParseException;
  *
  * @author Convite
  */
-public final class tableUsers extends javax.swing.JFrame {
+public final class tableUserType extends javax.swing.JFrame {
 
-    
     public String log;
-
     /**
      *
      * @param login
      * @throws IOException
      * @throws ParseException
      */
-    public tableUsers(String login) throws IOException, ParseException {
+    public tableUserType(String login) throws IOException, ParseException {
         initComponents();
-        getListUsers gld = new getListUsers();
-        mostraTabela(contTableUser(gld.getUL(login)));
+        getListUserType gld = new getListUserType();
+        mostraTabela(contTableUser(gld.getUL(login, 1)));
         mostraCombo(contTableRole(gld.getRole(login)));
+        log = login;
+    }
+
+    public void cleanTable() {
+        DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+        mod.setRowCount(0);
+    }
+
+    public void upTable(String login) throws IOException, ParseException {
+        getListUserType gld = new getListUserType();
+        cleanTable();
+        mostraTabela(contTableUser(gld.getUL(login,newIdCbUsr(cbtu.getSelectedIndex(),contTableRole(gld.getRole(login))))));
         log = login;
     }
 
@@ -46,7 +58,13 @@ public final class tableUsers extends javax.swing.JFrame {
         for (int i = 0; i < list.length; i++) {
             cbtu.addItem(list[i][1]);
         }
-
+    }
+    public int newIdCbUsr(int val,String[][] list) {
+        if (val == 0){
+            return 1;
+        }else{
+            return parseInt(list[val-1][0]);
+        }
     }
 
     /**
@@ -55,9 +73,9 @@ public final class tableUsers extends javax.swing.JFrame {
      */
     public void mostraTabela(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[10];
+        Object[] row = new Object[9];
         for (String[] list1 : list) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 9; i++) {
                 row[i] = list1[i];
             }
             mod.addRow(row);
@@ -77,7 +95,6 @@ public final class tableUsers extends javax.swing.JFrame {
             JSONArray data = (JSONArray) jo.get("data");
             String[][] dataTable = new String[data.size()][10];
             for (int i = 0; i < data.size(); i++) {
-
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idRole") + "";
                 dataTable[i][1] = (String) datas.get("nameRole");
@@ -114,7 +131,6 @@ public final class tableUsers extends javax.swing.JFrame {
                 dataTable[i][6] = (String) datas.get("nif");
                 dataTable[i][7] = (String) datas.get("contact");
                 dataTable[i][8] = (String) datas.get("username");
-                dataTable[i][9] = (String) datas.get("nameRole");
                 //System.out.println( dataTable[i][0]+" "+dataTable[i][1]+" "+dataTable[i][2]+" "+dataTable[i][3]+" "+dataTable[i][4]+" "+dataTable[i][5]+" "+dataTable[i][6]+" "+dataTable[i][7]+" "+dataTable[i][8]+" "+dataTable[i][9]);               
             };
             return dataTable;
@@ -157,6 +173,7 @@ public final class tableUsers extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         bt_add_user = new javax.swing.JButton();
         tfcodp = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -171,7 +188,7 @@ public final class tableUsers extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "N.º Utilizador", "Nome", "Morada", "Código de Postal","Localidade","E-mail","NIF","Contacto","Username","Tipo de Utilizador"
+                "N.º Utilizador", "Nome", "Morada", "Código de Postal","Localidade","E-mail","NIF","Contacto","Username"
             }
         ));
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -201,6 +218,17 @@ public final class tableUsers extends javax.swing.JFrame {
         jLabel6.setText("Username:");
 
         cbtu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        cbtu.setToolTipText("");
+        cbtu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbtuMouseClicked(evt);
+            }
+        });
+        cbtu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbtuActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Tipo de Utilizador");
 
@@ -220,7 +248,11 @@ public final class tableUsers extends javax.swing.JFrame {
 
         jLabel9.setText("NIF:");
 
+        linfoUser.setText("Número");
+
         jLabel10.setText("Contacto");
+
+        l_username.setText("Nome");
 
         bt_add_user.setText("Adicionar Utilizador");
         bt_add_user.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +266,13 @@ public final class tableUsers extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -250,7 +289,7 @@ public final class tableUsers extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Utilizadores");
+        jMenu3.setText("Ulilizadores");
 
         jMenuItem3.setText("Todos os Utilizadores");
         jMenu3.add(jMenuItem3);
@@ -272,10 +311,9 @@ public final class tableUsers extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 922, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -294,63 +332,67 @@ public final class tableUsers extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel9))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(tfmorada, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfmorada, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(34, 34, 34)
+                                                .addComponent(linfoUser)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel6)
                                             .addComponent(jLabel4)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(linfoUser)))
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(tfcontacto, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                            .addComponent(tfcodp))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel5)))
-                                .addGap(37, 37, 37))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(l_username)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tflocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(bt_add_user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton1))
+                                    .addComponent(l_username))
+                                .addContainerGap(527, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfcontacto)
+                                    .addComponent(tfcodp, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tflocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bt_alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bt_add_user, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(190, 190, 190))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(linfoUser)
-                    .addComponent(jLabel6)
-                    .addComponent(l_username)
                     .addComponent(jLabel7)
                     .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6)
+                    .addComponent(linfoUser)
+                    .addComponent(l_username))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tfnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(tfcontacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfcontacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_add_user))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfmorada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,17 +400,16 @@ public final class tableUsers extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(tflocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(tfcodp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfcodp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_alterar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(tfemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_add_user))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_alterar)
-                .addContainerGap())
+                    .addComponent(jButton1))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -400,31 +441,42 @@ public final class tableUsers extends javax.swing.JFrame {
         tfnif.setText(mod.getValueAt(i, 6) + "");
         tfcontacto.setText(mod.getValueAt(i, 7) + "");
         l_username.setText(mod.getValueAt(i, 8) + "");
-        cbtu.getSelectedItem();
-
-        //addItem(mod.getValueAt(i, 9)+"");
     }//GEN-LAST:event_tbl_usersMouseClicked
 
     private void bt_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_alterarActionPerformed
         // TODO add your handling code here:
         putUser pt = new putUser();
         try {
-            pt.putUsr(log,linfoUser.getText(),tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText());
+            pt.putUsr(log, linfoUser.getText(), tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText());
             getListUsers gld = new getListUsers();
-            DefaultTableModel mod = (DefaultTableModel)tbl_users.getModel();
-            mod.setRowCount(0);
+            cleanTable();
             mostraTabela(contTableUser(gld.getUL(log)));
-            mostraCombo(contTableRole(gld.getRole(log)));
         } catch (Exception ex) {
-            Logger.getLogger(tableUsers.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_alterarActionPerformed
 
     private void bt_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_userActionPerformed
         // TODO add your handling code here:
         new AddUserForm(log).setVisible(true);
-        
+
     }//GEN-LAST:event_bt_add_userActionPerformed
+
+    private void cbtuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbtuMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cbtuMouseClicked
+
+    private void cbtuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbtuActionPerformed
+        try {
+            // TODO add your handling code here:
+            upTable(log);
+        } catch (IOException ex) {
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbtuActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
@@ -437,10 +489,21 @@ public final class tableUsers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            String id = linfoUser.getText();
+            String user = l_username.getText();
+            new AddEmployer(log,id,user).setVisible(true);
+        } catch (IOException | ParseException ex) {
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add_user;
     private javax.swing.JButton bt_alterar;
     private javax.swing.JComboBox<String> cbtu;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

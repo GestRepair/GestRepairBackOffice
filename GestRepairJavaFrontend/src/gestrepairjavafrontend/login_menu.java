@@ -135,7 +135,7 @@ public class login_menu extends javax.swing.JFrame {
                 String data = newjson.get("data").toString();
                 //Transforma a String JSON em objecto
                 JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
-                if (newjsondata.get("nomeRole") != "Cliente") {
+                if (newjsondata.get("nameRole") != "Cliente") {
                     new MainMenu(session[0], session[1]).setVisible(true);
                 };
                 //Depois de Fazer Login Fecha o Menu de Login 

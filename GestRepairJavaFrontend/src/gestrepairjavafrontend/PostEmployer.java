@@ -16,19 +16,18 @@ import org.json.simple.parser.JSONParser;
 
 /**
  *
- * @author Convite
+ * @author Rui Barcelos
  */
-
-public class PostUser{
+public class PostEmployer {
     Ip ip = new Ip();
-    public void PostUsr(String login, String name, String street, String zipCode, String city, String email, String nif, String contact,String username) throws Exception {
+    public void PostEmployer(String login, int idUser, int service, int role) throws Exception {
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
         
-        URL url = new URL(ip.stIp() + "/user");
+        URL url = new URL(ip.stIp() + "/user/employer");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
@@ -41,15 +40,9 @@ public class PostUser{
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
-            objp.put("name", name);
-            objp.put("street", street);
-            objp.put("zipcode", zipCode);
-            objp.put("city", city);
-            objp.put("email", email);
-            objp.put("nif", nif);
-            objp.put("contact", contact);
-            objp.put("username", username);
-            objp.put("password", nif);
+            objp.put("user", idUser);
+            objp.put("service", service);
+            objp.put("role", role);
             out.write(objp.toString());
             out.flush();
         }

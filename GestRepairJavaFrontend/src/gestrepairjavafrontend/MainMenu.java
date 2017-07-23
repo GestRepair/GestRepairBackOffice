@@ -48,12 +48,11 @@ public final class MainMenu extends javax.swing.JFrame {
                 String data = newjson.get("data").toString();
                 //System.out.println(data);
                 JSONObject newjsondata = (JSONObject)new JSONParser().parse(data);
-                l_nome.setText(newjsondata.get("nome").toString());
-                l_funcao.setText(newjsondata.get("nomeRole").toString());
+                l_nome.setText(newjsondata.get("name").toString());
+                l_funcao.setText(newjsondata.get("nameRole").toString());
               
             }catch(ParseException pe){
                 System.out.println("Erro");
-
             }
     }
     

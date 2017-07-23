@@ -55,13 +55,13 @@ public class putUser {
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
-            objp.put("nome", name);
-            objp.put("morada", street);
-            objp.put("codPostal", zipCode);
-            objp.put("localidade", city);
+            objp.put("name", name);
+            objp.put("street", street);
+            objp.put("zipcode", zipCode);
+            objp.put("city", city);
             objp.put("email", email);
             objp.put("nif", nif);
-            objp.put("contacto", contact);
+            objp.put("contact", contact);
             out.write(objp.toString());
             out.flush();
         }
