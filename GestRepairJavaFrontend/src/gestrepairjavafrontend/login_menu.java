@@ -7,6 +7,8 @@ package gestrepairjavafrontend;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -135,18 +137,25 @@ public class login_menu extends javax.swing.JFrame {
                 String data = newjson.get("data").toString();
                 //Transforma a String JSON em objecto
                 JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
-                if (newjsondata.get("nameRole") != "Cliente") {
+                String name = newjsondata.get("name").toString();
+                String role = newjsondata.get("nameRole").toString();
+                if (!"Cliente".equals(role)) {
+                    JOptionPane.showMessageDialog(this,"Bem Vindo "+name);
                     new MainMenu(session[0], session[1]).setVisible(true);
+                    dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this,"Não tem premissões para se Autenticar no Sistema");
                 };
                 //Depois de Fazer Login Fecha o Menu de Login 
-                dispose();
             } catch (ParseException pe) {
                 //caso exista erro no parse
-                System.err.println(pe);
+                //System.err.println(pe);
+                JOptionPane.showMessageDialog(this, pe);
+                
             }
         } catch (Exception ex) {
             //outro erro
-            Logger.getLogger(login_menu.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,"Erro na autenticação");
         }
     }//GEN-LAST:event_bt_loginActionPerformed
 

@@ -8,6 +8,7 @@ package gestrepairjavafrontend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.json.simple.JSONArray;
@@ -34,19 +35,7 @@ public final class tableUsers extends javax.swing.JFrame {
         initComponents();
         getListUsers gld = new getListUsers();
         mostraTabela(contTableUser(gld.getUL(login)));
-        mostraCombo(contTableRole(gld.getRole(login)));
         log = login;
-    }
-
-    /**
-     *
-     * @param list
-     */
-    public void mostraCombo(String[][] list) {
-        for (int i = 0; i < list.length; i++) {
-            cbtu.addItem(list[i][1]);
-        }
-
     }
 
     /**
@@ -64,31 +53,6 @@ public final class tableUsers extends javax.swing.JFrame {
         }
     }
 
-    /**
-     *
-     * @param list
-     * @return
-     */
-    @SuppressWarnings("empty-statement")
-    public String[][] contTableRole(String list) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idRole") + "";
-                dataTable[i][1] = (String) datas.get("nameRole");
-            };
-            return dataTable;
-
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
 
     /**
      *
@@ -119,7 +83,7 @@ public final class tableUsers extends javax.swing.JFrame {
             };
             return dataTable;
         } catch (ParseException pe) {
-            System.out.println("Erro");
+            JOptionPane.showMessageDialog(this,"Erro a mostrar a tabela");
             return null;
         }
     }
@@ -145,8 +109,6 @@ public final class tableUsers extends javax.swing.JFrame {
         tflocalidade = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cbtu = new javax.swing.JComboBox<String>();
-        jLabel7 = new javax.swing.JLabel();
         tfemail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tfnif = new javax.swing.JTextField();
@@ -199,10 +161,6 @@ public final class tableUsers extends javax.swing.JFrame {
         jLabel5.setText("Localidade:");
 
         jLabel6.setText("Username:");
-
-        cbtu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
-
-        jLabel7.setText("Tipo de Utilizador");
 
         tfemail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,7 +262,7 @@ public final class tableUsers extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(linfoUser)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,14 +275,10 @@ public final class tableUsers extends javax.swing.JFrame {
                                 .addGap(37, 37, 37))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(l_username)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tflocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(tflocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(bt_add_user, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -342,9 +296,7 @@ public final class tableUsers extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(linfoUser)
                     .addComponent(jLabel6)
-                    .addComponent(l_username)
-                    .addComponent(jLabel7)
-                    .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(l_username))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -400,7 +352,6 @@ public final class tableUsers extends javax.swing.JFrame {
         tfnif.setText(mod.getValueAt(i, 6) + "");
         tfcontacto.setText(mod.getValueAt(i, 7) + "");
         l_username.setText(mod.getValueAt(i, 8) + "");
-        cbtu.getSelectedItem();
 
         //addItem(mod.getValueAt(i, 9)+"");
     }//GEN-LAST:event_tbl_usersMouseClicked
@@ -414,7 +365,6 @@ public final class tableUsers extends javax.swing.JFrame {
             DefaultTableModel mod = (DefaultTableModel)tbl_users.getModel();
             mod.setRowCount(0);
             mostraTabela(contTableUser(gld.getUL(log)));
-            mostraCombo(contTableRole(gld.getRole(log)));
         } catch (Exception ex) {
             Logger.getLogger(tableUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -422,8 +372,7 @@ public final class tableUsers extends javax.swing.JFrame {
 
     private void bt_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_userActionPerformed
         // TODO add your handling code here:
-        new AddUserForm(log).setVisible(true);
-        
+        new AddUserForm(log).setVisible(true);       
     }//GEN-LAST:event_bt_add_userActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -440,7 +389,6 @@ public final class tableUsers extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add_user;
     private javax.swing.JButton bt_alterar;
-    private javax.swing.JComboBox<String> cbtu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -448,7 +396,6 @@ public final class tableUsers extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;

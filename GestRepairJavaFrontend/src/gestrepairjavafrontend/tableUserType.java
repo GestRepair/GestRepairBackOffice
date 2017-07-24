@@ -24,6 +24,7 @@ import org.json.simple.parser.ParseException;
 public final class tableUserType extends javax.swing.JFrame {
 
     public String log;
+    
     /**
      *
      * @param login
@@ -35,6 +36,7 @@ public final class tableUserType extends javax.swing.JFrame {
         getListUserType gld = new getListUserType();
         mostraTabela(contTableUser(gld.getUL(login, 1)));
         mostraCombo(contTableRole(gld.getRole(login)));
+        bt_addEmployer.setVisible(false);       
         log = login;
     }
 
@@ -47,6 +49,11 @@ public final class tableUserType extends javax.swing.JFrame {
         getListUserType gld = new getListUserType();
         cleanTable();
         mostraTabela(contTableUser(gld.getUL(login,newIdCbUsr(cbtu.getSelectedIndex(),contTableRole(gld.getRole(login))))));
+        if("Cliente".equals(cbtu.getSelectedItem().toString())){
+            bt_addEmployer.setVisible(true);
+        }else{
+            bt_addEmployer.setVisible(false);
+        }
         log = login;
     }
 
@@ -173,7 +180,7 @@ public final class tableUserType extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         bt_add_user = new javax.swing.JButton();
         tfcodp = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
+        bt_addEmployer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -267,10 +274,10 @@ public final class tableUserType extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_addEmployer.setText("Adicionar Funcionário");
+        bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_addEmployerActionPerformed(evt);
             }
         });
 
@@ -349,9 +356,9 @@ public final class tableUserType extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton1))
+                                        .addComponent(bt_addEmployer))
                                     .addComponent(l_username))
-                                .addContainerGap(527, Short.MAX_VALUE))
+                                .addContainerGap(465, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(tfcontacto)
@@ -408,7 +415,7 @@ public final class tableUserType extends javax.swing.JFrame {
                     .addComponent(tfemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(tfnif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(bt_addEmployer))
                 .addGap(28, 28, 28))
         );
 
@@ -489,7 +496,7 @@ public final class tableUserType extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
         try {
             String id = linfoUser.getText();
             String user = l_username.getText();
@@ -497,13 +504,13 @@ public final class tableUserType extends javax.swing.JFrame {
         } catch (IOException | ParseException ex) {
             Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt_addEmployerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_addEmployer;
     private javax.swing.JButton bt_add_user;
     private javax.swing.JButton bt_alterar;
     private javax.swing.JComboBox<String> cbtu;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

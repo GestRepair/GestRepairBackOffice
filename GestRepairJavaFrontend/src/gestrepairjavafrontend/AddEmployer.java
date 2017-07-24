@@ -6,15 +6,20 @@
 package gestrepairjavafrontend;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import sun.util.logging.PlatformLogger;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class AddEmployer extends javax.swing.JFrame {
-
+    private final String log;
+    Role role = new Role();
+    Service service = new Service();
     /**
      * Creates new form AddEmployer
      * Create Employers
@@ -26,8 +31,8 @@ public final class AddEmployer extends javax.swing.JFrame {
      */
     
     public AddEmployer(String login,String id,String username) throws IOException, ParseException {
-        Role role = new Role();
-        Service service = new Service();
+        
+        this.log = login;
         initComponents();
         lnuser.setText(id);
         lusername.setText(username);
@@ -85,6 +90,11 @@ public final class AddEmployer extends javax.swing.JFrame {
         jLabel2.setText("Role");
 
         jButton1.setText("Adicionar Funcionário");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Utilizador");
 
@@ -146,6 +156,24 @@ public final class AddEmployer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        PostEmployer pst = new PostEmployer();
+        int idUsr,rol,serv;
+        try {
+            idUsr = parseInt(lnuser.getText());
+            rol = newIdCb(cbRole.getSelectedIndex(), role.Role(log));
+            serv = newIdCb(cbService.getSelectedIndex(), service.Service(log));
+            pst.PostEmployer(log,idUsr,serv,rol);
+        } catch (IOException ex) {
+            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbRole;
