@@ -52,7 +52,7 @@ public class PostService {
             writer = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
             String fileName = photo.getName();
             writer.append("--" + boundary).append(LINE_FEED);
-            writer.append("Content-Disposition: form-data; name=\"file\"; photo=\"" + fileName + "\"").append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"").append(LINE_FEED);
             writer.append("Content-Type: text/plain").append(LINE_FEED);
             writer.append(LINE_FEED);
             BufferedReader reader = null;
