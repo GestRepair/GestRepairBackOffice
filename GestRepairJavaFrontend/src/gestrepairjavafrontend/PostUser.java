@@ -53,7 +53,7 @@ public class PostUser{
             out.write(objp.toString());
             out.flush();
         }
-        int res = connection.getResponseCode();
+        connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));

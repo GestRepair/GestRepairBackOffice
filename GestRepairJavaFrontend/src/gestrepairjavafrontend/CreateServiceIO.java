@@ -25,7 +25,7 @@ public class CreateServiceIO extends javax.swing.JFrame {
     public CreateServiceIO(String login) {
         log = login;
         initComponents();
-        tf_localUpload.setEditable(false);
+        tf_localUpload.setEditable(true);
     }
 
     /**
@@ -148,6 +148,7 @@ public class CreateServiceIO extends javax.swing.JFrame {
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
         tf_localUpload.setText(filename);
+        System.out.println(filename);
         ImageIcon icon=new ImageIcon(filename);
         Image image = icon.getImage();
         Image newimg = image.getScaledInstance(260, 200,  java.awt.Image.SCALE_SMOOTH);
@@ -158,8 +159,10 @@ public class CreateServiceIO extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         PostService pst = new PostService();
+        File f = new File(tf_localUpload.getText());
+        System.out.println(f);
         try {
-            pst.PostService(log, tf_service.getText(), tf_price.getText(), tf_desc.getText(), tf_localUpload.getText());
+            pst.PostService(log, tf_service.getText(), tf_price.getText(), tf_desc.getText(),f);
         } catch (Exception ex) {
             Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
         }
