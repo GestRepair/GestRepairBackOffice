@@ -68,19 +68,25 @@
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="bt_encomendas" alignment="1" max="32767" attributes="0"/>
-                          <Component id="bt_stock" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="bt_encomendas" alignment="1" max="32767" attributes="0"/>
+                              <Component id="bt_stock" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                              <Component id="l_reparacoes" min="-2" max="-2" attributes="0"/>
+                              <Component id="bt_rep_execucao" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="bt_rep_historico" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                          <Component id="l_reparacoes" min="-2" max="-2" attributes="0"/>
-                          <Component id="bt_rep_execucao" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="bt_rep_historico" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
+                      <Component id="l_reparacoes1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_add_service" alignment="1" min="-2" pref="115" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -103,7 +109,11 @@
                       <Component id="bt_rep_execucao" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bt_rep_historico" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="l_reparacoes1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="bt_add_service" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                       <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bt_stock" min="-2" max="-2" attributes="0"/>
@@ -257,6 +267,19 @@
           <Image iconType="3" name="/img/imageedit_4_8303763918.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="l_reparacoes1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Servi&#xe7;o"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_add_service">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Adicionar Servi&#xe7;os"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_serviceActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

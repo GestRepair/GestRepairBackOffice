@@ -239,8 +239,6 @@ public class AddUserForm extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-
     }//GEN-LAST:event_bt_add_userActionPerformed
 
     private void m_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_exitActionPerformed

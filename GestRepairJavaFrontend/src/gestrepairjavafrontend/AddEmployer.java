@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import sun.util.logging.PlatformLogger;
 
 /**
  *
