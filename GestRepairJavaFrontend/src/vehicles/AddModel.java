@@ -107,6 +107,7 @@ public final class AddModel extends javax.swing.JFrame {
     private void bt_addModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addModelActionPerformed
         try {
             sav.PostModel(log,newIdCb(CB_Brands.getSelectedIndex(),sav.Brand(log)),tf_model.getText());
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);
         }

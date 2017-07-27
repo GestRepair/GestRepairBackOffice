@@ -84,6 +84,7 @@ public class AddBrand extends javax.swing.JFrame {
     private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
         try {
             sav.PostBrand(log, tf_brand.getText());
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
