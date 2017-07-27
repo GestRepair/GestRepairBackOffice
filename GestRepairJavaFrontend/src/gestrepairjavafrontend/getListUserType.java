@@ -26,7 +26,6 @@ public class getListUserType {
     Ip ip = new Ip();
 
     public String getUL(String login,int id) throws MalformedURLException, IOException, ParseException {
-        System.out.println(id);
         URL url = new URL(ip.stIp() + "/user/type/"+id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs

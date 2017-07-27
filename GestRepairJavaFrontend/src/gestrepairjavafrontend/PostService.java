@@ -18,14 +18,8 @@ import static java.net.URLConnection.guessContentTypeFromName;
 import static java.text.MessageFormat.format;
 
 import static java.util.logging.Level.INFO;
-import static java.util.logging.Logger.getLogger;
 
-import java.util.logging.Logger;
-import javax.swing.*;
 
-import javax.imageio.ImageIO;
-import static jdk.nashorn.internal.objects.NativeMath.log;
-import static jdk.nashorn.internal.objects.NativeMath.log;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -153,8 +147,6 @@ public class PostService {
             while ((bytesRead = is.read(buffer)) != -1) {
                 bytes.write(buffer, 0, bytesRead);
             }
-
-            log(INFO, format("{0} took {4} ms", Url(), (currentTimeMillis() - start)));
             return bytes.toByteArray();
         } finally {
             connection.disconnect();

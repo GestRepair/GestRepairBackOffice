@@ -5,6 +5,9 @@
  */
 package vehicles;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Convite
@@ -29,7 +32,7 @@ public class MainVehicles extends javax.swing.JFrame {
     private void initComponents() {
 
         bt_showvehicles = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        bt_model = new javax.swing.JButton();
         bt_addBrand = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -37,7 +40,12 @@ public class MainVehicles extends javax.swing.JFrame {
 
         bt_showvehicles.setText("Ver Veiculos");
 
-        jButton1.setText("Adicionar Modelo");
+        bt_model.setText("Adicionar Modelo");
+        bt_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_modelActionPerformed(evt);
+            }
+        });
 
         bt_addBrand.setText("Adicionar Marca");
         bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
@@ -53,7 +61,7 @@ public class MainVehicles extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(bt_model, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                     .addComponent(bt_addBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_showvehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -66,7 +74,7 @@ public class MainVehicles extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
                 .addComponent(bt_addBrand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(bt_model)
                 .addContainerGap())
         );
 
@@ -75,12 +83,20 @@ public class MainVehicles extends javax.swing.JFrame {
 
     private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
         // TODO add your handling code here:
-        new addBrand(log).setVisible(true);
+        new AddBrand(log).setVisible(true);
     }//GEN-LAST:event_bt_addBrandActionPerformed
+
+    private void bt_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modelActionPerformed
+        try {
+            new AddModel(log).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_modelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;
+    private javax.swing.JButton bt_model;
     private javax.swing.JButton bt_showvehicles;
-    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

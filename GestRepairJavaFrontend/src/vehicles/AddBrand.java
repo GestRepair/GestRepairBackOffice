@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @author Convite
  */
-public class addBrand extends javax.swing.JFrame {
+public class AddBrand extends javax.swing.JFrame {
 
     public String log;
     SendAPIVehicles sav = new SendAPIVehicles();
@@ -20,7 +20,7 @@ public class addBrand extends javax.swing.JFrame {
     /**
      * Creates new form addBrand
      */
-    public addBrand(String login) {
+    public AddBrand(String login) {
         log = login;
         initComponents();
     }
@@ -85,7 +85,7 @@ public class addBrand extends javax.swing.JFrame {
         try {
             sav.PostBrand(log, tf_brand.getText());
         } catch (Exception ex) {
-            Logger.getLogger(addBrand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_addBrandActionPerformed
 

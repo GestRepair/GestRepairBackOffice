@@ -27,7 +27,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButton1" alignment="0" pref="150" max="32767" attributes="0"/>
+                  <Component id="bt_model" alignment="0" pref="150" max="32767" attributes="0"/>
                   <Component id="bt_addBrand" alignment="0" max="32767" attributes="0"/>
                   <Component id="bt_showvehicles" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -43,7 +43,7 @@
               <EmptySpace pref="184" max="32767" attributes="0"/>
               <Component id="bt_addBrand" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_model" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -55,10 +55,13 @@
         <Property name="text" type="java.lang.String" value="Ver Veiculos"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="bt_model">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Modelo"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_modelActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_addBrand">
       <Properties>

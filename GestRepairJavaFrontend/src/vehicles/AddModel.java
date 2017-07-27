@@ -7,22 +7,39 @@ package vehicles;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
  * @author Convite
  */
-public class addBrand extends javax.swing.JFrame {
+public final class AddModel extends javax.swing.JFrame {
 
     public String log;
     SendAPIVehicles sav = new SendAPIVehicles();
 
     /**
      * Creates new form addBrand
+     * @param login
+     * @throws java.lang.Exception
      */
-    public addBrand(String login) {
+    public AddModel(String login) throws Exception {
         log = login;
         initComponents();
+        showBrand(sav.Brand(login));
+    }
+    public void showBrand(String[][] list) {
+        CB_Brands.removeAllItems();
+        for (int i = 0; i < list.length; i++) {
+            CB_Brands.addItem(list[i][1]);
+        }
+    }
+    public int newIdCb(int val,String[][] list) {
+        if (val == 0){
+            return 1;
+        }else{
+            return parseInt(list[val][0]);
+        }
     }
 
     /**
@@ -34,20 +51,23 @@ public class addBrand extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tf_brand = new javax.swing.JTextField();
-        bt_addBrand = new javax.swing.JButton();
+        tf_model = new javax.swing.JTextField();
+        bt_addModel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        CB_Brands = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        bt_addBrand.setText("Adicionar Marca");
-        bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
+        bt_addModel.setText("Adicionar Modelo");
+        bt_addModel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addBrandActionPerformed(evt);
+                bt_addModelActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Marca");
+        jLabel1.setText("Modelo");
+
+        CB_Brands.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,40 +78,44 @@ public class addBrand extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_addBrand))
+                        .addComponent(bt_addModel))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_brand, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tf_model, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jLabel1)
+                            .addComponent(CB_Brands, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tf_brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_addBrand)
-                .addContainerGap())
+                .addComponent(CB_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tf_model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_addModel)
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
+    private void bt_addModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addModelActionPerformed
         try {
-            sav.PostBrand(log, tf_brand.getText());
+            sav.PostModel(log,newIdCb(CB_Brands.getSelectedIndex(),sav.Brand(log)),tf_model.getText());
         } catch (Exception ex) {
-            Logger.getLogger(addBrand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bt_addBrandActionPerformed
+    }//GEN-LAST:event_bt_addModelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_addBrand;
+    private javax.swing.JComboBox CB_Brands;
+    private javax.swing.JButton bt_addModel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField tf_brand;
+    private javax.swing.JTextField tf_model;
     // End of variables declaration//GEN-END:variables
 }

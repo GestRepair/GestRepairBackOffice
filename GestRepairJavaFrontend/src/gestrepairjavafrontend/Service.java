@@ -57,6 +57,7 @@ public class Service {
         connection.disconnect();
         return json;
     }
+    @SuppressWarnings("empty-statement")
     public String[][] ListService(String list) {
         JSONParser parser = new JSONParser();
         try {
