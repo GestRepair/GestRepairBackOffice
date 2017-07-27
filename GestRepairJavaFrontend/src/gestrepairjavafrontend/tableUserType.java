@@ -24,7 +24,7 @@ import org.json.simple.parser.ParseException;
 public final class tableUserType extends javax.swing.JFrame {
 
     public String log;
-    
+
     /**
      *
      * @param login
@@ -34,9 +34,8 @@ public final class tableUserType extends javax.swing.JFrame {
     public tableUserType(String login) throws IOException, ParseException {
         initComponents();
         getListUserType gld = new getListUserType();
-        mostraTabela(contTableUser(gld.getUL(login, 1)));
-        mostraCombo(contTableRole(gld.getRole(login)));
-        bt_addEmployer.setVisible(false);       
+        mostraTabela(contTableUser(gld.getUL(login, 0)));
+        bt_addEmployer.setVisible(false);
         log = login;
     }
 
@@ -48,36 +47,15 @@ public final class tableUserType extends javax.swing.JFrame {
     public void upTable(String login) throws IOException, ParseException {
         getListUserType gld = new getListUserType();
         cleanTable();
-        mostraTabela(contTableUser(gld.getUL(login,newIdCbUsr(cbtu.getSelectedIndex(),contTableRole(gld.getRole(login))))));
-        if("Cliente".equals(cbtu.getSelectedItem().toString())){
+        mostraTabela(contTableUser(gld.getUL(login,cbType.getSelectedIndex())));
+        if (cbType.getSelectedIndex()== 0) {
             bt_addEmployer.setVisible(true);
-        }else{
+        } else {
             bt_addEmployer.setVisible(false);
         }
         log = login;
     }
 
-    /**
-     *
-     * @param list
-     */
-    public void mostraCombo(String[][] list) {
-        for (int i = 0; i < list.length; i++) {
-            cbtu.addItem(list[i][1]);
-        }
-    }
-    public int newIdCbUsr(int val,String[][] list) {
-        if (val == 0){
-            return 1;
-        }else{
-            return parseInt(list[val-1][0]);
-        }
-    }
-
-    /**
-     *
-     * @param list
-     */
     public void mostraTabela(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         Object[] row = new Object[9];
@@ -89,30 +67,6 @@ public final class tableUserType extends javax.swing.JFrame {
         }
     }
 
-    /**
-     *
-     * @param list
-     * @return
-     */
-    @SuppressWarnings("empty-statement")
-    public String[][] contTableRole(String list) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idRole") + "";
-                dataTable[i][1] = (String) datas.get("nameRole");
-            };
-            return dataTable;
-
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
 
     /**
      *
@@ -168,7 +122,6 @@ public final class tableUserType extends javax.swing.JFrame {
         tflocalidade = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        cbtu = new javax.swing.JComboBox<String>();
         jLabel7 = new javax.swing.JLabel();
         tfemail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -181,6 +134,7 @@ public final class tableUserType extends javax.swing.JFrame {
         bt_add_user = new javax.swing.JButton();
         tfcodp = new javax.swing.JFormattedTextField();
         bt_addEmployer = new javax.swing.JButton();
+        cbType = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -189,7 +143,7 @@ public final class tableUserType extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -223,19 +177,6 @@ public final class tableUserType extends javax.swing.JFrame {
         jLabel5.setText("Localidade:");
 
         jLabel6.setText("Username:");
-
-        cbtu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
-        cbtu.setToolTipText("");
-        cbtu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbtuMouseClicked(evt);
-            }
-        });
-        cbtu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbtuActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Tipo de Utilizador");
 
@@ -278,6 +219,14 @@ public final class tableUserType extends javax.swing.JFrame {
         bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_addEmployerActionPerformed(evt);
+            }
+        });
+
+        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Funcionário" }));
+        cbType.setAutoscrolls(true);
+        cbType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTypeActionPerformed(evt);
             }
         });
 
@@ -374,8 +323,8 @@ public final class tableUserType extends javax.swing.JFrame {
                                 .addGap(190, 190, 190))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -384,7 +333,7 @@ public final class tableUserType extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cbtu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -469,22 +418,6 @@ public final class tableUserType extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bt_add_userActionPerformed
 
-    private void cbtuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbtuMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cbtuMouseClicked
-
-    private void cbtuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbtuActionPerformed
-        try {
-            // TODO add your handling code here:
-            upTable(log);
-        } catch (IOException ex) {
-            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cbtuActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
@@ -500,17 +433,27 @@ public final class tableUserType extends javax.swing.JFrame {
         try {
             String id = linfoUser.getText();
             String user = l_username.getText();
-            new AddEmployer(log,id,user).setVisible(true);
+            new AddEmployer(log, id, user).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_addEmployerActionPerformed
 
+    private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
+        try {
+            upTable(log);
+        } catch (IOException ex) {
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(tableUserType.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbTypeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addEmployer;
     private javax.swing.JButton bt_add_user;
     private javax.swing.JButton bt_alterar;
-    private javax.swing.JComboBox<String> cbtu;
+    private javax.swing.JComboBox<String> cbType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

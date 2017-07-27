@@ -50,7 +50,7 @@ public class CreateServiceIO extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         l_img.setBackground(new java.awt.Color(255, 40, 40));
         l_img.setToolTipText("");

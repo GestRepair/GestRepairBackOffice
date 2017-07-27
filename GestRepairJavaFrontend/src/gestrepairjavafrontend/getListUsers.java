@@ -57,7 +57,7 @@ public class getListUsers {
         return json;
     }
 
-    public String getRole(String login) throws MalformedURLException, IOException, ParseException {
+    /*public String getRole(String login) throws MalformedURLException, IOException, ParseException {
         URL url = new URL(ip.stIp() + "/user/role");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
@@ -88,5 +88,5 @@ public class getListUsers {
         } // or StringBuffer if Java version 5+
         connection.disconnect();
         return json;
-    }
+    }*/
 }

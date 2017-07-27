@@ -26,7 +26,7 @@ public class Service {
     Ip ip = new Ip();
 
     public String getService(String login) throws MalformedURLException, IOException, ParseException {
-        URL url = new URL(ip.stIp() + "/service");
+        URL url = new URL(ip.stIp() + "/service/comp");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs

@@ -17,7 +17,6 @@ import org.json.simple.parser.ParseException;
  */
 public final class AddEmployer extends javax.swing.JFrame {
     private final String log;
-    Role role = new Role();
     Service service = new Service();
     /**
      * Creates new form AddEmployer
@@ -35,15 +34,9 @@ public final class AddEmployer extends javax.swing.JFrame {
         initComponents();
         lnuser.setText(id);
         lusername.setText(username);
-        showRole(role.Role(login));
         showService(service.Service(login));
     }
-    public void showRole(String[][] list) {
-        cbRole.removeAllItems();
-        for (int i = 0; i < list.length; i++) {
-            cbRole.addItem(list[i][1]);
-        }
-    }
+   
     public void showService(String[][] list) {
         cbService.removeAllItems();
         for (int i = 0; i < list.length; i++) {
@@ -69,24 +62,18 @@ public final class AddEmployer extends javax.swing.JFrame {
     private void initComponents() {
 
         cbService = new javax.swing.JComboBox();
-        cbRole = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lnuser = new javax.swing.JLabel();
         lusername = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         cbService.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cbRole.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel1.setText("Serviço");
-
-        jLabel2.setText("Role");
 
         jButton1.setText("Adicionar Funcionário");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -111,14 +98,11 @@ public final class AddEmployer extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cbService, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lnuser)
                                 .addComponent(lusername))))
@@ -144,11 +128,7 @@ public final class AddEmployer extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -159,12 +139,11 @@ public final class AddEmployer extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         PostEmployer pst = new PostEmployer();
-        int idUsr,rol,serv;
+        int idUsr,serv;
         try {
             idUsr = parseInt(lnuser.getText());
-            rol = newIdCb(cbRole.getSelectedIndex(), role.Role(log));
             serv = newIdCb(cbService.getSelectedIndex(), service.Service(log));
-            pst.PostEmployer(log,idUsr,serv,rol);
+            pst.PostEmployer(log,idUsr,serv);
         } catch (IOException ex) {
             Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -175,11 +154,9 @@ public final class AddEmployer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cbRole;
     private javax.swing.JComboBox cbService;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lnuser;

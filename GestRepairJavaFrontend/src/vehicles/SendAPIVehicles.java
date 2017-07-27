@@ -3,31 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package vehicles;
 
+import gestrepairjavafrontend.Ip;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author Rui Barcelos
+ * @author Convite
  */
-public class PostEmployer {
+public class SendAPIVehicles {
+
     Ip ip = new Ip();
-    public void PostEmployer(String login, int idUser, int service) throws Exception {
+
+    public void PostBrand(String login, String brand) throws Exception {
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        
-        URL url = new URL(ip.stIp() + "/user/employer");
+
+        URL url = new URL(ip.stIp() + "/vehicle/brand");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
@@ -40,12 +45,11 @@ public class PostEmployer {
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
-            objp.put("user", idUser);
-            objp.put("service", service);
+            objp.put("brand", brand);
             out.write(objp.toString());
             out.flush();
         }
-        int res = connection.getResponseCode();
+        connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
