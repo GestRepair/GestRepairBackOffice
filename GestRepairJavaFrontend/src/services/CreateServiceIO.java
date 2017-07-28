@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package services;
 
+import users.AddUser;
 import java.awt.Image;
 import java.io.File;
 import java.util.logging.Level;
@@ -158,13 +159,13 @@ public class CreateServiceIO extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        PostService pst = new PostService();
+        APIService pst = new APIService();
         File f = new File(tf_localUpload.getText());
         System.out.println(f);
         try {
             pst.PostService(log, tf_service.getText(), tf_price.getText(), tf_desc.getText(),f);
         } catch (Exception ex) {
-            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddUser.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

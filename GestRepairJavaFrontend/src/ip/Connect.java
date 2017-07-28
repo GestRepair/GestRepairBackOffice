@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package ip;
 
 /**
  *
  * @author Convite
  */
-public class Ip{
-    public String stIp(){
+public class Connect{
+    public String IP(){
      return "http://127.0.0.1:8080";
     }
 }

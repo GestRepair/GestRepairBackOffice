@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class AddBrand extends javax.swing.JFrame {
 
     public String log;
-    SendAPIVehicles sav = new SendAPIVehicles();
+    APIVehicles sav = new APIVehicles();
 
     /**
      * Creates new form addBrand

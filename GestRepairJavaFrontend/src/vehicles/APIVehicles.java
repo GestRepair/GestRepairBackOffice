@@ -5,7 +5,7 @@
  */
 package vehicles;
 
-import gestrepairjavafrontend.Ip;
+import ip.Connect;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,27 +23,29 @@ import org.json.simple.parser.ParseException;
  *
  * @author Convite
  */
-public class SendAPIVehicles {
-
-    Ip ip = new Ip();
-
-    public void PostBrand(String login, String brand) throws Exception {
+public class APIVehicles {
+    HttpURLConnection connection;
+    public void conn(String login,URL url,String method) throws ParseException, IOException{
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-
-        URL url = new URL(ip.stIp() + "/vehicle/brand");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        
+        connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Authorization", "Basic " + encoded);
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod(method);
         connection.setDoOutput(true);
+    }
+    Connect connect = new Connect();
 
+    public void PostBrand(String login, String brand) throws Exception {
+        URL url = new URL(connect.IP() + "/vehicle/brand");
+        conn(login,url,"POST");
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
@@ -65,21 +67,8 @@ public class SendAPIVehicles {
     }
     
     public String getBrands(String login) throws Exception{
-        URL url = new URL(ip.stIp() + "/vehicle/brand");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setConnectTimeout(5000);//5 secs
-        connection.setReadTimeout(5000);//5 secs
-
-        connection.setRequestMethod("GET");
-        connection.setDoOutput(true);
-
-        JSONObject newjson = (JSONObject) new JSONParser().parse(login);
-        String user = newjson.get("login").toString();
-        String pass = newjson.get("password").toString();
-        byte[] message = (user + ":" + pass).getBytes("UTF-8");
-        String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        connection.setRequestProperty("Authorization", "Basic " + encoded);
-
+        URL url = new URL(connect.IP() + "/vehicle/brand");
+        conn(login,url,"GET");
         //Get Response  
         InputStream is = connection.getInputStream();
         String json;
@@ -97,7 +86,6 @@ public class SendAPIVehicles {
         return json;
     }
     public String[][] ListBrand(String list) {
-        JSONParser parser = new JSONParser();
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
@@ -118,21 +106,8 @@ public class SendAPIVehicles {
         return ListBrand(getBrands(login));
     }
     public void PostModel(String login, int brand, String model) throws Exception {
-        JSONObject newjson = (JSONObject) new JSONParser().parse(login);
-        String user = newjson.get("login").toString();
-        String pass = newjson.get("password").toString();
-        byte[] message = (user + ":" + pass).getBytes("UTF-8");
-        String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-
-        URL url = new URL(ip.stIp() + "/vehicle/model");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setConnectTimeout(5000);//5 secs
-        connection.setReadTimeout(5000);//5 secs
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Basic " + encoded);
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
+        URL url = new URL(connect.IP() + "/vehicle/model");
+        conn(login,url,"POST");
 
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {

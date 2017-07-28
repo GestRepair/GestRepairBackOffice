@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package login;
 
+import mainMenu.MainMenu;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -124,7 +125,7 @@ public class login_menu extends javax.swing.JFrame {
     @SuppressWarnings("empty-statement")
     private void bt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_loginActionPerformed
         // TODO add your handling code here:
-        Postlogin pl = new Postlogin();
+        APILogin pl = new APILogin();
         try {
             @SuppressWarnings("deprecation")
             String[] session = pl.post(txt_username.getText(), txp_password.getText());

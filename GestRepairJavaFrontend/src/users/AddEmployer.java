@@ -3,54 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package users;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import services.APIService;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class AddEmployer extends javax.swing.JFrame {
+
     private final String log;
-    Service service = new Service();
+    APIService apiService = new APIService();
+    APIUsers api = new APIUsers();
+
     /**
-     * Creates new form AddEmployer
-     * Create Employers
+     * Creates new form AddEmployer Create Employers
+     *
      * @param login
      * @param id
      * @param username
      * @throws java.io.IOException
      * @throws org.json.simple.parser.ParseException
      */
-    
-    public AddEmployer(String login,String id,String username) throws IOException, ParseException {
-        
+    public AddEmployer(String login, String id, String username) throws IOException, ParseException {
+
         this.log = login;
         initComponents();
         lnuser.setText(id);
         lusername.setText(username);
-        showService(service.Service(login));
+        showService(apiService.Service(login));
     }
-   
+
     public void showService(String[][] list) {
         cbService.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             cbService.addItem(list[i][1]);
         }
     }
-    public int newIdCb(int val,String[][] list) {
-        if (val == 0){
+
+    public int newIdCb(int val, String[][] list) {
+        if (val == 0) {
             return 1;
-        }else{
+        } else {
             return parseInt(list[val][0]);
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,7 +66,7 @@ public final class AddEmployer extends javax.swing.JFrame {
 
         cbService = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_addEmployer = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lnuser = new javax.swing.JLabel();
@@ -75,10 +78,10 @@ public final class AddEmployer extends javax.swing.JFrame {
 
         jLabel1.setText("Serviço");
 
-        jButton1.setText("Adicionar Funcionário");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_addEmployer.setText("Adicionar Funcionário");
+        bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_addEmployerActionPerformed(evt);
             }
         });
 
@@ -101,7 +104,7 @@ public final class AddEmployer extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(bt_addEmployer)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(cbService, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lnuser)
@@ -129,21 +132,21 @@ public final class AddEmployer extends javax.swing.JFrame {
                     .addComponent(cbService, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(bt_addEmployer)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
         // TODO add your handling code here:
-        PostEmployer pst = new PostEmployer();
-        int idUsr,serv;
+
+        int idUsr, serv;
         try {
             idUsr = parseInt(lnuser.getText());
-            serv = newIdCb(cbService.getSelectedIndex(), service.Service(log));
-            pst.PostEmployer(log,idUsr,serv);
+            serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
+            api.PostEmployer(log, idUsr, serv);
         } catch (IOException ex) {
             Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -151,11 +154,11 @@ public final class AddEmployer extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt_addEmployerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_addEmployer;
     private javax.swing.JComboBox cbService;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

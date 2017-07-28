@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestrepairjavafrontend;
+package users;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,14 +12,14 @@ import java.util.logging.Logger;
  *
  * @author Convite
  */
-public class AddUserForm extends javax.swing.JFrame {
+public class AddUser extends javax.swing.JFrame {
 
     public String log;
-
+    APIUsers api = new APIUsers();
     /**
      * Creates new form AddUserForm
      */
-    public AddUserForm(String login) {
+    public AddUser(String login) {
         initComponents();
         log = login;
     }
@@ -233,11 +233,11 @@ public class AddUserForm extends javax.swing.JFrame {
 
     private void bt_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_userActionPerformed
         // TODO add your handling code here:
-        PostUser pst = new PostUser();
+        
         try {
-            pst.PostUsr(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
+            api.PostUsr(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
         } catch (Exception ex) {
-            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddUser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_add_userActionPerformed
 

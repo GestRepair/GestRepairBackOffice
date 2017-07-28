@@ -16,7 +16,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public final class AddModel extends javax.swing.JFrame {
 
     public String log;
-    SendAPIVehicles sav = new SendAPIVehicles();
+    APIVehicles sav = new APIVehicles();
 
     /**
      * Creates new form addBrand
