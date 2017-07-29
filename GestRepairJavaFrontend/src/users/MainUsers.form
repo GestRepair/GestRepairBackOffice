@@ -26,12 +26,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="bt_model" alignment="0" pref="150" max="32767" attributes="0"/>
-                  <Component id="bt_addBrand" alignment="0" max="32767" attributes="0"/>
-                  <Component id="bt_showvehicles" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="bt_showUsersType" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bt_showUsers" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bt_addUser" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -39,39 +39,39 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Component id="bt_showvehicles" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="184" max="32767" attributes="0"/>
-              <Component id="bt_addBrand" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_showUsers" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="bt_model" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_showUsersType" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="bt_addUser" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="189" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="bt_showvehicles">
+    <Component class="javax.swing.JButton" name="bt_showUsers">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ver Veiculos"/>
+        <Property name="text" type="java.lang.String" value="Lista de  Utilizador"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showvehiclesActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showUsersActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="bt_model">
+    <Component class="javax.swing.JButton" name="bt_addUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar Modelo"/>
+        <Property name="text" type="java.lang.String" value="Adicionar Utilizador"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_modelActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addUserActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="bt_addBrand">
+    <Component class="javax.swing.JButton" name="bt_showUsersType">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar Marca"/>
+        <Property name="text" type="java.lang.String" value="Lista de Utilizadores Por Categoria"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addBrandActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showUsersTypeActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

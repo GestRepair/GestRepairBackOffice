@@ -24,14 +24,16 @@ import org.json.simple.parser.ParseException;
  * @author Convite
  */
 public class APIVehicles {
+
     HttpURLConnection connection;
-    public void conn(String login,URL url,String method) throws ParseException, IOException{
+
+    public void conn(String login, URL url, String method) throws ParseException, IOException {
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        
+
         connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
@@ -45,7 +47,7 @@ public class APIVehicles {
 
     public void PostBrand(String login, String brand) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/brand");
-        conn(login,url,"POST");
+        conn(login, url, "POST");
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
@@ -65,10 +67,10 @@ public class APIVehicles {
         System.out.println(json);
         connection.disconnect();
     }
-    
-    public String getBrands(String login) throws Exception{
+
+    public String getBrands(String login) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/brand");
-        conn(login,url,"GET");
+        conn(login, url, "GET");
         //Get Response  
         InputStream is = connection.getInputStream();
         String json;
@@ -81,10 +83,11 @@ public class APIVehicles {
                 response.append(line);
                 response.append('\r');
             }
-        } 
+        }
         connection.disconnect();
         return json;
     }
+
     public String[][] ListBrand(String list) {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
@@ -102,12 +105,14 @@ public class APIVehicles {
             return null;
         }
     }
-    public String[][] Brand(String login) throws IOException, ParseException, Exception{
+
+    public String[][] Brand(String login) throws IOException, ParseException, Exception {
         return ListBrand(getBrands(login));
     }
+
     public void PostModel(String login, int brand, String model) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/model");
-        conn(login,url,"POST");
+        conn(login, url, "POST");
 
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
@@ -118,6 +123,55 @@ public class APIVehicles {
             out.flush();
         }
         connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        System.out.println(json);
+        connection.disconnect();
+    }
+
+    public String GetVehicles(String login) throws MalformedURLException, IOException, ParseException {
+        URL url;
+        url = new URL(connect.IP() + "/vehicle");
+        conn(login, url, "GET");
+
+        //Get Response  
+        InputStream is = connection.getInputStream();
+        String json;
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
+            String line;
+            json = "";
+            while ((line = rd.readLine()) != null) {
+                json += line;
+                response.append(line);
+                response.append('\r');
+            }
+        } // or StringBuffer if Java version 5+
+        connection.disconnect();
+        return json;
+    }
+    public void PutVehicle(String login,String id ,String registration, String horsepower, String displacement, String kilometers, String fronttiresize, String reartiresize) throws Exception {
+        URL url = new URL(connect.IP() + "/vehicle/"+id);
+        conn(login,url,"PUT");
+        JSONObject objp;
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            objp = new JSONObject();
+            objp.put("registration", registration);
+            objp.put("horsepower", horsepower);
+            objp.put("kilometers", kilometers);
+            objp.put("displacement", displacement);
+            objp.put("fronttiresize", fronttiresize);
+            objp.put("reartiresize", reartiresize);
+            out.write(objp.toString());
+            out.flush();
+        }
+        int res = connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));

@@ -64,11 +64,9 @@
                           <Component id="bt_stock" alignment="1" pref="115" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="l_reparacoes" min="-2" max="-2" attributes="0"/>
-                      <Component id="bt_rep_execucao" alignment="1" pref="115" max="32767" attributes="0"/>
-                      <Component id="bt_rep_historico" alignment="1" pref="115" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="l_reparacoes" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_rep_execucao" alignment="1" pref="115" max="32767" attributes="0"/>
+                  <Component id="bt_rep_historico" alignment="1" pref="115" max="32767" attributes="0"/>
                   <Component id="l_reparacoes1" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_add_service" alignment="1" pref="0" max="32767" attributes="0"/>
               </Group>

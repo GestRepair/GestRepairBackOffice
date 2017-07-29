@@ -5,7 +5,7 @@
  */
 package mainMenu;
 
-import users.tableUsers;
+import users.Table_Users;
 import services.CreateServiceIO;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import users.MainUsers;
 import vehicles.MainVehicles;
 
 /**
@@ -253,14 +254,7 @@ public final class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
-        try {
-            // TODO add your handling code here:
-            new tableUsers(getLogin()).setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new MainUsers(getLogin()).setVisible(true);
 
     }//GEN-LAST:event_bt_utilizadoresActionPerformed
 

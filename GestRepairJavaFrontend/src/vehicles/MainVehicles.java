@@ -39,6 +39,11 @@ public class MainVehicles extends javax.swing.JFrame {
         setResizable(false);
 
         bt_showvehicles.setText("Ver Veiculos");
+        bt_showvehicles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_showvehiclesActionPerformed(evt);
+            }
+        });
 
         bt_model.setText("Adicionar Modelo");
         bt_model.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +98,14 @@ public class MainVehicles extends javax.swing.JFrame {
             Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_modelActionPerformed
+
+    private void bt_showvehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showvehiclesActionPerformed
+        try {
+            new Table_Vehicles(log).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_showvehiclesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;
