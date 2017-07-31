@@ -197,11 +197,14 @@ public class APIService {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
+            String[][] dataTable = new String[data.size()][5];
             for (int i = 0; i < data.size(); i++) {
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idService") + "";
                 dataTable[i][1] = (String) datas.get("nameService");
+                dataTable[i][2] = (long) datas.get("priceService")+"";
+                dataTable[i][3] = (String) datas.get("description");
+                dataTable[i][4] = (String) datas.get("photo");
             };
             return dataTable;
 

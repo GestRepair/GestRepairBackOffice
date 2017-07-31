@@ -24,46 +24,55 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="l_id_nome" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="l_nome" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="363" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bt_veiculos" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                          <Component id="bt_utilizadores" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                          <Component id="bt_repair" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                          <Component id="bt_budgets" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                          <Component id="bt_Schedule" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="272" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="400" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="bt_encomendas" alignment="1" max="32767" attributes="0"/>
-                              <Component id="bt_stock" alignment="1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="l_id_nome" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="l_nome" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="bt_veiculos" alignment="0" pref="115" max="32767" attributes="0"/>
+                                  <Component id="bt_utilizadores" alignment="0" pref="115" max="32767" attributes="0"/>
+                                  <Component id="bt_repair" alignment="0" pref="115" max="32767" attributes="0"/>
+                                  <Component id="bt_budgets" alignment="0" pref="115" max="32767" attributes="0"/>
+                                  <Component id="bt_Schedule" alignment="0" pref="115" max="32767" attributes="0"/>
+                                  <Component id="bt_services" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="l_reparacoes1" min="-2" max="-2" attributes="0"/>
-                      <Component id="bt_add_service" alignment="1" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                      <Component id="l_orcamento" min="-2" max="-2" attributes="0"/>
-                      <Component id="bt_orc_aprovados" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                      <Component id="bt_orc_historico" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                      <Component id="bt_orc_naoaprov" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
-                      <Component id="bt_orc_execucao" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="207" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="657" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="bt_encomendas" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="bt_stock" alignment="1" min="-2" pref="93" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace pref="10" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="l_orcamento" min="-2" max="-2" attributes="0"/>
+                          <Component id="bt_orc_aprovados" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                          <Component id="bt_orc_historico" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                          <Component id="bt_orc_naoaprov" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                          <Component id="bt_orc_execucao" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -85,11 +94,7 @@
                       <Component id="bt_orc_naoaprov" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bt_orc_historico" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="l_reparacoes1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_add_service" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
                       <Component id="l_Peças" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bt_stock" min="-2" max="-2" attributes="0"/>
@@ -97,27 +102,32 @@
                       <Component id="bt_encomendas" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="l_id_nome" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="l_nome" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="l_id_nome" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="l_nome" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="bt_utilizadores" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_veiculos" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_repair" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_budgets" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_Schedule" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="bt_utilizadores" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bt_veiculos" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bt_repair" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bt_budgets" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bt_Schedule" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="bt_services" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel2" min="-2" pref="270" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="jLabel2" alignment="0" min="-2" pref="400" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="272" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -218,17 +228,12 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="l_reparacoes1">
+    <Component class="javax.swing.JButton" name="bt_services">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Servi&#xe7;o"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="bt_add_service">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Adicionar Servi&#xe7;os"/>
+        <Property name="text" type="java.lang.String" value="Servi&#xe7;os"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_serviceActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_servicesActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_budgets">

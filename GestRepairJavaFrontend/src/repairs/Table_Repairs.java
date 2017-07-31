@@ -82,11 +82,11 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilometros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
+                "ID", "Serviço","Veículo", "Descrição", "Preço", "Estado", "Data Inicio", "Data Conclusão", "Resolução", "Funcionário"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

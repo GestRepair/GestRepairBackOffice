@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schedule;
+package services;
 
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.json.simple.parser.ParseException;
@@ -18,41 +16,38 @@ import org.json.simple.parser.ParseException;
  *
  * @author Rui Barcelos
  */
-public final class Table_Schedule extends javax.swing.JFrame {
+public final class Table_Services extends javax.swing.JFrame {
+
     public String log;
-    APISchedule api = new APISchedule();
+    APIService api = new APIService();
+
     /**
      * Creates new form Table_Vehicles
+     *
      * @param login
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      * @throws java.text.ParseException
      */
-    public Table_Schedule(String login) throws IOException, MalformedURLException, ParseException, java.text.ParseException {
+    public Table_Services(String login) throws IOException, MalformedURLException, ParseException, java.text.ParseException {
         log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(api.ValuesToTable(login,0));
-       
+        showTable(api.Service(login));
     }
-        
+
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
         Object[] row = new Object[5];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
-                if(i == 3){
-                    row[i] = list1[i];
-                }else{
-                    row[i] = list1[i];
-                }
+                row[i] = list1[i];
             }
             mod.addRow(row);
         }
-        
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +60,12 @@ public final class Table_Schedule extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_schedule = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
-        l_idSchedule = new javax.swing.JLabel();
+        l_idService = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        MI_LIST = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        MI_ADD = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -74,7 +74,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Veículo", "Serviço", "Data", "Activo?"
+                "ID", "Serviço", "Preço Mínimo", "Descrição", "Fotografia"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -94,31 +94,51 @@ public final class Table_Schedule extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_schedule);
         tbl_schedule.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jLabel7.setText("Agendamento  N.º");
+        jLabel7.setText("Serviço  N.º");
 
-        l_idSchedule.setText("agendamento");
+        l_idService.setText("serviço");
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        MI_LIST.setText("Serviços");
+
+        jMenuItem1.setText("Lista");
+        MI_LIST.add(jMenuItem1);
+
+        MI_ADD.setText("Adicionar");
+        MI_ADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ADDActionPerformed(evt);
+            }
+        });
+        MI_LIST.add(MI_ADD);
+
+        jMenuBar1.add(MI_LIST);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(l_idSchedule)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(l_idService)
+                .addContainerGap(1089, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_idSchedule)
+                    .addComponent(l_idService)
                     .addComponent(jLabel7))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -127,13 +147,22 @@ public final class Table_Schedule extends javax.swing.JFrame {
     private void tbl_scheduleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_scheduleMouseClicked
         int i = tbl_schedule.getSelectedRow();
         TableModel mod = tbl_schedule.getModel();
-        l_idSchedule.setText((String) mod.getValueAt(i, 0));
+        l_idService.setText((String) mod.getValueAt(i, 0));
     }//GEN-LAST:event_tbl_scheduleMouseClicked
 
+    private void MI_ADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ADDActionPerformed
+        new Create_Service(log).setVisible(true);
+    }//GEN-LAST:event_MI_ADDActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MI_ADD;
+    private javax.swing.JMenu MI_LIST;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel l_idSchedule;
+    private javax.swing.JLabel l_idService;
     private javax.swing.JTable tbl_schedule;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,13 +18,13 @@ import javax.swing.JFileChooser;
  *
  * @author Rui Barcelos
  */
-public class CreateServiceIO extends javax.swing.JFrame {
+public class Create_Service extends javax.swing.JFrame {
     public String log;
     /**
      * Creates new form CreateServiceIO
      * @param login
      */
-    public CreateServiceIO(String login) {
+    public Create_Service(String login) {
         log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));

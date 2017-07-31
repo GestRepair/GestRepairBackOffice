@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schedule;
+package services;
 
 
-import budgets.*;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.parser.ParseException;
@@ -18,13 +16,13 @@ import org.json.simple.parser.ParseException;
  *
  * @author Convite
  */
-public class MainSchedule extends javax.swing.JFrame {
+public class MainServices extends javax.swing.JFrame {
     public String log;
     /**
      * Creates new form mainVehicles
      * @param login
      */
-    public MainSchedule(String login) {
+    public MainServices(String login) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.log = login;
@@ -39,15 +37,23 @@ public class MainSchedule extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bt_listSchedule = new javax.swing.JButton();
+        bt_listServices = new javax.swing.JButton();
+        bt_create = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        bt_listSchedule.setText("Lista de Agendamentos");
-        bt_listSchedule.addActionListener(new java.awt.event.ActionListener() {
+        bt_listServices.setText("Lista de Serviços");
+        bt_listServices.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listScheduleActionPerformed(evt);
+                bt_listServicesActionPerformed(evt);
+            }
+        });
+
+        bt_create.setText("Adicionar Serviço");
+        bt_create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_createActionPerformed(evt);
             }
         });
 
@@ -57,29 +63,40 @@ public class MainSchedule extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_listSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_listServices, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(bt_create, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_listSchedule)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addComponent(bt_listServices)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_create)
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_listScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listScheduleActionPerformed
+    private void bt_listServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listServicesActionPerformed
         try {
-            new Table_Schedule(log).setVisible(true);
+            new Table_Services(log).setVisible(true);
+            dispose();
         } catch (IOException | ParseException | java.text.ParseException ex) {
-            Logger.getLogger(MainSchedule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainServices.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bt_listScheduleActionPerformed
+    }//GEN-LAST:event_bt_listServicesActionPerformed
+
+    private void bt_createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_createActionPerformed
+        new Create_Service(log).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_bt_createActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_listSchedule;
+    private javax.swing.JButton bt_create;
+    private javax.swing.JButton bt_listServices;
     // End of variables declaration//GEN-END:variables
 }
