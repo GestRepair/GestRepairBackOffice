@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -149,5 +150,32 @@ public class APIUsers {
         }
         System.out.println(json);
         connection.disconnect();
+    }
+    public String[] GetInfoEmployer(String login, int id) throws Exception {
+        URL url = new URL(connect.IP() + "/user/employer/"+id);
+        conn(login,url,"GET");
+        
+        JSONParser parser = new JSONParser();
+        
+        int res = connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        System.out.println(json);
+        connection.disconnect();
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] emp = new String[4];
+        emp[0] = (long) newjsondata.get("idEmployer")+"";
+        emp[1] = (String) newjsondata.get("name");
+        emp[2] = (String) newjsondata.get("nameService");
+        emp[3] = (long) newjsondata.get("isActive")+"";
+        return emp;
     }
 }

@@ -7,6 +7,7 @@ package services;
 
 import users.AddUser;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,7 @@ public class CreateServiceIO extends javax.swing.JFrame {
     public CreateServiceIO(String login) {
         log = login;
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         tf_localUpload.setEditable(true);
     }
 

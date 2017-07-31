@@ -5,16 +5,14 @@
  */
 package mainMenu;
 
-import users.Table_Users;
+import budgets.MainBudgets;
+import java.awt.Toolkit;
 import services.CreateServiceIO;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import repairs.MainRepairs;
+import schedule.MainSchedule;
 import users.MainUsers;
 import vehicles.MainVehicles;
 
@@ -31,9 +29,8 @@ public final class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu(String login,String dados) {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         setMenu(login, dados);
-        //System.out.println(login);
-        //System.out.println(dados);
         setLogin(login);
     }
     private String login;
@@ -70,12 +67,9 @@ public final class MainMenu extends javax.swing.JFrame {
 
         bt_utilizadores = new javax.swing.JButton();
         bt_veiculos = new javax.swing.JButton();
-        l_utilizadores = new javax.swing.JLabel();
-        bt_rep_execucao = new javax.swing.JButton();
-        bt_rep_historico = new javax.swing.JButton();
+        bt_repair = new javax.swing.JButton();
         bt_stock = new javax.swing.JButton();
         bt_encomendas = new javax.swing.JButton();
-        l_reparacoes = new javax.swing.JLabel();
         l_Peças = new javax.swing.JLabel();
         bt_orc_execucao = new javax.swing.JButton();
         l_orcamento = new javax.swing.JLabel();
@@ -88,8 +82,10 @@ public final class MainMenu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         l_reparacoes1 = new javax.swing.JLabel();
         bt_add_service = new javax.swing.JButton();
+        bt_budgets = new javax.swing.JButton();
+        bt_Schedule = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bt_utilizadores.setText("Utilizadores");
         bt_utilizadores.addActionListener(new java.awt.event.ActionListener() {
@@ -105,11 +101,12 @@ public final class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        l_utilizadores.setText("Utilizadores");
-
-        bt_rep_execucao.setText("Execução");
-
-        bt_rep_historico.setText("Histórico");
+        bt_repair.setText("Reparações");
+        bt_repair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_repairActionPerformed(evt);
+            }
+        });
 
         bt_stock.setText("Stock");
         bt_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -119,8 +116,6 @@ public final class MainMenu extends javax.swing.JFrame {
         });
 
         bt_encomendas.setText("Encomendas");
-
-        l_reparacoes.setText("Reparações");
 
         l_Peças.setText("Peças");
 
@@ -157,62 +152,76 @@ public final class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        bt_budgets.setText("Orçamentos");
+        bt_budgets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_budgetsActionPerformed(evt);
+            }
+        });
+
+        bt_Schedule.setText("Marcações");
+        bt_Schedule.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_ScheduleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(l_id_nome)
-                        .addGap(18, 18, 18)
-                        .addComponent(l_nome))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_nome)
+                        .addGap(363, 363, 363)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(bt_veiculos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_utilizadores, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_repair, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_budgets, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_Schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(272, 272, 272)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(l_Peças)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(bt_encomendas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_stock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(l_reparacoes1)
+                        .addComponent(bt_add_service, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(l_orcamento)
                         .addComponent(bt_orc_aprovados, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(l_utilizadores)
-                            .addComponent(bt_veiculos, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_utilizadores, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(bt_orc_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_orc_naoaprov, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_orc_execucao, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(80, 80, 80)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(l_Peças)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bt_encomendas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bt_stock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(l_reparacoes)
-                        .addComponent(bt_rep_execucao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                        .addComponent(bt_rep_historico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
-                    .addComponent(l_reparacoes1)
-                    .addComponent(bt_add_service, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(bt_orc_historico, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bt_orc_naoaprov, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bt_orc_execucao, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_reparacoes)
+                        .addComponent(l_orcamento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_rep_execucao)
+                        .addComponent(bt_orc_execucao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_rep_historico)
-                        .addGap(106, 106, 106)
+                        .addComponent(bt_orc_aprovados)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_orc_naoaprov)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_orc_historico)
+                        .addGap(48, 48, 48)
                         .addComponent(l_reparacoes1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_add_service)
@@ -223,31 +232,23 @@ public final class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_encomendas))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(l_utilizadores)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_utilizadores)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_veiculos)
-                                .addGap(56, 56, 56)
-                                .addComponent(l_orcamento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_orc_execucao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_orc_aprovados)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_orc_naoaprov)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_orc_historico))
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(l_nome)
-                                .addComponent(l_id_nome)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(l_id_nome)
+                                .addComponent(l_nome)))
+                        .addGap(26, 26, 26)
+                        .addComponent(bt_utilizadores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_veiculos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_repair)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_budgets)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_Schedule))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -267,7 +268,6 @@ public final class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_orc_execucaoActionPerformed
 
     private void bt_add_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_serviceActionPerformed
-        // TODO add your handling code here:
         new CreateServiceIO(getLogin()).setVisible(true);
     }//GEN-LAST:event_bt_add_serviceActionPerformed
 
@@ -275,16 +275,29 @@ public final class MainMenu extends javax.swing.JFrame {
         new MainVehicles(getLogin()).setVisible(true);
     }//GEN-LAST:event_bt_veiculosActionPerformed
 
+    private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
+        new MainRepairs(getLogin()).setVisible(true);
+    }//GEN-LAST:event_bt_repairActionPerformed
+
+    private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
+        new MainBudgets(getLogin()).setVisible(true);
+    }//GEN-LAST:event_bt_budgetsActionPerformed
+
+    private void bt_ScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_ScheduleActionPerformed
+        new MainSchedule(getLogin()).setVisible(true);
+    }//GEN-LAST:event_bt_ScheduleActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_Schedule;
     private javax.swing.JButton bt_add_service;
+    private javax.swing.JButton bt_budgets;
     private javax.swing.JButton bt_encomendas;
     private javax.swing.JButton bt_orc_aprovados;
     private javax.swing.JButton bt_orc_execucao;
     private javax.swing.JButton bt_orc_historico;
     private javax.swing.JButton bt_orc_naoaprov;
-    private javax.swing.JButton bt_rep_execucao;
-    private javax.swing.JButton bt_rep_historico;
+    private javax.swing.JButton bt_repair;
     private javax.swing.JButton bt_stock;
     private javax.swing.JButton bt_utilizadores;
     private javax.swing.JButton bt_veiculos;
@@ -294,8 +307,6 @@ public final class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel l_id_nome;
     private javax.swing.JLabel l_nome;
     private javax.swing.JLabel l_orcamento;
-    private javax.swing.JLabel l_reparacoes;
     private javax.swing.JLabel l_reparacoes1;
-    private javax.swing.JLabel l_utilizadores;
     // End of variables declaration//GEN-END:variables
 }

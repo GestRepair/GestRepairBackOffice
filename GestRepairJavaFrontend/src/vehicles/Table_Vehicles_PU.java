@@ -22,20 +22,24 @@ import users.Table_Users;
  *
  * @author Rui Barcelos
  */
-public final class Table_Vehicles extends javax.swing.JFrame {
+public final class Table_Vehicles_PU extends javax.swing.JFrame {
     public String log;
+    public int idV;
     APIVehicles api = new APIVehicles();
     /**
      * Creates new form Table_Vehicles
      * @param login
+     * @param id
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Vehicles(String login) throws IOException, MalformedURLException, ParseException {
+    public Table_Vehicles_PU(String login, int id) throws IOException, MalformedURLException, ParseException {
         log = login;
+        idV = id;
         initComponents();
-        showTable(DataToTable(api.GetVehicles(login,0)));
+       
+        showTable(DataToTable(api.GetVehicles(login,id)));
        
     }
     
@@ -43,7 +47,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][12];
+            String[][] dataTable = new String[data.size()][11];
             for (int i = 0; i < data.size(); i++) {
 
                 JSONObject datas = (JSONObject) data.get(i);
@@ -57,8 +61,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
                 dataTable[i][7] = (String) datas.get("nameFuel");
                 dataTable[i][8] = (String) datas.get("fronttiresize");
                 dataTable[i][9] = (String) datas.get("reartiresize");
-                dataTable[i][10] = (String) datas.get("date");
-                dataTable[i][11] = (long) datas.get("user")+ "";         
+                dataTable[i][10] = (String) datas.get("date");  
             };
             return dataTable;
         } catch (ParseException pe) {
@@ -69,7 +72,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
     
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-        Object[] row = new Object[12];
+        Object[] row = new Object[11];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
@@ -266,9 +269,9 @@ public final class Table_Vehicles extends javax.swing.JFrame {
             api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
             DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
             mod.setRowCount(0);
-            showTable(DataToTable(api.GetVehicles(log,0)));
+            showTable(DataToTable(api.GetVehicles(log,idV)));
         } catch (Exception ex) {
-            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 

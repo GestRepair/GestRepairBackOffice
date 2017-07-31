@@ -135,9 +135,13 @@ public class APIVehicles {
         connection.disconnect();
     }
 
-    public String GetVehicles(String login) throws MalformedURLException, IOException, ParseException {
+    public String GetVehicles(String login,int id) throws MalformedURLException, IOException, ParseException {
         URL url;
-        url = new URL(connect.IP() + "/vehicle");
+        if(id == 0){
+            url = new URL(connect.IP() + "/vehicle/");
+        }else{
+            url = new URL(connect.IP() + "/vehicle/"+id+"/user");
+        }
         conn(login, url, "GET");
 
         //Get Response  

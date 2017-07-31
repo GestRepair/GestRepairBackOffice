@@ -5,11 +5,10 @@
  */
 package login;
 
+import java.awt.Toolkit;
+
 import mainMenu.MainMenu;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -25,6 +24,7 @@ public class login_menu extends javax.swing.JFrame {
      */
     public login_menu() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -125,10 +125,10 @@ public class login_menu extends javax.swing.JFrame {
     @SuppressWarnings("empty-statement")
     private void bt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_loginActionPerformed
         // TODO add your handling code here:
-        APILogin pl = new APILogin();
+        APILogin api = new APILogin();
         try {
             @SuppressWarnings("deprecation")
-            String[] session = pl.post(txt_username.getText(), txp_password.getText());
+            String[] session = api.post(txt_username.getText(), txp_password.getText());
             JSONParser parser = new JSONParser();
             try {
                 JSONObject newjson = (JSONObject) new JSONParser().parse(session[1]);
@@ -173,6 +173,7 @@ public class login_menu extends javax.swing.JFrame {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    
                     break;
                 }
             }
@@ -186,12 +187,13 @@ public class login_menu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(login_menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new login_menu().setVisible(true);
+                
             }
         });
     }
