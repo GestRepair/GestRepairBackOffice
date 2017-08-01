@@ -34,28 +34,38 @@ import org.json.simple.parser.ParseException;
  * @author Rui Barcelos
  */
 public class APIService {
-    
+
     private static final String LINE_FEED = "\r\n";
     private static final String CHARSET = "UTF-8";
     private long start;
 
-    public URL Url() throws MalformedURLException {
+    public URL POSTUrl() throws MalformedURLException {
         URL url = new URL(connect.IP() + "/service");
         return url;
     }
 
+    public URL PUTUrl(int id) throws MalformedURLException {
+        URL url = new URL(connect.IP() + "/service/" + id);
+        return url;
+    }
+
+    public URL PUTUrlWithout(int id) throws MalformedURLException {
+        URL url = new URL(connect.IP() + "/service/" + id + "/without");
+        return url;
+    }
     OutputStream outputStream;
     PrintWriter writer;
     String boundary;
     HttpURLConnection connection;
     Connect connect = new Connect();
-    public void conn(String login,URL url,String method) throws ParseException, IOException{
+
+    public void conn(String login, URL url, String method) throws ParseException, IOException {
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes("UTF-8");
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        
+
         connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(5000);//5 secs
         connection.setReadTimeout(5000);//5 secs
@@ -65,18 +75,16 @@ public class APIService {
         connection.setRequestMethod(method);
         connection.setDoOutput(true);
     }
-    
-    public void PostService(String login, String name, String price, String description, File photo) throws Exception {
-        //URL url = new URL(connect.IP() + "/service");
 
+    public void PostService(String login, String name, String price, String description, File photo) throws Exception {
         final File uploadFile = photo;
         try {
-            Connection(login);
+            Connection(login, "POST", POSTUrl());
             addFormField("nameService", name);
             addFormField("priceService", price);
             addFormField("description", description);
             addFilePart("photo", uploadFile);
-            final byte[] bytes = finish();
+            final byte[] bytes = finish(POSTUrl());
             //final OutputStream os = new FileOutputStream("someoutput.txt");
             //os.write(bytes);
         } catch (IOException e) {
@@ -85,7 +93,7 @@ public class APIService {
 
     }
 
-    public void Connection(String login) throws UnsupportedEncodingException, ParseException, IOException {
+    public void Connection(String login, String method, URL url) throws UnsupportedEncodingException, ParseException, IOException {
 
         start = currentTimeMillis();
 
@@ -96,10 +104,10 @@ public class APIService {
         String pass = newjson.get("password").toString();
         byte[] message = (user + ":" + pass).getBytes(CHARSET);
         String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
-        connection = (HttpURLConnection) Url().openConnection();
+        connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(15000);//15 secs
         connection.setReadTimeout(10000);//10 secs
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod(method);
         connection.setRequestProperty("Accept", CHARSET);
         connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
         connection.setRequestProperty("Authorization", "Basic " + encoded);
@@ -148,7 +156,7 @@ public class APIService {
         writer.append(name).append(": ").append(value).append(LINE_FEED);
     }
 
-    public byte[] finish() throws IOException {
+    public byte[] finish(URL url) throws IOException {
         writer.append(LINE_FEED).append("--").append(boundary).append("--")
                 .append(LINE_FEED);
         writer.close();
@@ -156,7 +164,7 @@ public class APIService {
         final int status = connection.getResponseCode();
         if (status != HTTP_OK) {
             throw new IOException(format("{0} failed with HTTP status: {1}",
-                    Url(), status));
+                    url, status));
         }
 
         try (final InputStream is = connection.getInputStream()) {
@@ -171,10 +179,13 @@ public class APIService {
             connection.disconnect();
         }
     }
+
     public String getService(String login) throws MalformedURLException, IOException, ParseException {
-        URL url = new URL(connect.IP() + "/service/comp");
-        conn(login,url,"GET");
-        
+        URL url;
+        url = new URL(connect.IP() + "/service/comp");
+
+        conn(login, url, "GET");
+
         //Get Response  
         InputStream is = connection.getInputStream();
         String json;
@@ -191,6 +202,7 @@ public class APIService {
         connection.disconnect();
         return json;
     }
+
     @SuppressWarnings("empty-statement")
     public String[][] ListService(String list) {
         JSONParser parser = new JSONParser();
@@ -202,7 +214,7 @@ public class APIService {
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idService") + "";
                 dataTable[i][1] = (String) datas.get("nameService");
-                dataTable[i][2] = (long) datas.get("priceService")+"";
+                dataTable[i][2] = (long) datas.get("priceService") + "";
                 dataTable[i][3] = (String) datas.get("description");
                 dataTable[i][4] = (String) datas.get("photo");
             };
@@ -213,8 +225,67 @@ public class APIService {
             return null;
         }
     }
-    public String[][] Service (String login) throws IOException, ParseException{
+
+    public String[][] Service(String login) throws IOException, ParseException {
         return ListService(getService(login));
     }
 
+    public String[] GetInfo(String login, int id) throws Exception {
+        URL url = new URL(connect.IP() + "/service/" + id);
+        conn(login, url, "GET");
+
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] info = new String[11];
+        info[0] = (long) newjsondata.get("idService") + "";
+        info[1] = (String) newjsondata.get("nameService");
+        info[2] = (long) newjsondata.get("priceService") + "";
+        info[3] = (String) newjsondata.get("description");
+        info[4] = (String) newjsondata.get("photo");
+        return info;
+    }
+
+    public void PutService(String login, int id, String name, String price, String description, File photo) throws Exception {
+        final File uploadFile = photo;
+        Connection(login, "PUT", PUTUrl(id));
+        addFormField("nameService", name);
+        addFormField("priceService", price);
+        addFormField("description", description);
+        addFilePart("photo", uploadFile);
+        finish(PUTUrl(id));
+    }
+    public void PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {    
+        URL url = PUTUrlWithout(id) ;
+        conn(login,url,"PUT");
+        JSONObject objp;
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            objp = new JSONObject();
+            objp.put("nameService", name);
+            objp.put("priceService", price);
+            objp.put("description", description);
+            out.write(objp.toString());
+            out.flush();
+        }
+        connection.getResponseCode();
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        System.out.println(json);
+        connection.disconnect();
+    }
 }

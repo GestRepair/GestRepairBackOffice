@@ -7,7 +7,10 @@ package services;
 
 import java.awt.Toolkit;
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.json.simple.parser.ParseException;
@@ -61,6 +64,7 @@ public final class Table_Services extends javax.swing.JFrame {
         tbl_schedule = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         l_idService = new javax.swing.JLabel();
+        bt_edit = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MI_LIST = new javax.swing.JMenu();
@@ -98,6 +102,13 @@ public final class Table_Services extends javax.swing.JFrame {
 
         l_idService.setText("serviço");
 
+        bt_edit.setText("Editar Serviço");
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_editActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -122,22 +133,28 @@ public final class Table_Services extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_idService)
-                .addContainerGap(1089, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_edit)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_idService)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(l_idService))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(bt_edit)
                 .addContainerGap())
         );
 
@@ -154,9 +171,18 @@ public final class Table_Services extends javax.swing.JFrame {
         new Create_Service(log).setVisible(true);
     }//GEN-LAST:event_MI_ADDActionPerformed
 
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
+        try {
+            new EditService(log,parseInt(l_idService.getText())).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_editActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MI_ADD;
     private javax.swing.JMenu MI_LIST;
+    private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;

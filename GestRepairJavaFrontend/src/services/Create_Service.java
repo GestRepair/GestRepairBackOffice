@@ -151,7 +151,6 @@ public class Create_Service extends javax.swing.JFrame {
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
         tf_localUpload.setText(filename);
-        System.out.println(filename);
         ImageIcon icon=new ImageIcon(filename);
         Image image = icon.getImage();
         Image newimg = image.getScaledInstance(260, 200,  java.awt.Image.SCALE_SMOOTH);
@@ -163,7 +162,6 @@ public class Create_Service extends javax.swing.JFrame {
         // TODO add your handling code here:
         APIService pst = new APIService();
         File f = new File(tf_localUpload.getText());
-        System.out.println(f);
         try {
             pst.PostService(log, tf_service.getText(), tf_price.getText(), tf_desc.getText(),f);
         } catch (Exception ex) {
