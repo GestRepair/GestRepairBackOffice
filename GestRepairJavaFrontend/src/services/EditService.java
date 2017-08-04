@@ -11,14 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import users.AddUser;
 
 /**
  *
@@ -103,7 +98,7 @@ public final class EditService extends javax.swing.JFrame {
         l_photo = new javax.swing.JLabel();
         tf_upload = new javax.swing.JTextField();
         bt_upload = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        bt_edit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alterar Serviço");
@@ -134,10 +129,10 @@ public final class EditService extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Editar Serviço");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_edit.setText("Editar Serviço");
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_editActionPerformed(evt);
             }
         });
 
@@ -148,7 +143,7 @@ public final class EditService extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                    .addComponent(bt_edit)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -199,7 +194,7 @@ public final class EditService extends javax.swing.JFrame {
                                     .addComponent(tf_upload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(bt_upload))))))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(bt_edit)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -214,7 +209,7 @@ public final class EditService extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_uploadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
             File f = new File(tf_upload.getText());
             try {
@@ -223,17 +218,19 @@ public final class EditService extends javax.swing.JFrame {
                 } else {
                     api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), jTextArea1.getText());
                 }
+                JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,"Ficheiro Não Existe");
             }
         }else{
             JOptionPane.showMessageDialog(this,"Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_upload;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
