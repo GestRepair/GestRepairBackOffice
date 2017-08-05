@@ -5,6 +5,7 @@
  */
 package users;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ import vehicles.Table_Vehicles_PU;
 public final class Table_Users extends javax.swing.JFrame {
 
     
-    public String log;
+    public String log, service;
     APIUsers api = new APIUsers();
     /**
      *
@@ -33,11 +34,13 @@ public final class Table_Users extends javax.swing.JFrame {
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users(String login) throws IOException, ParseException {
+    public Table_Users(String login, String service) throws IOException, ParseException {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();      
         showTable(contTableUser(api.getUL(login,2)));
         tbl_usersStart();
-        log = login;
+        this.log = login;
+        this.service = service;
     }
 
     /**
@@ -258,7 +261,7 @@ public final class Table_Users extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(log).setVisible(true);
+            new Table_Users_Type(log,service).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }

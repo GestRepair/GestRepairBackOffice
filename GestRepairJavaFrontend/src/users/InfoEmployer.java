@@ -5,6 +5,8 @@
  */
 package users;
 
+import java.awt.Toolkit;
+
 /**
  *
  * @author Rui Barcelos
@@ -20,6 +22,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public InfoEmployer(String login,int id) throws Exception {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         log = login;
         idUser = id;
@@ -59,6 +62,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Dados do Funcionário");
 
         jLabel1.setText("N.º de Funcionário:");
 

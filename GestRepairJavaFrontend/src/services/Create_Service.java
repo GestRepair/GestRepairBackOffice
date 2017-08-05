@@ -26,7 +26,7 @@ public class Create_Service extends javax.swing.JFrame {
      * @param login
      */
     public Create_Service(String login) {
-        log = login;
+        this.log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         tf_localUpload.setEditable(true);

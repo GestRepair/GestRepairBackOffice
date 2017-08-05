@@ -5,8 +5,8 @@
  */
 package users;
 
+import java.awt.Toolkit;
 import java.io.IOException;
-import vehicles.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.parser.ParseException;
@@ -16,13 +16,15 @@ import org.json.simple.parser.ParseException;
  * @author Convite
  */
 public class MainUsers extends javax.swing.JFrame {
-    public String log;
+    public String log, service;
     /**
      * Creates new form mainVehicles
      */
-    public MainUsers(String login) {
+    public MainUsers(String login,String service) {
         initComponents();
-        log = login;
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        this.log = login;
+        this.service = service;
     }
 
     /**
@@ -37,11 +39,16 @@ public class MainUsers extends javax.swing.JFrame {
         bt_showUsers = new javax.swing.JButton();
         bt_addUser = new javax.swing.JButton();
         bt_showUsersType = new javax.swing.JButton();
+        bt_func_list = new javax.swing.JButton();
+        bt_func_list_type = new javax.swing.JButton();
+        bt_func_list1 = new javax.swing.JButton();
+        bt_func_list_type1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Menu Utilizadores");
         setResizable(false);
 
-        bt_showUsers.setText("Lista de  Utilizador");
+        bt_showUsers.setText("Lista de Utilizadores");
         bt_showUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_showUsersActionPerformed(evt);
@@ -62,6 +69,34 @@ public class MainUsers extends javax.swing.JFrame {
             }
         });
 
+        bt_func_list.setText("Lista de Funcionários");
+        bt_func_list.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_func_listActionPerformed(evt);
+            }
+        });
+
+        bt_func_list_type.setText("Lista de Funcionários por Serviço");
+        bt_func_list_type.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_func_list_typeActionPerformed(evt);
+            }
+        });
+
+        bt_func_list1.setText("Lista de Antigos Funcionários");
+        bt_func_list1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_func_list1ActionPerformed(evt);
+            }
+        });
+
+        bt_func_list_type1.setText("Lista de Antigos  Funcionários por Serviço");
+        bt_func_list_type1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_func_list_type1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,7 +106,11 @@ public class MainUsers extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bt_showUsersType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_showUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_addUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bt_addUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list_type1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -83,7 +122,15 @@ public class MainUsers extends javax.swing.JFrame {
                 .addComponent(bt_showUsersType)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_addUser)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_func_list)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_func_list_type)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_func_list1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_func_list_type1)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -96,7 +143,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_showUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersActionPerformed
         try {
-            new Table_Users(log).setVisible(true);
+            new Table_Users(log,service).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,14 +151,34 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_showUsersTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersTypeActionPerformed
         try {
-            new Table_Users_Type(log).setVisible(true);
+            new Table_Users_Type(log,service).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_showUsersTypeActionPerformed
 
+    private void bt_func_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_listActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_func_listActionPerformed
+
+    private void bt_func_list_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_typeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_func_list_typeActionPerformed
+
+    private void bt_func_list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_func_list1ActionPerformed
+
+    private void bt_func_list_type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_type1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_func_list_type1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addUser;
+    private javax.swing.JButton bt_func_list;
+    private javax.swing.JButton bt_func_list1;
+    private javax.swing.JButton bt_func_list_type;
+    private javax.swing.JButton bt_func_list_type1;
     private javax.swing.JButton bt_showUsers;
     private javax.swing.JButton bt_showUsersType;
     // End of variables declaration//GEN-END:variables

@@ -5,8 +5,10 @@
  */
 package users;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,8 +20,10 @@ public class AddUser extends javax.swing.JFrame {
     APIUsers api = new APIUsers();
     /**
      * Creates new form AddUserForm
+     * @param login
      */
     public AddUser(String login) {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         log = login;
     }
@@ -56,6 +60,7 @@ public class AddUser extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Adiciomar Utilizador");
 
         jLabel5.setText("Localidade:");
 
@@ -236,8 +241,10 @@ public class AddUser extends javax.swing.JFrame {
         
         try {
             api.PostUsr(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
+            JOptionPane.showMessageDialog(this,"Utilizador Adicionado com Sucesso");
+            dispose();
         } catch (Exception ex) {
-            Logger.getLogger(AddUser.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,"Erro a Adicionar Utilizador");
         }
     }//GEN-LAST:event_bt_add_userActionPerformed
 

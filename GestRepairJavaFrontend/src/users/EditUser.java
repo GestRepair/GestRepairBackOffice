@@ -5,8 +5,10 @@
  */
 package users;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +25,7 @@ public final class EditUser extends javax.swing.JFrame {
      */
     public EditUser(String login,int id) throws Exception {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.log = login;
         GetInfo(login,id);
     }
@@ -225,8 +228,10 @@ public final class EditUser extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
             api.putUsr(log,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
+            JOptionPane.showMessageDialog(this,"Utilizador editado com sucesso");
+            dispose();
         } catch (Exception ex) {
-            Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,"Erro a editar utilizador");
         }
     }//GEN-LAST:event_bt_editActionPerformed
 

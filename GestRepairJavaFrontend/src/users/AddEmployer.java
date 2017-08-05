@@ -5,9 +5,11 @@
  */
 package users;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
@@ -32,7 +34,7 @@ public final class AddEmployer extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public AddEmployer(String login, String id, String username) throws IOException, ParseException {
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.log = login;
         initComponents();
         lnuser.setText(id);
@@ -73,6 +75,7 @@ public final class AddEmployer extends javax.swing.JFrame {
         lusername = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Adicionar Funcionário");
 
         cbService.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -147,12 +150,10 @@ public final class AddEmployer extends javax.swing.JFrame {
             idUsr = parseInt(lnuser.getText());
             serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
             api.PostEmployer(log, idUsr, serv);
-        } catch (IOException ex) {
-            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,"Dados inseridos com sucesso!");
+            dispose();
         } catch (Exception ex) {
-            Logger.getLogger(AddEmployer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,"Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
         }
     }//GEN-LAST:event_bt_addEmployerActionPerformed
 
