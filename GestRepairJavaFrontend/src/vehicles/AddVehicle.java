@@ -5,8 +5,10 @@
  */
 package vehicles;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 
@@ -25,9 +27,11 @@ public final class AddVehicle extends javax.swing.JFrame {
      *
      * @param login
      * @param id
+     * @param user
      * @throws org.json.simple.parser.ParseException
      */
     public AddVehicle(String login, int id, String user) throws ParseException, Exception {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         l_id.setText(id+"");
         l_username.setText(user);
@@ -95,13 +99,14 @@ public final class AddVehicle extends javax.swing.JFrame {
         tf_fronttiresize = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_add = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         l_id = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Adicionar Viatura");
 
         jLabel1.setText("Matrícula");
 
@@ -126,7 +131,7 @@ public final class AddVehicle extends javax.swing.JFrame {
 
         jLabel5.setText("Data de Registo");
 
-        jLabel6.setText("Quilometros");
+        jLabel6.setText("Quilómetros");
 
         jLabel7.setText("CV");
 
@@ -148,10 +153,10 @@ public final class AddVehicle extends javax.swing.JFrame {
 
         jLabel10.setText("Pneu Trás");
 
-        jButton1.setText("Adicionar Viatura");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_add.setText("Adicionar Viatura");
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_addActionPerformed(evt);
             }
         });
 
@@ -172,7 +177,7 @@ public final class AddVehicle extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(bt_add))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -254,7 +259,7 @@ public final class AddVehicle extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(tf_reartiresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(bt_add)
                 .addContainerGap())
         );
 
@@ -271,25 +276,25 @@ public final class AddVehicle extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cb_brandActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
+    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
+        try {    
             api.POSTAddVehicle(log,id,newIdCb(cb_model.getSelectedIndex(), api.Model(log,newIdCb(cb_brand.getSelectedIndex(), api.Brand(log)))),tf_registration.getText(),newIdCb(cb_fuel.getSelectedIndex(), api.Fuel(log)),tf_horsepower.getText(),tf_displacement.getText(),tf_kilometers.getText(),tf_fronttiresize.getText(),tf_reartiresize.getText(),tf_date.getText());
-        } catch (ParseException ex) {
-            Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+            dispose();
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao Inserir os Dados");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bt_addActionPerformed
 
     private void tf_reartiresizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_reartiresizeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_reartiresizeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_add;
     private javax.swing.JComboBox cb_brand;
     private javax.swing.JComboBox cb_fuel;
     private javax.swing.JComboBox cb_model;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

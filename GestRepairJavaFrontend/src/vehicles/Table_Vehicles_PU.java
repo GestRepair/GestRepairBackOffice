@@ -5,6 +5,7 @@
  */
 package vehicles;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -16,7 +17,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import users.Table_Users;
 
 /**
  *
@@ -38,7 +38,7 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         log = login;
         idV = id;
         initComponents();
-       
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(DataToTable(api.GetVehicles(login,id)));
        
     }
@@ -109,17 +109,18 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         l_idVehicle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de viaturas");
 
         tbl_vehicles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilometros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
+                "ID", "Matrícula", "Marca", "Modelo", "CV", "Cilindrada", "Quilómetros", "Combustível", "Roda da Frente", "Roda de Trás", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -159,7 +160,7 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
 
         jLabel3.setText("CV");
 
-        jLabel4.setText("Quilometros");
+        jLabel4.setText("Quilómetros");
 
         jLabel5.setText("Pneu Frente");
 

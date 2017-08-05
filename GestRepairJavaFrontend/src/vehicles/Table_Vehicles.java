@@ -111,7 +111,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilometros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
+                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilómetros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
             }
         ) {
             boolean[] canEdit = new boolean [] {
