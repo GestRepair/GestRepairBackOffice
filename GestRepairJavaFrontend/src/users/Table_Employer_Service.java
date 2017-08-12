@@ -5,7 +5,6 @@
  */
 package users;
 
-import budgets.Table_Budgets_PU;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,43 +12,43 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import repairs.Table_Repairs_PU;
-import vehicles.AddVehicle;
-import vehicles.Table_Vehicles_PU;
+import services.APIService;
 
 /**
  *
  * @author Convite
  */
-public final class Table_Users_Type extends javax.swing.JFrame {
+public final class Table_Employer_Service extends javax.swing.JFrame {
 
     public String log, service;
     APIUsers api = new APIUsers();
+    APIService apiService = new APIService();
+
     /**
+     * Start the interface and need elements
      *
      * @param login
      * @param service
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users_Type(String login,String service) throws IOException, ParseException {
+    public Table_Employer_Service(String login, String service) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(contTableUser(api.getUL(login, 0)));
-        bt_info_func.setVisible(false);
-        bt_rep_func.setVisible(false);
-        tbl_users.setRowSelectionInterval(0, 0);
-        tbl_usersStart();
-        if(!"Gestor".equals(service)){
-            bt_edit.setVisible(false);
-            bt_addEmployer.setVisible(false);
-        }
+        insertCb(apiService.Service(login));
+        
+        showTable(api.ShowEmployer(login, 1,1));
+        tbl_usersStart(login);
         this.log = login;
         this.service = service;
+    }
+
+    public void insertCb(String[][] list) throws Exception {
+        
+        for (String[] list1 : list) {
+            cb_type.addItem(list1[1]);
+        }
     }
 
     public void cleanTable() {
@@ -57,69 +56,39 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
-    public void upTable(String login) throws IOException, ParseException {
+    public void upTable(String login) throws Exception {
         cleanTable();
-        showTable(contTableUser(api.getUL(login,cbType.getSelectedIndex())));
-        if (cbType.getSelectedIndex()== 0) {
-            bt_info_func.setVisible(false);
-            bt_rep_func.setVisible(false);
-        } else {
-            bt_info_func.setVisible(true);
-            bt_rep_func.setVisible(true);
-        }
-        tbl_usersStart();
-        log = login;
+        int cb = cb_type.getSelectedIndex();
+        showTable(api.ShowEmployer(login, 1,newIdCb(cb, apiService.Service(login))));
+        tbl_usersStart(login);
     }
 
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[9];
+        Object[] row = new Object[2];
         for (String[] list1 : list) {
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
             }
             mod.addRow(row);
         }
     }
 
-
-    /**
-     *
-     * @param list
-     * @return
-     */
-    @SuppressWarnings("empty-statement")
-    public String[][] contTableUser(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idUser") + "";
-                dataTable[i][1] = (String) datas.get("name");
-                dataTable[i][2] = (String) datas.get("street");
-                dataTable[i][3] = (String) datas.get("zipcode");
-                dataTable[i][4] = (String) datas.get("city");
-                dataTable[i][5] = (String) datas.get("email");
-                dataTable[i][6] = (String) datas.get("nif");
-                dataTable[i][7] = (String) datas.get("contact");
-                dataTable[i][8] = (String) datas.get("username");
-                //System.out.println( dataTable[i][0]+" "+dataTable[i][1]+" "+dataTable[i][2]+" "+dataTable[i][3]+" "+dataTable[i][4]+" "+dataTable[i][5]+" "+dataTable[i][6]+" "+dataTable[i][7]+" "+dataTable[i][8]+" "+dataTable[i][9]);               
-            };
-            return dataTable;
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
+    public int newIdCb(int val, String[][] list) {
+        return (val == 0)?1:parseInt(list[val-1][0]);
     }
-    private void tbl_usersStart() {                                       
-        // TODO add your handling code here:
+    /**
+     * 
+     * @param login
+     * @throws Exception 
+     */
+    private void tbl_usersStart(String login) throws Exception {
+        tbl_users.setRowSelectionInterval(0, 0);  
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 8) + "");
-    }                    
+        l_username.setText(mod.getValueAt(0, 1) + "");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,17 +105,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
-        bt_addEmployer = new javax.swing.JButton();
-        cbType = new javax.swing.JComboBox<String>();
-        bt_vehicles = new javax.swing.JButton();
-        bt_repair = new javax.swing.JButton();
-        bt_budgets = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        bt_info_func = new javax.swing.JButton();
-        bt_rep_func = new javax.swing.JButton();
-        bt_edit = new javax.swing.JButton();
-        bt_add_vehicle = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        cb_type = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -156,13 +115,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Lista de Utilizadores por catergoria");
+        setTitle("GestRepair - Lista de Funcionários por Serviço");
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
             new String [] {
-                "N.º Utilizador", "Nome", "Morada", "Código de Postal","Localidade","E-mail","NIF","Contacto","Username"
+                "N.º Funcionário", "Nome"
             }
         ));
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -182,68 +141,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
         l_username.setText("Nome");
 
-        bt_addEmployer.setText("Adicionar Funcionário");
-        bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
+        cb_type.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
+        cb_type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addEmployerActionPerformed(evt);
+                cb_typeActionPerformed(evt);
             }
         });
-
-        cbType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Funcionário" }));
-        cbType.setAutoscrolls(true);
-        cbType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTypeActionPerformed(evt);
-            }
-        });
-
-        bt_vehicles.setText("Ver Viaturas");
-        bt_vehicles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_vehiclesActionPerformed(evt);
-            }
-        });
-
-        bt_repair.setText("Ver Reparações");
-        bt_repair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_repairActionPerformed(evt);
-            }
-        });
-
-        bt_budgets.setText("Ver Orçamentos");
-        bt_budgets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_budgetsActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Ver Marcações");
-
-        bt_info_func.setText("Dados do Funcionário");
-        bt_info_func.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_info_funcActionPerformed(evt);
-            }
-        });
-
-        bt_rep_func.setText("Ver Reparações do Funcionário");
-
-        bt_edit.setText("Editar Utilizador");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
-
-        bt_add_vehicle.setText("Adicionar Viatura");
-        bt_add_vehicle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_add_vehicleActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Dados do Utilizador");
 
         jMenu1.setText("File");
 
@@ -286,39 +189,18 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(cb_type, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bt_add_vehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_repair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(linfoUser)
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(l_username))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_budgets, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(linfoUser)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(bt_vehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_info_func, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_addEmployer, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_rep_func))
-                        .addContainerGap(677, Short.MAX_VALUE))))
-            .addComponent(jScrollPane2)
+                        .addComponent(l_username)))
+                .addContainerGap(1076, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +208,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -334,23 +216,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                     .addComponent(linfoUser)
                     .addComponent(jLabel6)
                     .addComponent(l_username))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_edit)
-                    .addComponent(bt_rep_func))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_budgets)
-                    .addComponent(jButton1)
-                    .addComponent(bt_vehicles)
-                    .addComponent(bt_info_func))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_add_vehicle)
-                    .addComponent(bt_repair)
-                    .addComponent(jButton4)
-                    .addComponent(bt_addEmployer))
-                .addGap(25, 25, 25))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         pack();
@@ -366,106 +232,28 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 8) + "");
+        l_username.setText(mod.getValueAt(i, 1) + "");
     }//GEN-LAST:event_tbl_usersMouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(log,service).setVisible(true);
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
+            new Table_Employer_Service(log, service).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
+    private void cb_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_typeActionPerformed
         try {
-            String id = linfoUser.getText();
-                String user = l_username.getText();
-            if(cbType.getSelectedIndex()==0){
-                
-                new AddEmployer(log, id, user).setVisible(true);
-            }
-            
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addEmployerActionPerformed
-
-    private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
-        try {
-            if(cbType.getSelectedIndex()==0){
-                bt_addEmployer.setText("Adicionar Funcionário");
-            }else{
-                bt_addEmployer.setText("Editar Funcionário");
-            }
-            upTable(log);
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cbTypeActionPerformed
-
-    private void bt_vehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehiclesActionPerformed
-        try {
-            // TODO add your handling code here:
-            new Table_Vehicles_PU(log,parseInt(linfoUser.getText())).setVisible(true);
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_vehiclesActionPerformed
-
-    private void bt_info_funcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_info_funcActionPerformed
-        try {
-            new InfoEmployer(log,parseInt(linfoUser.getText())).setVisible(true);
+            upTable(this.log);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bt_info_funcActionPerformed
-
-    private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
-        try {
-            new Table_Repairs_PU(log,parseInt(linfoUser.getText())).setVisible(true);
-        } catch (IOException | ParseException | java.text.ParseException ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_repairActionPerformed
-
-    private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
-        try {
-            new Table_Budgets_PU(log,parseInt(linfoUser.getText())).setVisible(true);
-        } catch (IOException | ParseException | java.text.ParseException ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_budgetsActionPerformed
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            new EditUser(log,parseInt(linfoUser.getText())).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
-    private void bt_add_vehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_vehicleActionPerformed
-         try {
-            new AddVehicle(log,parseInt(linfoUser.getText()),l_username.getText()).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_add_vehicleActionPerformed
+    }//GEN-LAST:event_cb_typeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_addEmployer;
-    private javax.swing.JButton bt_add_vehicle;
-    private javax.swing.JButton bt_budgets;
-    private javax.swing.JButton bt_edit;
-    private javax.swing.JButton bt_info_func;
-    private javax.swing.JButton bt_rep_func;
-    private javax.swing.JButton bt_repair;
-    private javax.swing.JButton bt_vehicles;
-    private javax.swing.JComboBox<String> cbType;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox cb_type;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

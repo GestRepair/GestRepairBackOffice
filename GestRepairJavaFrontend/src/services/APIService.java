@@ -59,7 +59,7 @@ public class APIService {
     HttpURLConnection connection;
     Connect connect = new Connect();
 
-    public void conn(String login, URL url, String method) throws ParseException, IOException {
+    public void conn(String login, URL url, String method) throws Exception {
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
         String pass = newjson.get("password").toString();
@@ -180,7 +180,7 @@ public class APIService {
         }
     }
 
-    public String getService(String login) throws MalformedURLException, IOException, ParseException {
+    public String getService(String login) throws Exception {
         URL url;
         url = new URL(connect.IP() + "/service/comp");
 
@@ -205,7 +205,6 @@ public class APIService {
 
     @SuppressWarnings("empty-statement")
     public String[][] ListService(String list) {
-        JSONParser parser = new JSONParser();
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
@@ -226,7 +225,7 @@ public class APIService {
         }
     }
 
-    public String[][] Service(String login) throws IOException, ParseException {
+    public String[][] Service(String login) throws Exception {
         return ListService(getService(login));
     }
 
@@ -256,6 +255,16 @@ public class APIService {
         return info;
     }
 
+    /**
+     * Put Service with photo
+     * @param login
+     * @param id
+     * @param name
+     * @param price
+     * @param description
+     * @param photo
+     * @throws Exception
+     */
     public void PutService(String login, int id, String name, String price, String description, File photo) throws Exception {
         final File uploadFile = photo;
         Connection(login, "PUT", PUTUrl(id));
@@ -265,9 +274,20 @@ public class APIService {
         addFilePart("photo", uploadFile);
         finish(PUTUrl(id));
     }
-    public void PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {    
-        URL url = PUTUrlWithout(id) ;
-        conn(login,url,"PUT");
+
+    /**
+     * Put Service Whithout Photo
+     *
+     * @param login
+     * @param id
+     * @param name
+     * @param price
+     * @param description
+     * @throws Exception
+     */
+    public void PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
+        URL url = PUTUrlWithout(id);
+        conn(login, url, "PUT");
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();

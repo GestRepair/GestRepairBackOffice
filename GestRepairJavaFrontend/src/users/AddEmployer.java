@@ -7,8 +7,6 @@ package users;
 
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
@@ -33,7 +31,7 @@ public final class AddEmployer extends javax.swing.JFrame {
      * @throws java.io.IOException
      * @throws org.json.simple.parser.ParseException
      */
-    public AddEmployer(String login, String id, String username) throws IOException, ParseException {
+    public AddEmployer(String login, String id, String username) throws  Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.log = login;
         initComponents();
@@ -44,17 +42,13 @@ public final class AddEmployer extends javax.swing.JFrame {
 
     public void showService(String[][] list) {
         cbService.removeAllItems();
-        for (int i = 0; i < list.length; i++) {
-            cbService.addItem(list[i][1]);
+        for (String[] list1 : list) {
+            cbService.addItem(list1[1]);
         }
     }
 
     public int newIdCb(int val, String[][] list) {
-        if (val == 0) {
-            return 1;
-        } else {
-            return parseInt(list[val][0]);
-        }
+        return (val  < 1)? 1: parseInt(list[val][0]);
     }
 
     /**

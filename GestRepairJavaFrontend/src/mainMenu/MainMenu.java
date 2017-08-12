@@ -6,7 +6,13 @@
 package mainMenu;
 
 import budgets.MainBudgets;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.awt.Toolkit;
+import java.math.BigInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.WindowConstants;
+import login.login_menu;
 import services.Create_Service;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,6 +22,8 @@ import schedule.MainSchedule;
 import services.APIService;
 import services.MainServices;
 import users.APIUsers;
+import users.EditPassword;
+import users.EditUser;
 import users.MainUsers;
 import vehicles.MainVehicles;
 
@@ -31,20 +39,21 @@ public final class MainMenu extends javax.swing.JFrame {
      * @param dados
      * @throws java.lang.Exception
      */
-    private String login, service;
-   
+    private String login, service, password;
+    private int id;
     public MainMenu(String login,String dados) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         setMenu(login, dados);
         setLogin(login);
     } 
-     public void setLogin(String log){
-        this.login= log;
+     public void setLogin(String login){
+        this.login= login;
     }
     public String getLogin(){
-        return login;
+        return this.login;
     };
+    
     public void setMenu(String login,String dados) throws Exception{
         APIUsers api = new APIUsers();
         String service;
@@ -58,9 +67,13 @@ public final class MainMenu extends javax.swing.JFrame {
                 l_nome.setText(newjsondata.get("name").toString());
                 long idUser = (long) newjsondata.get("idUser");
                 int id = (int)idUser; 
+                this.id = id;
+                                
                 service = api.GetInfoEmployer(login,id)[2];
                 this.service = service;
                 l_service.setText(service);
+                
+                
             }catch(ParseException pe){
                 System.out.println("Erro");
             }
@@ -89,6 +102,12 @@ public final class MainMenu extends javax.swing.JFrame {
         bt_providers = new javax.swing.JButton();
         l_id_nome1 = new javax.swing.JLabel();
         l_service = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        m_session = new javax.swing.JMenu();
+        mi_edit = new javax.swing.JMenuItem();
+        mi_change_pass = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        MI_Exit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GestRepair - Menu Principal");
@@ -153,6 +172,44 @@ public final class MainMenu extends javax.swing.JFrame {
 
         l_service.setText("Seviço");
 
+        m_session.setText("Sessão");
+
+        mi_edit.setText("Editar");
+        mi_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_editActionPerformed(evt);
+            }
+        });
+        m_session.add(mi_edit);
+
+        mi_change_pass.setText("Alterar Password");
+        mi_change_pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_change_passActionPerformed(evt);
+            }
+        });
+        m_session.add(mi_change_pass);
+
+        jMenuItem1.setText("Terminar Sessão");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        m_session.add(jMenuItem1);
+
+        MI_Exit.setText("Sair");
+        MI_Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ExitActionPerformed(evt);
+            }
+        });
+        m_session.add(MI_Exit);
+
+        jMenuBar1.add(m_session);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,33 +220,32 @@ public final class MainMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(bt_veiculos, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                .addComponent(bt_utilizadores, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                .addComponent(bt_repair, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                .addComponent(bt_budgets, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                .addComponent(bt_Schedule, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                                .addComponent(bt_veiculos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_utilizadores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_repair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_budgets, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_Schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(bt_services, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(bt_parts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bt_providers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(bt_providers, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(l_id_nome1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(l_service)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addContainerGap(8, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(l_id_nome)
                         .addGap(18, 18, 18)
                         .addComponent(l_nome)
                         .addGap(51, 51, 51)
                         .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(l_id_nome)
@@ -219,8 +275,7 @@ public final class MainMenu extends javax.swing.JFrame {
                         .addComponent(bt_providers))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
@@ -228,7 +283,6 @@ public final class MainMenu extends javax.swing.JFrame {
 
     private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
         new MainUsers(getLogin(),service).setVisible(true);
-
     }//GEN-LAST:event_bt_utilizadoresActionPerformed
 
     private void bt_servicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_servicesActionPerformed
@@ -251,8 +305,35 @@ public final class MainMenu extends javax.swing.JFrame {
         new MainSchedule(getLogin()).setVisible(true);
     }//GEN-LAST:event_bt_ScheduleActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new login_menu().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void MI_ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_MI_ExitActionPerformed
+
+    private void mi_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_editActionPerformed
+        try {
+            new EditUser(this.login,this.id).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_editActionPerformed
+
+    private void mi_change_passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_change_passActionPerformed
+        try {
+            new EditPassword(this.login,this.id).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_change_passActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MI_Exit;
     private javax.swing.JButton bt_Schedule;
     private javax.swing.JButton bt_budgets;
     private javax.swing.JButton bt_parts;
@@ -263,10 +344,15 @@ public final class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton bt_veiculos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel l_id_nome;
     private javax.swing.JLabel l_id_nome1;
     private javax.swing.JLabel l_nome;
     private javax.swing.JLabel l_service;
+    private javax.swing.JMenu m_session;
+    private javax.swing.JMenuItem mi_change_pass;
+    private javax.swing.JMenuItem mi_edit;
     // End of variables declaration//GEN-END:variables
 
 }

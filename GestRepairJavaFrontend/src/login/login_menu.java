@@ -130,7 +130,6 @@ public class login_menu extends javax.swing.JFrame {
         try {
             @SuppressWarnings("deprecation")
             String[] session = api.post(txt_username.getText(), txp_password.getText());
-            JSONParser parser = new JSONParser();
             try {
                 JSONObject newjson = (JSONObject) new JSONParser().parse(session[1]);
                 //Obtém o resultado do Post: "OK" ou "NOK"
@@ -151,7 +150,6 @@ public class login_menu extends javax.swing.JFrame {
                 //Depois de Fazer Login Fecha o Menu de Login 
             } catch (ParseException pe) {
                 //caso exista erro no parse
-                //System.err.println(pe);
                 JOptionPane.showMessageDialog(this, pe);
                 
             }

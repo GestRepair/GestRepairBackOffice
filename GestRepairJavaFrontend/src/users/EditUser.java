@@ -6,8 +6,6 @@
 package users;
 
 import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -227,7 +225,7 @@ public final class EditUser extends javax.swing.JFrame {
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
-            api.putUsr(log,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
+            api.PutUser(log,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
             JOptionPane.showMessageDialog(this,"Utilizador editado com sucesso");
             dispose();
         } catch (Exception ex) {

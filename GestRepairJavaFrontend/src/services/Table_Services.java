@@ -33,7 +33,7 @@ public final class Table_Services extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      * @throws java.text.ParseException
      */
-    public Table_Services(String login) throws IOException, MalformedURLException, ParseException, java.text.ParseException {
+    public Table_Services(String login) throws Exception {
         log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));

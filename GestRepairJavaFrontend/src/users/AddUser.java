@@ -240,7 +240,7 @@ public class AddUser extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         try {
-            api.PostUsr(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
+            api.PostUser(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
             JOptionPane.showMessageDialog(this,"Utilizador Adicionado com Sucesso");
             dispose();
         } catch (Exception ex) {

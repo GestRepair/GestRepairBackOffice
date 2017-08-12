@@ -6,10 +6,8 @@
 package users;
 
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -19,6 +17,8 @@ public class MainUsers extends javax.swing.JFrame {
     public String log, service;
     /**
      * Creates new form mainVehicles
+     * @param login
+     * @param service
      */
     public MainUsers(String login,String service) {
         initComponents();
@@ -144,7 +144,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void bt_showUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersActionPerformed
         try {
             new Table_Users(log,service).setVisible(true);
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_showUsersActionPerformed
@@ -152,25 +152,41 @@ public class MainUsers extends javax.swing.JFrame {
     private void bt_showUsersTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersTypeActionPerformed
         try {
             new Table_Users_Type(log,service).setVisible(true);
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_showUsersTypeActionPerformed
 
     private void bt_func_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_listActionPerformed
-        // TODO add your handling code here:
+        try {
+            new Table_Employer(log,service).setVisible(true);
+        }  catch (Exception ex) {
+            Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_func_listActionPerformed
 
     private void bt_func_list_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_typeActionPerformed
-        // TODO add your handling code here:
+        try {
+            new Table_Employer_Service(log,service).setVisible(true);
+        }  catch (Exception ex) {
+            Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_func_list_typeActionPerformed
 
     private void bt_func_list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            new Table_Employer_Service_Old(log,service).setVisible(true);
+        }  catch (Exception ex) {
+            Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_func_list1ActionPerformed
 
     private void bt_func_list_type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_type1ActionPerformed
-        // TODO add your handling code here:
+        try {
+            new Table_Employer_Service_Old(log,service).setVisible(true);
+        }  catch (Exception ex) {
+            Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_func_list_type1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

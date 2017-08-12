@@ -29,25 +29,26 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     public String log, service;
     APIUsers api = new APIUsers();
+
     /**
+     * Start the interface and need elements
      *
      * @param login
      * @param service
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users_Type(String login,String service) throws IOException, ParseException {
+    public Table_Users_Type(String login, String service) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(contTableUser(api.getUL(login, 0)));
+        showTable(api.ShowUser(login, 0));
         bt_info_func.setVisible(false);
         bt_rep_func.setVisible(false);
         tbl_users.setRowSelectionInterval(0, 0);
         tbl_usersStart();
-        if(!"Gestor".equals(service)){
-            bt_edit.setVisible(false);
-            bt_addEmployer.setVisible(false);
-        }
+        Boolean isGest = "Gestor".equals(service);
+        bt_edit.setVisible(isGest);
+        bt_addEmployer.setVisible(isGest);
         this.log = login;
         this.service = service;
     }
@@ -57,18 +58,14 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
-    public void upTable(String login) throws IOException, ParseException {
+    public void upTable(String login) throws Exception {
         cleanTable();
-        showTable(contTableUser(api.getUL(login,cbType.getSelectedIndex())));
-        if (cbType.getSelectedIndex()== 0) {
-            bt_info_func.setVisible(false);
-            bt_rep_func.setVisible(false);
-        } else {
-            bt_info_func.setVisible(true);
-            bt_rep_func.setVisible(true);
-        }
+        int cb = cbType.getSelectedIndex();
+        showTable(api.ShowUser(login, cb));
+        bt_info_func.setVisible(cb != 0);
+        bt_rep_func.setVisible(cb != 0);
         tbl_usersStart();
-        log = login;
+        this.log = login;
     }
 
     public void showTable(String[][] list) {
@@ -82,44 +79,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
-
-    /**
-     *
-     * @param list
-     * @return
-     */
-    @SuppressWarnings("empty-statement")
-    public String[][] contTableUser(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idUser") + "";
-                dataTable[i][1] = (String) datas.get("name");
-                dataTable[i][2] = (String) datas.get("street");
-                dataTable[i][3] = (String) datas.get("zipcode");
-                dataTable[i][4] = (String) datas.get("city");
-                dataTable[i][5] = (String) datas.get("email");
-                dataTable[i][6] = (String) datas.get("nif");
-                dataTable[i][7] = (String) datas.get("contact");
-                dataTable[i][8] = (String) datas.get("username");
-                //System.out.println( dataTable[i][0]+" "+dataTable[i][1]+" "+dataTable[i][2]+" "+dataTable[i][3]+" "+dataTable[i][4]+" "+dataTable[i][5]+" "+dataTable[i][6]+" "+dataTable[i][7]+" "+dataTable[i][8]+" "+dataTable[i][9]);               
-            };
-            return dataTable;
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
-    private void tbl_usersStart() {                                       
+    private void tbl_usersStart() {
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(0, 0) + "");
         l_username.setText(mod.getValueAt(0, 8) + "");
-    }                    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -372,35 +338,33 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(log,service).setVisible(true);
-        } catch (IOException | ParseException ex) {
-            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
+            new Table_Users_Type(log, service).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
         try {
             String id = linfoUser.getText();
-                String user = l_username.getText();
-            if(cbType.getSelectedIndex()==0){
-                
-                new AddEmployer(log, id, user).setVisible(true);
-            }
-            
-        } catch (IOException | ParseException ex) {
+            String user = l_username.getText();
+            int cb = cbType.getSelectedIndex();
+            new AddEmployer(log, id, user).setVisible(cb == 0);
+
+        } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_addEmployerActionPerformed
 
     private void cbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTypeActionPerformed
         try {
-            if(cbType.getSelectedIndex()==0){
+            if (cbType.getSelectedIndex() == 0) {
                 bt_addEmployer.setText("Adicionar Funcionário");
-            }else{
+            } else {
                 bt_addEmployer.setText("Editar Funcionário");
             }
             upTable(log);
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cbTypeActionPerformed
@@ -408,7 +372,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void bt_vehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehiclesActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Vehicles_PU(log,parseInt(linfoUser.getText())).setVisible(true);
+            new Table_Vehicles_PU(log, parseInt(linfoUser.getText())).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -416,7 +380,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     private void bt_info_funcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_info_funcActionPerformed
         try {
-            new InfoEmployer(log,parseInt(linfoUser.getText())).setVisible(true);
+            new InfoEmployer(log, parseInt(linfoUser.getText())).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -424,7 +388,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
         try {
-            new Table_Repairs_PU(log,parseInt(linfoUser.getText())).setVisible(true);
+            new Table_Repairs_PU(log, parseInt(linfoUser.getText())).setVisible(true);
         } catch (IOException | ParseException | java.text.ParseException ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -432,7 +396,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
         try {
-            new Table_Budgets_PU(log,parseInt(linfoUser.getText())).setVisible(true);
+            new Table_Budgets_PU(log, parseInt(linfoUser.getText())).setVisible(true);
         } catch (IOException | ParseException | java.text.ParseException ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -440,15 +404,15 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
-            new EditUser(log,parseInt(linfoUser.getText())).setVisible(true);
+            new EditUser(log, parseInt(linfoUser.getText())).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
     private void bt_add_vehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_vehicleActionPerformed
-         try {
-            new AddVehicle(log,parseInt(linfoUser.getText()),l_username.getText()).setVisible(true);
+        try {
+            new AddVehicle(log, parseInt(linfoUser.getText()), l_username.getText()).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }

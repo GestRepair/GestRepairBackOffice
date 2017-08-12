@@ -31,71 +31,30 @@ public final class Table_Users extends javax.swing.JFrame {
     /**
      *
      * @param login
+     * @param service
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users(String login, String service) throws IOException, ParseException {
+    public Table_Users(String login, String service) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();      
-        showTable(contTableUser(api.getUL(login,2)));
+        showTable(api.ShowUser(login,2));
         tbl_usersStart();
         this.log = login;
         this.service = service;
     }
 
-    /**
-     *
-     * @param list
-     */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         Object[] row = new Object[10];
         for (String[] list1 : list) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
             }
             mod.addRow(row);
         }
     }
 
-
-    /**
-     *
-     * @param list
-     * @return
-     */
-    @SuppressWarnings("empty-statement")
-    public String[][] contTableUser(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idUser") + "";
-                dataTable[i][1] = (String) datas.get("name");
-                dataTable[i][2] = (String) datas.get("street");
-                dataTable[i][3] = (String) datas.get("zipcode");
-                dataTable[i][4] = (String) datas.get("city");
-                dataTable[i][5] = (String) datas.get("email");
-                dataTable[i][6] = (String) datas.get("nif");
-                dataTable[i][7] = (String) datas.get("contact");
-                dataTable[i][8] = (String) datas.get("username");
-                long x = (long) datas.get("isEmployer");
-                if ( x == 1 ) {
-                    dataTable[i][9] = "Funcionário";
-                }else{
-                    dataTable[i][9] = "Cliente";
-                }
-                         
-            };
-            return dataTable;
-        } catch (ParseException pe) {
-            JOptionPane.showMessageDialog(this,"Erro a mostrar a tabela");
-            return null;
-        }
-    }
     private void tbl_usersStart() {                                       
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
@@ -127,6 +86,7 @@ public final class Table_Users extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Lista de Utilizadores");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
@@ -262,7 +222,7 @@ public final class Table_Users extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             new Table_Users_Type(log,service).setVisible(true);
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed

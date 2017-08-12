@@ -85,7 +85,7 @@ public class MainServices extends javax.swing.JFrame {
         try {
             new Table_Services(log).setVisible(true);
             dispose();
-        } catch (IOException | ParseException | java.text.ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainServices.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_listServicesActionPerformed
