@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.user;
 
+import users.APIUsers;
+import users.employer.InfoEmployer;
+import users.employer.AddEmployer;
 import budgets.Table_Budgets_PU;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -13,9 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import repairs.Table_Repairs_PU;
 import vehicles.AddVehicle;
@@ -40,7 +40,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
      */
     public Table_Users_Type(String login, String service) throws Exception {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.ShowUser(login, 0));
         bt_info_func.setVisible(false);
         bt_rep_func.setVisible(false);
@@ -72,7 +72,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         Object[] row = new Object[9];
         for (String[] list1 : list) {
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
             }
             mod.addRow(row);

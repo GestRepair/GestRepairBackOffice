@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.employer;
 
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
+import users.APIUsers;
 
 /**
  *
@@ -32,7 +33,7 @@ public final class AddEmployer extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public AddEmployer(String login, String id, String username) throws  Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         this.log = login;
         initComponents();
         lnuser.setText(id);

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.employer;
 
 import java.awt.Toolkit;
+import users.APIUsers;
 
 /**
  *
@@ -22,7 +23,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public InfoEmployer(String login,int id) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         log = login;
         idUser = id;

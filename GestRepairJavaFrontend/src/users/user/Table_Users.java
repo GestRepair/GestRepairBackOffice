@@ -3,21 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.user;
 
+import users.APIUsers;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import vehicles.Table_Vehicles_PU;
 
 /**
  *
  * @author Convite
  */
-public final class Table_Employer_Old extends javax.swing.JFrame {
+public final class Table_Users extends javax.swing.JFrame {
 
     
     public String log, service;
@@ -29,22 +32,18 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer_Old(String login, String service) throws IOException, ParseException, Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+    public Table_Users(String login, String service) throws Exception {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();      
-        showTable(api.ShowEmployer(login,0,0));
+        showTable(api.ShowUser(login,2));
         tbl_usersStart();
         this.log = login;
         this.service = service;
     }
 
-    /**
-     *
-     * @param list
-     */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[3];
+        Object[] row = new Object[10];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
@@ -52,12 +51,12 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
-    
+
     private void tbl_usersStart() {                                       
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 1) + "");
+        l_username.setText(mod.getValueAt(0, 8) + "");
     }       
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,6 +73,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
+        bt_vehicles = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -83,18 +83,18 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Lista de Antigos Funcionários");
+        setTitle("Lista de Utilizadores");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
             new String [] {
-                "N.º Funcionário", "Nome", "Serviço"
+                "N.º Utilizador", "Nome", "Morada", "Código de Postal","Localidade","E-mail","NIF","Contacto","Username","Tipo de Utilizador"
             }
         ){
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -118,6 +118,13 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     linfoUser.setText("id");
 
     l_username.setText("username");
+
+    bt_vehicles.setText("Ver Veículos");
+    bt_vehicles.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_vehiclesActionPerformed(evt);
+        }
+    });
 
     jMenu1.setText("File");
 
@@ -165,7 +172,9 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
                             .addGap(88, 88, 88)
                             .addComponent(linfoUser))
                         .addComponent(jLabel1))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_vehicles, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jLabel6)
                     .addGap(36, 36, 36)
@@ -178,13 +187,14 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_vehicles)
                 .addComponent(jLabel1)
                 .addComponent(linfoUser))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel6)
                 .addComponent(l_username))
-            .addContainerGap(39, Short.MAX_VALUE))
+            .addContainerGap(30, Short.MAX_VALUE))
     );
 
     pack();
@@ -200,7 +210,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 1) + "");
+        l_username.setText(mod.getValueAt(i, 8) + "");
 
         //addItem(mod.getValueAt(i, 9)+"");
     }//GEN-LAST:event_tbl_usersMouseClicked
@@ -210,11 +220,21 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             // TODO add your handling code here:
             new Table_Users_Type(log,service).setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void bt_vehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehiclesActionPerformed
+        try {
+            // TODO add your handling code here:
+            new Table_Vehicles_PU(log,parseInt(linfoUser.getText())).setVisible(true);
+        } catch (IOException | ParseException ex) {
+            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_vehiclesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_vehicles;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;

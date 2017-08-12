@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.employer;
 
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -14,38 +14,41 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
+import users.APIUsers;
 
 /**
  *
  * @author Convite
  */
-public final class Table_Employer_Service_Old extends javax.swing.JFrame {
+public final class Table_Employer_Service extends javax.swing.JFrame {
 
-    public String log, service;
+    public String login, service;
     APIUsers api = new APIUsers();
     APIService apiService = new APIService();
+    private final int idEmployer;
 
     /**
      * Start the interface and need elements
      *
      * @param login
      * @param service
+     * @param idEmployer
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer_Service_Old(String login, String service) throws Exception {
+    public Table_Employer_Service(String login, String service, int idEmployer) throws Exception {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         insertCb(apiService.Service(login));
-        
-        showTable(api.ShowEmployer(login, 0,1));
-        tbl_usersStart(login);
-        this.log = login;
+        showTable(api.ShowEmployer(login, 1, 1));
+        tbl_usersStart();
+        bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
+        this.login = login;
         this.service = service;
+        this.idEmployer = idEmployer;
     }
 
     public void insertCb(String[][] list) throws Exception {
-        
         for (String[] list1 : list) {
             cb_type.addItem(list1[1]);
         }
@@ -56,13 +59,22 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
+    /**
+     *
+     * @param login
+     * @throws Exception
+     */
     public void upTable(String login) throws Exception {
         cleanTable();
         int cb = cb_type.getSelectedIndex();
-        showTable(api.ShowEmployer(login, 0,newIdCb(cb, apiService.Service(login))));
-        tbl_usersStart(login);
+        showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
+        tbl_usersStart();
     }
 
+    /**
+     *
+     * @param list
+     */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         Object[] row = new Object[2];
@@ -74,19 +86,45 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
-    public int newIdCb(int val, String[][] list) {
-        return (val == 0)?1:parseInt(list[val-1][0]);
-    }
     /**
-     * 
-     * @param login
-     * @throws Exception 
+     *
+     * @param val
+     * @param list
+     * @return
      */
-    private void tbl_usersStart(String login) throws Exception {
-        tbl_users.setRowSelectionInterval(0, 0);  
+    public int newIdCb(int val, String[][] list) {
+        return (val == 0) ? 1 : parseInt(list[val - 1][0]);
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    private void tbl_usersStart() throws Exception {
         TableModel mod = tbl_users.getModel();
-        linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 1) + "");
+        if (tbl_users.getModel().getRowCount() > 0) {
+            tbl_users.setRowSelectionInterval(0, 0);
+            linfoUser.setText(mod.getValueAt(0, 0) + "");
+            l_username.setText(mod.getValueAt(0, 1) + "");
+        }
+    }
+
+    /**
+     *
+     * @param login
+     */
+    public void disable(String login) {
+        try {
+            String disable = api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0);
+            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+            model.setRowCount(0);
+            tbl_usersStart();
+            int cb = cb_type.getSelectedIndex();
+            showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
+            System.out.println(disable);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -106,6 +144,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
         cb_type = new javax.swing.JComboBox();
+        bt_disable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -115,7 +154,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Lista de Antigos Funcionárioas por Serviço");
+        setTitle("GestRepair - Lista de Funcionários por Serviço");
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +184,13 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         cb_type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_typeActionPerformed(evt);
+            }
+        });
+
+        bt_disable.setText("Desabilitar");
+        bt_disable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_disableActionPerformed(evt);
             }
         });
 
@@ -184,6 +230,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,9 +245,9 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_username)))
-                .addContainerGap(1076, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
+                        .addComponent(l_username))
+                    .addComponent(bt_disable))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +263,9 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                     .addComponent(linfoUser)
                     .addComponent(jLabel6)
                     .addComponent(l_username))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_disable)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -233,26 +282,32 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
+        bt_disable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
-            // TODO add your handling code here:
-            new Table_Employer_Service_Old(log, service).setVisible(true);
+            new Table_Employer_Service(this.login, this.service, this.idEmployer).setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void cb_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_typeActionPerformed
         try {
-            upTable(this.log);
+            upTable(this.login);
+            bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cb_typeActionPerformed
 
+    private void bt_disableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_disableActionPerformed
+        disable(this.login);
+    }//GEN-LAST:event_bt_disableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_disable;
     private javax.swing.JComboBox cb_type;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;

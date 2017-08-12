@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.user;
 
+import users.APIUsers;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -21,18 +19,19 @@ import org.json.simple.parser.ParseException;
  */
 public class EditPassword extends javax.swing.JFrame {
 
-    private String login, password;
-    private int id;
+    private final String login, password;
+    private final int id;
     APIUsers api = new APIUsers();
 
     /**
      * Creates new form EditPassword
      *
      * @param login
+     * @param id
      * @throws java.lang.Exception
      */
     public EditPassword(String login, int id) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         JSONObject auth = (JSONObject) new JSONParser().parse(login);
         this.password = (String) auth.get("password");
@@ -64,7 +63,6 @@ public class EditPassword extends javax.swing.JFrame {
         } else if (x == JOptionPane.NO_OPTION) {
             JOptionPane.showMessageDialog(this, "A Password não foi alterada");
         }
-
     }
 
     /**

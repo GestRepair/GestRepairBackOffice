@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.employer;
 
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -11,7 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import users.APIUsers;
+import users.user.Table_Users_Type;
 
 /**
  *
@@ -20,22 +23,27 @@ import org.json.simple.parser.ParseException;
 public final class Table_Employer extends javax.swing.JFrame {
 
     
-    public String log, service;
+    public String login, service;
+    private final int idEmployer;
     APIUsers api = new APIUsers();
     /**
      *
      * @param login
      * @param service
+     * @param idEmployer
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer(String login, String service) throws IOException, ParseException, Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+    public Table_Employer(String login, String service, int idEmployer) throws IOException, ParseException, Exception {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();      
         showTable(api.ShowEmployer(login,1,0));
         tbl_usersStart();
-        this.log = login;
+        bt_disable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+        this.login = login;
         this.service = service;
+        this.idEmployer = idEmployer;
+        
     }
 
     /**
@@ -56,9 +64,27 @@ public final class Table_Employer extends javax.swing.JFrame {
     private void tbl_usersStart() {                                       
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
-        linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 1) + "");
-    }       
+        if (mod.getRowCount()>0) {
+            linfoUser.setText(mod.getValueAt(0, 0) + "");
+            l_username.setText(mod.getValueAt(0, 1) + "");
+        }
+    }   
+    /**
+     * 
+     * @param login
+     */
+    public void disable(String login){
+        try {
+            String disable = api.ActivityEmplyer(login,parseInt(linfoUser.getText()),0);
+            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+            model.setRowCount(0);  
+            showTable(api.ShowEmployer(login,1,0));
+            tbl_usersStart();
+            System.out.println(disable);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,6 +100,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
+        bt_disable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -118,6 +145,13 @@ public final class Table_Employer extends javax.swing.JFrame {
     linfoUser.setText("id");
 
     l_username.setText("username");
+
+    bt_disable.setText("Desabilitar");
+    bt_disable.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_disableActionPerformed(evt);
+        }
+    });
 
     jMenu1.setText("File");
 
@@ -167,9 +201,12 @@ public final class Table_Employer extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jLabel6)
-                    .addGap(36, 36, 36)
-                    .addComponent(l_username)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addGap(36, 36, 36)
+                            .addComponent(l_username))
+                        .addComponent(bt_disable))
                     .addGap(0, 0, Short.MAX_VALUE))))
     );
     layout.setVerticalGroup(
@@ -184,7 +221,9 @@ public final class Table_Employer extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel6)
                 .addComponent(l_username))
-            .addContainerGap(39, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bt_disable)
+            .addContainerGap())
     );
 
     pack();
@@ -201,20 +240,24 @@ public final class Table_Employer extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
-
-        //addItem(mod.getValueAt(i, 9)+"");
+        bt_disable.setVisible(this.idEmployer!=parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(log,service).setVisible(true);
+            new Table_Users_Type(login,service).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void bt_disableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_disableActionPerformed
+        disable(this.login);
+    }//GEN-LAST:event_bt_disableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_disable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;

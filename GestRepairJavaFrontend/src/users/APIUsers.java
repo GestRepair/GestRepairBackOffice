@@ -129,7 +129,28 @@ public class APIUsers {
     public String[][] ShowUser(String login, int id) throws Exception {
         return ParseUsers(GetUserList(login, id), id);
     }
-    
+    public String ActivityEmplyer(String login, int id, int opt) throws Exception {
+        URL url = new URL(connect.IP() + "/user/employer/" + id+"/activity/"+opt);
+        conn(login, url, "PUT");
+        JSONObject objp;
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            objp = new JSONObject();
+            out.write(objp.toString());
+            out.flush();
+        }
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
+        return (String) res.get("result");
+    }
     public String PutPassword(String login, int id, String oldpassword, String newpassword) throws Exception {
         URL url = new URL(connect.IP() + "/chpass/" + id);
         conn(login, url, "PUT");

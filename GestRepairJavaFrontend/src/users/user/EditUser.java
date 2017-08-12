@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.user;
 
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
+import users.APIUsers;
 
 /**
  *
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public final class EditUser extends javax.swing.JFrame {
     APIUsers api = new APIUsers();
-    String log;
+    String login;
     /**
      * Creates new form editUser
      * @param login
@@ -23,8 +24,8 @@ public final class EditUser extends javax.swing.JFrame {
      */
     public EditUser(String login,int id) throws Exception {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        this.log = login;
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
+        this.login = login;
         GetInfo(login,id);
     }
     public void GetInfo(String login,int id) throws Exception{
@@ -37,17 +38,9 @@ public final class EditUser extends javax.swing.JFrame {
         tf_email.setText(emp[5]);
         tf_contact.setText(emp[6]);
         tf_nif.setText(emp[7]);
-        if ("1".equals(emp[10])){
-            l_type.setText("Funcionário");
-        } else{
-            l_type.setText("Cliente");
-        }
-        if ("1".equals(emp[9])){
-            l_state.setText("Ativo");
-        } else{
-            l_state.setText("Inativo");
-        }  
         l_username.setText(emp[8]);
+        l_state.setText(("1".equals(emp[9]))?"Ativo":"Inativo");        
+        l_type.setText(("1".equals(emp[10]))?"Funcionário":"Cliente");  
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,7 +218,7 @@ public final class EditUser extends javax.swing.JFrame {
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
-            api.PutUser(log,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
+            api.PutUser(this.login,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
             JOptionPane.showMessageDialog(this,"Utilizador editado com sucesso");
             dispose();
         } catch (Exception ex) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package users.employer;
 
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -14,14 +14,16 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
+import users.APIUsers;
 
 /**
  *
  * @author Convite
  */
-public final class Table_Employer_Service extends javax.swing.JFrame {
+public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
-    public String log, service;
+    public String login, service;
+    private final int idEmployer;
     APIUsers api = new APIUsers();
     APIService apiService = new APIService();
 
@@ -30,22 +32,24 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      *
      * @param login
      * @param service
+     * @param idEmployer
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer_Service(String login, String service) throws Exception {
+    public Table_Employer_Service_Old(String login, String service, int idEmployer) throws Exception {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         insertCb(apiService.Service(login));
-        
-        showTable(api.ShowEmployer(login, 1,1));
-        tbl_usersStart(login);
-        this.log = login;
+        bt_enable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+        showTable(api.ShowEmployer(login, 0, 1));
+        tbl_usersStart();
+        this.login = login;
         this.service = service;
+        this.idEmployer = idEmployer;
     }
 
     public void insertCb(String[][] list) throws Exception {
-        
+
         for (String[] list1 : list) {
             cb_type.addItem(list1[1]);
         }
@@ -59,8 +63,8 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     public void upTable(String login) throws Exception {
         cleanTable();
         int cb = cb_type.getSelectedIndex();
-        showTable(api.ShowEmployer(login, 1,newIdCb(cb, apiService.Service(login))));
-        tbl_usersStart(login);
+        showTable(api.ShowEmployer(login, 0, newIdCb(cb, apiService.Service(login))));
+        tbl_usersStart();
     }
 
     public void showTable(String[][] list) {
@@ -75,18 +79,22 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     }
 
     public int newIdCb(int val, String[][] list) {
-        return (val == 0)?1:parseInt(list[val-1][0]);
+        return (val == 0) ? 1 : parseInt(list[val - 1][0]);
     }
+
     /**
-     * 
+     *
      * @param login
-     * @throws Exception 
+     * @throws Exception
      */
-    private void tbl_usersStart(String login) throws Exception {
-        tbl_users.setRowSelectionInterval(0, 0);  
+    private void tbl_usersStart() throws Exception {
         TableModel mod = tbl_users.getModel();
-        linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 1) + "");
+        if (mod.getRowCount()>0) {
+            tbl_users.setRowSelectionInterval(0, 0);
+            linfoUser.setText(mod.getValueAt(0, 0) + "");
+            l_username.setText(mod.getValueAt(0, 1) + "");
+        }
+
     }
 
     /**
@@ -106,6 +114,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
         cb_type = new javax.swing.JComboBox();
+        bt_enable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -115,7 +124,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Lista de Funcionários por Serviço");
+        setTitle("GestRepair - Lista de Antigos Funcionários por Serviço");
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +154,13 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         cb_type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_typeActionPerformed(evt);
+            }
+        });
+
+        bt_enable.setText("Reademitir");
+        bt_enable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_enableActionPerformed(evt);
             }
         });
 
@@ -184,6 +200,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,9 +215,9 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_username)))
-                .addContainerGap(1076, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
+                        .addComponent(l_username))
+                    .addComponent(bt_enable))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +233,9 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
                     .addComponent(linfoUser)
                     .addComponent(jLabel6)
                     .addComponent(l_username))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_enable)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -233,26 +252,45 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
+        bt_enable.setVisible(this.idEmployer!=parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
-
+    public void enable(String login){
+        try {
+            String disable = api.ActivityEmplyer(login,parseInt(linfoUser.getText()),1);
+            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+            model.setRowCount(0);
+            int cb = cb_type.getSelectedIndex();
+            showTable(api.ShowEmployer(login, 0,newIdCb(cb, apiService.Service(login))));
+            tbl_usersStart();
+            System.out.println(disable);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Employer_Service(log, service).setVisible(true);
+            new Table_Employer_Service_Old(this.login, this.service, this.idEmployer).setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void cb_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_typeActionPerformed
         try {
-            upTable(this.log);
+            upTable(this.login);
+            bt_enable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cb_typeActionPerformed
 
+    private void bt_enableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_enableActionPerformed
+        enable(this.login);
+    }//GEN-LAST:event_bt_enableActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_enable;
     private javax.swing.JComboBox cb_type;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
