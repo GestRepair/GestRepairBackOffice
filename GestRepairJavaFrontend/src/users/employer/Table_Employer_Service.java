@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -106,6 +107,9 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
             l_username.setText(mod.getValueAt(0, 1) + "");
+        }else{
+            linfoUser.setText("");
+            l_username.setText("");
         }
     }
 
@@ -115,15 +119,22 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      */
     public void disable(String login) {
         try {
-            String disable = api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0);
-            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
-            model.setRowCount(0);
-            tbl_usersStart();
-            int cb = cb_type.getSelectedIndex();
-            showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
-            System.out.println(disable);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0))) {
+                    DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+                    model.setRowCount(0);
+                    int cb = cb_type.getSelectedIndex();
+                    showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
+                    tbl_usersStart();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O funcionário não foi desativado");
+            }
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Erro Interno");
         }
     }
 

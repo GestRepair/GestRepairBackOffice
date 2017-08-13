@@ -7,8 +7,8 @@ package users.user;
 
 import users.APIUsers;
 import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,14 +19,23 @@ public class AddUser extends javax.swing.JFrame {
 
     public String log;
     APIUsers api = new APIUsers();
+
     /**
      * Creates new form AddUserForm
+     *
      * @param login
      */
     public AddUser(String login) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         log = login;
+    }
+    
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
     }
 
     /**
@@ -61,7 +70,7 @@ public class AddUser extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Adiciomar Utilizador");
+        setTitle("GestRepair - Adicionar Utilizador");
 
         jLabel5.setText("Localidade:");
 
@@ -238,19 +247,33 @@ public class AddUser extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_usernameKeyTyped
 
     private void bt_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_userActionPerformed
-        // TODO add your handling code here:
-        
         try {
-            api.PostUser(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(),tf_username.getText());
-            JOptionPane.showMessageDialog(this,"Utilizador Adicionado com Sucesso");
-            dispose();
+            if (!"".equals(tf_username.getText()) || !"".equals(tfnome.getText()) || !"".equals(tfmorada.getText()) || !"".equals(tfcodp.getText()) || !"".equals(tflocalidade.getText()) || !"".equals(tfemail.getText()) || !"".equals(tfnif.getText())) {
+                //https://stackoverflow.com/questions/8204680/java-regex-email
+                if(validate(tfemail.getText())==true){
+                    int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if (x == JOptionPane.YES_OPTION) {
+                        if ("ok".equals(api.PostUser(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(), tf_username.getText()))) {
+                            JOptionPane.showMessageDialog(this, "Utilizador adicionado com sucesso");
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Erro Interno");
+                        }
+                    }else if (x == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(this, "O utilizador não foi adicionado");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Email Inválido");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Preencha os dados por favor");
+            }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Erro a Adicionar Utilizador");
+            JOptionPane.showMessageDialog(this, "Erro a adicionar utilizador");
         }
     }//GEN-LAST:event_bt_add_userActionPerformed
 
     private void m_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_exitActionPerformed
-        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_m_exitActionPerformed
 

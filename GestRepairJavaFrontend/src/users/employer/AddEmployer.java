@@ -145,7 +145,11 @@ public final class AddEmployer extends javax.swing.JFrame {
             idUsr = parseInt(lnuser.getText());
             serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
             api.PostEmployer(log, idUsr, serv);
-            JOptionPane.showMessageDialog(this,"Dados inseridos com sucesso!");
+            if ("ok".equals(api.PostEmployer(log, idUsr, serv))) {
+                JOptionPane.showMessageDialog(this,"Dados inseridos com sucesso!");
+            }else{
+                JOptionPane.showMessageDialog(this,"Erro ao inserir os dados!");
+            }
             dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,"Erro a adicionar funcionário!\n Verifique se os dados estão corretos");

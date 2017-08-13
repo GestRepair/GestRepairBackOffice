@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -22,10 +24,10 @@ import users.user.Table_Users_Type;
  */
 public final class Table_Employer extends javax.swing.JFrame {
 
-    
     public String login, service;
     private final int idEmployer;
     APIUsers api = new APIUsers();
+
     /**
      *
      * @param login
@@ -36,14 +38,13 @@ public final class Table_Employer extends javax.swing.JFrame {
      */
     public Table_Employer(String login, String service, int idEmployer) throws IOException, ParseException, Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        initComponents();      
-        showTable(api.ShowEmployer(login,1,0));
+        initComponents();
+        showTable(api.ShowEmployer(login, 1, 0));
         tbl_usersStart();
-        bt_disable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+        bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         this.login = login;
         this.service = service;
         this.idEmployer = idEmployer;
-        
     }
 
     /**
@@ -60,31 +61,43 @@ public final class Table_Employer extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
-    
-    private void tbl_usersStart() {                                       
+
+    private void tbl_usersStart() {
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
-        if (mod.getRowCount()>0) {
+        if (mod.getRowCount() > 0) {
             linfoUser.setText(mod.getValueAt(0, 0) + "");
             l_username.setText(mod.getValueAt(0, 1) + "");
-        }
-    }   
-    /**
-     * 
-     * @param login
-     */
-    public void disable(String login){
-        try {
-            String disable = api.ActivityEmplyer(login,parseInt(linfoUser.getText()),0);
-            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
-            model.setRowCount(0);  
-            showTable(api.ShowEmployer(login,1,0));
-            tbl_usersStart();
-            System.out.println(disable);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            linfoUser.setText("");
+            l_username.setText("");
         }
     }
+
+    /**
+     *
+     * @param login
+     */
+    public void disable(String login) {
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0))) {
+                    DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+                    model.setRowCount(0);
+                    showTable(api.ShowEmployer(login, 1, 0));
+                    tbl_usersStart();
+                }else{
+                    JOptionPane.showMessageDialog(this,"Erro Interno");
+                }
+            }else if(x == JOptionPane.NO_OPTION){
+                JOptionPane.showMessageDialog(this, "O funcionário não foi desativado");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro Interno");
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,13 +253,13 @@ public final class Table_Employer extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
-        bt_disable.setVisible(this.idEmployer!=parseInt(linfoUser.getText()));
+        bt_disable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(login,service).setVisible(true);
+            new Table_Users_Type(login, service).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
         }

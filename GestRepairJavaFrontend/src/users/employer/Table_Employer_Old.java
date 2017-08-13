@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -22,7 +23,6 @@ import users.user.Table_Users_Type;
  */
 public final class Table_Employer_Old extends javax.swing.JFrame {
 
-    
     public String login, service;
     private final int idEmployer;
     APIUsers api = new APIUsers();
@@ -37,18 +37,18 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      */
     public Table_Employer_Old(String login, String service, int idEmployer) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        initComponents();      
-        showTable(api.ShowEmployer(login,0,0));
+        initComponents();
+        showTable(api.ShowEmployer(login, 0, 0));
         tbl_usersStart();
-        bt_enable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+        bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         this.login = login;
         this.service = service;
         this.idEmployer = idEmployer;
     }
 
     /**
-     * 
-     * @param list 
+     *
+     * @param list
      */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
@@ -60,33 +60,46 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
+
     /**
-     * 
+     *
      */
     @Override
-    public void enable(){
+    public void enable() {
         try {
-            String disable = api.ActivityEmplyer(this.login,parseInt(linfoUser.getText()),1);
-            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
-            model.setRowCount(0);
-            tbl_usersStart();
-            showTable(api.ShowEmployer(login,0,0));
-            System.out.println(disable);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer reademitir este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
+                    DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+                    model.setRowCount(0);
+                    showTable(api.ShowEmployer(login, 0, 0));
+                    tbl_usersStart();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O funcionário não foi readmitido");
+            }
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Erro Interno");
         }
     }
+
     /**
-     * 
+     *
      */
-    private void tbl_usersStart() {                                       
+    private void tbl_usersStart() {
         TableModel mod = tbl_users.getModel();
-        if (mod.getRowCount()>0) {
+        if (mod.getRowCount() > 0) {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
-            l_username.setText(mod.getValueAt(0, 1) + ""); 
+            l_username.setText(mod.getValueAt(0, 1) + "");
+        }else{
+            linfoUser.setText("");
+            l_username.setText("");
         }
-    }       
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -236,8 +249,8 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void tbl_usersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_usersMouseClicked
         // TODO add your handling code here:
@@ -245,23 +258,23 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
-        bt_enable.setVisible(this.idEmployer!=parseInt(linfoUser.getText()));
+        bt_enable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(login,service).setVisible(true);
+            new Table_Users_Type(login, service).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
     /**
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void bt_enableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_enableActionPerformed
         enable();

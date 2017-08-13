@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -40,7 +41,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         insertCb(apiService.Service(login));
-        bt_enable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+        bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         showTable(api.ShowEmployer(login, 0, 1));
         tbl_usersStart();
         this.login = login;
@@ -89,12 +90,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
      */
     private void tbl_usersStart() throws Exception {
         TableModel mod = tbl_users.getModel();
-        if (mod.getRowCount()>0) {
+        if (mod.getRowCount() > 0) {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
             l_username.setText(mod.getValueAt(0, 1) + "");
+        } else {
+            linfoUser.setText("");
+            l_username.setText("");
         }
-
     }
 
     /**
@@ -252,19 +255,26 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
         l_username.setText(mod.getValueAt(i, 1) + "");
-        bt_enable.setVisible(this.idEmployer!=parseInt(linfoUser.getText()));
+        bt_enable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
-    public void enable(String login){
+    public void enable(String login) {
         try {
-            String disable = api.ActivityEmplyer(login,parseInt(linfoUser.getText()),1);
-            DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
-            model.setRowCount(0);
-            int cb = cb_type.getSelectedIndex();
-            showTable(api.ShowEmployer(login, 0,newIdCb(cb, apiService.Service(login))));
-            tbl_usersStart();
-            System.out.println(disable);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
+                    DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
+                    model.setRowCount(0);
+                    int cb = cb_type.getSelectedIndex();
+                    showTable(api.ShowEmployer(login, 0, newIdCb(cb, apiService.Service(login))));
+                    tbl_usersStart();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O funcionário não foi reademitido");
+            }
         } catch (Exception ex) {
-            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Erro Interno");
         }
     }
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -279,7 +289,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
     private void cb_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_typeActionPerformed
         try {
             upTable(this.login);
-            bt_enable.setVisible((tbl_users.getModel().getRowCount()>0)?idEmployer!=parseInt(linfoUser.getText()):false);
+            bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
         }

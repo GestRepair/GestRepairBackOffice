@@ -46,8 +46,8 @@ public class APIUsers {
      *Users
      */
 
-    public void PostUser(String login, String name, String street, String zipCode, String city, String email, String nif, String contact, String username) throws Exception {
-        URL url = new URL(connect.IP() + "/user");
+    public String PostUser(String login, String name, String street, String zipCode, String city, String email, String nif, String contact, String username) throws Exception {
+        URL url = new URL(connect.IP() + "/user/desk");
         conn(login, url, "POST");
 
         JSONObject objp;
@@ -74,8 +74,9 @@ public class APIUsers {
         while ((line = br.readLine()) != null) {
             json += line;
         }
-        System.out.println(json);
         connection.disconnect();
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
+        return (String) res.get("result");
     }
 
     public String GetUserList(String login, int id) throws Exception {
@@ -201,8 +202,9 @@ public class APIUsers {
         while ((line = br.readLine()) != null) {
             json += line;
         }
-        //System.out.println(json);
         connection.disconnect();
+        /*JSONObject res = (JSONObject) new JSONParser().parse(json);
+        return (String) res.get("result");*/
     }
 
     public String[] GetInfoUser(String login, int id) throws Exception {
@@ -240,7 +242,7 @@ public class APIUsers {
      *Employers
      */
 
-    public void PostEmployer(String login, int idUser, int service) throws Exception {
+    public String PostEmployer(String login, int idUser, int service) throws Exception {
         URL url = new URL(connect.IP() + "/user/employer");
         conn(login, url, "POST");
         JSONObject objp;
@@ -261,6 +263,8 @@ public class APIUsers {
             json += line;
         }
         connection.disconnect();
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
+        return (String) res.get("result");
     }
 
     public String GetListEmployer(String login, int id, int serv) throws Exception {
