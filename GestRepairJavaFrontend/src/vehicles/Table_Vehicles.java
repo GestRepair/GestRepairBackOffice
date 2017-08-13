@@ -5,6 +5,7 @@
  */
 package vehicles;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -34,6 +35,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
     public Table_Vehicles(String login) throws IOException, MalformedURLException, ParseException {
         log = login;
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(DataToTable(api.GetVehicles(login,0)));
        
     }
@@ -105,13 +107,14 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         l_idVehicle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de Viaturas");
 
         tbl_vehicles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilómetros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
+                "ID", "Matrícula", "Marca", "Modelo", "CV", "Cilindrada", "Quilómetros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
             }
         ) {
             boolean[] canEdit = new boolean [] {

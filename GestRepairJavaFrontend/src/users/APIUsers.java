@@ -266,6 +266,29 @@ public class APIUsers {
         JSONObject res = (JSONObject) new JSONParser().parse(json);
         return (String) res.get("result");
     }
+    public String PutEmployer(String login, int id, int service) throws Exception {
+        URL url = new URL(connect.IP() + "/user/employer/"+id);
+        conn(login, url, "PUT");
+        JSONObject objp;
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            objp = new JSONObject();
+            objp.put("service", service);
+            out.write(objp.toString());
+            out.flush();
+        }
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
+        return (String) res.get("result");
+    }
 
     public String GetListEmployer(String login, int id, int serv) throws Exception {
         URL url = new URL(connect.IP() + "/user/employer/type/" + id +((serv==0)?"":"/"+serv));
@@ -295,15 +318,17 @@ public class APIUsers {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
 
-            String[][] dataTable = new String[data.size()][(serv==0)?3:2];
+            String[][] dataTable = new String[data.size()][(serv==0)?4:3];
             for (int i = 0; i < data.size(); i++) {
 
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idEmployer") + "";
-                dataTable[i][1] = (String) datas.get("name");
+                dataTable[i][1] = (long) datas.get("user")+"";
+                dataTable[i][2] = (String) datas.get("name");
                 if (serv == 0){
-                    dataTable[i][2] = (String) datas.get("service");
+                    dataTable[i][3] = (String) datas.get("service");
                 }
+                
             };
             return dataTable;
         } catch (ParseException pe) {

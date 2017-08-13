@@ -5,6 +5,7 @@
  */
 package vehicles;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,14 +15,16 @@ import java.util.logging.Logger;
  */
 public class AddBrand extends javax.swing.JFrame {
 
-    public String log;
-    APIVehicles sav = new APIVehicles();
+    public String login;
+    APIVehicles api = new APIVehicles();
 
     /**
      * Creates new form addBrand
+     * @param login
      */
     public AddBrand(String login) {
-        log = login;
+        this.login = login;
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
     }
 
@@ -39,6 +42,7 @@ public class AddBrand extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Adicionar Marca");
 
         bt_addBrand.setText("Adicionar Marca");
         bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +87,7 @@ public class AddBrand extends javax.swing.JFrame {
 
     private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
         try {
-            sav.PostBrand(log, tf_brand.getText());
+            api.PostBrand(login, tf_brand.getText());
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);

@@ -98,7 +98,7 @@
                               <Component id="l_username" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton1" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="bt_userdata" min="-2" pref="150" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="bt_budgets" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
@@ -137,15 +137,15 @@
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="l_username" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="bt_edit" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bt_rep_func" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="bt_rep_func" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_edit" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="9" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_budgets" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_userdata" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_vehicles" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_info_func" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -286,10 +286,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_vehicleActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="bt_userdata">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dados do Utilizador"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_userdataActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -5,15 +5,19 @@
  */
 package users.user;
 
+import budgets.Table_Budgets_PU;
 import users.APIUsers;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import repairs.Table_Repairs_PU;
+import vehicles.AddVehicle;
 import vehicles.Table_Vehicles_PU;
 
 /**
@@ -23,7 +27,7 @@ import vehicles.Table_Vehicles_PU;
 public final class Table_Users extends javax.swing.JFrame {
 
     
-    public String log, service;
+    public String login, service;
     APIUsers api = new APIUsers();
     /**
      *
@@ -37,7 +41,7 @@ public final class Table_Users extends javax.swing.JFrame {
         initComponents();      
         showTable(api.ShowUser(login,2));
         tbl_usersStart();
-        this.log = login;
+        this.login = login;
         this.service = service;
     }
 
@@ -73,7 +77,13 @@ public final class Table_Users extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
-        bt_vehicles = new javax.swing.JButton();
+        bt_edit = new javax.swing.JButton();
+        bt_userdata = new javax.swing.JButton();
+        bt_add_vehicle = new javax.swing.JButton();
+        bt_vehicles1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        bt_budgets = new javax.swing.JButton();
+        bt_repair = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -119,10 +129,47 @@ public final class Table_Users extends javax.swing.JFrame {
 
     l_username.setText("username");
 
-    bt_vehicles.setText("Ver Veículos");
-    bt_vehicles.addActionListener(new java.awt.event.ActionListener() {
+    bt_edit.setText("Editar Utilizador");
+    bt_edit.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bt_vehiclesActionPerformed(evt);
+            bt_editActionPerformed(evt);
+        }
+    });
+
+    bt_userdata.setText("Dados do Utilizador");
+    bt_userdata.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_userdataActionPerformed(evt);
+        }
+    });
+
+    bt_add_vehicle.setText("Adicionar Viatura");
+    bt_add_vehicle.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_add_vehicleActionPerformed(evt);
+        }
+    });
+
+    bt_vehicles1.setText("Ver Viaturas");
+    bt_vehicles1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_vehicles1ActionPerformed(evt);
+        }
+    });
+
+    jButton4.setText("Ver Marcações");
+
+    bt_budgets.setText("Ver Orçamentos");
+    bt_budgets.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_budgetsActionPerformed(evt);
+        }
+    });
+
+    bt_repair.setText("Ver Reparações");
+    bt_repair.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_repairActionPerformed(evt);
         }
     });
 
@@ -162,24 +209,36 @@ public final class Table_Users extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bt_add_vehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bt_repair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bt_userdata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(bt_budgets, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(bt_vehicles1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(88, 88, 88)
                             .addComponent(linfoUser))
                         .addComponent(jLabel1))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_vehicles, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap())
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jLabel6)
                     .addGap(36, 36, 36)
-                    .addComponent(l_username)
-                    .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jLabel6)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(l_username)))
+            .addContainerGap(728, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,14 +246,23 @@ public final class Table_Users extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(bt_vehicles)
                 .addComponent(jLabel1)
-                .addComponent(linfoUser))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(linfoUser)
                 .addComponent(jLabel6)
                 .addComponent(l_username))
-            .addContainerGap(30, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(bt_edit)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_budgets)
+                .addComponent(bt_userdata)
+                .addComponent(bt_vehicles1))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_add_vehicle)
+                .addComponent(bt_repair)
+                .addComponent(jButton4))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
@@ -218,23 +286,67 @@ public final class Table_Users extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(log,service).setVisible(true);
+            new Table_Users_Type(login,service).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void bt_vehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehiclesActionPerformed
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
+        try {
+            new EditUser(login, parseInt(linfoUser.getText())).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_editActionPerformed
+
+    private void bt_userdataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_userdataActionPerformed
+        try
+        {new InfoUser(this.login,parseInt(linfoUser.getText())).setVisible(true);}
+        catch(Exception e){JOptionPane.showMessageDialog(this, e);}
+    }//GEN-LAST:event_bt_userdataActionPerformed
+
+    private void bt_add_vehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_vehicleActionPerformed
+        try {
+            new AddVehicle(login, parseInt(linfoUser.getText()), l_username.getText()).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_add_vehicleActionPerformed
+
+    private void bt_vehicles1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehicles1ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Vehicles_PU(log,parseInt(linfoUser.getText())).setVisible(true);
+            new Table_Vehicles_PU(login, parseInt(linfoUser.getText())).setVisible(true);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_bt_vehiclesActionPerformed
+    }//GEN-LAST:event_bt_vehicles1ActionPerformed
+
+    private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
+        try {
+            new Table_Budgets_PU(login, parseInt(linfoUser.getText())).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_budgetsActionPerformed
+
+    private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
+        try {
+            new Table_Repairs_PU(login, parseInt(linfoUser.getText())).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_repairActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_vehicles;
+    private javax.swing.JButton bt_add_vehicle;
+    private javax.swing.JButton bt_budgets;
+    private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_repair;
+    private javax.swing.JButton bt_userdata;
+    private javax.swing.JButton bt_vehicles1;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;

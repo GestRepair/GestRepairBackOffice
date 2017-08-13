@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
@@ -44,6 +45,8 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         showTable(api.ShowEmployer(login, 0, 1));
         tbl_usersStart();
+        TableColumn col = tbl_users.getColumnModel().getColumn(1);
+        tbl_users.removeColumn(col);
         this.login = login;
         this.service = service;
         this.idEmployer = idEmployer;
@@ -70,7 +73,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[2];
+        Object[] row = new Object[3];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
@@ -93,7 +96,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         if (mod.getRowCount() > 0) {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
-            l_username.setText(mod.getValueAt(0, 1) + "");
+            l_username.setText(mod.getValueAt(0, 2) + "");
         } else {
             linfoUser.setText("");
             l_username.setText("");
@@ -118,6 +121,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         cb_type = new javax.swing.JComboBox();
         bt_enable = new javax.swing.JButton();
+        bt_edit = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -133,7 +137,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "N.º Funcionário", "Nome"
+                "N.º Funcionário","N.º de Utilizador","Nome"
             }
         ));
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -166,6 +170,8 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                 bt_enableActionPerformed(evt);
             }
         });
+
+        bt_edit.setText("Editar");
 
         jMenu1.setText("File");
 
@@ -219,7 +225,10 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(l_username))
-                    .addComponent(bt_enable))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bt_edit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_enable)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -237,8 +246,10 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(l_username))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_enable)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_enable)
+                    .addComponent(bt_edit))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,12 +265,12 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 1) + "");
+        l_username.setText(mod.getValueAt(i, 2) + "");
         bt_enable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
     public void enable(String login) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
@@ -300,6 +311,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_enableActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_enable;
     private javax.swing.JComboBox cb_type;
     private javax.swing.JLabel jLabel1;

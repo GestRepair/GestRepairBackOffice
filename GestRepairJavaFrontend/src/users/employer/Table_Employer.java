@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
@@ -41,6 +41,8 @@ public final class Table_Employer extends javax.swing.JFrame {
         initComponents();
         showTable(api.ShowEmployer(login, 1, 0));
         tbl_usersStart();
+        TableColumn col = tbl_users.getColumnModel().getColumn(1);
+        tbl_users.removeColumn(col);
         bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         this.login = login;
         this.service = service;
@@ -53,21 +55,25 @@ public final class Table_Employer extends javax.swing.JFrame {
      */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[3];
+        Object[] row = new Object[4];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
             }
             mod.addRow(row);
         }
+          
     }
-
+    public void cleanTable() {
+        DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+        mod.setRowCount(0);
+    }
     private void tbl_usersStart() {
-        // TODO add your handling code here:
+        
         TableModel mod = tbl_users.getModel();
         if (mod.getRowCount() > 0) {
             linfoUser.setText(mod.getValueAt(0, 0) + "");
-            l_username.setText(mod.getValueAt(0, 1) + "");
+            l_username.setText(mod.getValueAt(0, 2) + "");
         }else{
             linfoUser.setText("");
             l_username.setText("");
@@ -80,11 +86,10 @@ public final class Table_Employer extends javax.swing.JFrame {
      */
     public void disable(String login) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar este funcionário?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this,"Tem a certeza que quer desabilitar o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0))) {
-                    DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
-                    model.setRowCount(0);
+                    cleanTable();
                     showTable(api.ShowEmployer(login, 1, 0));
                     tbl_usersStart();
                 }else{
@@ -114,6 +119,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
         bt_disable = new javax.swing.JButton();
+        bt_edit = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -130,11 +136,11 @@ public final class Table_Employer extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "N.º Funcionário", "Nome", "Serviço"
+                "N.º Funcionário","N.º Utilizador" ,"Nome", "Serviço"
             }
         ){
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false,false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -163,6 +169,13 @@ public final class Table_Employer extends javax.swing.JFrame {
     bt_disable.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             bt_disableActionPerformed(evt);
+        }
+    });
+
+    bt_edit.setText("Editar");
+    bt_edit.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bt_editActionPerformed(evt);
         }
     });
 
@@ -219,8 +232,11 @@ public final class Table_Employer extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addGap(36, 36, 36)
                             .addComponent(l_username))
-                        .addComponent(bt_disable))
-                    .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(bt_edit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(bt_disable)))
+                    .addGap(0, 1036, Short.MAX_VALUE))))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,9 +250,11 @@ public final class Table_Employer extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel6)
                 .addComponent(l_username))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(bt_disable)
-            .addContainerGap())
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(bt_disable)
+                .addComponent(bt_edit))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
@@ -252,7 +270,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 1) + "");
+        l_username.setText(mod.getValueAt(i, 2) + "");
         bt_disable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
     }//GEN-LAST:event_tbl_usersMouseClicked
 
@@ -269,8 +287,19 @@ public final class Table_Employer extends javax.swing.JFrame {
         disable(this.login);
     }//GEN-LAST:event_bt_disableActionPerformed
 
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
+        try {
+            int i = tbl_users.getSelectedRow();
+            new EditEmployer(this.login,parseInt(api.ShowEmployer(login, 1, 0)[i][1])).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_editActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_disable;
+    private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;

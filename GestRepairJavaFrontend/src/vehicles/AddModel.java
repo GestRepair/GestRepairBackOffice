@@ -5,6 +5,7 @@
  */
 package vehicles;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -15,8 +16,8 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public final class AddModel extends javax.swing.JFrame {
 
-    public String log;
-    APIVehicles sav = new APIVehicles();
+    public String login;
+    APIVehicles api = new APIVehicles();
 
     /**
      * Creates new form addBrand
@@ -24,9 +25,10 @@ public final class AddModel extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddModel(String login) throws Exception {
-        log = login;
+        this.login = login;
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
-        showBrand(sav.Brand(login));
+        showBrand(api.Brand(login));
     }
     public void showBrand(String[][] list) {
         CB_Brands.removeAllItems();
@@ -57,6 +59,7 @@ public final class AddModel extends javax.swing.JFrame {
         CB_Brands = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Adicionar Modelo");
 
         bt_addModel.setText("Adicionar Modelo");
         bt_addModel.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +109,7 @@ public final class AddModel extends javax.swing.JFrame {
 
     private void bt_addModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addModelActionPerformed
         try {
-            sav.PostModel(log,newIdCb(CB_Brands.getSelectedIndex(),sav.Brand(log)),tf_model.getText());
+            api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),api.Brand(this.login)),tf_model.getText());
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);

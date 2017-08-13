@@ -39,7 +39,7 @@ public class EditPassword extends javax.swing.JFrame {
         this.id = id;
     }
 
-    public void VerifyPass(String login, String password) throws Exception {
+    public void ChangePass(String login, String password) throws Exception {
         int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
             if (this.password.equals(tf_pass_act.getText())) {
@@ -141,7 +141,7 @@ public class EditPassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            VerifyPass(this.login, this.password);
+            ChangePass(this.login, this.password);
         } catch (Exception ex) {
             Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
         }

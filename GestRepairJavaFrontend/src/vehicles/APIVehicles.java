@@ -100,7 +100,7 @@ public class APIVehicles {
         connection.disconnect();
     }
 
-    public String getBrands(String login) throws Exception {
+    private String GetBrands(String login) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/brand");
         conn(login, url, "GET");
         //Get Response  
@@ -119,7 +119,49 @@ public class APIVehicles {
         connection.disconnect();
         return json;
     }
-    public String getModels(String login,int id) throws Exception {
+    private String[][] ListBrand(String list) {
+        try {
+            JSONObject jo = (JSONObject) new JSONParser().parse(list);
+            JSONArray data = (JSONArray) jo.get("data");
+            String[][] dataTable = new String[data.size()][10];
+            for (int i = 0; i < data.size(); i++) {
+                JSONObject datas = (JSONObject) data.get(i);
+                dataTable[i][0] = (long) datas.get("idBrand") + "";
+                dataTable[i][1] = (String) datas.get("nameBrand");
+            };
+            return dataTable;
+
+        } catch (ParseException pe) {
+            System.out.println("Erro");
+            return null;
+        }
+    }
+    public String[][] Brand(String login) throws IOException, ParseException, Exception {
+        return ListBrand(GetBrands(login));
+    }
+    public String[] InfoBrand(String login, int id) throws Exception{
+        URL url = new URL(connect.IP() + "/vehicle/brand/"+id);
+        conn(login, url, "GET");
+
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] emp = new String[2];
+        emp[0] = (long) newjsondata.get("idBrand") + "";
+        emp[1] = (String) newjsondata.get("nameBrand");
+        return emp;
+    }
+    public String GetModels(String login,int id) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/"+id+"/model/");
         conn(login, url, "GET");
         //Get Response  
@@ -137,6 +179,27 @@ public class APIVehicles {
         }
         connection.disconnect();
         return json;
+    }
+    @SuppressWarnings("empty-statement")
+    public String[][] ListModels(String list) {
+        try {
+            JSONObject jo = (JSONObject) new JSONParser().parse(list);
+            JSONArray data = (JSONArray) jo.get("data");
+            String[][] dataTable = new String[data.size()][10];
+            for (int i = 0; i < data.size(); i++) {
+                JSONObject datas = (JSONObject) data.get(i);
+                dataTable[i][0] = (long) datas.get("idModel") + "";
+                dataTable[i][1] = (String) datas.get("nameModel");
+            };
+            return dataTable;
+
+        } catch (ParseException pe) {
+            System.out.println("Erro");
+            return null;
+        }
+    }
+    public String[][] Model(String login, int id) throws IOException, ParseException, Exception {
+        return ListModels(GetModels(login,id));
     }
     public String getFuels(String login) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/fuel");
@@ -157,43 +220,6 @@ public class APIVehicles {
         connection.disconnect();
         return json;
     }
-
-    public String[][] ListBrand(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idBrand") + "";
-                dataTable[i][1] = (String) datas.get("nameBrand");
-            };
-            return dataTable;
-
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
-
-    @SuppressWarnings("empty-statement")
-    public String[][] ListModels(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
-            for (int i = 0; i < data.size(); i++) {
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idModel") + "";
-                dataTable[i][1] = (String) datas.get("nameModel");
-            };
-            return dataTable;
-
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
     public String[][] ListFuels(String list) {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
@@ -211,12 +237,7 @@ public class APIVehicles {
             return null;
         }
     }
-    public String[][] Brand(String login) throws IOException, ParseException, Exception {
-        return ListBrand(getBrands(login));
-    }
-    public String[][] Model(String login, int id) throws IOException, ParseException, Exception {
-        return ListModels(getModels(login,id));
-    }
+    
     public String[][] Fuel(String login) throws IOException, ParseException, Exception {
         return ListFuels(getFuels(login));
     }
