@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vehicles;
+package vehicles.brands;
 
+import vehicles.brands.Table_Brand;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
@@ -25,7 +27,7 @@ public final class EditBrand extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditBrand(String login,int id) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         InfoBrand(login, id);
         this.login = login;     

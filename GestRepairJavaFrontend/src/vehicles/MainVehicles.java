@@ -5,6 +5,11 @@
  */
 package vehicles;
 
+import vehicles.vehicles.Table_Vehicles;
+import vehicles.models.Table_Model;
+import vehicles.models.AddModel;
+import vehicles.brands.AddBrand;
+import vehicles.brands.Table_Brand;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;

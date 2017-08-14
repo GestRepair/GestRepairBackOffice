@@ -14,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -456,23 +457,25 @@ public class APIVehicles {
         return json;
     }
 
-    public void PutVehicle(String login, String id, String registration, String horsepower, String displacement, String kilometers, String fronttiresize, String reartiresize) throws Exception {
+    public String PutVehicle(String login, int id, String[] data) throws Exception {
         URL url = new URL(connect.IP() + "/vehicle/" + id);
         conn(login, url, "PUT");
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             objp = new JSONObject();
-            objp.put("registration", registration);
-            objp.put("horsepower", horsepower);
-            objp.put("kilometers", kilometers);
-            objp.put("displacement", displacement);
-            objp.put("fronttiresize", fronttiresize);
-            objp.put("reartiresize", reartiresize);
+            objp.put("registration", data[1]);
+            objp.put("model", data[2]);
+            objp.put("horsepower", data[3]);
+            objp.put("displacement", data[4]);
+            objp.put("kilometers", data[5]);
+            objp.put("fuel", data[6]);
+            objp.put("fronttiresize", data[7]);
+            objp.put("reartiresize", data[8]);
+            objp.put("date", data[9]);
             out.write(objp.toString());
             out.flush();
         }
-        int res = connection.getResponseCode();
-
+        connection.getResponseCode();
         InputStream is = connection.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String line = null;
@@ -480,7 +483,40 @@ public class APIVehicles {
         while ((line = br.readLine()) != null) {
             json += line;
         }
-        System.out.println(json);
         connection.disconnect();
+        JSONObject res = (JSONObject)new JSONParser().parse(json);
+        return (String) res.get("result");
+    }
+    
+    public String[] InfoVehicle(String login, int id) throws Exception{
+        URL url = new URL(connect.IP() + "/vehicle/"+id);
+        conn(login, url, "GET");
+
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] emp = new String[11];
+        emp[0] = (long) newjsondata.get("idVehicle") + "";
+        emp[1] = (String) newjsondata.get("nameBrand");
+        emp[2] = (String) newjsondata.get("nameModel");
+        emp[3] = (String) newjsondata.get("registration");
+        emp[4] = (long) newjsondata.get("horsepower") + "";
+        emp[5] = (long) newjsondata.get("displacement")+"";
+        emp[6] = (long) newjsondata.get("kilometers") + "";
+        emp[7] = (String) newjsondata.get("nameFuel");
+        emp[8] = (String) newjsondata.get("fronttiresize");
+        emp[9] = (String) newjsondata.get("reartiresize");
+        emp[10] = (String) newjsondata.get("date");
+        return emp;
     }
 }

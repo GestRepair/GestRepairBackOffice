@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vehicles;
+package vehicles.brands;
 
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.bind.DatatypeConverter;
+import vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 /**
  *
@@ -25,7 +25,7 @@ public class Table_Brand extends javax.swing.JFrame {
      */
     public Table_Brand(String login) throws Exception {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         Table(api.Brand(login));
         row(0);
         this.login = login;

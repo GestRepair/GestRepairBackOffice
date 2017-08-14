@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vehicles;
+package vehicles.vehicles;
 
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import vehicles.APIVehicles;
 
 /**
  *
@@ -38,7 +39,7 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         log = login;
         idV = id;
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(DataToTable(api.GetVehicles(login,id)));
        
     }
@@ -267,7 +268,7 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         // TODO add your handling code here:
         try {
-            api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
+            //api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
             DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
             mod.setRowCount(0);
             showTable(DataToTable(api.GetVehicles(log,idV)));

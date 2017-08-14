@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vehicles;
+package vehicles.vehicles;
 
 import java.awt.Toolkit;
 import java.util.logging.Level;
@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
+import vehicles.APIVehicles;
 
 /**
  *
@@ -31,7 +32,7 @@ public final class AddVehicle extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public AddVehicle(String login, int id, String user) throws ParseException, Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_id.setText(id+"");
         l_username.setText(user);
@@ -269,8 +270,6 @@ public final class AddVehicle extends javax.swing.JFrame {
     private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
         try {
             showModel(api.Model(log, newIdCb(cb_brand.getSelectedIndex(), api.Brand(log))));
-        } catch (ParseException ex) {
-            Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }

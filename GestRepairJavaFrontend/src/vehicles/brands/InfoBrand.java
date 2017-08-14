@@ -1,9 +1,13 @@
-package vehicles;
+package vehicles.brands;
 
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import vehicles.APIVehicles;
+import vehicles.models.EditModel;
+import vehicles.models.InfoModel;
+import vehicles.models.Table_Model;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /*
@@ -15,26 +19,24 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  *
  * @author Rui Barcelos
  */
-public class Table_Model extends javax.swing.JFrame {
+public class InfoBrand extends javax.swing.JFrame {
 
     private final String login;
+    private final int id;
     APIVehicles api = new APIVehicles();
 
     /**
-     * Creates new form ListBrand
+     * Creates new form InfoBrand
      *
      * @param login
+     * @param id
      */
-    public Table_Model(String login) {
+    public InfoBrand(String login, int id) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        ListBrand(login);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
+        InfoBrand(login, id);
+        this.id = id;
         this.login = login;
-    }
-
-    public void cleanTable() {
-        DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
-        mod.setRowCount(0);
     }
 
     /**
@@ -42,31 +44,23 @@ public class Table_Model extends javax.swing.JFrame {
      * @param login
      * @param id
      */
-    private void ListBrand(String login) {
+    private void InfoBrand(String login, int id) {
         try {
-            String brand[][] = api.Brand(login);
-            for (int i = 0; i < brand.length; i++) {
-                cb_brand.addItem(brand[i][1]);
-            }
-            Table(api.Model(login, cb_val(brand)));
-            row(0);
+            String brand[] = api.InfoBrand(login,id);
+            l_idBrand.setText(id+"");
+            l_nameBrand.setText(brand[1]);
+            Table(api.Model(login, id));
+            row(0);    
         } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    private int cb_val(String[][] list) throws Exception {
-        int id = cb_brand.getSelectedIndex();
-        return parseInt(list[(id==0)?id:id-1][0]);
-    }
-
-    private void row(int selected) {
+    private void row(int selected){
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         l_idModel.setText((String) mod.getValueAt(selected, 0));
         l_nameModel.setText((String) mod.getValueAt(selected, 1));
     }
-
-    private void Table(String[][] list) {
+    private void Table(String[][] list){
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         Object[] row = new Object[2];
         for (String[] list1 : list) {
@@ -89,13 +83,16 @@ public class Table_Model extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_model = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        l_idBrand = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        l_nameBrand = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         l_nameModel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         l_idModel = new javax.swing.JLabel();
         bt_edit_model = new javax.swing.JButton();
+        bt_edit_brand = new javax.swing.JButton();
         bt_info = new javax.swing.JButton();
-        cb_brand = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação da Marca");
@@ -123,7 +120,13 @@ public class Table_Model extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_model);
 
-        jLabel1.setText("Marca:");
+        jLabel1.setText("ID Marca:");
+
+        l_idBrand.setText("idmarca");
+
+        jLabel2.setText("Nome da  Marca:");
+
+        l_nameBrand.setText("nomeMarca");
 
         jLabel3.setText("Nome do Modelo:");
 
@@ -140,6 +143,13 @@ public class Table_Model extends javax.swing.JFrame {
             }
         });
 
+        bt_edit_brand.setText("Editar Marca");
+        bt_edit_brand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_edit_brandActionPerformed(evt);
+            }
+        });
+
         bt_info.setText("Info");
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,25 +157,22 @@ public class Table_Model extends javax.swing.JFrame {
             }
         });
 
-        cb_brand.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
-        cb_brand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_brandActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cb_brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(l_idBrand)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_nameBrand)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -175,8 +182,10 @@ public class Table_Model extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(l_nameModel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(bt_info)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_edit_brand)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(bt_edit_model)))
                 .addContainerGap())
@@ -187,9 +196,11 @@ public class Table_Model extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cb_brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(l_idBrand)
+                    .addComponent(jLabel2)
+                    .addComponent(l_nameBrand))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -201,6 +212,7 @@ public class Table_Model extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_edit_model)
+                    .addComponent(bt_edit_brand)
                     .addComponent(bt_info))
                 .addContainerGap())
         );
@@ -213,21 +225,18 @@ public class Table_Model extends javax.swing.JFrame {
         row(i);
     }//GEN-LAST:event_tbl_modelMouseClicked
 
-    private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
+    private void bt_edit_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_brandActionPerformed
         try {
-            cleanTable();
-            String brand[][];
-            brand = api.Brand(this.login);
-            Table(api.Model(login, cb_val(brand)));
+            new EditBrand(this.login,this.id).setVisible(true);
+            dispose();
         } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_cb_brandActionPerformed
+    }//GEN-LAST:event_bt_edit_brandActionPerformed
 
     private void bt_edit_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_modelActionPerformed
         try {
-            new EditModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
+            new EditModel(login, parseInt(l_idModel.getText()), l_nameBrand.getText()).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -236,7 +245,7 @@ public class Table_Model extends javax.swing.JFrame {
 
     private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
         try {
-            new InfoModel(this.login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
+            new InfoModel(this.login,this.id, l_nameBrand.getText()).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -244,14 +253,17 @@ public class Table_Model extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_infoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_edit_brand;
     private javax.swing.JButton bt_edit_model;
     private javax.swing.JButton bt_info;
-    private javax.swing.JComboBox cb_brand;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel l_idBrand;
     private javax.swing.JLabel l_idModel;
+    private javax.swing.JLabel l_nameBrand;
     private javax.swing.JLabel l_nameModel;
     private javax.swing.JTable tbl_model;
     // End of variables declaration//GEN-END:variables

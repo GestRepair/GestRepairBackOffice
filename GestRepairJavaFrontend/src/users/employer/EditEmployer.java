@@ -67,7 +67,7 @@ public class EditEmployer extends javax.swing.JFrame {
         String emp[] = api.GetInfoEmployer(login, id);
         l_idEmployer.setText(emp[0]);
         l_name.setText(emp[1]);
-        //l_service.setText(emp[2]);
+        cb_service.setSelectedItem(emp[2]);
         if ("1".equals(emp[3])) {
             l_state.setText("Ativo");
         } else {
