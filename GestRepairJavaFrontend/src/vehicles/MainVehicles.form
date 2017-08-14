@@ -100,6 +100,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Modelos"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_lmodelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

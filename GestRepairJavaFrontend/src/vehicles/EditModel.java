@@ -15,34 +15,36 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  *
  * @author Rui Barcelos
  */
-public final class EditBrand extends javax.swing.JFrame {
+public final class EditModel extends javax.swing.JFrame {
     APIVehicles api = new APIVehicles();
     private final String login;
     /**
-     * Creates new form ChangeBrand
+     * Creates new form ChangeModel
      * @param login
      * @param id
+     * @param brand
      * @throws java.lang.Exception
      */
-    public EditBrand(String login,int id) throws Exception {
+    public EditModel(String login,int id, String brand) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
-        InfoBrand(login, id);
+        l_brand.setText(brand);
+        InfoModel(login, id);
         this.login = login;     
     }
-    private void InfoBrand(String login,int id) throws Exception{
-        String brand[] = api.InfoBrand(login, id);
-        l_id.setText(brand[0]);
-        tf_name.setText(brand[1]);
+    private void InfoModel(String login,int id) throws Exception{
+        String model[] = api.InfoModel(login, id);
+        l_id.setText(model[0]);
+        tf_name.setText(model[1]);
     }
-    private void ChangeBrand(String login, int id, String name) throws Exception{
-        int x = JOptionPane.showConfirmDialog(this,"Quer modificar a marca "+api.InfoBrand(login, id)[1]+" para "+tf_name.getText()+"?","Confirmação",JOptionPane.YES_NO_OPTION);
+    private void ChangeModel(String login, int id, String name) throws Exception{
+        int x = JOptionPane.showConfirmDialog(this,"Quer modificar a marca "+api.InfoModel(login, id)[1]+" para "+tf_name.getText()+"?","Confirmação",JOptionPane.YES_NO_OPTION);
         if(x == JOptionPane.YES_OPTION)
         {
-            if("ok".equals(api.PutBrand(login, id, name)))
+            if("ok".equals(api.PutModel(login, id, name)))
             {
                 JOptionPane.showMessageDialog(this,"A Marca foi modificada para "+tf_name.getText()+".");
-                new Table_Brand(login).setVisible(true);
+                new Table_Model(login).setVisible(true);
                 dispose();
             }
             else
@@ -52,7 +54,7 @@ public final class EditBrand extends javax.swing.JFrame {
         }
         else if (x == JOptionPane.NO_OPTION)
         {    
-            JOptionPane.showMessageDialog(this,"A Marca "+api.InfoBrand(login, id)[1]+" não foi modificada");
+            JOptionPane.showMessageDialog(this,"A Marca "+api.InfoModel(login, id)[1]+" não foi modificada");
         }    
     }
     /**
@@ -69,13 +71,15 @@ public final class EditBrand extends javax.swing.JFrame {
         l_id = new javax.swing.JLabel();
         tf_name = new javax.swing.JTextField();
         bt_edit = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        l_brand = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Editar Marca");
+        setTitle("GestRepair - Editar Modelo");
 
         jLabel1.setText("ID:");
 
-        jLabel2.setText("Marca:");
+        jLabel2.setText("Modelo:");
 
         l_id.setText("id");
 
@@ -86,6 +90,10 @@ public final class EditBrand extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Marca:");
+
+        l_brand.setText("jLabel4");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,16 +101,24 @@ public final class EditBrand extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_id)
-                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_edit)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_edit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(l_id)
+                                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(l_brand)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -112,11 +128,15 @@ public final class EditBrand extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(l_id))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(l_brand))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -127,11 +147,11 @@ public final class EditBrand extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try 
         {
-            ChangeBrand(this.login,parseInt(l_id.getText()),tf_name.getText());
+            ChangeModel(this.login,parseInt(l_id.getText()),tf_name.getText());
         } 
         catch (Exception ex) 
         {
-            Logger.getLogger(EditBrand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
@@ -139,6 +159,8 @@ public final class EditBrand extends javax.swing.JFrame {
     private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel l_brand;
     private javax.swing.JLabel l_id;
     private javax.swing.JTextField tf_name;
     // End of variables declaration//GEN-END:variables

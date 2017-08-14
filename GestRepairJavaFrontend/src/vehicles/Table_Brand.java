@@ -61,6 +61,7 @@ public class Table_Brand extends javax.swing.JFrame {
         l_idBrand = new javax.swing.JLabel();
         l_nameBrand = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Marcas");
@@ -107,6 +108,13 @@ public class Table_Brand extends javax.swing.JFrame {
             }
         });
 
+        bt_info.setText("Info");
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_infoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -123,6 +131,8 @@ public class Table_Brand extends javax.swing.JFrame {
                 .addComponent(l_nameBrand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_edit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_info)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -135,7 +145,8 @@ public class Table_Brand extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(l_idBrand)
                     .addComponent(l_nameBrand)
-                    .addComponent(bt_edit))
+                    .addComponent(bt_edit)
+                    .addComponent(bt_info))
                 .addContainerGap())
         );
 
@@ -150,13 +161,19 @@ public class Table_Brand extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
             new EditBrand(this.login,parseInt(l_idBrand.getText())).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Brand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
+    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
+        new InfoBrand(login, parseInt(l_idBrand.getText())).setVisible(true);
+    }//GEN-LAST:event_bt_infoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

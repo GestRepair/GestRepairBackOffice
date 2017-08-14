@@ -73,6 +73,11 @@ public class MainVehicles extends javax.swing.JFrame {
         });
 
         bt_lmodel.setText("Lista de Modelos");
+        bt_lmodel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_lmodelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,6 +144,14 @@ public class MainVehicles extends javax.swing.JFrame {
             Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_lBrandActionPerformed
+
+    private void bt_lmodelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_lmodelActionPerformed
+        try {
+            new Table_Model(this.login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_lmodelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;
