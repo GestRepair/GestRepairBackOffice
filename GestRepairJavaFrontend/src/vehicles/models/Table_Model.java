@@ -4,8 +4,9 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import vehicles.APIVehicles;
+import vehicles.vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import vehicles.brands.APIBrand;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,8 +20,8 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public class Table_Model extends javax.swing.JFrame {
 
     private final String login;
-    APIVehicles api = new APIVehicles();
-
+    APIModel api = new APIModel();
+    APIBrand apiBrand = new APIBrand();
     /**
      * Creates new form ListBrand
      *
@@ -45,7 +46,7 @@ public class Table_Model extends javax.swing.JFrame {
      */
     private void ListBrand(String login) {
         try {
-            String brand[][] = api.Brand(login);
+            String brand[][] = apiBrand.Brand(login);
             for (int i = 0; i < brand.length; i++) {
                 cb_brand.addItem(brand[i][1]);
             }
@@ -218,7 +219,7 @@ public class Table_Model extends javax.swing.JFrame {
         try {
             cleanTable();
             String brand[][];
-            brand = api.Brand(this.login);
+            brand = apiBrand.Brand(this.login);
             Table(api.Model(login, cb_val(brand)));
         } catch (Exception ex) {
             Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);

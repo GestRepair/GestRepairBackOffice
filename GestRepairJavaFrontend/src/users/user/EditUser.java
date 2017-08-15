@@ -6,30 +6,37 @@
 package users.user;
 
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import users.APIUsers;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class EditUser extends javax.swing.JFrame {
+
     APIUsers api = new APIUsers();
     String login;
+
     /**
      * Creates new form editUser
+     *
      * @param login
      * @param id
      * @throws java.lang.Exception
      */
-    public EditUser(String login,int id) throws Exception {
+    public EditUser(String login, int id) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         this.login = login;
-        GetInfo(login,id);
+        GetInfo(login, id);
     }
-    public void GetInfo(String login,int id) throws Exception{
-        String emp[] = api.GetInfoUser(login,id);
+
+    public void GetInfo(String login, int id) throws Exception {
+        String emp[] = api.GetInfoUser(login, id);
         l_id.setText(emp[0]);
         tf_name.setText(emp[1]);
         tf_street.setText(emp[2]);
@@ -39,9 +46,28 @@ public final class EditUser extends javax.swing.JFrame {
         tf_contact.setText(emp[6]);
         tf_nif.setText(emp[7]);
         l_username.setText(emp[8]);
-        l_state.setText(("1".equals(emp[9]))?"Ativo":"Inativo");        
-        l_type.setText(("1".equals(emp[10]))?"Funcionário":"Cliente");  
+        l_state.setText(("1".equals(emp[9])) ? "Ativo" : "Inativo");
+        l_type.setText(("1".equals(emp[10])) ? "Funcionário" : "Cliente");
     }
+
+    private String[] data() {
+        String data[] = new String[7];
+        data[0] = tf_name.getText();
+        data[1] = tf_street.getText();
+        data[2] = tf_zipcode.getText();
+        data[3] = tf_city.getText();
+        data[4] = tf_email.getText();
+        data[5] = tf_nif.getText();
+        data[6] = tf_contact.getText();
+        return data;
+    }
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    private static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -217,12 +243,24 @@ public final class EditUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            api.PutUser(this.login,l_id.getText(),tf_name.getText(), tf_street.getText(), tf_zipcode.getText(), tf_city.getText(), tf_email.getText(), tf_nif.getText(), tf_contact.getText());
-            JOptionPane.showMessageDialog(this,"Utilizador editado com sucesso");
-            dispose();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Erro a editar utilizador");
+        if (validate(tf_email.getText())) {
+            int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                try {
+                    if ("ok".equals(api.PutUser(this.login, l_id.getText(), data()))) {
+                        JOptionPane.showMessageDialog(this, "O utilizador foi modificado.");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro Interno.");
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Verifique a Password.");
         }
     }//GEN-LAST:event_bt_editActionPerformed
 

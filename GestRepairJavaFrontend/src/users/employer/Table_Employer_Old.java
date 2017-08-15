@@ -15,7 +15,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import users.APIUsers;
+import users.user.APIUsers;
 import users.user.Table_Users_Type;
 
 /**
@@ -26,7 +26,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
 
     public String login, service;
     private final int idEmployer;
-    APIUsers api = new APIUsers();
+    APIEmployer api = new APIEmployer();
 
     /**
      *

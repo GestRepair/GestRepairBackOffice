@@ -9,7 +9,6 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
@@ -17,7 +16,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  * @author Rui Barcelos
  */
 public final class EditModel extends javax.swing.JFrame {
-    APIVehicles api = new APIVehicles();
+    APIModel api = new APIModel();
     private final String login;
     /**
      * Creates new form ChangeModel

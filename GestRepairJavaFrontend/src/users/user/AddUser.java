@@ -5,7 +5,6 @@
  */
 package users.user;
 
-import users.APIUsers;
 import java.awt.Toolkit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class AddUser extends javax.swing.JFrame {
 
-    public String log;
+    private final String login;
     APIUsers api = new APIUsers();
 
     /**
@@ -28,16 +27,28 @@ public class AddUser extends javax.swing.JFrame {
     public AddUser(String login) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        log = login;
+        this.login = login;
     }
     
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    public static boolean validate(String emailStr) {
+    private static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-
+    
+    private String[] Data(){
+        String[] data = new String[8];
+        data[0] = tfnome.getText();
+        data[1]= tfmorada.getText();
+        data[2]= tfcodp.getText();
+        data[3]= tflocalidade.getText();
+        data[4]= tfemail.getText();
+        data[5]= tfnif.getText();
+        data[6]= tfcontacto.getText();
+        data[7]= tf_username.getText();
+        return data;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -253,7 +264,7 @@ public class AddUser extends javax.swing.JFrame {
                 if(validate(tfemail.getText())==true){
                     int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (x == JOptionPane.YES_OPTION) {
-                        if ("ok".equals(api.PostUser(log, tfnome.getText(), tfmorada.getText(), tfcodp.getText(), tflocalidade.getText(), tfemail.getText(), tfnif.getText(), tfcontacto.getText(), tf_username.getText()))) {
+                        if ("ok".equals(api.PostUser(this.login,Data()))) {
                             JOptionPane.showMessageDialog(this, "Utilizador adicionado com sucesso");
                             dispose();
                         } else {

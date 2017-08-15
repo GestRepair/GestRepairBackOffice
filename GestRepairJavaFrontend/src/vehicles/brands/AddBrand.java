@@ -8,8 +8,9 @@ package vehicles.brands;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vehicles.APIVehicles;
-
+import javax.swing.JOptionPane;
+import vehicles.fuel.EditFuel;
+import vehicles.fuel.Table_Fuel;
 /**
  *
  * @author Convite
@@ -17,7 +18,7 @@ import vehicles.APIVehicles;
 public class AddBrand extends javax.swing.JFrame {
 
     public String login;
-    APIVehicles api = new APIVehicles();
+    APIBrand api = new APIBrand();
 
     /**
      * Creates new form addBrand
@@ -88,8 +89,18 @@ public class AddBrand extends javax.swing.JFrame {
 
     private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
         try {
-            api.PostBrand(login, tf_brand.getText());
-            dispose();
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca"+tf_brand.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.PostBrand(login, tf_brand.getText()))) {
+                    JOptionPane.showMessageDialog(this, "Marca adicionada com sucesso");
+                    dispose();
+                    new Table_Fuel(this.login).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
         }

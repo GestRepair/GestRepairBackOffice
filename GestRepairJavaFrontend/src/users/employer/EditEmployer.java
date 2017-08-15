@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
-import users.APIUsers;
+import users.user.APIUsers;
 
 /**
  *
@@ -20,7 +20,7 @@ import users.APIUsers;
 public class EditEmployer extends javax.swing.JFrame {
 
     APIService apiService = new APIService();
-    APIUsers api = new APIUsers();
+    APIEmployer api = new APIEmployer();
     private final String login;
     private final int id;
 

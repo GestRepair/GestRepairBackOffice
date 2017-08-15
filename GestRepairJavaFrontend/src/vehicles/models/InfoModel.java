@@ -3,7 +3,7 @@ package vehicles.models;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vehicles.APIVehicles;
+import vehicles.vehicles.APIVehicles;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +18,7 @@ public class InfoModel extends javax.swing.JFrame {
 
     private final String login;
     private final int id;
-    APIVehicles api = new APIVehicles();
+    APIModel api = new APIModel();
 
     /**
      * Creates new form InfoModel

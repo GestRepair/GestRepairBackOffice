@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vehicles.APIVehicles;
+import vehicles.vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
@@ -18,7 +18,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  * @author Rui Barcelos
  */
 public final class EditBrand extends javax.swing.JFrame {
-    APIVehicles api = new APIVehicles();
+    APIBrand api = new APIBrand();
     private final String login;
     /**
      * Creates new form ChangeBrand

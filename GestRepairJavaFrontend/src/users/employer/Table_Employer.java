@@ -15,7 +15,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import users.APIUsers;
 import users.user.Table_Users_Type;
 
 /**
@@ -26,7 +25,7 @@ public final class Table_Employer extends javax.swing.JFrame {
 
     public String login, service;
     private final int idEmployer;
-    APIUsers api = new APIUsers();
+    APIEmployer api = new APIEmployer();
 
     /**
      *
@@ -69,7 +68,6 @@ public final class Table_Employer extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
     private void tbl_usersStart() {
-        
         TableModel mod = tbl_users.getModel();
         if (mod.getRowCount() > 0) {
             linfoUser.setText(mod.getValueAt(0, 0) + "");

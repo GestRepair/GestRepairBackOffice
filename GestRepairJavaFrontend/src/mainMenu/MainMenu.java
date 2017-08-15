@@ -17,11 +17,12 @@ import org.json.simple.parser.ParseException;
 import repairs.MainRepairs;
 import schedule.MainSchedule;
 import services.MainServices;
-import users.APIUsers;
+import users.user.APIUsers;
 import users.user.EditPassword;
 import users.user.EditUser;
 import users.user.InfoUser;
 import users.MainUsers;
+import users.employer.APIEmployer;
 import vehicles.MainVehicles;
 
 /**
@@ -37,7 +38,7 @@ public final class MainMenu extends javax.swing.JFrame {
      * @param dados
      * @throws java.lang.Exception
      */
-    private String login, service, password;
+    private String login, service;
     private int id, idEmployer;
 
     public MainMenu(String login, String dados) throws Exception {
@@ -58,15 +59,12 @@ public final class MainMenu extends javax.swing.JFrame {
     ;
     
     public void setMenu(String login, String dados) throws Exception {
-        APIUsers api = new APIUsers();
-        String service;
-        int idEmployer;
+        APIEmployer api = new APIEmployer();
         try {
+            String service;
+            int idEmployer;
             JSONObject newjson = (JSONObject) new JSONParser().parse(dados);
-                //String result = newjson.get("result").toString();
-            //System.out.println(result);
             String data = newjson.get("data").toString();
-            //System.out.println(data);
             JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
             l_nome.setText(newjsondata.get("name").toString());
             long idUser = (long) newjsondata.get("idUser");

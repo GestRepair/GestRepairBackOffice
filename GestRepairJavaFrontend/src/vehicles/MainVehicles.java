@@ -13,6 +13,8 @@ import vehicles.brands.Table_Brand;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vehicles.fuel.AddFuel;
+import vehicles.fuel.Table_Fuel;
 
 /**
  *
@@ -44,6 +46,8 @@ public class MainVehicles extends javax.swing.JFrame {
         bt_addBrand = new javax.swing.JButton();
         bt_lBrand = new javax.swing.JButton();
         bt_lmodel = new javax.swing.JButton();
+        bt_fuel_list = new javax.swing.JButton();
+        bt_fuel_add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Menu Viaturas ");
@@ -84,6 +88,20 @@ public class MainVehicles extends javax.swing.JFrame {
             }
         });
 
+        bt_fuel_list.setText("Lista de Combustíveis");
+        bt_fuel_list.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_fuel_listActionPerformed(evt);
+            }
+        });
+
+        bt_fuel_add.setText("Adicionar Combustível");
+        bt_fuel_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_fuel_addActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,13 +110,14 @@ public class MainVehicles extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bt_lmodel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_fuel_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_showvehicles, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(bt_model, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addComponent(bt_addBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bt_lBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(bt_showvehicles, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(bt_model, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(bt_addBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bt_lBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bt_fuel_add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -111,11 +130,15 @@ public class MainVehicles extends javax.swing.JFrame {
                 .addComponent(bt_lBrand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_lmodel)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_fuel_list)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_addBrand)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_model)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_fuel_add)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,8 +181,26 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_lmodelActionPerformed
 
+    private void bt_fuel_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_fuel_listActionPerformed
+        try {
+            new Table_Fuel(this.login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_fuel_listActionPerformed
+
+    private void bt_fuel_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_fuel_addActionPerformed
+        try {
+            new AddFuel(this.login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_fuel_addActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;
+    private javax.swing.JButton bt_fuel_add;
+    private javax.swing.JButton bt_fuel_list;
     private javax.swing.JButton bt_lBrand;
     private javax.swing.JButton bt_lmodel;
     private javax.swing.JButton bt_model;

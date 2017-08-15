@@ -5,7 +5,7 @@
  */
 package login;
 
-import ip.Connect;
+import connect.Connect;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;

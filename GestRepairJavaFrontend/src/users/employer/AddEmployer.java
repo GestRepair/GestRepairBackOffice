@@ -6,12 +6,9 @@
 package users.employer;
 
 import java.awt.Toolkit;
-import java.io.IOException;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import org.json.simple.parser.ParseException;
 import services.APIService;
-import users.APIUsers;
 
 /**
  *
@@ -21,7 +18,7 @@ public final class AddEmployer extends javax.swing.JFrame {
 
     private final String log;
     APIService apiService = new APIService();
-    APIUsers api = new APIUsers();
+    APIEmployer api = new APIEmployer();
 
     /**
      * Creates new form AddEmployer Create Employers

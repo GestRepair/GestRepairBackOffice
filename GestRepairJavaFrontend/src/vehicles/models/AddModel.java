@@ -8,8 +8,9 @@ package vehicles.models;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vehicles.APIVehicles;
+import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import vehicles.brands.APIBrand;
 
 /**
  *
@@ -18,8 +19,8 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public final class AddModel extends javax.swing.JFrame {
 
     public String login;
-    APIVehicles api = new APIVehicles();
-
+    APIModel api = new APIModel();
+    APIBrand apiBrand = new APIBrand();
     /**
      * Creates new form addBrand
      * @param login
@@ -29,7 +30,7 @@ public final class AddModel extends javax.swing.JFrame {
         this.login = login;
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        showBrand(api.Brand(login));
+        showBrand(apiBrand.Brand(login));
     }
     public void showBrand(String[][] list) {
         CB_Brands.removeAllItems();
@@ -110,8 +111,17 @@ public final class AddModel extends javax.swing.JFrame {
 
     private void bt_addModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addModelActionPerformed
         try {
-            api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),api.Brand(this.login)),tf_model.getText());
-            dispose();
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),apiBrand.Brand(this.login)),tf_model.getText()))) {
+                    JOptionPane.showMessageDialog(this, "Viatura Adicionada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
+            }
         } catch (Exception ex) {
             Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);
         }

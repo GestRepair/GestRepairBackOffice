@@ -10,16 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import org.json.simple.parser.ParseException;
-import vehicles.APIVehicles;
+import vehicles.brands.APIBrand;
+import vehicles.fuel.APIFuel;
+import vehicles.models.APIModel;
 
 /**
  *
  * @author Rui Barcelos
  */
 public class EditVehicle extends javax.swing.JFrame {
-
     APIVehicles api = new APIVehicles();
+    APIBrand apiBrand = new APIBrand();
+    APIModel apiModel = new APIModel();
+    APIFuel apiFuel = new APIFuel();
     private final String login;
     private final int id;
 
@@ -40,12 +43,12 @@ public class EditVehicle extends javax.swing.JFrame {
 
     private void InfoVehicle(String login, int id) throws Exception {
         l_id.setText(id + "");
-        String[][] brand = api.Brand(login);
+        String[][] brand = apiBrand.Brand(login);
         showBrand(brand);
-        String[][] fuel = api.Fuel(login);
+        String[][] fuel = apiFuel.Fuel(login);
         showFuel(fuel);
         cb_brand.setSelectedItem(api.InfoVehicle(login, id)[1]);
-        String[][] model = api.Model(login, Cb_Val(cb_brand.getSelectedIndex(), brand));
+        String[][] model = apiModel.Model(login, Cb_Val(cb_brand.getSelectedIndex(), brand));
         showModel(model);
         cb_model.setSelectedItem(api.InfoVehicle(login, id)[2]);
         tf_register.setText(api.InfoVehicle(login, id)[3]);
@@ -83,24 +86,16 @@ public class EditVehicle extends javax.swing.JFrame {
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-    private String Cbmodel(String login) throws Exception
-    {
-        return Cb_Val(cb_model.getSelectedIndex(), api.Model(login, Cb_Val(cb_brand.getSelectedIndex(), api.Brand(login)))) + "";
-    }
-    private String Cbfuel(String login) throws Exception
-    {
-        return Cb_Val(cb_fuel.getSelectedIndex(), api.Fuel(login)) + "";
-    }
     public String[] data(String login) {
         try {
             String vehicle[] = new String[10];
             vehicle[0] = l_id.getText();
             vehicle[1] = tf_register.getText();
-            vehicle[2] = Cb_Val(cb_model.getSelectedIndex(), api.Model(login, Cb_Val(cb_brand.getSelectedIndex(), api.Brand(login)))) + "";;
+            vehicle[2] = Cb_Val(cb_model.getSelectedIndex(), apiModel.Model(login, Cb_Val(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";;
             vehicle[3] = tf_horsepower.getText();
             vehicle[4] = tf_displacement.getText();
             vehicle[5] = tf_kilometer.getText();
-            vehicle[6] = Cb_Val(cb_fuel.getSelectedIndex(), api.Fuel(login)) + "";
+            vehicle[6] = Cb_Val(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
             vehicle[7] = tf_frontTire.getText();
             vehicle[8] = tf_rearTire.getText();
             vehicle[9] = tf_date.getText();
@@ -217,7 +212,7 @@ public class EditVehicle extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tf_register)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(l_id, javax.swing.GroupLayout.DEFAULT_SIZE, 15, Short.MAX_VALUE)
+                                        .addComponent(l_id, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
                                         .addGap(109, 109, 109))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,20 +234,24 @@ public class EditVehicle extends javax.swing.JFrame {
                                     .addComponent(cb_brand, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cb_model, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cb_fuel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(85, 85, 85)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_displacement, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                            .addComponent(tf_kilometer)
-                            .addComponent(tf_frontTire)
-                            .addComponent(tf_rearTire)
-                            .addComponent(tf_horsepower, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(15, 15, 15)
+                                .addComponent(tf_rearTire, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tf_horsepower)
+                                    .addComponent(tf_displacement)
+                                    .addComponent(tf_frontTire)
+                                    .addComponent(tf_kilometer))))))
                 .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
@@ -261,55 +260,44 @@ public class EditVehicle extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(l_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(9, 9, 9)
+                    .addComponent(l_id))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(tf_horsepower, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(109, 109, 109)
+                        .addComponent(bt_edit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(tf_register))
+                            .addComponent(tf_register, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(cb_brand))
+                            .addComponent(cb_brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tf_displacement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(cb_model))
+                            .addComponent(cb_model, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tf_kilometer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(cb_fuel))
+                            .addComponent(cb_fuel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(tf_frontTire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_date)
-                            .addComponent(jLabel11))
-                        .addGap(145, 145, 145))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(tf_horsepower))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(tf_displacement))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_kilometer)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_frontTire)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_rearTire)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addComponent(bt_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(104, 104, 104))))
+                            .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel6)
+                            .addComponent(tf_rearTire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         pack();
@@ -317,8 +305,8 @@ public class EditVehicle extends javax.swing.JFrame {
 
     private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
         try {
-            String[][] brand = api.Brand(this.login);
-            String[][] model = api.Model(this.login, Cb_Val(cb_brand.getSelectedIndex(), brand));
+            String[][] brand = apiBrand.Brand(this.login);
+            String[][] model = apiModel.Model(this.login, Cb_Val(cb_brand.getSelectedIndex(), brand));
             showModel(model);
         } catch (Exception ex) {
         }

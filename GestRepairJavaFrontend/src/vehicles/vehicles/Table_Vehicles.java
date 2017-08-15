@@ -6,71 +6,38 @@
 package vehicles.vehicles;
 
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import vehicles.APIVehicles;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class Table_Vehicles extends javax.swing.JFrame {
-    public String log;
+
+    public String login;
     APIVehicles api = new APIVehicles();
+
     /**
      * Creates new form Table_Vehicles
+     *
      * @param login
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Vehicles(String login) throws IOException, MalformedURLException, ParseException {
-        log = login;
+    public Table_Vehicles(String login) throws Exception {
+        this.login = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showTable(DataToTable(api.GetVehicles(login,0)));
+        showTable(api.vehicles(login, 0));
         row(0);
     }
-    
-     public String[][] DataToTable(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][12];
-            for (int i = 0; i < data.size(); i++) {
 
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idVehicle") + "";
-                dataTable[i][1] = (String) datas.get("registration");
-                dataTable[i][2] = (String) datas.get("nameBrand");
-                dataTable[i][3] = (String) datas.get("nameModel");
-                dataTable[i][4] = (long) datas.get("horsepower")+ "";
-                dataTable[i][5] = (long) datas.get("displacement")+ "";
-                dataTable[i][6] = (long) datas.get("kilometers")+ "";
-                dataTable[i][7] = (String) datas.get("nameFuel");
-                dataTable[i][8] = (String) datas.get("fronttiresize");
-                dataTable[i][9] = (String) datas.get("reartiresize");
-                dataTable[i][10] = (String) datas.get("date");
-                dataTable[i][11] = (long) datas.get("user")+ "";         
-            };
-            return dataTable;
-        } catch (ParseException pe) {
-            JOptionPane.showMessageDialog(this,"Erro a mostrar a tabela");
-            return null;
-        }
-    }
-    
-    public void showTable(String[][] list) {
+    private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
         Object[] row = new Object[12];
         for (String[] list1 : list) {
@@ -80,11 +47,22 @@ public final class Table_Vehicles extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
-    private void row(int val){
+
+    private void row(int val) {
         TableModel mod = tbl_vehicles.getModel();
-        l_idVehicle.setText((String) mod.getValueAt(val, 0));
-        l_registration.setText((String) mod.getValueAt(val, 1));
+        if (mod.getRowCount() > 0) {
+            l_idVehicle.setText(mod.getValueAt(val, 0) + "");
+            l_registration.setText(mod.getValueAt(val, 1) + "");
+        }else{
+            jLabel1.setText("");
+            jLabel7.setText("");
+            l_idVehicle.setText("");
+            l_registration.setText("Não contem Dados!");
+            bt_edit.setVisible(false);
+            bt_info.setVisible(false);
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -147,6 +125,11 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         l_registration.setText("matrícula");
 
         bt_info.setText("Info");
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_infoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,9 +141,9 @@ public final class Table_Vehicles extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addComponent(l_idVehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_registration)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_info)
@@ -172,35 +155,48 @@ public final class Table_Vehicles extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_idVehicle)
-                    .addComponent(jLabel7)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(l_registration)
-                        .addComponent(bt_edit)
-                        .addComponent(bt_info)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(l_idVehicle)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel1)
+                            .addComponent(l_registration)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_info)
+                            .addComponent(bt_edit))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void tbl_vehiclesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_vehiclesMouseClicked
         int i = tbl_vehicles.getSelectedRow();
-        row(i); 
+        row(i);
     }//GEN-LAST:event_tbl_vehiclesMouseClicked
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         // TODO add your handling code here:
         try {
-            new EditVehicle(this.log, parseInt(l_idVehicle.getText())).setVisible(true);
+            new EditVehicle(this.login, parseInt(l_idVehicle.getText())).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
+
+    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
+        try {
+            new InfoVehicle(this.login, parseInt(l_idVehicle.getText())).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_infoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

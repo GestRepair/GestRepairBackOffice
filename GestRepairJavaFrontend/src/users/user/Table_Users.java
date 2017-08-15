@@ -6,7 +6,6 @@
 package users.user;
 
 import budgets.Table_Budgets_PU;
-import users.APIUsers;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -318,7 +317,7 @@ public final class Table_Users extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             new Table_Vehicles_PU(login, parseInt(linfoUser.getText())).setVisible(true);
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_vehicles1ActionPerformed

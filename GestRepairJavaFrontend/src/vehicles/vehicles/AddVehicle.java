@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import vehicles.APIVehicles;
+import vehicles.brands.APIBrand;
+import vehicles.fuel.APIFuel;
+import vehicles.models.APIModel;
 
 /**
  *
@@ -20,8 +22,12 @@ import vehicles.APIVehicles;
 public final class AddVehicle extends javax.swing.JFrame {
 
     APIVehicles api = new APIVehicles();
-    String log;
-    int id;
+    APIBrand apiBrand = new APIBrand();
+    APIModel apiModel = new APIModel();
+    APIFuel apiFuel = new APIFuel();
+
+    private final String login;
+    private final int id;
 
     /**
      * Creates new form AddVehicle
@@ -34,13 +40,13 @@ public final class AddVehicle extends javax.swing.JFrame {
     public AddVehicle(String login, int id, String user) throws ParseException, Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        l_id.setText(id+"");
+        l_id.setText(id + "");
         l_username.setText(user);
-        this.log = login;
-        this.id= id;
-        showBrand(api.Brand(login));
-        showModel(api.Model(log, newIdCb(cb_brand.getSelectedIndex(), api.Brand(log))));
-        showFuel(api.Fuel(login));
+        this.login = login;
+        this.id = id;
+        showBrand(apiBrand.Brand(login));
+        showModel(apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login))));
+        showFuel(apiFuel.Fuel(login));
     }
 
     public void showBrand(String[][] list) {
@@ -56,6 +62,7 @@ public final class AddVehicle extends javax.swing.JFrame {
             cb_model.addItem(list[i][1]);
         }
     }
+
     public void showFuel(String[][] list) {
         cb_fuel.removeAllItems();
         for (int i = 0; i < list.length; i++) {
@@ -69,6 +76,20 @@ public final class AddVehicle extends javax.swing.JFrame {
         } else {
             return parseInt(list[val][0]);
         }
+    }
+
+    private String[] data(String login) throws Exception {
+        String data[] = new String[9];
+        data[0] = newIdCb(cb_model.getSelectedIndex(), apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";
+        data[1] = tf_registration.getText();
+        data[2] = newIdCb(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
+        data[3] = tf_horsepower.getText();
+        data[4] = tf_displacement.getText();
+        data[5] = tf_kilometers.getText();
+        data[6] = tf_fronttiresize.getText();
+        data[7] = tf_reartiresize.getText();
+        data[8] = tf_date.getText();
+        return data;
     }
 
     /**
@@ -269,19 +290,28 @@ public final class AddVehicle extends javax.swing.JFrame {
 
     private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
         try {
-            showModel(api.Model(log, newIdCb(cb_brand.getSelectedIndex(), api.Brand(log))));
+            showModel(apiModel.Model(this.login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(this.login))));
         } catch (Exception ex) {
             Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cb_brandActionPerformed
 
     private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {    
-            api.POSTAddVehicle(log,id,newIdCb(cb_model.getSelectedIndex(), api.Model(log,newIdCb(cb_brand.getSelectedIndex(), api.Brand(log)))),tf_registration.getText(),newIdCb(cb_fuel.getSelectedIndex(), api.Fuel(log)),tf_horsepower.getText(),tf_displacement.getText(),tf_kilometers.getText(),tf_fronttiresize.getText(),tf_reartiresize.getText(),tf_date.getText());
-            JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-            dispose();
-        }catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao Inserir os Dados");
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.POSTAddVehicle(this.login, this.id,data(this.login)))) {
+                    JOptionPane.showMessageDialog(this, "Viatura Adicionada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(EditVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_addActionPerformed
 

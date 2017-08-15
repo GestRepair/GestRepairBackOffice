@@ -5,7 +5,7 @@
  */
 package repairs;
 
-import ip.Connect;
+import connect.Connect;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

@@ -5,7 +5,7 @@
  */
 package services;
 
-import ip.Connect;
+import connect.Connect;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

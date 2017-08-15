@@ -4,11 +4,12 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import vehicles.APIVehicles;
+import vehicles.vehicles.APIVehicles;
 import vehicles.models.EditModel;
 import vehicles.models.InfoModel;
 import vehicles.models.Table_Model;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import vehicles.models.APIModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +24,8 @@ public class InfoBrand extends javax.swing.JFrame {
 
     private final String login;
     private final int id;
-    APIVehicles api = new APIVehicles();
+    APIBrand api = new APIBrand();
+    APIModel apiModel = new APIModel();
 
     /**
      * Creates new form InfoBrand
@@ -49,7 +51,7 @@ public class InfoBrand extends javax.swing.JFrame {
             String brand[] = api.InfoBrand(login,id);
             l_idBrand.setText(id+"");
             l_nameBrand.setText(brand[1]);
-            Table(api.Model(login, id));
+            Table(apiModel.Model(login, id));
             row(0);    
         } catch (Exception ex) {
             Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);

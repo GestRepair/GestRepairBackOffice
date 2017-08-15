@@ -6,14 +6,13 @@
 package users.employer;
 
 import java.awt.Toolkit;
-import users.APIUsers;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class InfoEmployer extends javax.swing.JFrame {
-    APIUsers api = new APIUsers();
+    APIEmployer api = new APIEmployer();
     String log;
     int idUser;
     /**
