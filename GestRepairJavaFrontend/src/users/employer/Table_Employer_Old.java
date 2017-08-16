@@ -15,7 +15,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import users.user.APIUsers;
 import users.user.Table_Users_Type;
 
 /**

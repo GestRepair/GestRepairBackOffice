@@ -82,7 +82,6 @@ public class EditVehicle extends javax.swing.JFrame {
             cb_fuel.addItem(list[i][1]);
         }
     }
-
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }

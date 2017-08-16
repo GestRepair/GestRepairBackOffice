@@ -39,7 +39,7 @@ public final class MainMenu extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     private String login, service;
-    private int id, idEmployer;
+    private int id, idEmployer, idService;
 
     public MainMenu(String login, String dados) throws Exception {
         initComponents();
@@ -62,18 +62,22 @@ public final class MainMenu extends javax.swing.JFrame {
         APIEmployer api = new APIEmployer();
         try {
             String service;
-            int idEmployer;
+            int idEmployer, idService;
             JSONObject newjson = (JSONObject) new JSONParser().parse(dados);
             String data = newjson.get("data").toString();
             JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
-            l_nome.setText(newjsondata.get("name").toString());
-            long idUser = (long) newjsondata.get("idUser");
+            String name = newjsondata.get("name").toString();
+            l_nome.setText(name);
+            long idUser = (long) newjsondata.get("idUser");       
             int id = (int) idUser;
             this.id = id;
             idEmployer = parseInt(api.GetInfoEmployer(login, id)[0]);
             this.idEmployer = idEmployer;
             service = api.GetInfoEmployer(login, id)[2];
             this.service = service;
+            idService = parseInt(api.GetInfoEmployer(login, id)[3]);
+            this.idService = idService;
+
             l_service.setText(service);
         } catch (ParseException pe) {
             System.out.println("Erro");
@@ -300,7 +304,7 @@ public final class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_servicesActionPerformed
 
     private void bt_veiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_veiculosActionPerformed
-        new MainVehicles(getLogin()).setVisible(true);
+        new MainVehicles(getLogin(),this.idEmployer,this.idService).setVisible(true);
     }//GEN-LAST:event_bt_veiculosActionPerformed
 
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed

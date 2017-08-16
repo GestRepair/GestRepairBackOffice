@@ -21,15 +21,19 @@ import vehicles.fuel.Table_Fuel;
  * @author Convite
  */
 public class MainVehicles extends javax.swing.JFrame {
-    public String login;
+    private final String login;
+    private final int idService;
+    private final int idEmployer;
     /**
      * Creates new form mainVehicles
      * @param login
      */
-    public MainVehicles(String login) {
+    public MainVehicles(String login,int idEmployer,int idService) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.login = login;
+        this.idService = idService;
+        this.idEmployer = idEmployer;
     }
 
     /**
@@ -159,7 +163,7 @@ public class MainVehicles extends javax.swing.JFrame {
 
     private void bt_showvehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showvehiclesActionPerformed
         try {
-            new Table_Vehicles(this.login).setVisible(true);
+            new Table_Vehicles(this.login,this.idEmployer,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
         }

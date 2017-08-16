@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import repairs.Table_Repairs_PU;
+import repairs.repairs.Table_Repairs_PU;
 import users.employer.EditEmployer;
 import vehicles.vehicles.AddVehicle;
 import vehicles.vehicles.Table_Vehicles_PU;
@@ -400,7 +400,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
         try {
             new Table_Repairs_PU(login, parseInt(linfoUser.getText())).setVisible(true);
-        } catch (IOException | ParseException | java.text.ParseException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_repairActionPerformed

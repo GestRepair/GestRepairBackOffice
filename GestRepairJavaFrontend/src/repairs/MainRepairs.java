@@ -5,28 +5,27 @@
  */
 package repairs;
 
+import repairs.repairs.Table_Repairs;
 import java.awt.Toolkit;
-import users.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import vehicles.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author Convite
  */
 public class MainRepairs extends javax.swing.JFrame {
-    public String log;
+
+    private final String login;
+
     /**
      * Creates new form mainVehicles
+     * @param login
      */
     public MainRepairs(String login) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        log = login;
+        this.login = login;
     }
 
     /**
@@ -71,11 +70,13 @@ public class MainRepairs extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_listRepairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listRepairActionPerformed
+
         try {
-            new Table_Repairs(log).setVisible(true);
-        } catch (IOException | ParseException | java.text.ParseException ex) {
+            new Table_Repairs(this.login).setVisible(true);
+        } catch (Exception ex) {
             Logger.getLogger(MainRepairs.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_bt_listRepairActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

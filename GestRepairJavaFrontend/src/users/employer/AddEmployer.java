@@ -29,7 +29,7 @@ public final class AddEmployer extends javax.swing.JFrame {
      * @throws java.io.IOException
      * @throws org.json.simple.parser.ParseException
      */
-    public AddEmployer(String login, String id, String username) throws  Exception {
+    public AddEmployer(String login, String id, String username) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         this.log = login;
         initComponents();
@@ -38,15 +38,15 @@ public final class AddEmployer extends javax.swing.JFrame {
         showService(apiService.Service(login));
     }
 
-    public void showService(String[][] list) {
+    private void showService(String[][] list) {
         cbService.removeAllItems();
         for (String[] list1 : list) {
             cbService.addItem(list1[1]);
         }
     }
 
-    public int newIdCb(int val, String[][] list) {
-        return (val  < 1)? 1: parseInt(list[val][0]);
+    private int newIdCb(int val, String[][] list) {
+        return (val < 1) ? 1 : parseInt(list[val][0]);
     }
 
     /**
@@ -135,21 +135,24 @@ public final class AddEmployer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
-        // TODO add your handling code here:
-
         int idUsr, serv;
         try {
-            idUsr = parseInt(lnuser.getText());
-            serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
-            api.PostEmployer(log, idUsr, serv);
-            if ("ok".equals(api.PostEmployer(log, idUsr, serv))) {
-                JOptionPane.showMessageDialog(this,"Dados inseridos com sucesso!");
-            }else{
-                JOptionPane.showMessageDialog(this,"Erro ao inserir os dados!");
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                idUsr = parseInt(lnuser.getText());
+                serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
+                if ("ok".equals(api.PostEmployer(log, idUsr, serv))) {
+                    JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
+                }
+                dispose();
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O Funcionário não foi introduzida no sistema!");
             }
-            dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
+            JOptionPane.showMessageDialog(this, "Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
         }
     }//GEN-LAST:event_bt_addEmployerActionPerformed
 

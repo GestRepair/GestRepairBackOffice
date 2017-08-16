@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repairs;
+package repairs.repairs;
 
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -31,25 +28,23 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      * @throws java.text.ParseException
      */
-    public Table_Repairs_PU(String login, int id) throws IOException, MalformedURLException, ParseException, java.text.ParseException {
+    public Table_Repairs_PU(String login, int id) throws Exception {
         log = login;
         this.id = id;
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(api.ValuesToTable(login,id));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
+        showTable(api.Repairs(login,id));
        
     }
         
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-        Object[] row = new Object[9];
+        Object[] row = new Object[10];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
-                if(i == 5||i == 6){
+                
                     row[i] = list1[i];
-                }else{
-                    row[i] = list1[i];
-                }
+                
             }
             mod.addRow(row);
         }
@@ -68,29 +63,22 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehicles = new javax.swing.JTable();
         bt_edit = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        tf_price = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         l_idRepair = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ta_description = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ta_information = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de Reparações por utilizador");
 
         tbl_vehicles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Matricula", "Marca", "Modelo", "CV", "Cilindrada", "Quilometros", "Combustível", "Roda da Frente", "Roda de Trás", "Data", "Utilizador"
+                "ID", "Matricula", "Serviço", "Descrição do Cliente", "Preço", "Estado", "Início", "Fim", "Informação", "Responsável"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -113,23 +101,9 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Preço");
-
         jLabel7.setText("Reparação N.º");
 
         l_idRepair.setText("reparação");
-
-        ta_description.setColumns(20);
-        ta_description.setRows(5);
-        jScrollPane2.setViewportView(ta_description);
-
-        jLabel1.setText("Descrição do Cliente:");
-
-        jLabel3.setText("Descrição do Funcionário:");
-
-        ta_information.setColumns(20);
-        ta_information.setRows(5);
-        jScrollPane3.setViewportView(ta_information);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,22 +112,10 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_idRepair)
-                    .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(l_idRepair)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -161,29 +123,13 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(l_idRepair)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(bt_edit))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2))))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_edit)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(l_idRepair)
+                        .addComponent(jLabel7)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -193,9 +139,6 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         int i = tbl_vehicles.getSelectedRow();
         TableModel mod = tbl_vehicles.getModel();
         l_idRepair.setText((String) mod.getValueAt(i, 0));
-        tf_price.setText((String) mod.getValueAt(i, 3));
-        ta_description.setText((String) mod.getValueAt(i, 2));
-        ta_information.setText((String) mod.getValueAt(i, 7));
     }//GEN-LAST:event_tbl_vehiclesMouseClicked
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
@@ -204,25 +147,17 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             //api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
             DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
             mod.setRowCount(0);
-            showTable(api.ValuesToTable(log,id));
-        } catch (IOException | ParseException | java.text.ParseException ex) {
+            showTable(api.Repairs(log,id));
+        } catch (Exception ex) {
             Logger.getLogger(Table_Repairs_PU.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel l_idRepair;
-    private javax.swing.JTextArea ta_description;
-    private javax.swing.JTextArea ta_information;
     private javax.swing.JTable tbl_vehicles;
-    private javax.swing.JTextField tf_price;
     // End of variables declaration//GEN-END:variables
 }

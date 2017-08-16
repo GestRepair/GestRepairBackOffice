@@ -11,14 +11,16 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import repairs.repairs.AddRepair;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class Table_Vehicles extends javax.swing.JFrame {
-
-    public String login;
+    private final int idService;
+    private final  String login;
+    private final int idEmployer;
     APIVehicles api = new APIVehicles();
 
     /**
@@ -29,12 +31,15 @@ public final class Table_Vehicles extends javax.swing.JFrame {
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Vehicles(String login) throws Exception {
-        this.login = login;
+    public Table_Vehicles(String login,int idEmployer,int idService) throws Exception {
+        
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.vehicles(login, 0));
         row(0);
+        this.login = login;
+        this.idService = idService;
+        this.idEmployer = idEmployer;
     }
 
     private void showTable(String[][] list) {
@@ -80,6 +85,8 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         l_registration = new javax.swing.JLabel();
         bt_info = new javax.swing.JButton();
+        bt_add_repair = new javax.swing.JButton();
+        bt_add_budgets = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Viaturas");
@@ -131,6 +138,15 @@ public final class Table_Vehicles extends javax.swing.JFrame {
             }
         });
 
+        bt_add_repair.setText("Adicionar Reparação");
+        bt_add_repair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_add_repairActionPerformed(evt);
+            }
+        });
+
+        bt_add_budgets.setText("Adicionar Orçamento");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,6 +162,10 @@ public final class Table_Vehicles extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_registration)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_add_repair)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_add_budgets)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_info)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit)
@@ -167,7 +187,9 @@ public final class Table_Vehicles extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bt_info)
-                            .addComponent(bt_edit))))
+                            .addComponent(bt_edit)
+                            .addComponent(bt_add_repair)
+                            .addComponent(bt_add_budgets))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -198,7 +220,18 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_infoActionPerformed
 
+    private void bt_add_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_repairActionPerformed
+        try {
+            new AddRepair(this.login, parseInt(l_idVehicle.getText()),this.idEmployer,this.idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_add_repairActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_add_budgets;
+    private javax.swing.JButton bt_add_repair;
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel1;

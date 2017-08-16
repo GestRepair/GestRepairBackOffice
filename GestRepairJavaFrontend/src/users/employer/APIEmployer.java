@@ -165,11 +165,12 @@ public class APIEmployer extends Connect {
         JSONObject newjson = (JSONObject) new JSONParser().parse(json);
         String data = newjson.get("data").toString();
         JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
-        String[] emp = new String[4];
+        String[] emp = new String[5];
         emp[0] = (long) newjsondata.get("idEmployer") + "";
         emp[1] = (String) newjsondata.get("name");
         emp[2] = (String) newjsondata.get("nameService");
-        emp[3] = (long) newjsondata.get("isActive") + "";
+        emp[3] = (long) newjsondata.get("service")+"";
+        emp[4] = (long) newjsondata.get("isActive") + "";
         return emp;
     }
 }

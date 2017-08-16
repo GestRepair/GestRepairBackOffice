@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import repairs.Table_Repairs_PU;
+import repairs.repairs.Table_Repairs_PU;
 import vehicles.vehicles.AddVehicle;
 import vehicles.vehicles.Table_Vehicles_PU;
 
