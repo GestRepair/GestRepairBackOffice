@@ -23,21 +23,21 @@ import services.APIService;
  */
 public final class Table_Employer_Service extends javax.swing.JFrame {
 
-    public String login, service;
+    private final String login;
     APIEmployer api = new APIEmployer();
     APIService apiService = new APIService();
-    private final int idEmployer;
+    private final int idEmployer, idService;
 
     /**
      * Start the interface and need elements
      *
      * @param login
-     * @param service
+     * @param idService
      * @param idEmployer
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer_Service(String login, String service, int idEmployer) throws Exception {
+    public Table_Employer_Service(String login, int idService, int idEmployer) throws Exception {
         initComponents();
         TableColumn col = tbl_users.getColumnModel().getColumn(1);
         tbl_users.removeColumn(col);
@@ -47,17 +47,17 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         tbl_usersStart();
         bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         this.login = login;
-        this.service = service;
+        this.idService = idService;
         this.idEmployer = idEmployer;
     }
 
-    public void insertCb(String[][] list) throws Exception {
+    private void insertCb(String[][] list) throws Exception {
         for (String[] list1 : list) {
             cb_type.addItem(list1[1]);
         }
     }
 
-    public void cleanTable() {
+    private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
@@ -67,7 +67,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      * @param login
      * @throws Exception
      */
-    public void upTable(String login) throws Exception {
+    private void upTable(String login) throws Exception {
         cleanTable();
         int cb = cb_type.getSelectedIndex();
         showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
@@ -78,7 +78,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      *
      * @param list
      */
-    public void showTable(String[][] list) {
+    private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         Object[] row = new Object[3];
         for (String[] list1 : list) {
@@ -96,7 +96,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      * @param list
      * @return
      */
-    public int newIdCb(int val, String[][] list) {
+    private int newIdCb(int val, String[][] list) {
         return (val == 0) ? 1 : parseInt(list[val - 1][0]);
     }
 
@@ -121,7 +121,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      *
      * @param login
      */
-    public void disable(String login) {
+    private void disable(String login) {
         try {
             int x = JOptionPane.showConfirmDialog(this,"Tem a certeza que quer desabilitar o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
@@ -310,7 +310,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
-            new Table_Employer_Service(this.login, this.service, this.idEmployer).setVisible(true);
+            new Table_Employer_Service(this.login, this.idService, this.idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Service.class.getName()).log(Level.SEVERE, null, ex);
         }

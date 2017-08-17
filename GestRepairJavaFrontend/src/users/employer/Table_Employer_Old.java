@@ -24,7 +24,7 @@ import users.user.Table_Users_Type;
 public final class Table_Employer_Old extends javax.swing.JFrame {
 
     public String login, service;
-    private final int idEmployer;
+    private final int idEmployer,idService;
     APIEmployer api = new APIEmployer();
 
     /**
@@ -35,7 +35,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Employer_Old(String login, String service, int idEmployer) throws Exception {
+    public Table_Employer_Old(String login, int idService, int idEmployer) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowEmployer(login, 0, 0));
@@ -44,7 +44,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         tbl_users.removeColumn(col);
         bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         this.login = login;
-        this.service = service;
+        this.idService = idService;
         this.idEmployer = idEmployer;
     }
 
@@ -285,7 +285,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(login, service).setVisible(true);
+            new Table_Users_Type(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
         }

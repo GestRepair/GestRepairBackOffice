@@ -38,31 +38,23 @@ public final class MainMenu extends javax.swing.JFrame {
      * @param dados
      * @throws java.lang.Exception
      */
-    private String login, service;
+    private final String login;
     private int id, idEmployer, idService;
 
     public MainMenu(String login, String dados) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         setMenu(login, dados);
-        setLogin(login);
+        this.login=login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getLogin() {
-        return this.login;
-    }
-
-    ;
     
     public void setMenu(String login, String dados) throws Exception {
         APIEmployer api = new APIEmployer();
+        String service;
+        int idEmployer, idService;
         try {
-            String service;
-            int idEmployer, idService;
+            
             JSONObject newjson = (JSONObject) new JSONParser().parse(dados);
             String data = newjson.get("data").toString();
             JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
@@ -73,12 +65,9 @@ public final class MainMenu extends javax.swing.JFrame {
             this.id = id;
             idEmployer = parseInt(api.GetInfoEmployer(login, id)[0]);
             this.idEmployer = idEmployer;
-            service = api.GetInfoEmployer(login, id)[2];
-            this.service = service;
             idService = parseInt(api.GetInfoEmployer(login, id)[3]);
             this.idService = idService;
-
-            l_service.setText(service);
+            l_service.setText(api.GetInfoEmployer(login, id)[2]);
         } catch (ParseException pe) {
             System.out.println("Erro");
         }
@@ -296,27 +285,27 @@ public final class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
-        new MainUsers(getLogin(), this.service, this.idEmployer).setVisible(true);
+        new MainUsers(this.login, this.idService, this.idEmployer).setVisible(true);
     }//GEN-LAST:event_bt_utilizadoresActionPerformed
 
     private void bt_servicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_servicesActionPerformed
-        new MainServices(getLogin()).setVisible(true);
+        new MainServices(this.login).setVisible(true);
     }//GEN-LAST:event_bt_servicesActionPerformed
 
     private void bt_veiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_veiculosActionPerformed
-        new MainVehicles(getLogin(),this.idEmployer,this.idService).setVisible(true);
+        new MainVehicles(this.login,this.idEmployer,this.idService).setVisible(true);
     }//GEN-LAST:event_bt_veiculosActionPerformed
 
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
-        new MainRepairs(getLogin()).setVisible(true);
+        new MainRepairs(this.login).setVisible(true);
     }//GEN-LAST:event_bt_repairActionPerformed
 
     private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
-        new MainBudgets(getLogin()).setVisible(true);
+        new MainBudgets(this.login).setVisible(true);
     }//GEN-LAST:event_bt_budgetsActionPerformed
 
     private void bt_ScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_ScheduleActionPerformed
-        new MainSchedule(getLogin()).setVisible(true);
+        new MainSchedule(this.login).setVisible(true);
     }//GEN-LAST:event_bt_ScheduleActionPerformed
 
     private void mi_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_logoutActionPerformed

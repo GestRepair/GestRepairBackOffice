@@ -94,6 +94,7 @@ public class APIVehicles extends Connect {
         connection.disconnect();
         return json;
     }
+    @SuppressWarnings("empty-statement")
     private String[][] ParseVehicles(String list, int id) {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
@@ -118,7 +119,7 @@ public class APIVehicles extends Connect {
                 }
             };
             return dataTable;
-        } catch (Exception pe) {
+        } catch (Exception e) {
             return null;
         }
     }

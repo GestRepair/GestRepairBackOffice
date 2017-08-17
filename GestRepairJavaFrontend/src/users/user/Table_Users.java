@@ -26,8 +26,9 @@ import vehicles.vehicles.Table_Vehicles_PU;
 public final class Table_Users extends javax.swing.JFrame {
 
     
-    public String login, service;
+    private final String login;
     APIUsers api = new APIUsers();
+    private final int idService;
     /**
      *
      * @param login
@@ -35,13 +36,13 @@ public final class Table_Users extends javax.swing.JFrame {
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users(String login, String service) throws Exception {
+    public Table_Users(String login, int idService) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();      
         showTable(api.ShowUser(login,2));
         tbl_usersStart();
         this.login = login;
-        this.service = service;
+        this.idService = idService;
     }
 
     public void showTable(String[][] list) {
@@ -285,7 +286,7 @@ public final class Table_Users extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(login,service).setVisible(true);
+            new Table_Users_Type(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }

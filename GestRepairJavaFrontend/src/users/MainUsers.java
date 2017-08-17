@@ -21,19 +21,19 @@ import users.employer.Table_Employer_Old;
  * @author Convite
  */
 public class MainUsers extends javax.swing.JFrame {
-    public String login, service;
-    public int idEmployer;
+    private String login;
+    private int idEmployer,idService;
     /**
      * Creates new form mainVehicles
      * @param login
-     * @param service
+     * @param idService
      * @param idEmployer
      */
-    public MainUsers(String login,String service,int idEmployer) {
+    public MainUsers(String login,int idService,int idEmployer) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.login = login;
-        this.service = service;
+        this.idService = idService;
         this.idEmployer = idEmployer;
     }
 
@@ -153,7 +153,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_showUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersActionPerformed
         try {
-            new Table_Users(login,service).setVisible(true);
+            new Table_Users(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,7 +161,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_showUsersTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showUsersTypeActionPerformed
         try {
-            new Table_Users_Type(login,service).setVisible(true);
+            new Table_Users_Type(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -169,7 +169,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_func_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_listActionPerformed
         try {
-            new Table_Employer(this.login,this.service,this.idEmployer).setVisible(true);
+            new Table_Employer(this.login,this.idService,this.idEmployer).setVisible(true);
         }  catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -177,7 +177,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_func_list_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_typeActionPerformed
         try {
-            new Table_Employer_Service(this.login,this.service,this.idEmployer).setVisible(true);
+            new Table_Employer_Service(this.login,this.idService,this.idEmployer).setVisible(true);
         }  catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -185,7 +185,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_func_list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list1ActionPerformed
         try {
-            new Table_Employer_Old(this.login,this.service,this.idEmployer).setVisible(true);
+            new Table_Employer_Old(this.login,this.idService,this.idEmployer).setVisible(true);
         }  catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -193,7 +193,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void bt_func_list_type1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_func_list_type1ActionPerformed
         try {
-            new Table_Employer_Service_Old(this.login,this.service,this.idEmployer).setVisible(true);
+            new Table_Employer_Service_Old(this.login,this.idService,this.idEmployer).setVisible(true);
         }  catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }

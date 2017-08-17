@@ -48,8 +48,9 @@ public final class AddRepair extends javax.swing.JFrame {
             l_employer.setVisible(false);
         } else {
             cb_service.setVisible(false);
+            cb_employer.setVisible(false);
             l_idService.setText(apiService.GetInfo(login, idService)[1]);
-            l_employer.setText(apiEmployer.GetInfoEmployer(login, employer)[2]);
+            l_employer.setText(apiEmployer.GetInfoEmployer(login, employer)[1]);
         }
         this.employer = employer;
         this.vehicle = vehicle;

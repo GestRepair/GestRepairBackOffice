@@ -27,6 +27,8 @@ public final class Table_Vehicles extends javax.swing.JFrame {
      * Creates new form Table_Vehicles
      *
      * @param login
+     * @param idEmployer
+     * @param idService
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException

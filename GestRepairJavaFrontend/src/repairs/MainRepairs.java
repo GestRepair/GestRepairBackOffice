@@ -40,6 +40,7 @@ public class MainRepairs extends javax.swing.JFrame {
         bt_listRepair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Menu Reparações");
         setResizable(false);
 
         bt_listRepair.setText("Lista de Reparações");

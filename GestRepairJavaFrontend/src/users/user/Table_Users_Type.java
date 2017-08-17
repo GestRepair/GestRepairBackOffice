@@ -18,6 +18,7 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import repairs.repairs.Table_Repairs_PU;
+import users.employer.APIEmployer;
 import users.employer.EditEmployer;
 import vehicles.vehicles.AddVehicle;
 import vehicles.vehicles.Table_Vehicles_PU;
@@ -28,18 +29,19 @@ import vehicles.vehicles.Table_Vehicles_PU;
  */
 public final class Table_Users_Type extends javax.swing.JFrame {
 
-    public String login, service;
+    private final String login;
+    private final int idService;
     APIUsers api = new APIUsers();
-
+    APIEmployer apiEmployer = new APIEmployer();
     /**
      * Start the interface and need elements
      *
      * @param login
-     * @param service
+     * @param idService
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users_Type(String login, String service) throws Exception {
+    public Table_Users_Type(String login, int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.ShowUser(login, 0));
@@ -47,11 +49,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         bt_rep_func.setVisible(false);
         tbl_users.setRowSelectionInterval(0, 0);
         tbl_usersStart();
-        Boolean isGest = "Gestor".equals(service);
+        int gest = parseInt(apiEmployer.GetInfoEmployer(login,idService)[0]);
+        Boolean isGest = (gest == 1);
         bt_edit.setVisible(isGest);
         bt_addEmployer.setVisible(isGest);
         this.login = login;
-        this.service = service;
+        this.idService = idService;
     }
 
     public void cleanTable() {
@@ -66,7 +69,6 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         bt_info_func.setVisible(cb != 0);
         bt_rep_func.setVisible(cb != 0);
         tbl_usersStart();
-        this.login = login;
     }
 
     public void showTable(String[][] list) {
@@ -344,7 +346,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(login, service).setVisible(true);
+            new Table_Users_Type(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }

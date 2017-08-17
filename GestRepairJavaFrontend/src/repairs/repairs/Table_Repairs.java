@@ -6,10 +6,12 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
@@ -17,7 +19,7 @@ import javax.swing.table.TableModel;
  */
 public final class Table_Repairs extends javax.swing.JFrame {
 
-    public String log;
+    public String login;
     APIRepair api = new APIRepair();
 
     /**
@@ -29,10 +31,11 @@ public final class Table_Repairs extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public Table_Repairs(String login) throws Exception {
-        log = login;
+        this.login = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.Repairs(login, 0));
+        row(0);
     }
 
     public void showTable(String[][] list) {
@@ -43,6 +46,17 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 row[i] = list1[i];
             }
             mod.addRow(row);
+        }
+    }
+    private void row(int val) {
+        TableModel mod = tbl_repair.getModel();
+        if (mod.getRowCount() > 0) {
+            l_idRepair.setText(mod.getValueAt(val, 0) + "");
+        }else{
+            jLabel7.setText("");
+            l_idRepair.setText("Não contem Dados!");
+            bt_edit.setVisible(false);
+            bt_info.setVisible(false);
         }
     }
 
@@ -60,6 +74,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
         bt_edit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         l_idRepair = new javax.swing.JLabel();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações");
@@ -100,6 +115,13 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
         l_idRepair.setText("reparação");
 
+        bt_info.setText("Info");
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_infoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,6 +133,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_idRepair)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_info)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -126,7 +150,9 @@ public final class Table_Repairs extends javax.swing.JFrame {
                             .addComponent(jLabel7)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(bt_edit)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_edit)
+                            .addComponent(bt_info))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -135,21 +161,39 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
     private void tbl_repairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_repairMouseClicked
         int i = tbl_repair.getSelectedRow();
-        TableModel mod = tbl_repair.getModel();
-        l_idRepair.setText((String) mod.getValueAt(i, 0));
+        row(i);
     }//GEN-LAST:event_tbl_repairMouseClicked
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         // TODO add your handling code here:
         try {
-            
+            int i = tbl_repair.getSelectedRow();
+            TableModel mod = tbl_repair.getModel();
+            if(i<0){ i=0;}
+            int idRepair = parseInt((String) mod.getValueAt(i, 0));  
+            new EditRepair(this.login,idRepair).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
+    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
+        try {
+            int i = tbl_repair.getSelectedRow();
+            TableModel mod = tbl_repair.getModel();
+            if(i<0){ i=0;}
+            int idRepair = parseInt((String) mod.getValueAt(i, 0));         
+            new InfoRepair(this.login, idRepair).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_infoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idRepair;
