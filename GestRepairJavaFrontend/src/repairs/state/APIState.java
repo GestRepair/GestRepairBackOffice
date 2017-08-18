@@ -19,7 +19,7 @@ import org.json.simple.parser.JSONParser;
  *
  * @author Rui Barcelos
  */
-public class State extends Connect{
+public class APIState extends Connect{
     public String GetStateList(String login) throws Exception {
         URL url = new URL(IP() +  "/repair/states" );
         HttpURLConnection connection = Conn(login, url, "GET");
