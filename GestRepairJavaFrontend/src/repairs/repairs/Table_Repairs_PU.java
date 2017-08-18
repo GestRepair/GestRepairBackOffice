@@ -32,7 +32,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
     public Table_Repairs_PU(String login, int id) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showTable(api.Repairs(login,id));
+        showTable(api.ListRepairs(login,id));
         this.login = login;
         this.id = id;
     }
@@ -144,7 +144,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             //api.PutVehicle(login,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
             DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
             mod.setRowCount(0);
-            showTable(api.Repairs(login,id));
+            showTable(api.ListRepairs(login,id));
         } catch (Exception ex) {
             Logger.getLogger(Table_Repairs_PU.class.getName()).log(Level.SEVERE, null, ex);
         }

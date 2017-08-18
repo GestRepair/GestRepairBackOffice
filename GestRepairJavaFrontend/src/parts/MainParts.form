@@ -30,7 +30,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="bt_listParts" pref="197" max="32767" attributes="0"/>
                   <Component id="bt_listPartsService" alignment="0" pref="197" max="32767" attributes="0"/>
-                  <Component id="br_addParts" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bt_addParts" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -44,7 +44,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_listPartsService" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="br_addParts" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_addParts" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="208" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -55,19 +55,13 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Pe&#xe7;as"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_listPartsActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_listPartsService">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Pe&#xe7;as por Servi&#xe7;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_listPartsServiceActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="br_addParts">
+    <Component class="javax.swing.JButton" name="bt_addParts">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Pe&#xe7;a"/>
       </Properties>

@@ -27,11 +27,52 @@ public class MainParts extends javax.swing.JFrame {
      */
     public MainParts(String login,int idService) {
         initComponents();
+        Events(login, idService);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.login = login;
         this.idService=idService;
     }
-
+    private void Events(final String login,final int idService) {
+        bt_addParts.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_addPart(evt,login,idService);
+            }
+        });
+        bt_listParts.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ListPart(evt,login,idService);
+            }
+        });
+        bt_listPartsService.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ListPartService(evt,login,idService);
+            }
+        });
+    }
+    private void BT_addPart(java.awt.event.ActionEvent evt,String login,int idService) {
+        try {
+            new AddParts(login, idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_ListPart(java.awt.event.ActionEvent evt,String login,int idService) {
+        try {
+            new Table_Parts(login,idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_ListPartService(java.awt.event.ActionEvent evt,String login,int idService) {
+        try {
+            new Table_Parts_Type(this.login,this.idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,27 +84,17 @@ public class MainParts extends javax.swing.JFrame {
 
         bt_listParts = new javax.swing.JButton();
         bt_listPartsService = new javax.swing.JButton();
-        br_addParts = new javax.swing.JButton();
+        bt_addParts = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Menu Peças");
         setResizable(false);
 
         bt_listParts.setText("Lista de Peças");
-        bt_listParts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listPartsActionPerformed(evt);
-            }
-        });
 
         bt_listPartsService.setText("Lista de Peças por Serviço");
-        bt_listPartsService.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listPartsServiceActionPerformed(evt);
-            }
-        });
 
-        br_addParts.setText("Adicionar Peça");
+        bt_addParts.setText("Adicionar Peça");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,7 +105,7 @@ public class MainParts extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bt_listParts, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
                     .addComponent(bt_listPartsService, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                    .addComponent(br_addParts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bt_addParts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -85,33 +116,15 @@ public class MainParts extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_listPartsService)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(br_addParts)
+                .addComponent(bt_addParts)
                 .addContainerGap(208, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_listPartsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listPartsActionPerformed
-
-        try {
-            new Table_Parts(this.login,this.idService).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_bt_listPartsActionPerformed
-
-    private void bt_listPartsServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listPartsServiceActionPerformed
-        try {
-            new Table_Parts_Type(this.login,this.idService).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_listPartsServiceActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton br_addParts;
+    private javax.swing.JButton bt_addParts;
     private javax.swing.JButton bt_listParts;
     private javax.swing.JButton bt_listPartsService;
     // End of variables declaration//GEN-END:variables

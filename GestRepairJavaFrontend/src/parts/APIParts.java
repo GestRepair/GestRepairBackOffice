@@ -6,10 +6,6 @@
 package parts;
 
 import connect.Connect;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,48 +15,60 @@ import org.json.simple.parser.JSONParser;
  *
  * @author Rui Barcelos
  */
-public class APIParts extends Connect{
-    private String GetParts(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/parts" + ((id == 0) ? "" : "/service/" + id));
-        HttpURLConnection connection = Conn(login, url, "GET");
-        //Get Response  
-        InputStream is = connection.getInputStream();
-        String json;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            json = "";
-            while ((line = rd.readLine()) != null) {
-                json += line;
-                response.append(line);
-                response.append('\r');
-            }
-        }
-        connection.disconnect();
-        return json;
-    }
+public class APIParts extends Connect {
 
     @SuppressWarnings("empty-statement")
-    private String[][] ParseListParts(String list) throws Exception {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][6];
-            for (int i = 0; i < data.size(); i++) {
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idPart") + "";
-                dataTable[i][1] = (String) datas.get("namePart");
-                dataTable[i][2] = (String) datas.get("description");
-                dataTable[i][3] = (long) datas.get("amount")+"";
-                dataTable[i][4] = (Object) datas.get("price")+"€";
-                dataTable[i][5] = (((long) datas.get("isActive")==1)?"Produção":"Descontinuado");
-            };
-            return dataTable;
-        } catch (Exception pe) {
-            return null;
-        }
+    public String[][] ListParts(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/parts" + ((id == 0) ? "" : "/service/" + id));
+        String result = GETConnect(login, url,"GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(result);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][6];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idPart") + "";
+            dataTable[i][1] = (String) datas.get("namePart");
+            dataTable[i][2] = (String) datas.get("description");
+            dataTable[i][3] = (long) datas.get("amount") + "";
+            dataTable[i][4] = (Object) datas.get("price") + "€";
+            dataTable[i][5] = (((long) datas.get("isActive") == 1) ? "Produção" : "Descontinuado");
+        };
+        return dataTable;
     }
-    public String[][] Parts(String login, int id) throws Exception {
-        return ParseListParts(GetParts(login, id));
+
+    public String[] InfoParts(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/parts/" + id);
+        String result = GETConnect(login, url,"GET");
+        JSONObject newjson = (JSONObject) new JSONParser().parse(result);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] emp = new String[6];
+        emp[0] = (long) newjsondata.get("idPart") + "";
+        emp[1] = (String) newjsondata.get("namePart");
+        emp[2] = (String) newjsondata.get("description");
+        emp[3] = (long) newjsondata.get("amount")+"";
+        emp[4] = (newjsondata.get("price") != null) ? (Object) newjsondata.get("price") + "" : null;
+        emp[5] = (long) newjsondata.get("isActive")+"";
+        return emp;
+    }
+
+    public String PostPart(String login, String[] data) throws Exception {
+        URL url = new URL(IP() + "/parts");
+        JSONObject objp = new JSONObject();
+        objp.put("namePart", data[0]);
+        objp.put("description", data[1]);
+        objp.put("amount", data[2]);
+        objp.put("price", data[3]);
+        objp.put("service", data[4]);
+        return SendConnect(login,url,"POST",objp);
+    }
+    public String PutPart(String login, String[] data,int idPart) throws Exception {
+        URL url = new URL(IP() + "/parts/"+idPart);
+        JSONObject objp = new JSONObject();
+        objp.put("namePart", data[0]);
+        objp.put("description", data[1]);
+        objp.put("amount", data[2]);
+        objp.put("price", data[3]);
+        return SendConnect(login,url,"PUT",objp);
     }
 }

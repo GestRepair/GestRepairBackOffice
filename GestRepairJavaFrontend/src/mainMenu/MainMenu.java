@@ -30,49 +30,189 @@ import vehicles.MainVehicles;
  * @author Rui Barcelos
  */
 public final class MainMenu extends javax.swing.JFrame {
-
     /**
      * Creates new form MainMenu
      *
      * @param login
-     * @param dados
+     * @param data
      * @throws java.lang.Exception
      */
-    private final String login;
-    private int id, idEmployer, idService;
-
-    public MainMenu(String login, String dados) throws Exception {
+    public MainMenu(String login, String data) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        setMenu(login, dados);
-        this.login=login;
-    }
-
-    
-    public void setMenu(String login, String dados) throws Exception {
+        setMenu(login, data);
+    }   
+    private void setMenu(String login, String dados) throws Exception {
         APIEmployer api = new APIEmployer();
-        String service;
-        int idEmployer, idService;
         try {
-            
+            int idEmployer, idService;
+            long idUser;
             JSONObject newjson = (JSONObject) new JSONParser().parse(dados);
             String data = newjson.get("data").toString();
             JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
             String name = newjsondata.get("name").toString();
             l_nome.setText(name);
-            long idUser = (long) newjsondata.get("idUser");       
-            int id = (int) idUser;
-            this.id = id;
-            idEmployer = parseInt(api.GetInfoEmployer(login, id)[0]);
-            this.idEmployer = idEmployer;
-            idService = parseInt(api.GetInfoEmployer(login, id)[3]);
-            this.idService = idService;
-            l_service.setText(api.GetInfoEmployer(login, id)[2]);
+            idUser = (long) newjsondata.get("idUser");       
+            idEmployer = parseInt(api.GetInfoEmployer(login,(int) idUser)[0]);
+            idService = parseInt(api.GetInfoEmployer(login,(int) idUser)[3]);
+            l_service.setText(api.GetInfoEmployer(login,(int) idUser)[2]);
+            Events(login, idEmployer, idService, (int) idUser);
         } catch (ParseException pe) {
             System.out.println("Erro");
         }
+        
     }
-
+    private void Events(final String login,final int idEmployer ,final int idService,final int idUser){
+        bt_utilizadores.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_User(evt,login,idService,idEmployer);
+            }
+        });
+        bt_veiculos.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Vehicles(evt,login,idService,idEmployer);
+            }
+        });
+        bt_repair.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Repair(evt,login,idService);
+            }
+        });
+        bt_services.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Service(evt,login);
+            }
+        });
+        bt_budgets.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Budgets(evt,login);
+            }
+        });
+        bt_Schedule.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Schedule(evt,login);
+            }
+        });
+        bt_parts.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Parts(evt,login,idService);
+            }
+        });
+        mi_logout.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_Logout(evt);
+            }
+        });
+        mi_exit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_Exit(evt);
+            }
+        });
+        mi_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_Edit(evt,login,idUser);
+            }
+        });
+        mi_change_pass.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_ChangePass(evt,login,idUser);
+            }
+        });
+        mi_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MI_Info(evt,login,idUser);
+            }
+        });
+    }
+    private void BT_User(java.awt.event.ActionEvent evt,String login,int idService, int idEmployer) {
+        try {
+            new MainUsers(login, idService,idEmployer).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Vehicles(java.awt.event.ActionEvent evt,String login,int idService, int idEmployer) {
+        try {
+            new MainVehicles(login, idService,idEmployer).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Repair(java.awt.event.ActionEvent evt,String login,int idService) {
+        try {
+            new MainRepairs(login, idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Service(java.awt.event.ActionEvent evt,String login) {
+        try {
+            new MainServices(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Budgets(java.awt.event.ActionEvent evt,String login) {
+        try {
+            new MainBudgets(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Schedule(java.awt.event.ActionEvent evt,String login) {
+        try {
+            new MainSchedule(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Parts(java.awt.event.ActionEvent evt,String login, int idService) {
+        try {
+            new MainParts(login,idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void MI_Logout(java.awt.event.ActionEvent evt) {
+        new login_menu().setVisible(true);
+        dispose();
+    }
+    private void MI_Exit(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
+    private void MI_Edit(java.awt.event.ActionEvent evt,String login,int idUser) {
+        try {
+            new EditUser(login, idUser).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void MI_ChangePass(java.awt.event.ActionEvent evt,String login,int idUser) {
+        try {
+            new EditPassword(login, idUser).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void MI_Info(java.awt.event.ActionEvent evt,String login,int idUser) {
+        try {
+            new InfoUser(login, idUser).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,25 +249,10 @@ public final class MainMenu extends javax.swing.JFrame {
         setResizable(false);
 
         bt_utilizadores.setText("Utilizadores");
-        bt_utilizadores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_utilizadoresActionPerformed(evt);
-            }
-        });
 
         bt_veiculos.setText("Viaturas");
-        bt_veiculos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_veiculosActionPerformed(evt);
-            }
-        });
 
         bt_repair.setText("Reparações");
-        bt_repair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_repairActionPerformed(evt);
-            }
-        });
 
         l_id_nome.setText("Nome:");
 
@@ -139,32 +264,12 @@ public final class MainMenu extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imageedit_4_8303763918.png"))); // NOI18N
 
         bt_services.setText("Serviços");
-        bt_services.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_servicesActionPerformed(evt);
-            }
-        });
 
         bt_budgets.setText("Orçamentos");
-        bt_budgets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_budgetsActionPerformed(evt);
-            }
-        });
 
         bt_Schedule.setText("Marcações");
-        bt_Schedule.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_ScheduleActionPerformed(evt);
-            }
-        });
 
         bt_parts.setText("Peças");
-        bt_parts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_partsActionPerformed(evt);
-            }
-        });
 
         bt_providers.setText("Fornecedores");
 
@@ -175,43 +280,18 @@ public final class MainMenu extends javax.swing.JFrame {
         m_session.setText("Sessão");
 
         mi_info.setText("Perfil");
-        mi_info.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_infoActionPerformed(evt);
-            }
-        });
         m_session.add(mi_info);
 
         mi_edit.setText("Editar");
-        mi_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_editActionPerformed(evt);
-            }
-        });
         m_session.add(mi_edit);
 
         mi_change_pass.setText("Alterar Password");
-        mi_change_pass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_change_passActionPerformed(evt);
-            }
-        });
         m_session.add(mi_change_pass);
 
         mi_logout.setText("Terminar Sessão");
-        mi_logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_logoutActionPerformed(evt);
-            }
-        });
         m_session.add(mi_logout);
 
         mi_exit.setText("Sair");
-        mi_exit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_exitActionPerformed(evt);
-            }
-        });
         m_session.add(mi_exit);
 
         jMenuBar1.add(m_session);
@@ -288,70 +368,6 @@ public final class MainMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_utilizadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_utilizadoresActionPerformed
-        new MainUsers(this.login, this.idService, this.idEmployer).setVisible(true);
-    }//GEN-LAST:event_bt_utilizadoresActionPerformed
-
-    private void bt_servicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_servicesActionPerformed
-        new MainServices(this.login).setVisible(true);
-    }//GEN-LAST:event_bt_servicesActionPerformed
-
-    private void bt_veiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_veiculosActionPerformed
-        new MainVehicles(this.login,this.idEmployer,this.idService).setVisible(true);
-    }//GEN-LAST:event_bt_veiculosActionPerformed
-
-    private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
-        new MainRepairs(this.login,this.idService).setVisible(true);
-    }//GEN-LAST:event_bt_repairActionPerformed
-
-    private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
-        new MainBudgets(this.login).setVisible(true);
-    }//GEN-LAST:event_bt_budgetsActionPerformed
-
-    private void bt_ScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_ScheduleActionPerformed
-        new MainSchedule(this.login).setVisible(true);
-    }//GEN-LAST:event_bt_ScheduleActionPerformed
-
-    private void mi_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_logoutActionPerformed
-        // TODO add your handling code here:
-        new login_menu().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_mi_logoutActionPerformed
-
-    private void mi_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_exitActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_mi_exitActionPerformed
-
-    private void mi_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_editActionPerformed
-        try {
-            new EditUser(this.login, this.id).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_editActionPerformed
-
-    private void mi_change_passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_change_passActionPerformed
-        try {
-            new EditPassword(this.login, this.id).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_change_passActionPerformed
-
-    private void mi_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_infoActionPerformed
-        try {
-            new InfoUser(this.login, this.id).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_infoActionPerformed
-
-    private void bt_partsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_partsActionPerformed
-        new MainParts(this.login, this.idService).setVisible(true);
-    }//GEN-LAST:event_bt_partsActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_Schedule;
     private javax.swing.JButton bt_budgets;
@@ -375,5 +391,4 @@ public final class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_info;
     private javax.swing.JMenuItem mi_logout;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -5,14 +5,11 @@
  */
 package repairs.employers;
 
-import repairs.repairs.*;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
 import users.employer.APIEmployer;
 

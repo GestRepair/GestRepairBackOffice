@@ -5,20 +5,14 @@
  */
 package parts;
 
-import users.user.*;
-import budgets.Table_Budgets_PU;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import repairs.repairs.Table_Repairs_PU;
-import vehicles.vehicles.AddVehicle;
-import vehicles.vehicles.Table_Vehicles_PU;
 
 /**
  *
@@ -26,10 +20,8 @@ import vehicles.vehicles.Table_Vehicles_PU;
  */
 public final class Table_Parts extends javax.swing.JFrame {
 
-    
-    private final String login;
     APIParts api = new APIParts();
-    private final int idService;
+
     /**
      *
      * @param login
@@ -39,11 +31,45 @@ public final class Table_Parts extends javax.swing.JFrame {
      */
     public Table_Parts(String login, int idService) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        initComponents();      
-        showTable(api.Parts(login,0));
+        initComponents();
+        showTable(api.ListParts(login, 0));
         tbl_usersStart();
-        this.login = login;
-        this.idService = idService;
+        row(0);
+        Events(login, idService);
+    }
+
+    private void Events(final String login, final int idService) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_Edit(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_Info(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        int idPart = parseInt(linfoUser.getText());
+        new EditParts(login, idPart, idService).setVisible(true);
+        dispose();
+    }
+    private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        int idPart = parseInt(linfoUser.getText());
+        new InfoParts(login, idPart, idService).setVisible(true);
+        dispose();
     }
 
     public void showTable(String[][] list) {
@@ -57,12 +83,18 @@ public final class Table_Parts extends javax.swing.JFrame {
         }
     }
 
-    private void tbl_usersStart() {                                       
+    private void tbl_usersStart() {
         // TODO add your handling code here:
         TableModel mod = tbl_part.getModel();
-        linfoUser.setText(mod.getValueAt(0, 0) + "");
-        l_username.setText(mod.getValueAt(0, 1) + "");
-    }       
+        row(0);
+    }
+
+    private void row(int val) {
+        TableModel mod = tbl_part.getModel();
+        linfoUser.setText(mod.getValueAt(val, 0) + "");
+        l_username.setText(mod.getValueAt(val, 1) + "");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,9 +110,11 @@ public final class Table_Parts extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
+        bt_edit = new javax.swing.JButton();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Lista de Utilizadores");
+        setTitle("GestRepair - Lista de Peças");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         tbl_part.setModel(new javax.swing.table.DefaultTableModel(
@@ -115,11 +149,15 @@ public final class Table_Parts extends javax.swing.JFrame {
 
         l_username.setText("username");
 
+        bt_edit.setText("Editar");
+
+        bt_info.setText("Info");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,19 +169,31 @@ public final class Table_Parts extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(l_username)
-                .addContainerGap(953, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_info)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_edit)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(linfoUser)
-                    .addComponent(jLabel6)
-                    .addComponent(l_username))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(linfoUser)
+                            .addComponent(jLabel6)
+                            .addComponent(l_username))
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_edit)
+                            .addComponent(bt_info))
+                        .addContainerGap())))
         );
 
         pack();
@@ -152,12 +202,12 @@ public final class Table_Parts extends javax.swing.JFrame {
     private void tbl_partMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_partMouseClicked
         // TODO add your handling code here:
         int i = tbl_part.getSelectedRow();
-        TableModel mod = tbl_part.getModel();
-        linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 1) + "");
+        row(i);
     }//GEN-LAST:event_tbl_partMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane2;

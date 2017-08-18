@@ -6,13 +6,11 @@
 package services;
 
 import connect.Connect;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -33,7 +31,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Rui Barcelos
  */
-public class APIService extends Connect{
+public class APIService extends Connect {
 
     private static final String LINE_FEED = "\r\n";
     private static final String CHARSET = "UTF-8";
@@ -58,8 +56,6 @@ public class APIService extends Connect{
     String boundary;
     HttpURLConnection connection;
     Connect connect = new Connect();
-
-    
 
     public void PostService(String login, String name, String price, String description, File photo) throws Exception {
         final File uploadFile = photo;
@@ -165,76 +161,34 @@ public class APIService extends Connect{
         }
     }
 
-    public String getService(String login) throws Exception {
-        URL url;
-        url = new URL(IP() + "/service/comp");
-
-        HttpURLConnection conn = Conn(login, url, "GET");
-
-        //Get Response  
-        InputStream is = conn.getInputStream();
-        String json;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            json = "";
-            while ((line = rd.readLine()) != null) {
-                json += line;
-                response.append(line);
-                response.append('\r');
-            }
-        } // or StringBuffer if Java version 5+
-        conn.disconnect();
-        return json;
-    }
-
-    @SuppressWarnings("empty-statement")
-    public String[][] ListService(String list) {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
-            JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][5];
-            for (int i = 0; i < data.size(); i++) {
-                JSONObject datas = (JSONObject) data.get(i);
-                dataTable[i][0] = (long) datas.get("idService") + "";
-                dataTable[i][1] = (String) datas.get("nameService");
-                dataTable[i][2] = (long) datas.get("priceService") + "";
-                dataTable[i][3] = (String) datas.get("description");
-                dataTable[i][4] = (String) datas.get("photo");
-            };
-            return dataTable;
-
-        } catch (ParseException pe) {
-            System.out.println("Erro");
-            return null;
-        }
-    }
-
     public String[][] Service(String login) throws Exception {
-        return ListService(getService(login));
+        URL url = new URL(IP() + "/service/comp");
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][5];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idService") + "";
+            dataTable[i][1] = (String) datas.get("nameService");
+            dataTable[i][2] = (long) datas.get("priceService") + "";
+            dataTable[i][3] = (String) datas.get("description");
+            dataTable[i][4] = (String) datas.get("photo");
+        };
+        return dataTable;
+
     }
 
     public String[] GetInfo(String login, int id) throws Exception {
         URL url = new URL(IP() + "/service/desk/" + id);
-        HttpURLConnection conn = Conn(login, url, "GET");
-
-        conn.getResponseCode();
-
-        InputStream is = conn.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        String json = "";
-        while ((line = br.readLine()) != null) {
-            json += line;
-        }
-        conn.disconnect();
+        String json = GETConnect(login, url, "GET");
         JSONObject newjson = (JSONObject) new JSONParser().parse(json);
         String data = newjson.get("data").toString();
         JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
         String[] info = new String[5];
         info[0] = (long) newjsondata.get("idService") + "";
         info[1] = (String) newjsondata.get("nameService");
-        info[2] = (newjsondata.get("priceService")!=null)?(Object) newjsondata.get("priceService")+"":null;
+        info[2] = (newjsondata.get("priceService") != null) ? (Object) newjsondata.get("priceService") + "" : null;
         info[3] = (String) newjsondata.get("description");
         info[4] = (String) newjsondata.get("photo");
         return info;
@@ -242,6 +196,7 @@ public class APIService extends Connect{
 
     /**
      * Put Service with photo
+     *
      * @param login
      * @param id
      * @param name
@@ -268,29 +223,15 @@ public class APIService extends Connect{
      * @param name
      * @param price
      * @param description
+     * @return 
      * @throws Exception
      */
-    public void PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
+    public String PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
         URL url = PUTUrlWithout(id);
-        HttpURLConnection conn = Conn(login, url, "PUT");
-        JSONObject objp;
-        try (OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream())) {
-            objp = new JSONObject();
-            objp.put("nameService", name);
-            objp.put("priceService", price);
-            objp.put("description", description);
-            out.write(objp.toString());
-            out.flush();
-        }
-        conn.getResponseCode();
-        InputStream is = conn.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        String json = "";
-        while ((line = br.readLine()) != null) {
-            json += line;
-        }
-        System.out.println(json);
-        conn.disconnect();
+        JSONObject objp = new JSONObject();
+        objp.put("nameService", name);
+        objp.put("priceService", price);
+        objp.put("description", description);
+        return SendConnect(login, url, "PUT", objp);
     }
 }

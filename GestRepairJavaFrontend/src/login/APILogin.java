@@ -20,10 +20,7 @@ import org.json.simple.JSONObject;
  *
  * @author Rui Barcelos
  */
-public class APILogin {
-    //Introduz ip para a classe Inteira
-    Connect ip = new Connect();
-    
+public class APILogin extends Connect{
     /**
      *
      * @param user
@@ -33,7 +30,7 @@ public class APILogin {
      */
     public String[] post(String user, String pass) throws Exception {
         //URL para a API
-        URL url = new URL(ip.IP() + "/login");
+        URL url = new URL(IP() + "/login");
         //Conexão à API
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         //Tempo de leitura

@@ -5,10 +5,8 @@
  */
 package parts;
 
-import users.user.*;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -39,18 +37,51 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
      */
     public Table_Parts_Type(String login, int idService) throws Exception {
         initComponents();
+        Events(login,idService);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showService(apiService.Service(login));
         int i = cbType.getSelectedIndex(); 
         if(idService != 1||idService!=2){
             cbType.setSelectedItem(apiService.GetInfo(login, idService)[1]);
         }
-        showTable(api.Parts(login,(idService == 1||idService==2)?Cb_Val(i + 2, apiService.Service(login)):idService));
+        showTable(api.ListParts(login,(idService == 1||idService==2)?Cb_Val(i + 2, apiService.Service(login)):idService));
         row(0);
         this.login = login;
         this.idService = idService;
     }
+    private void Events(final String login, final int idService) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_Edit(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_Info(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
 
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        int idPart = parseInt(linfoUser.getText());
+        new EditParts(login, idPart, idService).setVisible(true);
+        dispose();
+    }
+    private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        int idPart = parseInt(linfoUser.getText());
+        new InfoParts(login, idPart, idService).setVisible(true);
+        dispose();
+    }
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         mod.setRowCount(0);
@@ -110,9 +141,11 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
         cbType = new javax.swing.JComboBox<String>();
+        bt_edit = new javax.swing.JButton();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Lista de Utilizadores por catergoria");
+        setTitle("GestRepair - Lista de Peeças por catergoria");
 
         tbl_parts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -157,6 +190,10 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             }
         });
 
+        bt_edit.setText("Editar");
+
+        bt_info.setText("Info");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,7 +204,8 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -175,9 +213,13 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_username)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1336, Short.MAX_VALUE)
+                        .addComponent(l_username)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_info)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_edit)))
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1160, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,12 +230,14 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
                     .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(linfoUser)
                     .addComponent(jLabel6)
-                    .addComponent(l_username))
+                    .addComponent(l_username)
+                    .addComponent(bt_edit)
+                    .addComponent(bt_info))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -209,13 +253,15 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         try {
             cleanTable();
             int i = cbType.getSelectedIndex();
-            showTable(api.Parts(login, Cb_Val(i + 2, apiService.Service(login))));
+            showTable(api.ListParts(login, Cb_Val(i + 2, apiService.Service(login))));
             row(0);
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_cbTypeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
     private javax.swing.JComboBox<String> cbType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
