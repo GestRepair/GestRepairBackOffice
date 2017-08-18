@@ -17,15 +17,18 @@ import java.util.logging.Logger;
 public class MainRepairs extends javax.swing.JFrame {
 
     private final String login;
+    private final int idService;
 
     /**
      * Creates new form mainVehicles
      * @param login
+     * @param idService
      */
-    public MainRepairs(String login) {
+    public MainRepairs(String login,int idService) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         this.login = login;
+        this.idService=idService;
     }
 
     /**
@@ -73,7 +76,7 @@ public class MainRepairs extends javax.swing.JFrame {
     private void bt_listRepairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listRepairActionPerformed
 
         try {
-            new Table_Repairs(this.login).setVisible(true);
+            new Table_Repairs(this.login,this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainRepairs.class.getName()).log(Level.SEVERE, null, ex);
         }

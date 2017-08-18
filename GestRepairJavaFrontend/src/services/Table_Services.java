@@ -65,13 +65,9 @@ public final class Table_Services extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         l_idService = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        MI_LIST = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        MI_ADD = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de Serviços");
 
         tbl_schedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -89,7 +85,6 @@ public final class Table_Services extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_schedule.setColumnSelectionAllowed(true);
         tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_scheduleMouseClicked(evt);
@@ -108,26 +103,6 @@ public final class Table_Services extends javax.swing.JFrame {
                 bt_editActionPerformed(evt);
             }
         });
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        MI_LIST.setText("Serviços");
-
-        jMenuItem1.setText("Lista");
-        MI_LIST.add(jMenuItem1);
-
-        MI_ADD.setText("Adicionar");
-        MI_ADD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_ADDActionPerformed(evt);
-            }
-        });
-        MI_LIST.add(MI_ADD);
-
-        jMenuBar1.add(MI_LIST);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,7 +128,7 @@ public final class Table_Services extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(l_idService))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -167,10 +142,6 @@ public final class Table_Services extends javax.swing.JFrame {
         l_idService.setText((String) mod.getValueAt(i, 0));
     }//GEN-LAST:event_tbl_scheduleMouseClicked
 
-    private void MI_ADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MI_ADDActionPerformed
-        new Create_Service(log).setVisible(true);
-    }//GEN-LAST:event_MI_ADDActionPerformed
-
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
             new EditService(log,parseInt(l_idService.getText())).setVisible(true);
@@ -180,13 +151,8 @@ public final class Table_Services extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem MI_ADD;
-    private javax.swing.JMenu MI_LIST;
     private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idService;
     private javax.swing.JTable tbl_schedule;

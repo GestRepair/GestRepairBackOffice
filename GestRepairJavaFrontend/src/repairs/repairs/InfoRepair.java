@@ -8,6 +8,7 @@ package repairs.repairs;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repairs.employers.Table_Employer_Repair;
 
 /**
  *
@@ -16,20 +17,23 @@ import java.util.logging.Logger;
 public class InfoRepair extends javax.swing.JFrame {
     private final String login;
     private final int idRepair;
+    private final int idService;
 
     /**
      * Creates new form Info
      *
      * @param login
      * @param idRepair
+     * @param idService 
      * @throws Exception
      */
-    public InfoRepair(String login, int idRepair) throws Exception {
+    public InfoRepair(String login, int idRepair,int idService) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idRepair);
         this.login = login;
         this.idRepair = idRepair;
+        this.idService = idService;
     }
     /**
      * 
@@ -137,6 +141,11 @@ public class InfoRepair extends javax.swing.JFrame {
         });
 
         bt_emplyers.setText("Funcionários");
+        bt_emplyers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_emplyersActionPerformed(evt);
+            }
+        });
 
         bt_parts.setText("Peças");
 
@@ -243,6 +252,15 @@ public class InfoRepair extends javax.swing.JFrame {
             Logger.getLogger(InfoRepair.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
+
+    private void bt_emplyersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_emplyersActionPerformed
+        try {
+            new Table_Employer_Repair(this.login,this.idRepair,this.idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(InfoRepair.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_emplyersActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

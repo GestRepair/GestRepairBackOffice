@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -38,6 +40,7 @@ public final class EditService extends javax.swing.JFrame {
         info(api.GetInfo(login, id));
         this.id = id;
         this.log = login;
+        ta_desc.setLineWrap(true);
     }
 
     public void upload() throws MalformedURLException, Exception {
@@ -59,7 +62,7 @@ public final class EditService extends javax.swing.JFrame {
             Image newimg = image.getScaledInstance(300, 180, java.awt.Image.SCALE_SMOOTH);
             icon = new ImageIcon(newimg);
             l_photo.setIcon(icon);
-            JOptionPane.showMessageDialog(this,"Ficheiro Inválido \nUtilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+            JOptionPane.showMessageDialog(this, "Ficheiro Inválido \nUtilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
             tf_upload.setText("");
         }
     }
@@ -68,7 +71,7 @@ public final class EditService extends javax.swing.JFrame {
         l_service.setText(info[0]);
         tf_service.setText(info[1]);
         tf_price.setText(info[2]);
-        jTextArea1.setText(info[3]);
+        ta_desc.setText(info[3]);
         ImageIcon icon = new ImageIcon(new URL(info[4]));
         Image image = icon.getImage();
         Image newimg = image.getScaledInstance(300, 180, java.awt.Image.SCALE_SMOOTH);
@@ -92,16 +95,16 @@ public final class EditService extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tf_price = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
         l_photo = new javax.swing.JLabel();
         tf_upload = new javax.swing.JTextField();
         bt_upload = new javax.swing.JButton();
         bt_edit = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ta_desc = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Alterar Serviço");
+        setTitle("GestRepair - Alterar Serviço");
         setResizable(false);
 
         jLabel1.setText("Serviço n.º:");
@@ -113,12 +116,6 @@ public final class EditService extends javax.swing.JFrame {
         jLabel2.setText("Preço:");
 
         jLabel4.setText("Descrição:");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setAutoscrolls(false);
-        jTextArea1.setFocusable(false);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jLabel5.setText("Imagem:");
 
@@ -136,15 +133,18 @@ public final class EditService extends javax.swing.JFrame {
             }
         });
 
+        ta_desc.setColumns(20);
+        ta_desc.setRows(5);
+        jScrollPane2.setViewportView(ta_desc);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bt_edit)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel1)
@@ -152,20 +152,26 @@ public final class EditService extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(l_service)
-                                .addComponent(tf_price)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                            .addComponent(tf_service, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(l_service, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tf_price, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(tf_service))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(tf_upload, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(l_photo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bt_upload))))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(l_photo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(69, 69, 69))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tf_upload, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(bt_upload)
+                                .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bt_edit)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,14 +192,15 @@ public final class EditService extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(141, 141, 141)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(tf_upload, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(bt_upload))))))
-                .addGap(18, 18, 18)
+                                    .addComponent(bt_upload)))
+                            .addComponent(jScrollPane2))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_edit)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -205,26 +212,26 @@ public final class EditService extends javax.swing.JFrame {
         try {
             upload();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Ficheiro Não Existe");
+            JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
         }
     }//GEN-LAST:event_bt_uploadActionPerformed
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
-            File f = new File(tf_upload.getText());
-            try {
-                if (!"".equals(tf_upload.getText())) {
-                    api.PutService(log, id, tf_service.getText(), tf_price.getText(), jTextArea1.getText(), f);
+        try {
+            if (tf_upload.getText().length() > 0) {
+                if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
+                    File f = new File(tf_upload.getText());
+                    api.PutService(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText(), f);
+                    JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                    dispose();
                 } else {
-                    api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), jTextArea1.getText());
+                    JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
                 }
-                JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this,"Ficheiro Não Existe");
+            } else {
+                api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
             }
-        }else{
-            JOptionPane.showMessageDialog(this,"Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+        } catch (Exception ex) {
+            Logger.getLogger(EditService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
@@ -236,10 +243,10 @@ public final class EditService extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_photo;
     private javax.swing.JLabel l_service;
+    private javax.swing.JTextArea ta_desc;
     private javax.swing.JTextField tf_price;
     private javax.swing.JTextField tf_service;
     private javax.swing.JTextField tf_upload;

@@ -6,6 +6,7 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,7 @@ import javax.swing.table.TableModel;
  * @author Rui Barcelos
  */
 public final class Table_Repairs_PU extends javax.swing.JFrame {
-    public String log;
+    public String login;
     public int id;
     APIRepair api = new APIRepair();
     /**
@@ -29,22 +30,19 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * @throws java.text.ParseException
      */
     public Table_Repairs_PU(String login, int id) throws Exception {
-        log = login;
-        this.id = id;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.Repairs(login,id));
-       
+        this.login = login;
+        this.id = id;
     }
         
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-        Object[] row = new Object[10];
+        Object[] row = new Object[8];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
-                
                     row[i] = list1[i];
-                
             }
             mod.addRow(row);
         }
@@ -74,18 +72,17 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Matricula", "Serviço", "Descrição do Cliente", "Preço", "Estado", "Início", "Fim", "Informação", "Responsável"
+                "ID", "Matricula","Descrição do Cliente", "Preço", "Estado", "Início", "Fim", "Informação"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_vehicles.setColumnSelectionAllowed(true);
         tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_vehiclesMouseClicked(evt);
@@ -144,10 +141,10 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         // TODO add your handling code here:
         try {
-            //api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
+            //api.PutVehicle(login,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
             DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
             mod.setRowCount(0);
-            showTable(api.Repairs(log,id));
+            showTable(api.Repairs(login,id));
         } catch (Exception ex) {
             Logger.getLogger(Table_Repairs_PU.class.getName()).log(Level.SEVERE, null, ex);
         }

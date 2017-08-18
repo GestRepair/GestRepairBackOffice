@@ -14,10 +14,10 @@ import login.login_menu;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import parts.MainParts;
 import repairs.MainRepairs;
 import schedule.MainSchedule;
 import services.MainServices;
-import users.user.APIUsers;
 import users.user.EditPassword;
 import users.user.EditUser;
 import users.user.InfoUser;
@@ -160,6 +160,11 @@ public final class MainMenu extends javax.swing.JFrame {
         });
 
         bt_parts.setText("Peças");
+        bt_parts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_partsActionPerformed(evt);
+            }
+        });
 
         bt_providers.setText("Fornecedores");
 
@@ -297,7 +302,7 @@ public final class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_veiculosActionPerformed
 
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
-        new MainRepairs(this.login).setVisible(true);
+        new MainRepairs(this.login,this.idService).setVisible(true);
     }//GEN-LAST:event_bt_repairActionPerformed
 
     private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
@@ -341,6 +346,10 @@ public final class MainMenu extends javax.swing.JFrame {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mi_infoActionPerformed
+
+    private void bt_partsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_partsActionPerformed
+        new MainParts(this.login, this.idService).setVisible(true);
+    }//GEN-LAST:event_bt_partsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

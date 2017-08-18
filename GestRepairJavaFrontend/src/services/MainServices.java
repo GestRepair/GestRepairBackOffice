@@ -41,6 +41,7 @@ public class MainServices extends javax.swing.JFrame {
         bt_create = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Menu Serviços");
         setResizable(false);
 
         bt_listServices.setText("Lista de Serviços");

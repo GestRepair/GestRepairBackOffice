@@ -10,10 +10,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,7 +23,7 @@ import org.json.simple.parser.JSONParser;
 public class APIRepair extends Connect {
 
     private String GetRepairs(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/repair" + ((id == 0) ? "" : "/" + id));
+        URL url = new URL(IP() + "/repair" + ((id == 0) ? "" : "/user/" + id));
         HttpURLConnection connection = Conn(login, url, "GET");
         //Get Response  
         InputStream is = connection.getInputStream();
@@ -46,24 +44,22 @@ public class APIRepair extends Connect {
     }
 
     @SuppressWarnings("empty-statement")
-    public String[][] ParseListRepair(String list) throws Exception {
+    private String[][] ParseListRepair(String list) throws Exception {
         try {
             JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
+            String[][] dataTable = new String[data.size()][8];
             for (int i = 0; i < data.size(); i++) {
                 
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idRepair") + "";
                 dataTable[i][1] = (String) datas.get("vehicle");
-                dataTable[i][2] = (String) datas.get("service");
-                dataTable[i][3] = (String) datas.get("description");
-                dataTable[i][4] = (Object) datas.get("price")+"";
-                dataTable[i][5] = (String) datas.get("state");
-                dataTable[i][6] = ((String) datas.get("startDate")).substring(0, 10);
-                dataTable[i][7] = (datas.get("finishDate")!=null)?((String) datas.get("finishDate")).substring(0, 10):null;
-                dataTable[i][8] = (String) datas.get("information");
-                dataTable[i][9] = (String) datas.get("employer");
+                dataTable[i][2] = (String) datas.get("description");
+                dataTable[i][3] = (Object) datas.get("price")+"";
+                dataTable[i][4] = (String) datas.get("state");
+                dataTable[i][5] = ((String) datas.get("startDate")).substring(0, 10);
+                dataTable[i][6] = (datas.get("finishDate")!=null)?((String) datas.get("finishDate")).substring(0, 10):null;
+                dataTable[i][7] = (String) datas.get("information");
             };
             return dataTable;
         } catch (Exception pe) {
@@ -159,9 +155,5 @@ public class APIRepair extends Connect {
         JSONObject res = (JSONObject) new JSONParser().parse(json);
         String result = (String) res.get("result");
         return result;
-    }
-
-    private void parseInt(float value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

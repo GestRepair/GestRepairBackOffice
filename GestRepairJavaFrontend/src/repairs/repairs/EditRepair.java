@@ -34,6 +34,8 @@ public class EditRepair extends javax.swing.JFrame {
         initComponents();
         ShowData(login, idRepair);
         insertCb(apiState.ShowState(login));
+        ta_description.setLineWrap(true);
+        ta_resolution.setLineWrap(true);
         this.login = login;
         this.idRepair = idRepair;
     }

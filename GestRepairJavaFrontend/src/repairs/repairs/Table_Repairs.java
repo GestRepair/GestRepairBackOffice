@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import repairs.employers.AddEmployerRepair;
+import repairs.employers.Table_Employer_Repair;
 
 /**
  *
@@ -21,26 +23,29 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
     public String login;
     APIRepair api = new APIRepair();
+    private final int idService;
 
     /**
      * Creates new form Table_Vehicles
      *
      * @param login
+     * @param idService
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Repairs(String login) throws Exception {
-        this.login = login;
+    public Table_Repairs(String login,int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.Repairs(login, 0));
         row(0);
+        this.login = login;
+        this.idService = idService;
     }
 
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
-        Object[] row = new Object[10];
+        Object[] row = new Object[8];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 row[i] = list1[i];
@@ -75,6 +80,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         l_idRepair = new javax.swing.JLabel();
         bt_info = new javax.swing.JButton();
+        bt_list_empl = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações");
@@ -84,18 +90,17 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID","Veiculo","Serviço", "Descrição", "Preço", "Estado", "Data Inicio", "Data Conclusão", "Resolução", "Funcionário"
+                "ID","Veiculo","Descrição", "Preço", "Estado", "Data Inicio", "Data Conclusão", "Resolução"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_repair.setColumnSelectionAllowed(true);
         tbl_repair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_repairMouseClicked(evt);
@@ -122,6 +127,13 @@ public final class Table_Repairs extends javax.swing.JFrame {
             }
         });
 
+        bt_list_empl.setText("Ver Funcionários");
+        bt_list_empl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_list_emplActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,6 +145,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_idRepair)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_list_empl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_info)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit)
@@ -152,7 +166,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(bt_edit)
-                            .addComponent(bt_info))))
+                            .addComponent(bt_info)
+                            .addComponent(bt_list_empl))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -184,16 +199,29 @@ public final class Table_Repairs extends javax.swing.JFrame {
             TableModel mod = tbl_repair.getModel();
             if(i<0){ i=0;}
             int idRepair = parseInt((String) mod.getValueAt(i, 0));         
-            new InfoRepair(this.login, idRepair).setVisible(true);
+            new InfoRepair(this.login,idRepair,this.idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_infoActionPerformed
 
+    private void bt_list_emplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_list_emplActionPerformed
+        try {
+            int i = tbl_repair.getSelectedRow();
+            TableModel mod = tbl_repair.getModel();
+            if(i<0){ i=0;}
+            int idRepair = parseInt((String) mod.getValueAt(i, 0));         
+            new Table_Employer_Repair(this.login,idRepair,this.idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_list_emplActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_info;
+    private javax.swing.JButton bt_list_empl;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idRepair;
