@@ -6,6 +6,8 @@
 package parts;
 
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
@@ -15,10 +17,8 @@ import services.APIService;
  * @author Rui Barcelos
  */
 public final class EditParts extends javax.swing.JFrame {
-
     APIParts api = new APIParts();
-    APIService apiService = new APIService();
-    
+    APIService apiService = new APIService();   
     /**
      * Creates new form AddRepair
      *
@@ -29,27 +29,39 @@ public final class EditParts extends javax.swing.JFrame {
      */
     public EditParts(String login,int idPart ,int idService) throws Exception {
         initComponents();
-        Events(login);
+        Events(login,idPart,idService);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         GetData(login, idPart);
         ta_pdesc.setLineWrap(true);
     }
 
-    private void Events(final String login) {
+    private void Events(final String login,final int idPart ,final int idService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt,login);
+                BT_Edit(evt,login);
+            }
+        });
+        bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADDAmount(evt,login,idPart,idService);
+            }
+        });
+        bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EditPrice(evt,login,idPart,idService);
             }
         });
     }
-
-    private void BT_addPost(java.awt.event.ActionEvent evt,String login) {
+    
+    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {
         try {
-            if ((tf_name.getText().length() > 0 && tf_amount.getText().length() > 0) || tf_name.getText().length() > 0 || tf_amount.getText().length() > 0) {
+            if (tf_name.getText().length() > 0 ) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    if ("ok".equals(api.PutPart(login, sendData(login),parseInt(l_idPart.getText())))) {
+                    if ("ok".equals(api.PutPart(login, sendData(),parseInt(l_idPart.getText())))) {
                         JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
                         dispose();
                     } else {
@@ -66,21 +78,34 @@ public final class EditParts extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
     }
+    
+    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+        try {
+            new EditPrice(login, idPart, idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+        try {
+            new AddAmount(login, idPart, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void GetData(String login, int idPart) throws Exception{
         String[] data = api.InfoParts(login,idPart);
         l_idPart.setText(data[0]);
         tf_name.setText(data[1]);
         ta_pdesc.setText(data[2]);
-        tf_amount.setText(data[3]);
-        tf_price.setText(data[4]);
     }
 
-    private String[] sendData(String login) throws Exception {
-        String[] data = new String[5];
+    private String[] sendData() throws Exception {
+        String[] data = new String[3];
         data[0] = tf_name.getText();
         data[1] = (ta_pdesc.getText().length() > 0) ? ta_pdesc.getText() : "n/d";
-        data[2] = tf_amount.getText();
-        data[3] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
         return data;
     }
 
@@ -98,13 +123,11 @@ public final class EditParts extends javax.swing.JFrame {
         ta_pdesc = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         tf_name = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        tf_amount = new javax.swing.JTextField();
-        tf_price = new javax.swing.JFormattedTextField();
-        jLabel5 = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         l_idPart = new javax.swing.JLabel();
+        bt_add_amount = new javax.swing.JButton();
+        bt_edit_price = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Editar Peça");
@@ -117,17 +140,15 @@ public final class EditParts extends javax.swing.JFrame {
 
         jLabel3.setText("Nome:");
 
-        jLabel4.setText("Quantidade");
-
-        tf_price.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-
-        jLabel5.setText("Preço");
-
         bt_edit.setText("Editar");
 
         jLabel1.setText("ID:");
 
         l_idPart.setText("id");
+
+        bt_add_amount.setText("Adicionar Quantidade");
+
+        bt_edit_price.setText("Alterar Preço");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,34 +158,22 @@ public final class EditParts extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tf_name)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tf_amount, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addGap(50, 50, 50)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(jLabel5))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_add_amount)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_edit_price)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                         .addComponent(bt_edit))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(l_idPart)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(tf_name))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -175,21 +184,18 @@ public final class EditParts extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(l_idPart))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_edit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_edit)
+                    .addComponent(bt_add_amount)
+                    .addComponent(bt_edit_price))
                 .addContainerGap())
         );
 
@@ -198,17 +204,15 @@ public final class EditParts extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_add_amount;
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_edit_price;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idPart;
     private javax.swing.JTextArea ta_pdesc;
-    private javax.swing.JTextField tf_amount;
     private javax.swing.JTextField tf_name;
-    private javax.swing.JFormattedTextField tf_price;
     // End of variables declaration//GEN-END:variables
 }

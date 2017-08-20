@@ -67,8 +67,37 @@ public class APIParts extends Connect {
         JSONObject objp = new JSONObject();
         objp.put("namePart", data[0]);
         objp.put("description", data[1]);
-        objp.put("amount", data[2]);
-        objp.put("price", data[3]);
         return SendConnect(login,url,"PUT",objp);
+    }
+    public String PUTAmount(String login, String data,int idPart) throws Exception {
+        URL url = new URL(IP() + "/parts/amount/"+idPart);
+        JSONObject objp = new JSONObject();
+        objp.put("amount", data);
+        return SendConnect(login,url,"PUT",objp);
+    }
+    public String PUTPrice(String login, String data,int idPart) throws Exception {
+        URL url = new URL(IP() + "/parts/price/"+idPart);
+        JSONObject objp = new JSONObject();
+        objp.put("price", data);
+        return SendConnect(login,url,"PUT",objp);
+    }
+    public String POSTService(String login, int data,int idPart) throws Exception {
+        URL url = new URL(IP() + "/parts/service/"+idPart);
+        JSONObject objp = new JSONObject();
+        objp.put("service", data);
+        return SendConnect(login,url,"POST",objp);
+    }
+    public String[][] ListServiceParts(String login, int idParts) throws Exception {
+        URL url = new URL(IP() + "/service/parts/" + idParts);
+        String result = GETConnect(login, url,"GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(result);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idService") + "";
+            dataTable[i][1] = (String) datas.get("nameService");
+        }
+        return dataTable;
     }
 }

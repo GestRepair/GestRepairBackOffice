@@ -240,8 +240,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="bt_parts">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Pe&#xe7;as"/>
+        <Property name="text" type="java.lang.String" value="Ver Pe&#xe7;as"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_partsActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -12,32 +12,28 @@ import java.awt.Toolkit;
  * @author Rui Barcelos
  */
 public final class InfoEmployer extends javax.swing.JFrame {
+
     APIEmployer api = new APIEmployer();
-    String log;
-    int idUser;
+
     /**
      * Creates new form InfoEmployer
+     *
      * @param login
-     * @param id
+     * @param idUser
      * @throws java.lang.Exception
      */
-    public InfoEmployer(String login,int id) throws Exception {
+    public InfoEmployer(String login, int idUser) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        log = login;
-        idUser = id;
-        GetInfo();
+        GetInfo(login,idUser);
     }
-    public void GetInfo() throws Exception{
-        String emp[] = api.GetInfoEmployer(log,idUser);
+
+    private void GetInfo(String login, int idUser) throws Exception {
+        String emp[] = api.GetInfoEmployer(login, idUser);
         l_num.setText(emp[0]);
         l_name.setText(emp[1]);
         l_service.setText(emp[2]);
-        if ("1".equals(emp[3])){
-            l_state.setText("Ativo");
-        } else{
-            l_state.setText("Inativo");
-        }     
+        l_state.setText(("1".equals(emp[3]) ? "A" : "Ina") + "tivo");
     }
 
     /**

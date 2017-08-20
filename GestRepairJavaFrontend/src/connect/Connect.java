@@ -76,7 +76,7 @@ public class Connect{
             json += line;
         }
         connection.disconnect();
-        JSONObject res = (JSONObject) new JSONParser().parse(json);
+        JSONObject res = (JSONObject) new JSONParser().parse(json);  
         return (String) res.get("result");
     }
 }

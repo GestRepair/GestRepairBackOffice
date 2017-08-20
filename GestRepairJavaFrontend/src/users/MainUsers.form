@@ -33,8 +33,8 @@
                   <Component id="bt_addUser" max="32767" attributes="0"/>
                   <Component id="bt_func_list_type" alignment="0" max="32767" attributes="0"/>
                   <Component id="bt_func_list" alignment="0" max="32767" attributes="0"/>
-                  <Component id="bt_func_list_type1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="bt_func_list1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bt_func_list_type_old" alignment="0" max="32767" attributes="0"/>
+                  <Component id="bt_func_list_old" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -43,7 +43,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_showUsers" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_showUsersType" min="-2" max="-2" attributes="0"/>
@@ -54,10 +54,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_func_list_type" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="bt_func_list1" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_func_list_old" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="bt_func_list_type1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="73" max="32767" attributes="0"/>
+              <Component id="bt_func_list_type_old" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -67,57 +67,36 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Utilizadores"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showUsersActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_addUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addUserActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_showUsersType">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Utilizadores Por Categoria"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showUsersTypeActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_func_list">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Funcion&#xe1;rios"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_func_listActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_func_list_type">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Funcion&#xe1;rios por Servi&#xe7;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_func_list_typeActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="bt_func_list1">
+    <Component class="javax.swing.JButton" name="bt_func_list_old">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Antigos Funcion&#xe1;rios"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_func_list1ActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="bt_func_list_type1">
+    <Component class="javax.swing.JButton" name="bt_func_list_type_old">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Antigos  Funcion&#xe1;rios por Servi&#xe7;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_func_list_type1ActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

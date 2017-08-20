@@ -34,13 +34,10 @@
                 <Property name="text" type="java.lang.String" value="Todos os Utilizadores"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="MI_UserType">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Utilizadores Por Categoria"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -210,9 +207,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Funcion&#xe1;rio"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addEmployerActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbType">
       <Properties>
@@ -221,9 +215,6 @@
         </Property>
         <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbTypeActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -232,25 +223,16 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Viaturas"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_vehiclesActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_repair">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Repara&#xe7;&#xf5;es"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_repairActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_budgets">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Or&#xe7;amentos"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_budgetsActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
@@ -261,9 +243,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Dados do Funcion&#xe1;rio"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_info_funcActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_rep_func">
       <Properties>
@@ -274,25 +253,16 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_editActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_add_vehicle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Viatura"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_vehicleActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_userdata">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dados do Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_userdataActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

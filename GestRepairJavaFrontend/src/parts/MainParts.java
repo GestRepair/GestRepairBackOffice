@@ -5,8 +5,6 @@
  */
 package parts;
 
-import repairs.*;
-import repairs.repairs.Table_Repairs;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,62 +15,63 @@ import java.util.logging.Logger;
  */
 public class MainParts extends javax.swing.JFrame {
 
-    private final String login;
-    private final int idService;
-
     /**
      * Creates new form mainVehicles
+     *
      * @param login
      * @param idService
      */
-    public MainParts(String login,int idService) {
+    public MainParts(String login, int idService) {
         initComponents();
         Events(login, idService);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        this.login = login;
-        this.idService=idService;
     }
-    private void Events(final String login,final int idService) {
+
+    private void Events(final String login, final int idService) {
         bt_addParts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPart(evt,login,idService);
+                BT_addPart(evt, login, idService);
             }
         });
         bt_listParts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListPart(evt,login,idService);
+                BT_ListPart(evt, login, idService);
             }
         });
         bt_listPartsService.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListPartService(evt,login,idService);
+                BT_ListPartService(evt, login, idService);
             }
         });
     }
-    private void BT_addPart(java.awt.event.ActionEvent evt,String login,int idService) {
+
+    private void BT_addPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new AddParts(login, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_ListPart(java.awt.event.ActionEvent evt,String login,int idService) {
+
+    private void BT_ListPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
-            new Table_Parts(login,idService).setVisible(true);
+            new Table_Parts(login, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_ListPartService(java.awt.event.ActionEvent evt,String login,int idService) {
+
+    private void BT_ListPartService(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
-            new Table_Parts_Type(this.login,this.idService).setVisible(true);
+            new Table_Parts_Type(login, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

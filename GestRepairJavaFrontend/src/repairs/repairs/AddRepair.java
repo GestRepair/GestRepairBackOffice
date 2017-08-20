@@ -6,9 +6,6 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;

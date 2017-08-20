@@ -16,7 +16,6 @@ import services.APIService;
  */
 public final class AddEmployer extends javax.swing.JFrame {
 
-    private final String log;
     APIService apiService = new APIService();
     APIEmployer api = new APIEmployer();
 
@@ -24,16 +23,15 @@ public final class AddEmployer extends javax.swing.JFrame {
      * Creates new form AddEmployer Create Employers
      *
      * @param login
-     * @param id
+     * @param idUser
      * @param username
-     * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
+     * @throws java.lang.Exception
      */
-    public AddEmployer(String login, String id, String username) throws Exception {
+    public AddEmployer(String login, int idUser, String username) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        this.log = login;
         initComponents();
-        lnuser.setText(id);
+        Events(login, idUser);
+        lnuser.setText(idUser+"");
         lusername.setText(username);
         showService(apiService.Service(login));
     }
@@ -48,7 +46,35 @@ public final class AddEmployer extends javax.swing.JFrame {
     private int newIdCb(int val, String[][] list) {
         return (val < 1) ? 1 : parseInt(list[val][0]);
     }
+    private void Events(final String login, final int idUser) {
+        bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_addEmployer(evt, login, idUser);
+            }
+        });
+    }
 
+    private void BT_addEmployer(java.awt.event.ActionEvent evt, String login, int idUser) {
+        int serv;
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(login));
+                if ("ok".equals(api.PostEmployer(login, idUser, serv))) {
+                    JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
+                }
+                dispose();
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O Funcionário não foi introduzida no sistema!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,11 +100,6 @@ public final class AddEmployer extends javax.swing.JFrame {
         jLabel1.setText("Serviço");
 
         bt_addEmployer.setText("Adicionar Funcionário");
-        bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addEmployerActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Utilizador");
 
@@ -133,28 +154,6 @@ public final class AddEmployer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addEmployerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addEmployerActionPerformed
-        int idUsr, serv;
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                idUsr = parseInt(lnuser.getText());
-                serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(log));
-                if ("ok".equals(api.PostEmployer(log, idUsr, serv))) {
-                    JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
-                }
-                dispose();
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "O Funcionário não foi introduzida no sistema!");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
-        }
-    }//GEN-LAST:event_bt_addEmployerActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addEmployer;

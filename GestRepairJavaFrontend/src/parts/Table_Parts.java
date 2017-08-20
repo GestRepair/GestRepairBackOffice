@@ -39,6 +39,24 @@ public final class Table_Parts extends javax.swing.JFrame {
     }
 
     private void Events(final String login, final int idService) {
+        bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int idPart = parseInt(linfoUser.getText());
+                BT_ADDAmount(evt,login,idPart,idService);
+            }
+        });
+        bt_add_service.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    int idPart = parseInt(linfoUser.getText());
+                    BT_AddService(evt,login,idPart,idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,8 +77,19 @@ public final class Table_Parts extends javax.swing.JFrame {
                 }
             }
         });
+        
+        bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int idPart = parseInt(linfoUser.getText());
+                BT_EditPrice(evt,login,idPart,idService);
+            }
+        });
     }
-
+    private void BT_AddService(java.awt.event.ActionEvent evt, String login,int idPart ,int idService) throws Exception {
+        new AddServicePart(login, idPart, idService).setVisible(true);
+        dispose();
+    }
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new EditParts(login, idPart, idService).setVisible(true);
@@ -71,7 +100,21 @@ public final class Table_Parts extends javax.swing.JFrame {
         new InfoParts(login, idPart, idService).setVisible(true);
         dispose();
     }
-
+    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+        try {
+            new EditPrice(login, idPart, idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+        try {
+            new AddAmount(login, idPart, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_part.getModel();
         Object[] row = new Object[6];
@@ -112,6 +155,9 @@ public final class Table_Parts extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
         bt_info = new javax.swing.JButton();
+        bt_add_amount = new javax.swing.JButton();
+        bt_edit_price = new javax.swing.JButton();
+        bt_add_service = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Peças");
@@ -153,6 +199,12 @@ public final class Table_Parts extends javax.swing.JFrame {
 
         bt_info.setText("Info");
 
+        bt_add_amount.setText("Adicionar Quantidade");
+
+        bt_edit_price.setText("Alterar Preço");
+
+        bt_add_service.setText("Adicionar Serviço");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -170,6 +222,12 @@ public final class Table_Parts extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(l_username)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_add_service)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_add_amount)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_edit_price)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_info)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit)
@@ -190,9 +248,14 @@ public final class Table_Parts extends javax.swing.JFrame {
                         .addContainerGap(25, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bt_edit)
-                            .addComponent(bt_info))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(bt_add_amount)
+                                .addComponent(bt_edit_price)
+                                .addComponent(bt_add_service))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(bt_edit)
+                                .addComponent(bt_info)))
                         .addContainerGap())))
         );
 
@@ -206,7 +269,10 @@ public final class Table_Parts extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_partMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_add_amount;
+    private javax.swing.JButton bt_add_service;
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_edit_price;
     private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
