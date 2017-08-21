@@ -25,10 +25,10 @@ import vehicles.vehicles.Table_Vehicles_PU;
  */
 public final class Table_Users extends javax.swing.JFrame {
 
-    
     private final String login;
     APIUsers api = new APIUsers();
     private final int idService;
+
     /**
      *
      * @param login
@@ -38,8 +38,8 @@ public final class Table_Users extends javax.swing.JFrame {
      */
     public Table_Users(String login, int idService) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        initComponents();      
-        showTable(api.ShowUser(login,2));
+        initComponents();
+        showTable(api.ShowUser(login, 2));
         tbl_usersStart();
         this.login = login;
         this.idService = idService;
@@ -56,12 +56,13 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
-    private void tbl_usersStart() {                                       
+    private void tbl_usersStart() {
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(0, 0) + "");
         l_username.setText(mod.getValueAt(0, 8) + "");
-    }       
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -286,7 +287,7 @@ public final class Table_Users extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(this.login,this.idService).setVisible(true);
+            new Table_Users_Type(this.login, this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -295,20 +296,25 @@ public final class Table_Users extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
             new EditUser(login, parseInt(linfoUser.getText())).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 
     private void bt_userdataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_userdataActionPerformed
-        try
-        {new InfoUser(this.login,parseInt(linfoUser.getText())).setVisible(true);}
-        catch(Exception e){JOptionPane.showMessageDialog(this, e);}
+        try {
+            new InfoUser(this.login, parseInt(linfoUser.getText())).setVisible(true);
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
     }//GEN-LAST:event_bt_userdataActionPerformed
 
     private void bt_add_vehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_vehicleActionPerformed
         try {
             new AddVehicle(login, parseInt(linfoUser.getText()), l_username.getText()).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -316,8 +322,8 @@ public final class Table_Users extends javax.swing.JFrame {
 
     private void bt_vehicles1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vehicles1ActionPerformed
         try {
-            // TODO add your handling code here:
             new Table_Vehicles_PU(login, parseInt(linfoUser.getText())).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -326,6 +332,7 @@ public final class Table_Users extends javax.swing.JFrame {
     private void bt_budgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_budgetsActionPerformed
         try {
             new Table_Budgets_PU(login, parseInt(linfoUser.getText())).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -334,6 +341,7 @@ public final class Table_Users extends javax.swing.JFrame {
     private void bt_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_repairActionPerformed
         try {
             new Table_Repairs_PU(login, parseInt(linfoUser.getText())).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
-import users.user.APIUsers;
 
 /**
  *
@@ -21,8 +20,6 @@ public class EditEmployer extends javax.swing.JFrame {
 
     APIService apiService = new APIService();
     APIEmployer api = new APIEmployer();
-    private final String login;
-    private final int id;
 
     /**
      * Creates new form EditEmployer
@@ -35,9 +32,8 @@ public class EditEmployer extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         insertCb(apiService.Service(login));
-        GetInfo(login, id);
-        this.id = id;
-        this.login = login;
+        int idEmployer = parseInt(GetInfo(login, id));
+        Events(login,id,idEmployer); 
     }
 
     /**
@@ -63,8 +59,8 @@ public class EditEmployer extends javax.swing.JFrame {
         return (val == 0) ? 1 : parseInt(list[val][0]);
     }
 
-    private void GetInfo(String login, int id) throws Exception {
-        String emp[] = api.GetInfoEmployer(login, id);
+    private String GetInfo(String login, int id) throws Exception {
+        String emp[] = api.InfoEmployer(login, id);
         l_idEmployer.setText(emp[0]);
         l_name.setText(emp[1]);
         cb_service.setSelectedItem(emp[2]);
@@ -73,8 +69,34 @@ public class EditEmployer extends javax.swing.JFrame {
         } else {
             l_state.setText("Inativo");
         }
+        return emp[0];
+    }
+    private void Events(final String login, final int idUser,final int idEmp) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EditEmployer(evt, login, idUser,idEmp);
+            }
+        });
     }
 
+    private void BT_EditEmployer(java.awt.event.ActionEvent evt, String login, int idUser,final int idEmp) {
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Deseja Alterar o serviço deste funcionário para " + cb_service.getSelectedItem() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if ("ok".equals(api.PutEmployer(login, idEmp, newIdCb(cb_service.getSelectedIndex(), apiService.Service(login))))) {
+                    JOptionPane.showMessageDialog(this, "O Serviço deste funcionário foi alterado com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                }
+            } else if(x == JOptionPane.NO_OPTION){
+                JOptionPane.showMessageDialog(this, "O serviço não foi alterado!");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EditEmployer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,7 +106,6 @@ public class EditEmployer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSpinner1 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -115,11 +136,6 @@ public class EditEmployer extends javax.swing.JFrame {
         l_state.setText("estado");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,24 +193,6 @@ public class EditEmployer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Deseja Alterar o serviço deste funcionário para " + cb_service.getSelectedItem() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PutEmployer(this.login, parseInt(l_idEmployer.getText()), newIdCb(cb_service.getSelectedIndex(), apiService.Service(login))))) {
-                    JOptionPane.showMessageDialog(this, "O Serviço deste funcionário foi alterado com sucesso");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
-                }
-            } else if(x == JOptionPane.NO_OPTION){
-                JOptionPane.showMessageDialog(this, "O serviço não foi alterado!");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EditEmployer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
@@ -203,7 +201,6 @@ public class EditEmployer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel l_idEmployer;
     private javax.swing.JLabel l_name;
     private javax.swing.JLabel l_state;

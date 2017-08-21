@@ -6,38 +6,39 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import repairs.employers.AddEmployerRepair;
 import repairs.employers.Table_Employer_Repair;
 import repairs.parts.ListPartsRepair;
+import repairs.state.APIState;
 
 /**
  *
  * @author Rui Barcelos
  */
-public final class Table_Repairs extends javax.swing.JFrame {
+public final class Table_Repairs_States extends javax.swing.JFrame {
 
     APIRepair api = new APIRepair();
+    APIState apiState = new APIState();
 
     /**
      * Creates new form Table_Vehicles
      *
      * @param login
      * @param idService
-     * @throws java.io.IOException
-     * @throws java.net.MalformedURLException
-     * @throws org.json.simple.parser.ParseException
+     * @throws java.lang.Exception
      */
-    public Table_Repairs(String login, int idService) throws Exception {
+    public Table_Repairs_States(String login, int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showTable(api.ListRepairs(login, 0));
-        Events(login,idService);
+        String[][] state = apiState.ShowState(login);
+        showStates(state);
+        showTable(api.ListRepairsState(login, Cb_Val(cb_states.getSelectedIndex(), state)));
+        Events(login, idService);
         row();
     }
 
@@ -73,6 +74,22 @@ public final class Table_Repairs extends javax.swing.JFrame {
         return parseInt((String) mod.getValueAt(i, val));
     }
 
+    private void showStates(String[][] list) {
+        cb_states.removeAllItems();
+        for (String[] list1 : list) {
+            cb_states.addItem(list1[1]);
+        }
+    }
+
+    public void cleanTable() {
+        DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
+        mod.setRowCount(0);
+    }
+
+    private int Cb_Val(int val, String[][] list) {
+        return parseInt(list[val][0]);
+    }
+
     private void Events(final String login, final int idService) {
         tbl_repair.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
@@ -81,22 +98,23 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 BT_Edit(evt, login);
             }
         });
+
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Info(evt, login,idService);
+                BT_Info(evt, login, idService);
             }
         });
         bt_list_empl.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListEmployer(evt, login,idService);
+                BT_ListEmployer(evt, login, idService);
             }
         });
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Parts(evt, login,idService);
+                BT_Parts(evt, login, idService);
             }
         });
         tbl_repair.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,7 +123,14 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 TBL_RepairClick(evt);
             }
         });
+        cb_states.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_State(evt, login);
+            }
+        });
     }
+
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditRepair(login, SelectRow(0)).setVisible(true);
@@ -114,33 +139,54 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(EditRepair.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new InfoRepair(login, SelectRow(0), idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Repairs_States.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Repairs_States.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Repairs_States.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void CB_State(java.awt.event.ActionEvent evt, String login) {
+        try {
+            String[][] state = apiState.ShowState(login);
+            int idState = Cb_Val(cb_states.getSelectedIndex(), state);
+            String[][] list = api.ListRepairsState(login, idState);
+            if (list.length > 0) {
+                cleanTable();
+                showTable(list);
+            }else{
+                JOptionPane.showMessageDialog(this, "Lista sem Dados Disponiveis");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs_States.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void TBL_RepairClick(java.awt.event.MouseEvent evt) {
         row();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -158,6 +204,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
         bt_info = new javax.swing.JButton();
         bt_list_empl = new javax.swing.JButton();
         bt_parts = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cb_states = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações");
@@ -167,11 +215,11 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Veiculo", "Descrição", "Preço", "Data Inicio", "Data Conclusão ", "Resolução", "Estado"
+                "ID", "Veiculo", "Descrição", "Preço", "Data Inicio", "Data Conclusão ", "Resolução"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -193,6 +241,10 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
         bt_parts.setText("Ver Peças");
 
+        jLabel1.setText("Selecione o estado da reparação que pretenda ver:");
+
+        cb_states.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,37 +252,44 @@ public final class Table_Repairs extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(l_idRepair)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_parts)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_list_empl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_info)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bt_edit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cb_states, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 872, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(l_idRepair)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_parts)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_list_empl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_info)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_edit)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(l_idRepair)
-                            .addComponent(jLabel7)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bt_edit)
-                            .addComponent(bt_info)
-                            .addComponent(bt_list_empl)
-                            .addComponent(bt_parts))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_states, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_parts)
+                    .addComponent(bt_list_empl)
+                    .addComponent(bt_info)
+                    .addComponent(bt_edit)
+                    .addComponent(jLabel7)
+                    .addComponent(l_idRepair))
+                .addContainerGap())
         );
 
         pack();
@@ -241,6 +300,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
     private javax.swing.JButton bt_info;
     private javax.swing.JButton bt_list_empl;
     private javax.swing.JButton bt_parts;
+    private javax.swing.JComboBox cb_states;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idRepair;

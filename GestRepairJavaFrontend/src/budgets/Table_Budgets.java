@@ -6,21 +6,17 @@
 package budgets;
 
 import java.awt.Toolkit;
-import repairs.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import static java.lang.Integer.parseInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class Table_Budgets extends javax.swing.JFrame {
-    public String log;
     APIBudgets api = new APIBudgets();
     /**
      * Creates new form Table_Vehicles
@@ -29,17 +25,17 @@ public final class Table_Budgets extends javax.swing.JFrame {
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Budgets(String login) throws IOException, MalformedURLException, ParseException, java.text.ParseException {
-        log = login;
+    public Table_Budgets(String login) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(api.ValuesToTable(login,0));
+        showTable(api.ListBudgets(login,0));
+        Events(login);
        
     }
         
-    public void showTable(String[][] list) {
+    private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
-        Object[] row = new Object[10];
+        Object[] row = new Object[9];
         for (String[] list1 : list) {
             for (int i = 0; i < row.length; i++) {
                 if(i == 5||i == 6){
@@ -50,9 +46,53 @@ public final class Table_Budgets extends javax.swing.JFrame {
             }
             mod.addRow(row);
         }
-        
     }
-    
+    private void Events(final String login){
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Edit(evt,login);
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Info(evt,login);
+            }
+        });
+        tbl_budgets.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_budgetsClicked(evt);
+            }
+        });
+    }
+       
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login) {                                        
+        // TODO add your handling code here:
+        try {
+            TableModel mod = tbl_budgets.getModel();
+            int i = tbl_budgets.getSelectedRow();
+            new EditBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
+    private void BT_Info(java.awt.event.ActionEvent evt, String login) {                                        
+        // TODO add your handling code here:
+        try {
+            TableModel mod = tbl_budgets.getModel();
+            int i = tbl_budgets.getSelectedRow();
+            new InfoBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
+    private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {                                         
+        int i = tbl_budgets.getSelectedRow();
+        TableModel mod = tbl_budgets.getModel();
+        l_idBudget.setText((String) mod.getValueAt(i, 0));
+    }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,68 +105,39 @@ public final class Table_Budgets extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_budgets = new javax.swing.JTable();
         bt_edit = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        tf_price = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        l_idRepair = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ta_description = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ta_information = new javax.swing.JTextArea();
+        l_idBudget = new javax.swing.JLabel();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de Orçamentos");
 
         tbl_budgets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Serviço", "Matrícula", "Desc.Cliente", "Estado", "Preço", "Entrada", "Tempo de Reparação", "Fim do Processo", "Resolução"
+                "ID", "Matrícula", "Desc.Cliente", "Estado", "Preço", "Entrada", "Tempo de Reparação", "Fim do Processo", "Resolução"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_budgets.setColumnSelectionAllowed(true);
-        tbl_budgets.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_budgetsMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_budgets);
         tbl_budgets.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        bt_edit.setText("Editar Reparação");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
+        bt_edit.setText("Editar ");
 
-        jLabel2.setText("Preço");
+        jLabel7.setText("Orçamento  N.º");
 
-        jLabel7.setText("Reparação N.º");
+        l_idBudget.setText("orçamento");
 
-        l_idRepair.setText("reparação");
-
-        ta_description.setColumns(20);
-        ta_description.setRows(5);
-        jScrollPane2.setViewportView(ta_description);
-
-        jLabel1.setText("Descrição do Cliente:");
-
-        jLabel3.setText("Descrição do Funcionário:");
-
-        ta_information.setColumns(20);
-        ta_information.setRows(5);
-        jScrollPane3.setViewportView(ta_information);
+        bt_info.setText("Info");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,22 +146,12 @@ public final class Table_Budgets extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_idRepair)
-                    .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2)
+                .addComponent(l_idBudget)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_info)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -158,68 +159,26 @@ public final class Table_Budgets extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(l_idRepair)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(bt_edit))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2))))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bt_edit)
+                        .addComponent(bt_info))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(l_idBudget)
+                        .addComponent(jLabel7)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbl_budgetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_budgetsMouseClicked
-        int i = tbl_budgets.getSelectedRow();
-        TableModel mod = tbl_budgets.getModel();
-        l_idRepair.setText((String) mod.getValueAt(i, 0));
-        tf_price.setText((String) mod.getValueAt(i, 5));
-        ta_description.setText((String) mod.getValueAt(i, 3));
-        ta_information.setText((String) mod.getValueAt(i, 9));
-    }//GEN-LAST:event_tbl_budgetsMouseClicked
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        // TODO add your handling code here:
-        try {
-            //api.PutVehicle(log,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
-            DefaultTableModel mod = (DefaultTableModel)tbl_budgets.getModel();
-            mod.setRowCount(0);
-            showTable(api.ValuesToTable(log,0));
-        } catch (IOException | ParseException | java.text.ParseException ex) {
-            Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel l_idRepair;
-    private javax.swing.JTextArea ta_description;
-    private javax.swing.JTextArea ta_information;
+    private javax.swing.JLabel l_idBudget;
     private javax.swing.JTable tbl_budgets;
-    private javax.swing.JTextField tf_price;
     // End of variables declaration//GEN-END:variables
 }

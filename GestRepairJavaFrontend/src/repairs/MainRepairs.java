@@ -9,15 +9,14 @@ import repairs.repairs.Table_Repairs;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import repairs.parts.AddParts;
+import repairs.repairs.Table_Repairs_States;
 
 /**
  *
  * @author Convite
  */
 public class MainRepairs extends javax.swing.JFrame {
-
-    private final String login;
-    private final int idService;
 
     /**
      * Creates new form mainVehicles
@@ -27,10 +26,40 @@ public class MainRepairs extends javax.swing.JFrame {
     public MainRepairs(String login,int idService) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        this.login = login;
-        this.idService=idService;
+        Events(login,idService);
+    }
+    
+    private void Events(final String login, final int idService) {
+
+        bt_listRepair.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_ListRepair(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        bt_list_repair_state.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_ListRepairState(evt, login, idService);
+                } catch (Exception ex) {
+                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
     }
 
+    private void BT_ListRepair(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        new Table_Repairs(login,idService).setVisible(true);
+    }
+    private void BT_ListRepairState(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
+        new Table_Repairs_States(login,idService).setVisible(true);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,17 +70,15 @@ public class MainRepairs extends javax.swing.JFrame {
     private void initComponents() {
 
         bt_listRepair = new javax.swing.JButton();
+        bt_list_repair_state = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Menu Reparações");
         setResizable(false);
 
         bt_listRepair.setText("Lista de Reparações");
-        bt_listRepair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listRepairActionPerformed(evt);
-            }
-        });
+
+        bt_list_repair_state.setText("Lista de Reparações por Estado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -59,7 +86,9 @@ public class MainRepairs extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_listRepair, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_listRepair, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(bt_list_repair_state, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -67,23 +96,16 @@ public class MainRepairs extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(bt_listRepair)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_list_repair_state)
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_listRepairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listRepairActionPerformed
-
-        try {
-            new Table_Repairs(this.login,this.idService).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainRepairs.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_bt_listRepairActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_listRepair;
+    private javax.swing.JButton bt_list_repair_state;
     // End of variables declaration//GEN-END:variables
 }

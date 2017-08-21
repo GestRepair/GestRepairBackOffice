@@ -5,6 +5,7 @@
  */
 package vehicles.vehicles;
 
+import budgets.AddBudget;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +19,9 @@ import repairs.repairs.AddRepair;
  * @author Rui Barcelos
  */
 public final class Table_Vehicles extends javax.swing.JFrame {
+
     private final int idService;
-    private final  String login;
+    private final String login;
     private final int idEmployer;
     APIVehicles api = new APIVehicles();
 
@@ -33,12 +35,13 @@ public final class Table_Vehicles extends javax.swing.JFrame {
      * @throws java.net.MalformedURLException
      * @throws org.json.simple.parser.ParseException
      */
-    public Table_Vehicles(String login,int idEmployer,int idService) throws Exception {
-        
+    public Table_Vehicles(String login, int idEmployer, int idService) throws Exception {
+
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.vehicles(login, 0));
         row(0);
+        Events(login, idEmployer, idService);
         this.login = login;
         this.idService = idService;
         this.idEmployer = idEmployer;
@@ -55,18 +58,46 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    private String SelectRow(int val) {
+        int i = tbl_vehicles.getSelectedRow();
+        if (i < 0) {
+            i = 0;
+        }
+        TableModel mod = tbl_vehicles.getModel();
+        return (String) mod.getValueAt(i, val);
+    }
+
     private void row(int val) {
         TableModel mod = tbl_vehicles.getModel();
         if (mod.getRowCount() > 0) {
             l_idVehicle.setText(mod.getValueAt(val, 0) + "");
             l_registration.setText(mod.getValueAt(val, 1) + "");
-        }else{
+        } else {
             jLabel1.setText("");
             jLabel7.setText("");
             l_idVehicle.setText("");
             l_registration.setText("Não contem Dados!");
             bt_edit.setVisible(false);
             bt_info.setVisible(false);
+        }
+    }
+
+    private void Events(final String login, final int idEmployer, final int idService) {
+        bt_add_budgets.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD_BUDGETS(evt, login, idEmployer, idService);
+            }
+        });
+    }
+
+    private void BT_ADD_BUDGETS(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
+        // TODO add your handling code here:
+        try {
+            new AddBudget(this.login, parseInt(SelectRow(0)), idEmployer, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -223,7 +254,7 @@ public final class Table_Vehicles extends javax.swing.JFrame {
 
     private void bt_add_repairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_repairActionPerformed
         try {
-            new AddRepair(this.login, parseInt(l_idVehicle.getText()),this.idEmployer,this.idService).setVisible(true);
+            new AddRepair(this.login, parseInt(l_idVehicle.getText()), this.idEmployer, this.idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);

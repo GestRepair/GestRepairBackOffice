@@ -7,6 +7,7 @@ package vehicles.vehicles;
 
 import connect.Connect;
 import java.net.URL;
+import java.util.Arrays;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -88,7 +89,7 @@ public class APIVehicles extends Connect {
             objp.put("fronttiresize", data[7]);
             objp.put("reartiresize", data[8]);
             objp.put("date", data[9]);
-        return GETConnect(login, url, "PUT");
+        return SendConnect(login, url, "PUT", objp);
     }
     
     public String[] InfoVehicle(String login, int id) throws Exception{

@@ -6,92 +6,85 @@
 package budgets;
 
 import connect.Connect;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 /**
  *
  * @author Rui Barcelos
  */
-public class APIBudgets {
-    HttpURLConnection connection;
-    Connect connect = new Connect();
-    
-    public void conn(String login, URL url, String method) throws ParseException, IOException {
-        JSONObject newjson = (JSONObject) new JSONParser().parse(login);
-        String user = newjson.get("login").toString();
-        String pass = newjson.get("password").toString();
-        byte[] message = (user + ":" + pass).getBytes("UTF-8");
-        String encoded = javax.xml.bind.DatatypeConverter.printBase64Binary(message);
+public class APIBudgets extends Connect{
 
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setConnectTimeout(5000);//5 secs
-        connection.setReadTimeout(5000);//5 secs
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.setRequestProperty("Authorization", "Basic " + encoded);
-        connection.setRequestMethod(method);
-        connection.setDoOutput(true);
-    }
 
-    public String GetRepairs(String login,int id) throws MalformedURLException, IOException, ParseException {
-        URL url;
-        if(id == 0){
-            url = new URL(connect.IP() + "/budget/");
-        }else{
-            url = new URL(connect.IP() + "/budget/"+id);
-        }
-        conn(login, url, "GET");
-        //Get Response  
-        InputStream is = connection.getInputStream();
-        String json;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            json = "";
-            while ((line = rd.readLine()) != null) {
-                json += line;
-                response.append(line);
-                response.append('\r');
-            }
-        } 
-        connection.disconnect();
-        return json;
-    }
-    public String[][] DataToTable(String list) throws java.text.ParseException {
-        try {
-            JSONObject jo = (JSONObject) new JSONParser().parse(list);
+    @SuppressWarnings("empty-statement")
+    public String[][]ListBudgets (String login,int id) throws Exception {
+        URL url = new URL(IP() + "/budget"+((id == 0)?"":"/"+id));
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
             JSONArray data = (JSONArray) jo.get("data");
-            String[][] dataTable = new String[data.size()][10];
+            String[][] dataTable = new String[data.size()][9];
             for (int i = 0; i < data.size(); i++) {
-
                 JSONObject datas = (JSONObject) data.get(i);
                 dataTable[i][0] = (long) datas.get("idBudget") + "";
-                dataTable[i][1] = (String) datas.get("service");
-                dataTable[i][2] = (String) datas.get("vehicle");
-                dataTable[i][3] = (String) datas.get("description");
-                dataTable[i][4] = (String) datas.get("state");
-                dataTable[i][5] = (String) datas.get("price");
-                dataTable[i][6] = (String) datas.get("processOpen");
-                dataTable[i][7] = (String) datas.get("repairTime");
-                dataTable[i][8] = (String) datas.get("processClose"); 
-                dataTable[i][9] = (String) datas.get("resolution");
+                dataTable[i][1] = (String) datas.get("vehicle");
+                dataTable[i][2] = (String) datas.get("description");
+                dataTable[i][3] = (String) datas.get("state");
+                dataTable[i][4] = ((datas.get("price")!=null)?(Object) datas.get("price")+"":null);
+                dataTable[i][5] = ((String) datas.get("processOpen")).substring(0, 10);
+                dataTable[i][6] = ((datas.get("repairTime")!=null)?(Object) datas.get("repairTime")+"":null);
+                dataTable[i][7] = ((datas.get("processClose")!=null)?((String) datas.get("processClose")).substring(0, 10)+"":null); 
+                dataTable[i][8] = (String) datas.get("resolution");
             };
             return dataTable;
-        } catch (ParseException pe) {
-            return null;
-        }
     }
-    public String[][]ValuesToTable(String login,int id) throws IOException, ParseException, java.text.ParseException{
-        return DataToTable(GetRepairs(login,id));
-    } 
-
+    public String[][]ListState (String login) throws Exception {
+        URL url = new URL(IP() + "/budget/state");
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+            JSONArray data = (JSONArray) jo.get("data");
+            String[][] dataTable = new String[data.size()][9];
+            for (int i = 0; i < data.size(); i++) {
+                JSONObject datas = (JSONObject) data.get(i);
+                dataTable[i][0] = (long) datas.get("idState") + "";
+                dataTable[i][1] = (String) datas.get("nameState");
+            };
+            return dataTable;
+    }
+    public String POSTAddBudget(String login,String[] data) throws Exception {
+        URL url = new URL(IP() + "/budget");
+        JSONObject objp = new JSONObject();
+            objp.put("vehicle", data[0]);
+            objp.put("description", data[1]);
+            objp.put("service", data[2]);
+            return SendConnect(login, url, "POST", objp);
+    }
+    public String[] GetInfoBudget(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/budget/info/" + id);
+        String json = GETConnect(login, url, "GET");
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data = newjson.get("data").toString();
+        JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
+        String[] emp = new String[9];
+        emp[0] = (long) newjsondata.get("idBudget") + "";
+        emp[1] = (String) newjsondata.get("vehicle");
+        emp[2] = (String) newjsondata.get("description");
+        emp[3] = (String) newjsondata.get("state");
+        emp[4] = (newjsondata.get("price") != null) ? (Object) newjsondata.get("price") + "" : null;
+        emp[5] = ((String) newjsondata.get("processOpen")).substring(0, 10);
+        emp[6] = (newjsondata.get("repairTime")!=null)?((long) newjsondata.get("repairTime"))+ "":null;
+        emp[7] = (newjsondata.get("processClose") != null) ? ((String) newjsondata.get("finishDate")).substring(0, 10) : null;
+        emp[8] = (String) newjsondata.get("resolution");
+        return emp;
+    }
+    public String UpdateBudget(String login, int id, String[] data) throws Exception {
+        URL url = new URL(IP() + "/budget/" + id);
+        JSONObject objp = new JSONObject();
+        objp.put("description", data[0]);
+        objp.put("price", data[1]);
+        objp.put("state", data[2]);
+        objp.put("repairTime", data[3]);
+        objp.put("resolution", data[4]);
+        return SendConnect(login, url, "PUT", objp);
+    }
 }

@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
+import users.user.Table_Users_Type;
 
 /**
  *
@@ -87,7 +88,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
             }
             mod.addRow(row);
         }
-        
+
     }
 
     /**
@@ -105,13 +106,13 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      * @throws Exception
      */
     private void tbl_usersStart() throws Exception {
-        
+
         TableModel mod = tbl_users.getModel();
         if (tbl_users.getModel().getRowCount() > 0) {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
             l_username.setText(mod.getValueAt(0, 2) + "");
-        }else{
+        } else {
             linfoUser.setText("");
             l_username.setText("");
         }
@@ -123,7 +124,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
      */
     private void disable(String login) {
         try {
-            int x = JOptionPane.showConfirmDialog(this,"Tem a certeza que quer desabilitar o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0))) {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
@@ -190,7 +191,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
 
         jLabel6.setText("Username:");
 
-        jLabel7.setText("Tipo de Utilizador");
+        jLabel7.setText("Selecione o serviço em que o utilizador pretença:");
 
         linfoUser.setText("Número");
 
@@ -211,6 +212,11 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         });
 
         bt_edit.setText("Editar");
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_editActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -328,6 +334,18 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     private void bt_disableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_disableActionPerformed
         disable(this.login);
     }//GEN-LAST:event_bt_disableActionPerformed
+
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
+        try {
+            int i = tbl_users.getSelectedRow();
+            TableModel mod = tbl_users.getModel();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new EditEmployer(this.login, val ).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_disable;

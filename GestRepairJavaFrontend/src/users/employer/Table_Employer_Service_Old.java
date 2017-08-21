@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
+import users.user.Table_Users_Type;
 
 /**
  *
@@ -150,7 +151,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
         jLabel6.setText("Username:");
 
-        jLabel7.setText("Tipo de Utilizador");
+        jLabel7.setText("Selecione o serviço em que o utilizador pretença:");
 
         linfoUser.setText("Número");
 
@@ -171,6 +172,11 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         });
 
         bt_edit.setText("Editar");
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_editActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -308,6 +314,18 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
     private void bt_enableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_enableActionPerformed
         enable(this.login);
     }//GEN-LAST:event_bt_enableActionPerformed
+
+    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
+        try {
+            int i = tbl_users.getSelectedRow();
+            TableModel mod = tbl_users.getModel();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new EditEmployer(this.login, val ).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

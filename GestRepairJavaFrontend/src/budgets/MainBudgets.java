@@ -5,27 +5,42 @@
  */
 package budgets;
 
-
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author Convite
  */
 public class MainBudgets extends javax.swing.JFrame {
-    public String log;
+
     /**
      * Creates new form mainVehicles
+     *
      * @param login
      */
     public MainBudgets(String login) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        log = login;
+        Events(login);
+    }
+
+    private void Events(final String login) {
+        bt_listBudgets.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_List(evt, login);
+            }
+        });
+    }
+
+    private void BT_List(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new Table_Budgets(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -40,14 +55,10 @@ public class MainBudgets extends javax.swing.JFrame {
         bt_listBudgets = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Menu Orçamentos");
         setResizable(false);
 
         bt_listBudgets.setText("Lista de Orçamentos");
-        bt_listBudgets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listBudgetsActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,14 +79,6 @@ public class MainBudgets extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_listBudgetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listBudgetsActionPerformed
-        try {
-            new Table_Budgets(log).setVisible(true);
-        } catch (IOException | ParseException | java.text.ParseException ex) {
-            Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_listBudgetsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_listBudgets;

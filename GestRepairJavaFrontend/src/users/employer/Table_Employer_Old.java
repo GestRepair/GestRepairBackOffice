@@ -24,7 +24,7 @@ import users.user.Table_Users_Type;
 public final class Table_Employer_Old extends javax.swing.JFrame {
 
     public String login, service;
-    private final int idEmployer,idService;
+    private final int idEmployer, idService;
     APIEmployer api = new APIEmployer();
 
     /**
@@ -69,7 +69,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     @Override
     public void enable() {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
                     cleanTable();
@@ -85,26 +85,37 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro Interno");
         }
     }
+
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
+
     /**
      *
      */
     private void tbl_usersStart() {
-        
+
         TableModel mod = tbl_users.getModel();
         if (mod.getRowCount() > 0) {
             tbl_users.setRowSelectionInterval(0, 0);
             linfoUser.setText(mod.getValueAt(0, 0) + "");
             l_username.setText(mod.getValueAt(0, 2) + "");
-        }else{
+        } else {
             linfoUser.setText("");
             l_username.setText("");
         }
     }
-    
+
+    private String SelectRow(int val) {
+        TableModel mod = tbl_users.getModel();
+        int i = tbl_users.getSelectedRow();
+        if (i < 0) {
+            i = 0;
+        }
+        return (String) mod.getValueAt(i, val);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -285,7 +296,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(this.login,this.idService).setVisible(true);
+            new Table_Users_Type(this.login, this.idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -301,7 +312,9 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
         try {
             int i = tbl_users.getSelectedRow();
-            new EditEmployer(this.login,parseInt(api.ShowEmployer(login, 1, 0)[i][1])).setVisible(true);
+            TableModel mod = tbl_users.getModel();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new EditEmployer(this.login, val ).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);

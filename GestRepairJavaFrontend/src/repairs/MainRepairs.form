@@ -25,9 +25,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="bt_listRepair" pref="197" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="bt_listRepair" pref="197" max="32767" attributes="0"/>
+                  <Component id="bt_list_repair_state" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -37,7 +40,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_listRepair" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="266" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="bt_list_repair_state" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="237" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -47,9 +52,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Repara&#xe7;&#xf5;es"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_listRepairActionPerformed"/>
-      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_list_repair_state">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Lista de Repara&#xe7;&#xf5;es por Estado"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

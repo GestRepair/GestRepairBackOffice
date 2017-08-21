@@ -72,7 +72,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Matricula","Descrição do Cliente", "Preço", "Estado", "Início", "Fim", "Informação"
+                "ID", "Matricula","Descrição do Cliente", "Preço", "Início", "Fim", "Informação", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -83,6 +83,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbl_vehicles.setColumnSelectionAllowed(true);
         tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_vehiclesMouseClicked(evt);

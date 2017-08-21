@@ -5,6 +5,7 @@
  */
 package users.user;
 
+import budgets.Table_Budgets_PU;
 import users.employer.InfoEmployer;
 import users.employer.AddEmployer;
 import java.awt.Toolkit;
@@ -41,7 +42,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         Events(login, idService);
         tbl_usersStart(login);
-        int gest = parseInt(apiEmployer.GetInfoEmployer(login, idService)[0]);
+        int gest = parseInt(apiEmployer.GetInfoEmployerUser(login, idService)[0]);
         bt_edit.setVisible(gest == 1);
         bt_addEmployer.setVisible(gest == 1);
 
@@ -148,7 +149,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 String id = linfoUser.getText();
                 new EditEmployer(login, parseInt(id)).setVisible(true);
             }
-
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -158,6 +159,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new AddVehicle(login, parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -166,7 +168,8 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void BT_Budget(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
-            new EditUser(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            new Table_Budgets_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,6 +179,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new EditUser(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -185,6 +189,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new InfoEmployer(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,6 +199,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new InfoUser(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -203,6 +209,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new Table_Repairs_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -212,6 +219,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new Table_Vehicles_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -232,6 +240,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private void MI_UserType(java.awt.event.ActionEvent evt, String login, int idService) {
          try {
             new Table_Users_Type(login, idService).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }

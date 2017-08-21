@@ -19,6 +19,7 @@ import vehicles.models.APIModel;
  * @author Rui Barcelos
  */
 public class EditVehicle extends javax.swing.JFrame {
+
     APIVehicles api = new APIVehicles();
     APIBrand apiBrand = new APIBrand();
     APIModel apiModel = new APIModel();
@@ -58,7 +59,7 @@ public class EditVehicle extends javax.swing.JFrame {
         cb_fuel.setSelectedItem(api.InfoVehicle(login, id)[7]);
         tf_frontTire.setText(api.InfoVehicle(login, id)[8]);
         tf_rearTire.setText(api.InfoVehicle(login, id)[9]);
-        tf_date.setText(api.InfoVehicle(login, id)[10].substring(0,10));
+        tf_date.setText(api.InfoVehicle(login, id)[10].substring(0, 10));
 
     }
 
@@ -82,26 +83,25 @@ public class EditVehicle extends javax.swing.JFrame {
             cb_fuel.addItem(list[i][1]);
         }
     }
+
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-    public String[] data(String login) {
-        try {
-            String vehicle[] = new String[10];
-            vehicle[0] = l_id.getText();
-            vehicle[1] = tf_register.getText();
-            vehicle[2] = Cb_Val(cb_model.getSelectedIndex(), apiModel.Model(login, Cb_Val(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";;
-            vehicle[3] = tf_horsepower.getText();
-            vehicle[4] = tf_displacement.getText();
-            vehicle[5] = tf_kilometer.getText();
-            vehicle[6] = Cb_Val(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
-            vehicle[7] = tf_frontTire.getText();
-            vehicle[8] = tf_rearTire.getText();
-            vehicle[9] = tf_date.getText();
-            return vehicle;
-        } catch (Exception ex) {
-            return null;
-        }
+
+    public String[] data(String login) throws Exception {
+        String vehicle[] = new String[10];
+        vehicle[0] = l_id.getText();
+        vehicle[1] = tf_register.getText();
+        vehicle[2] = Cb_Val(cb_model.getSelectedIndex(), apiModel.Model(login, Cb_Val(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";;
+        vehicle[3] = tf_horsepower.getText();
+        vehicle[4] = tf_displacement.getText();
+        vehicle[5] = tf_kilometer.getText();
+        vehicle[6] = Cb_Val(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
+        vehicle[7] = tf_frontTire.getText();
+        vehicle[8] = tf_rearTire.getText();
+        vehicle[9] = tf_date.getText();
+        return vehicle;
+
     }
 
     /**

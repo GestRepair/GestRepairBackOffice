@@ -20,6 +20,13 @@ public class APIRepair extends Connect {
     @SuppressWarnings("empty-statement")
     public String[][] ListRepairs(String login, int id) throws Exception {
         URL url = new URL(IP() + "/repair" + ((id == 0) ? "" : "/user/" + id));
+        return GETListRepair(login, url);
+    }
+    public String[][] ListRepairsState(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/repair/states/" + id);
+        return GETListRepair(login, url);
+    }
+    private String [][] GETListRepair(String login, URL url)throws Exception{
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -30,10 +37,10 @@ public class APIRepair extends Connect {
             dataTable[i][1] = (String) datas.get("vehicle");
             dataTable[i][2] = (String) datas.get("description");
             dataTable[i][3] = (Object) datas.get("price") + "";
-            dataTable[i][4] = (String) datas.get("state");
-            dataTable[i][5] = ((String) datas.get("startDate")).substring(0, 10);
-            dataTable[i][6] = (datas.get("finishDate") != null) ? ((String) datas.get("finishDate")).substring(0, 10) : null;
-            dataTable[i][7] = (String) datas.get("information");
+            dataTable[i][4] = ((String) datas.get("startDate")).substring(0, 10);
+            dataTable[i][5] = (datas.get("finishDate") != null) ? ((String) datas.get("finishDate")).substring(0, 10) : null;
+            dataTable[i][6] = (String) datas.get("information");
+            dataTable[i][7] = (String) datas.get("state");
         };
         return dataTable;
     }

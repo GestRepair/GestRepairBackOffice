@@ -29,7 +29,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
     }
 
     private void GetInfo(String login, int idUser) throws Exception {
-        String emp[] = api.GetInfoEmployer(login, idUser);
+        String emp[] = api.GetInfoEmployerUser(login, idUser);
         l_num.setText(emp[0]);
         l_name.setText(emp[1]);
         l_service.setText(emp[2]);

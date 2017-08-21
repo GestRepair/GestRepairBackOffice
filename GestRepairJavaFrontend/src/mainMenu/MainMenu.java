@@ -53,9 +53,9 @@ public final class MainMenu extends javax.swing.JFrame {
             String name = newjsondata.get("name").toString();
             l_nome.setText(name);
             idUser = (long) newjsondata.get("idUser");       
-            idEmployer = parseInt(api.GetInfoEmployer(login,(int) idUser)[0]);
-            idService = parseInt(api.GetInfoEmployer(login,(int) idUser)[3]);
-            l_service.setText(api.GetInfoEmployer(login,(int) idUser)[2]);
+            idEmployer = parseInt(api.GetInfoEmployerUser(login,(int) idUser)[0]);
+            idService = parseInt(api.GetInfoEmployerUser(login,(int) idUser)[3]);
+            l_service.setText(api.GetInfoEmployerUser(login,(int) idUser)[2]);
             Events(login, idEmployer, idService, (int) idUser);
         } catch (ParseException pe) {
             System.out.println("Erro");

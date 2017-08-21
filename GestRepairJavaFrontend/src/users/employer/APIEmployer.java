@@ -9,13 +9,11 @@ import connect.Connect;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -91,8 +89,15 @@ public class APIEmployer extends Connect {
         return dataTable;
     }
 
-    public String[] GetInfoEmployer(String login, int id) throws Exception {
+    public String[] GetInfoEmployerUser(String login, int id) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
+        return GETInfoEmployer( login, url, id);
+    }
+    public String[] InfoEmployer(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/employer/" + id);
+        return GETInfoEmployer( login, url, id);
+    }
+    public String[] GETInfoEmployer(String login,URL url, int id) throws Exception {
         String json = GETConnect(login, url, "GET");
         JSONObject newjson = (JSONObject) new JSONParser().parse(json);
         String data = newjson.get("data").toString();

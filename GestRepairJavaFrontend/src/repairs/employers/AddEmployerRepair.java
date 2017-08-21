@@ -5,11 +5,7 @@
  */
 package repairs.employers;
 
-import repairs.repairs.*;
 import java.awt.Toolkit;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
@@ -24,7 +20,7 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
     APIEmployerRepair api = new APIEmployerRepair();
     APIService apiService = new APIService();
     APIEmployer apiEmployer = new APIEmployer();
-    private final int idRepair, idService;
+    private final int idRepair;
     private final String login;
 
     /**
@@ -44,7 +40,6 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         cb_service.removeItemAt(0);
         this.login = login;
         this.idRepair = idRepair;
-        this.idService = idService;
     }
 
     public void showService(String[][] list) {

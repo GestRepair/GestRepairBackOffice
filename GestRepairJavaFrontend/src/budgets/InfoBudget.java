@@ -3,35 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repairs.repairs;
+package budgets;
 
 import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import repairs.employers.Table_Employer_Repair;
-import repairs.parts.AddParts;
-import repairs.parts.ListPartsRepair;
 
 /**
  *
  * @author Rui Barcelos
  */
-public class InfoRepair extends javax.swing.JFrame {
+public class InfoBudget extends javax.swing.JFrame {
+
     /**
      * Creates new form Info
      *
      * @param login
-     * @param idRepair
-     * @param idService
+     * @param idBudget
      * @throws Exception
      */
-    public InfoRepair(String login, int idRepair, int idService) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
+    public InfoBudget(String login, int idBudget) throws Exception {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
-        ShowData(login, idRepair);
-        Events(login, idRepair, idService);
+        ShowData(login, idBudget);
+        Events(login, idBudget);
 
     }
+
     /**
      *
      * @param login
@@ -39,97 +35,59 @@ public class InfoRepair extends javax.swing.JFrame {
      * @throws Exception
      */
     private void ShowData(String login, int id) throws Exception {
-        APIRepair api = new APIRepair();
-        String info[] = api.GetInfoRepair(login, id);
+        APIBudgets api = new APIBudgets();
+        String info[] = api.GetInfoBudget(login, id);
         l_idRepair.setText(info[0]);
         l_vehicle.setText(info[1]);
         l_description.setText(info[2]);
-        if (info[3] != null) {
-            l_price.setText(info[3]);
+        if (info[4] != null) {
+            l_price.setText(info[4]);
         } else {
             l_price.setVisible(false);
             l_pric.setVisible(false);
         }
-        l_state.setText(info[4]);
-        l_dStart.setText(info[5]);
-        if (info[6] != null) {
-            l_dFinish.setText(info[6]);
+        l_state.setText(info[5]);
+        l_trep.setText(info[6]);
+        l_dStart.setText(info[3]);
+        if (info[7] != null) {
+            l_dFinish.setText(info[7]);
         } else {
             l_dFinish.setVisible(false);
             l_dFin.setVisible(false);
         }
-        if (info[7] != null) {
-            l_resolution.setText(info[7]);
+        if (info[8] != null) {
+            l_resolution.setText(info[8]);
         } else {
             l_resolution.setVisible(false);
             l_res.setVisible(false);
         }
     }
 
-    private void Events(final String login, final int idRepair, final int idService) {
+    private void Events(final String login, final int idRepair) {
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    BT_ListPartsRepair(evt, login, idRepair, idService);
-                } catch (Exception ex) {
-                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
             }
         });
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    BT_Edit(evt, login, idRepair);
-                } catch (Exception ex) {
-                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
             }
         });
         bt_emplyers.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    BT_Emplyers(evt, login, idRepair, idService);
-                } catch (Exception ex) {
-                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
             }
         });
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    BT_ListPartsRepair(evt, login, idRepair, idService);
-                } catch (Exception ex) {
-                    Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
             }
         });
-
-    }
-
-    private void BT_ListPartsRepair(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) throws Exception {
-        new ListPartsRepair(login, idRepair, idService).setVisible(true);
-    }
-
-    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idRepair) {
-        try {
-            new EditRepair(login, idRepair).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(InfoRepair.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void BT_Emplyers(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
-        try {
-            new Table_Employer_Repair(login, idRepair, idService).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(InfoRepair.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -160,9 +118,12 @@ public class InfoRepair extends javax.swing.JFrame {
         bt_edit = new javax.swing.JButton();
         bt_emplyers = new javax.swing.JButton();
         bt_parts = new javax.swing.JButton();
+        l_trep = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Informação da Reparação");
+        setTitle("GestRepair - Informação do Orçamento");
 
         l_idRe.setText("ID:");
 
@@ -202,6 +163,12 @@ public class InfoRepair extends javax.swing.JFrame {
 
         bt_parts.setText("Ver Peças");
 
+        l_trep.setText("trep");
+
+        jLabel6.setText("Tempo de Reparação:");
+
+        jLabel5.setText("dias");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,8 +189,14 @@ public class InfoRepair extends javax.swing.JFrame {
                                     .addComponent(l_idRepair)
                                     .addComponent(l_vehicle)))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(l_trep)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(22, 22, 22)
+                                .addGap(75, 75, 75)
                                 .addComponent(l_state)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +259,12 @@ public class InfoRepair extends javax.swing.JFrame {
                     .addComponent(l_price)
                     .addComponent(jLabel4)
                     .addComponent(l_state))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(l_trep)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_edit)
                     .addComponent(bt_emplyers)
@@ -305,6 +283,8 @@ public class InfoRepair extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel l_dFin;
     private javax.swing.JLabel l_dFinish;
     private javax.swing.JLabel l_dStart;
@@ -316,6 +296,7 @@ public class InfoRepair extends javax.swing.JFrame {
     private javax.swing.JLabel l_res;
     private javax.swing.JLabel l_resolution;
     private javax.swing.JLabel l_state;
+    private javax.swing.JLabel l_trep;
     private javax.swing.JLabel l_vehicle;
     // End of variables declaration//GEN-END:variables
 }
