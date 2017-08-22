@@ -35,6 +35,33 @@ public class APIParts extends Connect {
         };
         return dataTable;
     }
+    @SuppressWarnings("empty-statement")
+    public String[][] ListPartsZero(String login, int idService) throws Exception {
+        URL url = new URL(IP() + "/parts/service/zero/"+idService);
+        String result = GETConnect(login, url,"GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(result);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idPart") + "";
+            dataTable[i][1] = (String) datas.get("namePart");
+        };
+        return dataTable;
+    }
+    public String[][] ListPartswhith(String login) throws Exception {
+        URL url = new URL(IP() + "/parts/service/whith/");
+        String result = GETConnect(login, url,"GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(result);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idService") + "";
+            dataTable[i][1] = (String) datas.get("nameService");
+        };
+        return dataTable;
+    }
 
     public String[] InfoParts(String login, int id) throws Exception {
         URL url = new URL(IP() + "/parts/" + id);
@@ -89,6 +116,19 @@ public class APIParts extends Connect {
     }
     public String[][] ListServiceParts(String login, int idParts) throws Exception {
         URL url = new URL(IP() + "/service/parts/" + idParts);
+        String result = GETConnect(login, url,"GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(result);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idService") + "";
+            dataTable[i][1] = (String) datas.get("nameService");
+        }
+        return dataTable;
+    }
+    public String[][] ListServiceNotParts(String login, int idParts) throws Exception {
+        URL url = new URL(IP() + "/parts/service/not/" + idParts);
         String result = GETConnect(login, url,"GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(result);
         JSONArray data = (JSONArray) jo.get("data");

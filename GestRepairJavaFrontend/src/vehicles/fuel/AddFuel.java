@@ -18,8 +18,6 @@ import org.json.simple.parser.ParseException;
 public final class AddFuel extends javax.swing.JFrame {
 
     APIFuel api = new APIFuel();
-    private final String login;
-
     /**
      * Creates new form AddFuel
      *
@@ -29,10 +27,41 @@ public final class AddFuel extends javax.swing.JFrame {
     public AddFuel(String login) throws ParseException, Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        this.login = login;
+        Events(login);
     }
 
+    private void Events(final String login){
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt,login);
+            }
+        });
+    }
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login) {                                       
+        try {
+            int tfuel = tf_fuel.getText().length();
+            if (tfuel < 0 || tfuel > 50) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    if ("ok".equals(api.PostFuel(login, tf_fuel.getText()))) {
+                        JOptionPane.showMessageDialog(this, "Viatura alterada com sucesso");
+                        dispose();
+                        new Table_Fuel(login).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro Interno");
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique se o número de caracteres é entre 1 a 50");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,11 +81,6 @@ public final class AddFuel extends javax.swing.JFrame {
         jLabel6.setText("Combustivel");
 
         bt_add.setText("Adicionar Viatura");
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,25 +109,6 @@ public final class AddFuel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PostFuel(this.login, tf_fuel.getText()))) {
-                    JOptionPane.showMessageDialog(this, "Viatura alterada com sucesso");
-                    dispose();
-                    new Table_Fuel(this.login).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;

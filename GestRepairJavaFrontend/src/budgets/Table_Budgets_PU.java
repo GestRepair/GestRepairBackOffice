@@ -29,6 +29,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         initComponents();
         Events(login);
         showTable(api.ListBudgets(login, idUser));
+        l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
@@ -109,6 +110,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("GestRepair - Lista de orçamento por utilizador");
 
         bt_edit.setText("Editar");
 
@@ -121,11 +123,11 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Matrícula", "Desc.Cliente", "Estado", "Preço", "Entrada", "Tempo de Reparação", "Fim do Processo", "Resolução"
+                "ID", "Matrícula", "Desc.Cliente", "Preço", "Entrada", "Tempo de Reparação", "Fim do Processo", "Resolução", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

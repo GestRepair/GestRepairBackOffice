@@ -6,10 +6,6 @@
 package users.employer;
 
 import connect.Connect;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,34 +33,11 @@ public class APIEmployer extends Connect {
     /*
      *Employers
      */
-
     public String PutEmployer(String login, int id, int service) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
         JSONObject objp = new JSONObject();
         objp.put("service", service);
         return SendConnect(login, url, "PUT", objp);
-    }
-
-    public String GetListEmployer(String login, int id, int serv) throws Exception {
-        URL url = new URL(IP() + "/user/employer/type/" + id + ((serv == 0) ? "" : "/" + serv));
-
-        HttpURLConnection connection = Conn(login, url, "GET");
-
-        //Get Response  
-        InputStream is = connection.getInputStream();
-        String json;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
-            StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
-            String line;
-            json = "";
-            while ((line = rd.readLine()) != null) {
-                json += line;
-                response.append(line);
-                response.append('\r');
-            }
-        } // or StringBuffer if Java version 5+
-        connection.disconnect();
-        return json;
     }
 
     @SuppressWarnings("empty-statement")
@@ -88,7 +61,20 @@ public class APIEmployer extends Connect {
         };
         return dataTable;
     }
-
+    public String[][] ShowNotRepairEmployer(String login, int id, int serv) throws Exception {
+        URL url = new URL(IP() + "/repair/employer/" + id +"/" + serv);
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idEmployer") + "";
+            dataTable[i][1] = (String) datas.get("name");
+        };
+        return dataTable;
+    }
+    
     public String[] GetInfoEmployerUser(String login, int id) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
         return GETInfoEmployer( login, url, id);

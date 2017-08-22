@@ -275,9 +275,12 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_usersMouseClicked
     public void enable(String login) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário "+l_username.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
+                int i = tbl_users.getSelectedRow();
+                TableModel mod = tbl_users.getModel();
+                int val = parseInt((String) mod.getValueAt(i, 0));
+                if ("ok".equals(api.ActivityEmplyer(login, val, 1))) {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
                     model.setRowCount(0);
                     int cb = cb_type.getSelectedIndex();
@@ -320,7 +323,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
             int i = tbl_users.getSelectedRow();
             TableModel mod = tbl_users.getModel();
             int val = parseInt((String) mod.getValueAt(i, 0));
-            new EditEmployer(this.login, val ).setVisible(true);
+            new EditEmployer(this.login, val).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);

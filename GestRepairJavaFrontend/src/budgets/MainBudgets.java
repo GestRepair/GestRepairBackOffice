@@ -33,7 +33,14 @@ public class MainBudgets extends javax.swing.JFrame {
                 BT_List(evt, login);
             }
         });
+        bt_listBudgetsState.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ListState(evt, login);
+            }
+        });
     }
+    
 
     private void BT_List(java.awt.event.ActionEvent evt, String login) {
         try {
@@ -42,7 +49,13 @@ public class MainBudgets extends javax.swing.JFrame {
             Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    private void BT_ListState(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new Table_Budgets_State(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +66,7 @@ public class MainBudgets extends javax.swing.JFrame {
     private void initComponents() {
 
         bt_listBudgets = new javax.swing.JButton();
+        bt_listBudgetsState = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Menu Orçamentos");
@@ -60,21 +74,27 @@ public class MainBudgets extends javax.swing.JFrame {
 
         bt_listBudgets.setText("Lista de Orçamentos");
 
+        bt_listBudgetsState.setText("Lista de Orçamentos por Estado");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_listBudgets, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(bt_listBudgets, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_listBudgetsState, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_listBudgets)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_listBudgets)
+                    .addComponent(bt_listBudgetsState))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -82,5 +102,6 @@ public class MainBudgets extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_listBudgets;
+    private javax.swing.JButton bt_listBudgetsState;
     // End of variables declaration//GEN-END:variables
 }

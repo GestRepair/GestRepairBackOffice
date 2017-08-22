@@ -34,10 +34,8 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
     public AddEmployerRepair(String login, int idRepair, int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showService(apiService.Service(login));
-        showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));
-        cb_service.removeItemAt(0);
-        cb_service.removeItemAt(0);
+        showService(apiService.ShowNotRepairService(login,idRepair));
+        showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login,idRepair))));
         this.login = login;
         this.idRepair = idRepair;
     }
@@ -52,7 +50,7 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
     public void showEmployers(String[][] list) {
         cb_employer.removeAllItems();
         for (String[] list1 : list) {
-            cb_employer.addItem(list1[2]);
+            cb_employer.addItem(list1[1]);
         }
     }
 
@@ -146,15 +144,15 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
 
     private void cb_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_serviceActionPerformed
         try {
-            showEmployers(apiEmployer.ShowEmployer(this.login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(this.login))));
+            showEmployers(apiEmployer.ShowNotRepairEmployer(this.login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(this.login,this.idRepair))));
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_cb_serviceActionPerformed
 
     private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
         try {
-            int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(this.login));
-            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
+            int serv = Cb_Val(cb_service.getSelectedIndex() , apiService.ShowNotRepairService(this.login,this.idRepair));
+            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowNotRepairEmployer(login, 1, serv));
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 if ("ok".equals(api.PostEmployerRepair(this.login,this.idRepair ,empl))) {

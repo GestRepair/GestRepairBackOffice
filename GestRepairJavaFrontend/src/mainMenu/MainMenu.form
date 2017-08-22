@@ -67,37 +67,32 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="bt_veiculos" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_utilizadores" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_repair" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_budgets" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_Schedule" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_services" alignment="0" max="32767" attributes="0"/>
-                              <Component id="bt_parts" max="32767" attributes="0"/>
-                              <Component id="bt_providers" min="-2" pref="115" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="l_id_nome1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="l_service" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="bt_budgets" alignment="0" pref="200" max="32767" attributes="0"/>
+                      <Component id="bt_Schedule" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bt_services" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bt_parts" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="l_id_nome1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="l_service" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="16" max="32767" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_repair" max="32767" attributes="0"/>
+                      <Component id="bt_utilizadores" alignment="0" max="32767" attributes="0"/>
+                      <Component id="bt_veiculos" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="l_id_nome" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="l_nome" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="66" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -105,14 +100,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="l_id_nome" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="l_nome" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="l_id_nome" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="l_nome" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="l_id_nome1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -132,14 +125,15 @@
                       <Component id="bt_services" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="bt_parts" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="bt_providers" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" pref="270" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -203,11 +197,6 @@
     <Component class="javax.swing.JButton" name="bt_parts">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pe&#xe7;as"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="bt_providers">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Fornecedores"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="l_id_nome1">

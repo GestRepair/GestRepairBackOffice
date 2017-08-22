@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import parts.APIParts;
-import parts.InfoParts;
 import services.APIService;
 
 /**
@@ -36,11 +35,11 @@ public final class AddParts extends javax.swing.JFrame {
     public AddParts(final String login, final int idRepair, final int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        Events(login, idRepair, idService);
+        
         l_idRepair.setText(idRepair + "");
-        showService(apiService.Service(login));
-        cb_service.removeItemAt(0);
-        cb_service.removeItemAt(0);
+        
+        showService(apiparts.ListPartswhith(login));
+        Events(login, idRepair, idService);
         showTableParts(login);
     }
 
@@ -56,7 +55,7 @@ public final class AddParts extends javax.swing.JFrame {
     }
 
     private void showTableParts(String login) throws Exception {
-        String data[][] = apiparts.ListParts(login, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login)));
+        String data[][] = apiparts.ListPartsZero(login, Cb_Val(cb_service.getSelectedIndex(), apiparts.ListPartswhith(login)));
         showTable(data);
     }
 

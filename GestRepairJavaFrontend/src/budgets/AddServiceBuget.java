@@ -3,70 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package parts;
+package budgets;
 
+import repairs.employers.*;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
+import users.employer.APIEmployer;
 
 /**
  *
  * @author Rui Barcelos
  */
-public final class AddServicePart extends javax.swing.JFrame {
+public final class AddServiceBuget extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
+    APIBudgets api = new APIBudgets();
     APIService apiService = new APIService();
+    APIEmployer apiEmployer = new APIEmployer();
 
     /**
      * Creates new form AddRepair
      *
      * @param login
-     * @param idPart
-     * @param idService
+     * @param idBudget
      * @throws java.lang.Exception
      */
-    public AddServicePart(String login, int idPart, int idService) throws Exception {
+    public AddServiceBuget(String login, int idBudget) throws Exception {
         initComponents();
-        l_idPart.setText(idPart + "");
-        Events(login, idPart, idService);
-        showServiceCB(login,idPart);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        showService(api.ListServiceNot(login,idBudget));
+        Events(login, idBudget);
     }
 
-    private void Events(final String login, final int idPart, final int idService) {
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt, login, idPart, idService);
-            }
-        });
-    }
-
-    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
-        try {
-
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.POSTService(login, sendData(login), idPart))) {
-                    JOptionPane.showMessageDialog(this, "A peça foi inserida com sucesso!");
-                    new InfoParts(login, idPart, idService).setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
-                }
-                dispose();
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
-            }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
-        }
-    }
-
-    private void showService(String[][] list) {
+    public void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
             cb_service.addItem(list1[1]);
@@ -76,15 +46,38 @@ public final class AddServicePart extends javax.swing.JFrame {
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-
-    private void showServiceCB(String login,int idPart) throws Exception {
-        showService(api.ListServiceNotParts(login,idPart));
+    private String[] sendData(String login, int idBudget) throws Exception{
+        String[] data = new String[2];
+        data[0] =  idBudget+"";
+        data[1] = Cb_Val(cb_service.getSelectedIndex(), api.ListServiceNot(login,idBudget))+"";
+        return data;
     }
-
-    private int sendData(String login) throws Exception {
-        return Cb_Val(cb_service.getSelectedIndex(),apiService.Service(login));
+    private void Events(final String login,final int idBudget){
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Add(evt,login,idBudget);
+            }
+        });
     }
-
+    private void BT_Add(java.awt.event.ActionEvent evt, String login, int idBudget) {                                       
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String post = api.POSTAddPart(login,sendData(login,idBudget));
+                if ("ok".equals(post)) {
+                    JOptionPane.showMessageDialog(this, "Serviço adicionado com sucesso!");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
+                }
+                dispose();
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Serviço não foi introduzida no sistema!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
+        }
+    }      
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,24 +87,18 @@ public final class AddServicePart extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel4 = new javax.swing.JLabel();
-        bt_add = new javax.swing.JButton();
-        l_id = new javax.swing.JLabel();
-        l_idPart = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         cb_service = new javax.swing.JComboBox();
+        bt_add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("GestRepair - Adicionar Serviço");
+        setTitle("GestRepair - Adicionar Serviço ao Orçamento");
 
-        jLabel4.setText("Serviço:");
-
-        bt_add.setText("Adicionar");
-
-        l_id.setText("ID:");
-
-        l_idPart.setText("id");
+        jLabel1.setText("Indique o serviço que quer adicionar ao orçamento:");
 
         cb_service.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        bt_add.setText("Adicionar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,44 +107,33 @@ public final class AddServicePart extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_service, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(l_id)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_idPart))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cb_service, 0, 159, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bt_add)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(l_id)
-                    .addComponent(l_idPart))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cb_service, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_service, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_add)
                 .addContainerGap())
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;
     private javax.swing.JComboBox cb_service;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel l_id;
-    private javax.swing.JLabel l_idPart;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
