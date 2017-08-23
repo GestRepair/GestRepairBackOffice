@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import repairs.repairs.Table_Repairs_PU;
+import schedule.Table_Schedule_PU;
 import users.employer.APIEmployer;
 import users.employer.EditEmployer;
 import vehicles.vehicles.AddVehicle;
@@ -124,6 +125,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 BT_Vehicles(evt, login);
             }
         });
+        bt_schedule.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Schedule(evt, login);
+            }
+        });
         cbType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,7 +221,15 @@ public final class Table_Users_Type extends javax.swing.JFrame {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    private void BT_Schedule(java.awt.event.ActionEvent evt, String login) {
+        try {
+            int i = tbl_users.getSelectedRow();
+            new Table_Schedule_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void BT_Vehicles(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -268,11 +283,11 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         linfoUser = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
         bt_addEmployer = new javax.swing.JButton();
-        cbType = new javax.swing.JComboBox<String>();
+        cbType = new javax.swing.JComboBox<>();
         bt_vehicles = new javax.swing.JButton();
         bt_repair = new javax.swing.JButton();
         bt_budgets = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        bt_schedule = new javax.swing.JButton();
         bt_info_func = new javax.swing.JButton();
         bt_rep_func = new javax.swing.JButton();
         bt_edit = new javax.swing.JButton();
@@ -324,7 +339,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
         bt_budgets.setText("Ver Orçamentos");
 
-        jButton4.setText("Ver Marcações");
+        bt_schedule.setText("Ver Marcações");
 
         bt_info_func.setText("Dados do Funcionário");
 
@@ -396,7 +411,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                                 .addComponent(bt_budgets, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(bt_schedule, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(bt_vehicles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +449,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_add_vehicle)
                     .addComponent(bt_repair)
-                    .addComponent(jButton4)
+                    .addComponent(bt_schedule)
                     .addComponent(bt_addEmployer))
                 .addGap(25, 25, 25))
         );
@@ -461,10 +476,10 @@ public final class Table_Users_Type extends javax.swing.JFrame {
     private javax.swing.JButton bt_info_func;
     private javax.swing.JButton bt_rep_func;
     private javax.swing.JButton bt_repair;
+    private javax.swing.JButton bt_schedule;
     private javax.swing.JButton bt_userdata;
     private javax.swing.JButton bt_vehicles;
     private javax.swing.JComboBox<String> cbType;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

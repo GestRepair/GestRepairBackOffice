@@ -134,6 +134,7 @@ public final class EditService extends javax.swing.JFrame {
         });
 
         ta_desc.setColumns(20);
+        ta_desc.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         ta_desc.setRows(5);
         jScrollPane2.setViewportView(ta_desc);
 

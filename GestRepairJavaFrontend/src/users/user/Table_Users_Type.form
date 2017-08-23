@@ -102,7 +102,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton4" pref="150" max="32767" attributes="0"/>
+                          <Component id="bt_schedule" pref="150" max="32767" attributes="0"/>
                           <Component id="bt_vehicles" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -150,7 +150,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_add_vehicle" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_repair" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_schedule" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_addEmployer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
@@ -234,7 +234,7 @@
         <Property name="text" type="java.lang.String" value="Ver Or&#xe7;amentos"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="bt_schedule">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Marca&#xe7;&#xf5;es"/>
       </Properties>

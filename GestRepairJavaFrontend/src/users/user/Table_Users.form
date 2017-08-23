@@ -34,13 +34,10 @@
                 <Property name="text" type="java.lang.String" value="Todos os Utilizadores"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="MI_UserType">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Utilizadores Por Categoria"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem4ActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -94,8 +91,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bt_vehicles1" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="jButton4" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="bt_vehicles" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="bt_schedule" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -133,13 +130,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_budgets" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_userdata" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bt_vehicles1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_vehicles" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_add_vehicle" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_repair" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_schedule" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -169,9 +166,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_usersMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -199,35 +193,23 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_editActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_userdata">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dados do Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_userdataActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_add_vehicle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Viatura"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_vehicleActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="bt_vehicles1">
+    <Component class="javax.swing.JButton" name="bt_vehicles">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Viaturas"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_vehicles1ActionPerformed"/>
-      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="bt_schedule">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Marca&#xe7;&#xf5;es"/>
       </Properties>
@@ -236,17 +218,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Or&#xe7;amentos"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_budgetsActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_repair">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ver Repara&#xe7;&#xf5;es"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_repairActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
