@@ -31,9 +31,8 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="l_idService" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="bt_info" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="bt_edit" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -44,13 +43,17 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jScrollPane1" min="-2" pref="500" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="l_idService" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="l_idService" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="bt_edit" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_info" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="46" max="32767" attributes="0"/>
-              <Component id="bt_edit" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,13 +74,11 @@
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="1"/>
             </Property>
+            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_scheduleMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -93,11 +94,13 @@
     </Component>
     <Component class="javax.swing.JButton" name="bt_edit">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editar Servi&#xe7;o"/>
+        <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_editActionPerformed"/>
-      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_info">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Info"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

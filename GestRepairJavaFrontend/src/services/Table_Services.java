@@ -6,14 +6,11 @@
 package services;
 
 import java.awt.Toolkit;
-import java.io.IOException;
 import static java.lang.Integer.parseInt;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -21,7 +18,6 @@ import org.json.simple.parser.ParseException;
  */
 public final class Table_Services extends javax.swing.JFrame {
 
-    public String log;
     APIService api = new APIService();
 
     /**
@@ -34,10 +30,10 @@ public final class Table_Services extends javax.swing.JFrame {
      * @throws java.text.ParseException
      */
     public Table_Services(String login) throws Exception {
-        log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.Service(login));
+        Events (login);
     }
 
     public void showTable(String[][] list) {
@@ -50,7 +46,48 @@ public final class Table_Services extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
+    private int SelectedRow(int val){
+        int i = tbl_schedule.getSelectedRow();
+        TableModel mod = tbl_schedule.getModel();
+        return parseInt((String) mod.getValueAt(i, val));
+    }
+    private void TBL_ScheduleClicked(java.awt.event.MouseEvent evt) {                                          
+        int i = tbl_schedule.getSelectedRow();
+        TableModel mod = tbl_schedule.getModel();
+        l_idService.setText((String) mod.getValueAt(i, 0));
+    }                                         
 
+    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {                                        
+        try {
+            new EditService(login,SelectedRow(0)).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }     
+    private void BT_Info(java.awt.event.ActionEvent evt,String login) {                                        
+        try {
+            new InfoService(login,SelectedRow(0)).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }     
+    private void Events (final String login){
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Edit(evt,login);
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Info(evt,login);
+            }
+        });
+        tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_ScheduleClicked(evt);
+            }
+        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +102,7 @@ public final class Table_Services extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         l_idService = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
+        bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Serviços");
@@ -85,11 +123,7 @@ public final class Table_Services extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_scheduleMouseClicked(evt);
-            }
-        });
+        tbl_schedule.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tbl_schedule);
         tbl_schedule.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -97,12 +131,9 @@ public final class Table_Services extends javax.swing.JFrame {
 
         l_idService.setText("serviço");
 
-        bt_edit.setText("Editar Serviço");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
+        bt_edit.setText("Editar");
+
+        bt_info.setText("Info");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,9 +145,9 @@ public final class Table_Services extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_idService)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_info)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_edit)
                 .addContainerGap())
         );
@@ -125,33 +156,22 @@ public final class Table_Services extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(l_idService))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(bt_edit)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(l_idService))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bt_edit)
+                        .addComponent(bt_info)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbl_scheduleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_scheduleMouseClicked
-        int i = tbl_schedule.getSelectedRow();
-        TableModel mod = tbl_schedule.getModel();
-        l_idService.setText((String) mod.getValueAt(i, 0));
-    }//GEN-LAST:event_tbl_scheduleMouseClicked
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            new EditService(log,parseInt(l_idService.getText())).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idService;
