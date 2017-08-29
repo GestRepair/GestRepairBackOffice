@@ -45,7 +45,7 @@ public class APIRepair extends Connect {
         return dataTable;
     }
 
-    public String PostRepair(String login, int vehicle, String description, int employer) throws Exception {
+    public String[] PostRepair(String login, int vehicle, String description, int employer) throws Exception {
         URL url = new URL(IP() + "/repair");
         JSONObject objp = new JSONObject();
         objp.put("vehicle", vehicle);
@@ -79,7 +79,7 @@ public class APIRepair extends Connect {
         return emp;
     }
 
-    public String UpdateRepair(String login, int id, String[] data) throws Exception {
+    public String[] UpdateRepair(String login, int id, String[] data) throws Exception {
         URL url = new URL(IP() + "/repair/" + id);
         JSONObject objp = new JSONObject();
         objp.put("description", data[0]);

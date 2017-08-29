@@ -60,7 +60,7 @@ public class Connect{
         connection.disconnect();
         return json;
     }
-    public String SendConnect(String login, URL url, String method,JSONObject obj)throws Exception{
+    public String[] SendConnect(String login, URL url, String method,JSONObject obj)throws Exception{
         HttpURLConnection connection =Conn(login, url,method);
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
             out.write(obj.toString());
@@ -76,7 +76,10 @@ public class Connect{
             json += line;
         }
         connection.disconnect();
-        JSONObject res = (JSONObject) new JSONParser().parse(json);  
-        return (String) res.get("result");
+        JSONObject res = (JSONObject) new JSONParser().parse(json); 
+        String val[] = new String[2];
+        val[0] = (String) res.get("result");
+        val[1] = (String) res.get("message");
+        return val;
     }
 }

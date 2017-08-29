@@ -79,7 +79,7 @@ public class APIParts extends Connect {
         return emp;
     }
 
-    public String PostPart(String login, String[] data) throws Exception {
+    public String[] PostPart(String login, String[] data) throws Exception {
         URL url = new URL(IP() + "/parts");
         JSONObject objp = new JSONObject();
         objp.put("namePart", data[0]);
@@ -89,26 +89,26 @@ public class APIParts extends Connect {
         objp.put("service", data[4]);
         return SendConnect(login,url,"POST",objp);
     }
-    public String PutPart(String login, String[] data,int idPart) throws Exception {
+    public String[] PutPart(String login, String[] data,int idPart) throws Exception {
         URL url = new URL(IP() + "/parts/"+idPart);
         JSONObject objp = new JSONObject();
         objp.put("namePart", data[0]);
         objp.put("description", data[1]);
         return SendConnect(login,url,"PUT",objp);
     }
-    public String PUTAmount(String login, String data,int idPart) throws Exception {
+    public String[] PUTAmount(String login, String data,int idPart) throws Exception {
         URL url = new URL(IP() + "/parts/amount/"+idPart);
         JSONObject objp = new JSONObject();
         objp.put("amount", data);
         return SendConnect(login,url,"PUT",objp);
     }
-    public String PUTPrice(String login, String data,int idPart) throws Exception {
+    public String[] PUTPrice(String login, String data,int idPart) throws Exception {
         URL url = new URL(IP() + "/parts/price/"+idPart);
         JSONObject objp = new JSONObject();
         objp.put("price", data);
         return SendConnect(login,url,"PUT",objp);
     }
-    public String POSTService(String login, int data,int idPart) throws Exception {
+    public String[] POSTService(String login, int data,int idPart) throws Exception {
         URL url = new URL(IP() + "/parts/service/"+idPart);
         JSONObject objp = new JSONObject();
         objp.put("service", data);

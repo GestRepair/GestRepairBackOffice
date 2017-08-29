@@ -28,7 +28,7 @@ public class APIBrand extends Connect {
      * @return
      * @throws Exception
      */
-    public String PostBrand(String login, String brand) throws Exception {
+    public String[] PostBrand(String login, String brand) throws Exception {
         URL url = new URL(IP() + "/vehicle/brand");
         JSONObject objp = new JSONObject();
         objp.put("brand", brand);
@@ -83,7 +83,7 @@ public class APIBrand extends Connect {
      * @return
      * @throws Exception
      */
-    public String PutBrand(String login, int id, String brand) throws Exception {
+    public String[] PutBrand(String login, int id, String brand) throws Exception {
         URL url = new URL(IP() + "/vehicle/brand/" + id);
         JSONObject objp = new JSONObject();
         objp.put("nameBrand", brand);

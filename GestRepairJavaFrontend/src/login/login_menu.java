@@ -136,12 +136,14 @@ public class login_menu extends javax.swing.JFrame {
                 String result = newjson.get("result").toString();
                 //Obtém os dados recebidos do post
                 String data = newjson.get("data").toString();
+                
+                String message = newjson.get("message").toString();
                 //Transforma a String JSON em objecto
                 JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
                 String name = newjsondata.get("name").toString();
                 String role = newjsondata.get("isEmployer").toString();
                 if (!"0".equals(role)) {
-                    JOptionPane.showMessageDialog(this,"Bem Vindo "+name);
+                    JOptionPane.showMessageDialog(this,message+"\nBem Vindo "+name);
                     new MainMenu(session[0], session[1]).setVisible(true);
                     dispose();
                 }else{

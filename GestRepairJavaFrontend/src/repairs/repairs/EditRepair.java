@@ -19,8 +19,6 @@ public class EditRepair extends javax.swing.JFrame {
 
     APIRepair api = new APIRepair();
     APIState apiState = new APIState();
-    private final String login;
-    private final int idRepair;
 
     /**
      * Creates new form EditRepair
@@ -36,8 +34,7 @@ public class EditRepair extends javax.swing.JFrame {
         insertCb(apiState.ShowState(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
-        this.login = login;
-        this.idRepair = idRepair;
+        Events(login, idRepair);
     }
 
     private void insertCb(String[][] list) throws Exception {
@@ -66,15 +63,41 @@ public class EditRepair extends javax.swing.JFrame {
 
     private String[] SendData(String login) throws Exception {
         String[] data = new String[4];
-        data[0] =(ta_description.getText().length()>0)? ta_description.getText():"n/d";
-        data[1] =(tf_price.getText().length()>0)? tf_price.getText().replace(',', '.'):"0";
-        data[2] = cbVal(apiState.ShowState(login), cb_state.getSelectedIndex())+"";
-        data[3] = (ta_resolution.getText().length()>0)? ta_resolution.getText():"n/d";
+        data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
+        data[1] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
+        data[2] = cbVal(apiState.ShowState(login), cb_state.getSelectedIndex()) + "";
+        data[3] = (ta_resolution.getText().length() > 0) ? ta_resolution.getText() : "n/d";
         return data;
     }
 
     private int cbVal(String[][] list, int val) {
         return parseInt(list[val][0]);
+    }
+
+    private void Events(final String login, final int idRepair) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, idRepair);
+            }
+        });
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idRepair) {
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String[] value = api.UpdateRepair(login, idRepair, SendData(login));
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a atualizar reparação!\n Verifique se os dados estão corretos");
+        }
     }
 
     /**
@@ -149,11 +172,6 @@ public class EditRepair extends javax.swing.JFrame {
         l_cif.setText("€");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,25 +261,6 @@ public class EditRepair extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.UpdateRepair(this.login, this.idRepair, SendData(this.login)))) {
-                    JOptionPane.showMessageDialog(this, "Reparação atualizada com sucesso!");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
-                }
-
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a atualizar reparação!\n Verifique se os dados estão corretos");
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

@@ -16,47 +16,47 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  * @author Rui Barcelos
  */
 public final class EditModel extends javax.swing.JFrame {
+
     APIModel api = new APIModel();
     private final String login;
+
     /**
      * Creates new form ChangeModel
+     *
      * @param login
      * @param id
      * @param brand
      * @throws java.lang.Exception
      */
-    public EditModel(String login,int id, String brand) throws Exception {
+    public EditModel(String login, int id, String brand) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_brand.setText(brand);
         InfoModel(login, id);
-        this.login = login;     
+        this.login = login;
     }
-    private void InfoModel(String login,int id) throws Exception{
+
+    private void InfoModel(String login, int id) throws Exception {
         String model[] = api.InfoModel(login, id);
         l_id.setText(model[0]);
         tf_name.setText(model[1]);
     }
-    private void ChangeModel(String login, int id, String name) throws Exception{
-        int x = JOptionPane.showConfirmDialog(this,"Quer modificar a marca "+api.InfoModel(login, id)[1]+" para "+tf_name.getText()+"?","Confirmação",JOptionPane.YES_NO_OPTION);
-        if(x == JOptionPane.YES_OPTION)
-        {
-            if("ok".equals(api.PutModel(login, id, name)))
-            {
-                JOptionPane.showMessageDialog(this,"A Marca foi modificada para "+tf_name.getText()+".");
+
+    private void ChangeModel(String login, int id, String name) throws Exception {
+        String modelName =api.InfoModel(login, id)[1];
+        int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + modelName + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (x == JOptionPane.YES_OPTION) {
+            String[] value = api.PutModel(login, id, name);
+            JOptionPane.showMessageDialog(this, value[1]);
+            if ("ok".equals(value[0])) {
                 new Table_Model(login).setVisible(true);
                 dispose();
             }
-            else
-            {
-                JOptionPane.showMessageDialog(this,"Erro Interno.");
-            }
+        } else if (x == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(this, "A Marca " + modelName + " não foi modificada");
         }
-        else if (x == JOptionPane.NO_OPTION)
-        {    
-            JOptionPane.showMessageDialog(this,"A Marca "+api.InfoModel(login, id)[1]+" não foi modificada");
-        }    
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,12 +145,9 @@ public final class EditModel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try 
-        {
-            ChangeModel(this.login,parseInt(l_id.getText()),tf_name.getText());
-        } 
-        catch (Exception ex) 
-        {
+        try {
+            ChangeModel(this.login, parseInt(l_id.getText()), tf_name.getText());
+        } catch (Exception ex) {
             Logger.getLogger(EditModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed

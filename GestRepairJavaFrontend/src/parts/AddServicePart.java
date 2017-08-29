@@ -31,7 +31,7 @@ public final class AddServicePart extends javax.swing.JFrame {
         initComponents();
         l_idPart.setText(idPart + "");
         Events(login, idPart, idService);
-        showServiceCB(login,idPart);
+        showServiceCB(login, idPart);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
@@ -46,21 +46,16 @@ public final class AddServicePart extends javax.swing.JFrame {
 
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
-
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.POSTService(login, sendData(login), idPart))) {
-                    JOptionPane.showMessageDialog(this, "A peça foi inserida com sucesso!");
+                String value[] = api.POSTService(login, sendData(login), idPart);
+                if ("ok".equals(value[0])) {
                     new InfoParts(login, idPart, idService).setVisible(true);
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
-                dispose();
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
             }
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
@@ -77,12 +72,12 @@ public final class AddServicePart extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void showServiceCB(String login,int idPart) throws Exception {
-        showService(api.ListServiceNotParts(login,idPart));
+    private void showServiceCB(String login, int idPart) throws Exception {
+        showService(api.ListServiceNotParts(login, idPart));
     }
 
     private int sendData(String login) throws Exception {
-        return Cb_Val(cb_service.getSelectedIndex(),apiService.Service(login));
+        return Cb_Val(cb_service.getSelectedIndex(), apiService.Service(login));
     }
 
     /**

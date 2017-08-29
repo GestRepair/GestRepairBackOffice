@@ -17,13 +17,13 @@ import org.json.simple.parser.JSONParser;
  */
 public class APIEmployer extends Connect {
 
-    public String ActivityEmplyer(String login, int id, int opt) throws Exception {
+    public String[] ActivityEmplyer(String login, int id, int opt) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id + "/activity/" + opt);
         JSONObject objp = new JSONObject();
         return SendConnect(login, url, "PUT", objp);
     }
 
-    public String PostEmployer(String login, int idUser, int service) throws Exception {
+    public String[] PostEmployer(String login, int idUser, int service) throws Exception {
         URL url = new URL(IP() + "/user/employer");
         JSONObject objp = new JSONObject();
         objp.put("user", idUser);
@@ -33,7 +33,7 @@ public class APIEmployer extends Connect {
     /*
      *Employers
      */
-    public String PutEmployer(String login, int id, int service) throws Exception {
+    public String[] PutEmployer(String login, int id, int service) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
         JSONObject objp = new JSONObject();
         objp.put("service", service);

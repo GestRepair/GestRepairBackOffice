@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 public final class EditUser extends javax.swing.JFrame {
 
     APIUsers api = new APIUsers();
-    String login;
 
     /**
      * Creates new form editUser
@@ -31,8 +30,8 @@ public final class EditUser extends javax.swing.JFrame {
     public EditUser(String login, int id) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        this.login = login;
         GetInfo(login, id);
+        Events(login,id);
     }
 
     public void GetInfo(String login, int id) throws Exception {
@@ -67,7 +66,38 @@ public final class EditUser extends javax.swing.JFrame {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-
+    private void Events(final String login,final int id) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_EDIT(evt, login,id);
+                } catch (Exception ex) {
+                    Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    public void BT_EDIT(java.awt.event.ActionEvent evt,String login,int id) throws Exception {
+        if (validate(tf_email.getText())) {
+            int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                try {
+                    String[] value =api.PutUser(login,id, data());
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Verifique a Password.");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -138,11 +168,6 @@ public final class EditUser extends javax.swing.JFrame {
         l_type.setText("tipo");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,29 +266,7 @@ public final class EditUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        if (validate(tf_email.getText())) {
-            int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                try {
-                    if ("ok".equals(api.PutUser(this.login, l_id.getText(), data()))) {
-                        JOptionPane.showMessageDialog(this, "O utilizador foi modificado.");
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro Interno.");
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Verifique a Password.");
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel1;

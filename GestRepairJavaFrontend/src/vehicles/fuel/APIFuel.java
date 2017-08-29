@@ -43,13 +43,13 @@ public class APIFuel extends Connect {
         return emp;
     }
 
-    public String PutFuel(String login, int id, String fuel) throws Exception {
+    public String[] PutFuel(String login, int id, String fuel) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel/" + id);
         JSONObject objp = new JSONObject();
         objp.put("nameFuel", fuel);
         return SendConnect(login, url, "PUT", objp);
     }
-    public String PostFuel(String login, String fuel) throws Exception {
+    public String[] PostFuel(String login, String fuel) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel");
         JSONObject objp = new JSONObject();
         objp.put("nameFuel", fuel);

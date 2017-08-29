@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
  */
 public class AddUser extends javax.swing.JFrame {
 
-    private final String login;
     APIUsers api = new APIUsers();
 
     /**
@@ -27,7 +26,7 @@ public class AddUser extends javax.swing.JFrame {
     public AddUser(String login) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        this.login = login;
+        Events(login);
     }
     
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -49,6 +48,48 @@ public class AddUser extends javax.swing.JFrame {
         data[7]= tf_username.getText();
         return data;
     }
+    private void Events(final String login) {
+        bt_add_user.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Add_User(evt, login);
+            }
+        });
+        m_exit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                M_EXIT(evt);
+            }
+        });
+    }
+    private void BT_Add_User(java.awt.event.ActionEvent evt, String login) {                                            
+        try {
+            if (tf_username.getText().length() > 5 || tfnome.getText().length() > 5  || tfmorada.getText().length() > 5  || (tfcodp.getText().length() > 8||tfcodp.getText().length() < 8  )||tfcodp.getText().length() > 3 || tfnif.getText().length() > 3 ) {
+                //https://stackoverflow.com/questions/8204680/java-regex-email
+                if(validate(tfemail.getText())==true){
+                    int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if (x == JOptionPane.YES_OPTION) {
+                        String[] value = api.PostUser(login,Data());
+                        JOptionPane.showMessageDialog(this, value[1]);
+                        if ("ok".equals(value[0])) { 
+                            dispose();
+                        }
+                    }else if (x == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(this, "O utilizador não foi adicionado");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "Email Inválido");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Preencha os dados por favor");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a adicionar utilizador");
+        }
+    }   
+    private void M_EXIT(java.awt.event.ActionEvent evt) {                                            
+        dispose();
+    }    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,23 +126,11 @@ public class AddUser extends javax.swing.JFrame {
 
         jLabel5.setText("Localidade:");
 
-        tfnif.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfnifActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("NIF:");
 
         jLabel4.setText("Código Postal:");
 
         jLabel10.setText("Contacto");
-
-        tfemail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfemailActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Nome:");
 
@@ -110,39 +139,18 @@ public class AddUser extends javax.swing.JFrame {
         jLabel8.setText("E-Mail:");
 
         bt_add_user.setText("Adicionar Utilizador");
-        bt_add_user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_add_userActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Username:");
-
-        tf_username.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tf_usernameKeyTyped(evt);
-            }
-        });
 
         try {
             tfcodp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-###")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        tfcodp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfcodpActionPerformed(evt);
-            }
-        });
 
         jMenu1.setText("File");
 
         m_exit.setText("Sair");
-        m_exit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_exitActionPerformed(evt);
-            }
-        });
         jMenu1.add(m_exit);
 
         jMenuBar1.add(jMenu1);
@@ -239,54 +247,6 @@ public class AddUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tfnifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfnifActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfnifActionPerformed
-
-    private void tfemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfemailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfemailActionPerformed
-
-    private void tfcodpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfcodpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfcodpActionPerformed
-
-    private void tf_usernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_usernameKeyTyped
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_tf_usernameKeyTyped
-
-    private void bt_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_userActionPerformed
-        try {
-            if (!"".equals(tf_username.getText()) || !"".equals(tfnome.getText()) || !"".equals(tfmorada.getText()) || !"".equals(tfcodp.getText()) || !"".equals(tflocalidade.getText()) || !"".equals(tfemail.getText()) || !"".equals(tfnif.getText())) {
-                //https://stackoverflow.com/questions/8204680/java-regex-email
-                if(validate(tfemail.getText())==true){
-                    int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                    if (x == JOptionPane.YES_OPTION) {
-                        if ("ok".equals(api.PostUser(this.login,Data()))) {
-                            JOptionPane.showMessageDialog(this, "Utilizador adicionado com sucesso");
-                            dispose();
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Erro Interno");
-                        }
-                    }else if (x == JOptionPane.NO_OPTION) {
-                        JOptionPane.showMessageDialog(this, "O utilizador não foi adicionado");
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(this, "Email Inválido");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Preencha os dados por favor");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a adicionar utilizador");
-        }
-    }//GEN-LAST:event_bt_add_userActionPerformed
-
-    private void m_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_exitActionPerformed
-        dispose();
-    }//GEN-LAST:event_m_exitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

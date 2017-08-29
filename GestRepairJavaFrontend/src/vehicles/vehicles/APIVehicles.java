@@ -7,7 +7,6 @@ package vehicles.vehicles;
 
 import connect.Connect;
 import java.net.URL;
-import java.util.Arrays;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,7 +28,7 @@ public class APIVehicles extends Connect {
      * @return 
      * @throws Exception 
      */
-    public String POSTAddVehicle(String login,int id,String[] data) throws Exception {
+    public String[] POSTAddVehicle(String login,int id,String[] data) throws Exception {
         URL url = new URL(IP() + "/vehicle/"+id+"/desk");
         JSONObject objp = new JSONObject();
             objp.put("model", data[0]);
@@ -77,7 +76,7 @@ public class APIVehicles extends Connect {
 
     }
 
-    public String PutVehicle(String login, int id, String[] data) throws Exception {
+    public String[] PutVehicle(String login, int id, String[] data) throws Exception {
         URL url = new URL(IP() + "/vehicle/" + id);
         JSONObject objp = new JSONObject();
             objp.put("registration", data[1]);

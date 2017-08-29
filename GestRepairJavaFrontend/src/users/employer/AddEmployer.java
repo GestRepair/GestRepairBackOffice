@@ -61,11 +61,10 @@ public final class AddEmployer extends javax.swing.JFrame {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 serv = newIdCb(cbService.getSelectedIndex(), apiService.Service(login));
-                if ("ok".equals(api.PostEmployer(login, idUser, serv))) {
-                    JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
+                String[] value = api.PostEmployer(login, idUser, serv);
+                JOptionPane.showMessageDialog(this, "Dados inseridos com sucesso!");
+                if ("ok".equals(value[0])) {
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
                 dispose();
             } else if (x == JOptionPane.NO_OPTION) {

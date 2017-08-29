@@ -10,7 +10,6 @@ import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -29,7 +28,7 @@ public class APIModel extends Connect {
      * @return
      * @throws Exception
      */
-    public String PostModel(String login, int brand, String model) throws Exception {
+    public String[] PostModel(String login, int brand, String model) throws Exception {
         URL url = new URL(IP() + "/vehicle/model");
         JSONObject objp = new JSONObject();
         objp.put("brand", brand);
@@ -81,7 +80,7 @@ public class APIModel extends Connect {
      * @return
      * @throws Exception
      */
-    public String PutModel(String login, int id, String model) throws Exception {
+    public String[] PutModel(String login, int id, String model) throws Exception {
         URL url = new URL(IP() + "/vehicle/model/" + id);
         JSONObject objp = new JSONObject();
         objp.put("nameModel", model);

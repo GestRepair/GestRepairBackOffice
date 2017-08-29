@@ -31,7 +31,7 @@ public class APIPartsRepair extends APIRepair {
         };
         return dataTable;
     }
-    public String PostParts(String login, int idRepair, int idPart) throws Exception {
+    public String[] PostParts(String login, int idRepair, int idPart) throws Exception {
         URL url = new URL(IP() + "/repair/parts/"+idRepair);
         JSONObject objp = new JSONObject();
         objp.put("part", idPart);

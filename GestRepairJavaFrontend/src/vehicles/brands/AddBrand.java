@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vehicles.fuel.EditFuel;
 import vehicles.fuel.Table_Fuel;
+
 /**
  *
  * @author Convite
@@ -22,6 +23,7 @@ public class AddBrand extends javax.swing.JFrame {
 
     /**
      * Creates new form addBrand
+     *
      * @param login
      */
     public AddBrand(String login) {
@@ -89,14 +91,13 @@ public class AddBrand extends javax.swing.JFrame {
 
     private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca"+tf_brand.getText()+"?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca" + tf_brand.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PostBrand(login, tf_brand.getText()))) {
-                    JOptionPane.showMessageDialog(this, "Marca adicionada com sucesso");
-                    dispose();
+                String[] value = api.PostBrand(login, tf_brand.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     new Table_Fuel(this.login).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                    dispose();
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");

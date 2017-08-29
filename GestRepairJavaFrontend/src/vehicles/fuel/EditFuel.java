@@ -17,6 +17,7 @@ import vehicles.models.APIModel;
  * @author Rui Barcelos
  */
 public class EditFuel extends javax.swing.JFrame {
+
     APIFuel api = new APIFuel();
     APIBrand apiBrand = new APIBrand();
     APIModel apiModel = new APIModel();
@@ -39,7 +40,7 @@ public class EditFuel extends javax.swing.JFrame {
     }
 
     private void InfoVehicle(String login, int id) throws Exception {
-        String fuel[]= api.InfoFuel(login, id);
+        String fuel[] = api.InfoFuel(login, id);
         l_id.setText(fuel[0]);
         tf_fuel.setText(fuel[1]);
     }
@@ -115,17 +116,15 @@ public class EditFuel extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PutFuel(this.login, this.id, tf_fuel.getText()))) {
-                    JOptionPane.showMessageDialog(this, "Viatura alterada com sucesso");
-                    dispose();
+                String[] value = api.PutFuel(this.login, this.id, tf_fuel.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     new Table_Fuel(this.login).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
+                    dispose();
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
             }
-
         } catch (Exception ex) {
             Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);
         }

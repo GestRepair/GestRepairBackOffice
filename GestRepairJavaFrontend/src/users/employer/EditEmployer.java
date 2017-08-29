@@ -84,12 +84,11 @@ public class EditEmployer extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Deseja Alterar o serviço deste funcionário para " + cb_service.getSelectedItem() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PutEmployer(login, idEmp, newIdCb(cb_service.getSelectedIndex(), apiService.Service(login))))) {
-                    JOptionPane.showMessageDialog(this, "O Serviço deste funcionário foi alterado com sucesso");
+                String[] value = api.PutEmployer(login, idEmp, newIdCb(cb_service.getSelectedIndex(), apiService.Service(login)));
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
-                }
+                } 
             } else if(x == JOptionPane.NO_OPTION){
                 JOptionPane.showMessageDialog(this, "O serviço não foi alterado!");
             }

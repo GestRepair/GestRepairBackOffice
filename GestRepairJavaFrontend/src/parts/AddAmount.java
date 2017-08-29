@@ -50,14 +50,12 @@ public final class AddAmount extends javax.swing.JFrame {
             if (tf_amount.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    if ("ok".equals(api.PUTAmount(login, sendData(),idPart))) {
-                        JOptionPane.showMessageDialog(this, "A peça foi inserida com sucesso!");
+                    String value[] = api.PUTAmount(login, sendData(),idPart);
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {        
                         new InfoParts(login, idPart, idService).setVisible(true);
                         dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                     }
-                    dispose();
                 } else if (x == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
                 }

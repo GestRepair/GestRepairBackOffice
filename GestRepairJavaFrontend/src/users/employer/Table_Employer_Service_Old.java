@@ -280,14 +280,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                 int i = tbl_users.getSelectedRow();
                 TableModel mod = tbl_users.getModel();
                 int val = parseInt((String) mod.getValueAt(i, 0));
-                if ("ok".equals(api.ActivityEmplyer(login, val, 1))) {
+                String[] value = api.ActivityEmplyer(login, val, 1);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
                     model.setRowCount(0);
                     int cb = cb_type.getSelectedIndex();
                     showTable(api.ShowEmployer(login, 0, newIdCb(cb, apiService.Service(login))));
                     tbl_usersStart();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "O funcionário não foi reademitido");

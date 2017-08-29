@@ -18,8 +18,6 @@ import org.json.simple.parser.JSONParser;
  */
 public class EditPassword extends javax.swing.JFrame {
 
-    private final String login, password;
-    private final int id;
     APIUsers api = new APIUsers();
 
     /**
@@ -33,23 +31,32 @@ public class EditPassword extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         JSONObject auth = (JSONObject) new JSONParser().parse(login);
-        this.password = (String) auth.get("password");
-        this.login = login;
-        this.id = id;
-    }
+        Events(login,id,(String) auth.get("password"));
 
-    public void ChangePass(String login, String password) throws Exception {
+    }
+    private void Events(final String login,final int id,final String password) {
+        bt_chpass.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_ChangePass(evt, login,id,password);
+                } catch (Exception ex) {
+                    Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    public void BT_ChangePass(java.awt.event.ActionEvent evt,String login,int id,String password) throws Exception {
         int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
-            if (this.password.equals(tf_pass_act.getText())) {
-                if (!tf_npass.getText().equals(this.password) || !tf_npass.getText().equals(this.password)) {
+            if (password.equals(tf_pass_act.getText())) {
+                if (!tf_npass.getText().equals(password) || !tf_npass.getText().equals(password)) {
                     if (tf_npass.getText().equals(tf_cpass.getText())) {
-                        if ("ok".equals(api.PutPassword(login, id, password, tf_npass.getText()))) {
-                            JOptionPane.showMessageDialog(this, "A Password foi alterada com sucesso\nO sistema irá desligar!");
+                        String[] value = api.PutPassword(login, id, password, tf_npass.getText());
+                        JOptionPane.showMessageDialog(this, value[1]+(("ok".equals(value[0]))?"\nO sistema irá desligar!":""));
+                        if ("ok".equals(value[0])) {                       
                             System.exit(0);
-                        } else {
-                            JOptionPane.showMessageDialog(this, "A Password não foi alterada");
-                        }
+                        } 
                     } else {
                         JOptionPane.showMessageDialog(this, "A nova password não coicide com a de confirmação");
                     }
@@ -79,7 +86,7 @@ public class EditPassword extends javax.swing.JFrame {
         l_pass_act = new javax.swing.JLabel();
         l_npass = new javax.swing.JLabel();
         l_cpass = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_chpass = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Alterar Password");
@@ -90,12 +97,7 @@ public class EditPassword extends javax.swing.JFrame {
 
         l_cpass.setText("Confirmação Password:");
 
-        jButton1.setText("Alterar Password");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        bt_chpass.setText("Alterar Password");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,7 +111,7 @@ public class EditPassword extends javax.swing.JFrame {
                     .addComponent(l_cpass))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                    .addComponent(bt_chpass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
                     .addComponent(tf_cpass)
                     .addComponent(tf_npass)
                     .addComponent(tf_pass_act))
@@ -131,23 +133,15 @@ public class EditPassword extends javax.swing.JFrame {
                     .addComponent(tf_cpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(l_cpass))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(bt_chpass)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            ChangePass(this.login, this.password);
-        } catch (Exception ex) {
-            Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bt_chpass;
     private javax.swing.JLabel l_cpass;
     private javax.swing.JLabel l_npass;
     private javax.swing.JLabel l_pass_act;
@@ -155,4 +149,6 @@ public class EditPassword extends javax.swing.JFrame {
     private javax.swing.JPasswordField tf_npass;
     private javax.swing.JPasswordField tf_pass_act;
     // End of variables declaration//GEN-END:variables
+
+    
 }

@@ -46,17 +46,15 @@ public final class EditPrice extends javax.swing.JFrame {
 
     private void BT_addPost(java.awt.event.ActionEvent evt,String login, int idPart, int idService) {
         try {
-            if (tf_amount.getText().length() > 0) {
+            if (tf_price.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    if ("ok".equals(api.PUTPrice(login, sendData(),idPart))) {
-                        JOptionPane.showMessageDialog(this, "A peça foi inserida com sucesso!");
+                    String value[] = api.PUTPrice(login, sendData(),idPart);
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
                         new InfoParts(login, idPart, idService).setVisible(true);
                         dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                     }
-                    dispose();
                 } else if (x == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
                 }
@@ -69,7 +67,7 @@ public final class EditPrice extends javax.swing.JFrame {
     }
 
     private String sendData() throws Exception {
-        return tf_amount.getText();
+        return tf_price.getText().replace(",", ".");
     }
 
     /**
@@ -82,10 +80,10 @@ public final class EditPrice extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
-        tf_amount = new javax.swing.JTextField();
         bt_add = new javax.swing.JButton();
         l_id = new javax.swing.JLabel();
         l_idPart = new javax.swing.JLabel();
+        tf_price = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Alterar Preço");
@@ -98,6 +96,8 @@ public final class EditPrice extends javax.swing.JFrame {
 
         l_idPart.setText("id");
 
+        tf_price.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,17 +106,16 @@ public final class EditPrice extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 182, Short.MAX_VALUE)
+                        .addComponent(bt_add))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(l_id)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(l_idPart)
-                        .addGap(0, 131, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_amount))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_add)))
+                        .addGap(18, 18, 18)
+                        .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,14 +124,12 @@ public final class EditPrice extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_id)
-                    .addComponent(l_idPart))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(tf_amount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(l_idPart)
+                    .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_add)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -144,6 +141,6 @@ public final class EditPrice extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel l_id;
     private javax.swing.JLabel l_idPart;
-    private javax.swing.JTextField tf_amount;
+    private javax.swing.JFormattedTextField tf_price;
     // End of variables declaration//GEN-END:variables
 }

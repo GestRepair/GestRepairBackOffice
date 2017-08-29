@@ -229,7 +229,11 @@ public final class EditService extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
                 }
             } else {
-                api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
+                String value[] = api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if("ok".equals(value[0])){
+                    dispose();
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(EditService.class.getName()).log(Level.SEVERE, null, ex);

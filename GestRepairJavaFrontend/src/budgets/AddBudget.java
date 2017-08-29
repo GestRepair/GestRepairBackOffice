@@ -89,13 +89,10 @@ public final class AddBudget extends javax.swing.JFrame {
                 int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String value;
-                    value = api.POSTAddBudget(login, SendData(idVehicle, (idService == 1 || idService == 2) ? serv : idService));
-                    if ("ok".equals(value)) {
-                        JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
+                    String[] value = api.POSTAddBudget(login, SendData(idVehicle, (idService == 1 || idService == 2) ? serv : idService));
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
                         dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                     }
                     dispose();
                 } else if (x == JOptionPane.NO_OPTION) {

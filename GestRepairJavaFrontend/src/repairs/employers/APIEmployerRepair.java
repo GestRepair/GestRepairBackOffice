@@ -33,7 +33,7 @@ public class APIEmployerRepair extends APIRepair {
         return dataTable;
     }
 
-    public String PostEmployerRepair(String login, int idRepair, int empl) throws Exception {
+    public String[] PostEmployerRepair(String login, int idRepair, int empl) throws Exception {
         URL url = new URL(IP() + "/repair/employer");
         JSONObject objp = new JSONObject();
         objp.put("repair", idRepair);

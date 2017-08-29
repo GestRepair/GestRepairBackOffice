@@ -20,22 +20,20 @@ public final class AddRepair extends javax.swing.JFrame {
     APIRepair api = new APIRepair();
     APIService apiService = new APIService();
     APIEmployer apiEmployer = new APIEmployer();
-    private final int vehicle, employer, idService;
-    private final String login;
+
 
     /**
      * Creates new form AddRepair
      *
      * @param login
      * @param vehicle
-     * @param employer
+     * @param idEmployer
      * @param idService
      * @throws java.lang.Exception
      */
-    public AddRepair(String login, int vehicle, int employer, int idService) throws Exception {
+    public AddRepair(String login, int vehicle, int idEmployer, int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        this.login = login;
         if (idService == 1 || idService == 2) {
             showService(apiService.Service(login));
             showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));
@@ -47,12 +45,51 @@ public final class AddRepair extends javax.swing.JFrame {
             cb_service.setVisible(false);
             cb_employer.setVisible(false);
             l_idService.setText(apiService.GetInfo(login, idService)[1]);
-            l_employer.setText(apiEmployer.GetInfoEmployerUser(login, employer)[1]);
+            l_employer.setText(apiEmployer.GetInfoEmployerUser(login, idEmployer)[1]);
         }
         ta_pdesc.setLineWrap(true);
-        this.employer = employer;
-        this.vehicle = vehicle;
-        this.idService = idService;
+        Events(login, vehicle, idService, idEmployer);
+    }
+
+    private void Events(final String login, final int vehicle, final int idService, final int idEmployer) {
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_addPost(evt, login, vehicle, idService,idEmployer);
+            }
+        });
+        cb_service.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_Service(evt, login);
+            }
+        });
+    }
+
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int vehicle, int idService, int idEmployer) {
+        try {
+            int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
+            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String value[] = api.PostRepair(login, vehicle, ta_pdesc.getText(), (idService == 1 || idService == 2) ? empl : idEmployer);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+                dispose();
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
+        }
+    }
+    private void CB_Service(java.awt.event.ActionEvent evt, String login) {
+        try {
+            showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));
+        } catch (Exception ex) {
+        }
     }
 
     private void showService(String[][] list) {
@@ -99,11 +136,6 @@ public final class AddRepair extends javax.swing.JFrame {
         jLabel1.setText("Serviço:");
 
         cb_service.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cb_service.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_serviceActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Descrição do Problema:");
 
@@ -120,11 +152,6 @@ public final class AddRepair extends javax.swing.JFrame {
         l_employer.setText("employer");
 
         bt_add.setText("Adicionar");
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,43 +212,6 @@ public final class AddRepair extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cb_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_serviceActionPerformed
-        try {
-            showEmployers(apiEmployer.ShowEmployer(this.login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(this.login))));
-        } catch (Exception ex) {
-        }
-    }//GEN-LAST:event_cb_serviceActionPerformed
-
-    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {
-            int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(this.login));
-            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                if (this.idService == 1 || this.idService == 2) {
-                    if ("ok".equals(api.PostRepair(this.login, this.vehicle, ta_pdesc.getText(), empl))) {
-                        JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
-                    }
-                } else {
-                    if ("ok".equals(api.PostRepair(this.login, this.vehicle, ta_pdesc.getText(), this.employer))) {
-                        JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
-                    }
-                }
-                dispose();
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
-        }
-    }//GEN-LAST:event_bt_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;

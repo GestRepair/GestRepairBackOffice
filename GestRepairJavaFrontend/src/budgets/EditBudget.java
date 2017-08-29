@@ -89,13 +89,11 @@ public class EditBudget extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.UpdateBudget(login, idBudget, SendData(login)))) {
-                    JOptionPane.showMessageDialog(this, "Reparação atualizada com sucesso!");
+                String value[] = api.UpdateBudget(login, idBudget, SendData(login));
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
-
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
             }

@@ -113,11 +113,10 @@ public final class AddModel extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),apiBrand.Brand(this.login)),tf_model.getText()))) {
-                    JOptionPane.showMessageDialog(this, "Viatura Adicionada com sucesso");
+                String value[] = api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),apiBrand.Brand(this.login)),tf_model.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {      
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");

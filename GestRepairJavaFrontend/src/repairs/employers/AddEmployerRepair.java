@@ -155,13 +155,11 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
             int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowNotRepairEmployer(login, 1, serv));
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PostEmployerRepair(this.login,this.idRepair ,empl))) {
-                    JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
+                String value[] = api.PostEmployerRepair(this.login,this.idRepair ,empl);
+                JOptionPane.showMessageDialog(this,value[1]);
+                if ("ok".equals(value[0])) {
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
-                dispose();
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
             }

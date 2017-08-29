@@ -6,11 +6,6 @@
 package users.user;
 
 import connect.Connect;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,7 +20,7 @@ public class APIUsers extends Connect {
      *Users
      */
 
-    public String PostUser(String login, String[] data) throws Exception {
+    public String[] PostUser(String login, String[] data) throws Exception {
         URL url = new URL(IP() + "/user/desk");
         JSONObject objp = new JSONObject();
         objp.put("name", data[0]);
@@ -64,7 +59,7 @@ public class APIUsers extends Connect {
         return dataTable;
     }
 
-    public String PutPassword(String login, int id, String oldpassword, String newpassword) throws Exception {
+    public String[] PutPassword(String login, int id, String oldpassword, String newpassword) throws Exception {
         URL url = new URL(IP() + "/chpass/" + id);
         JSONObject objp = new JSONObject();
         objp.put("oldPassword", oldpassword);
@@ -72,7 +67,7 @@ public class APIUsers extends Connect {
         return SendConnect(login, url, "PUT", objp);
     }
 
-    public String PutUser(String login, String numUser, String[] data) throws Exception {
+    public String[] PutUser(String login, int numUser, String[] data) throws Exception {
         URL url = new URL(IP() + "/user/" + numUser);
         JSONObject objp = new JSONObject();
         objp.put("name", data[0]);

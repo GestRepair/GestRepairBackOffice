@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import repairs.employers.*;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
@@ -63,14 +62,11 @@ public final class AddServiceBuget extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                String post = api.POSTAddPart(login,sendData(login,idBudget));
-                if ("ok".equals(post)) {
-                    JOptionPane.showMessageDialog(this, "Serviço adicionado com sucesso!");
+                String[] value = api.POSTAddPart(login,sendData(login,idBudget));
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
-                dispose();
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Serviço não foi introduzida no sistema!");
             }

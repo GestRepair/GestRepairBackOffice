@@ -71,12 +71,12 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1))) {
+                String[] value = api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 1);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     cleanTable();
                     showTable(api.ShowEmployer(login, 0, 0));
                     tbl_usersStart();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "O funcionário não foi readmitido");

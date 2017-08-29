@@ -55,7 +55,6 @@ public class APIService extends Connect {
     PrintWriter writer;
     String boundary;
     HttpURLConnection connection;
-    Connect connect = new Connect();
 
     public void PostService(String login, String name, String price, String description, File photo) throws Exception {
         final File uploadFile = photo;
@@ -226,7 +225,7 @@ public class APIService extends Connect {
      * @return 
      * @throws Exception
      */
-    public String PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
+    public String[] PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
         URL url = PUTUrlWithout(id);
         JSONObject objp = new JSONObject();
         objp.put("nameService", name);

@@ -35,9 +35,9 @@ public final class AddParts extends javax.swing.JFrame {
     public AddParts(final String login, final int idRepair, final int idService) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        
+
         l_idRepair.setText(idRepair + "");
-        
+
         showService(apiparts.ListPartswhith(login));
         Events(login, idRepair, idService);
         showTableParts(login);
@@ -114,14 +114,12 @@ public final class AddParts extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.PostParts(login, idRepair, sendData()))) {
-                    JOptionPane.showMessageDialog(this, "A peça foi inserida com sucesso!");
+                String value[] = api.PostParts(login, idRepair, sendData());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     new ListPartsRepair(login, idRepair, idService).setVisible(true);
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                 }
-                dispose();
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
             }
@@ -154,11 +152,6 @@ public final class AddParts extends javax.swing.JFrame {
         jLabel1.setText("Serviço:");
 
         cb_service.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cb_service.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_serviceActionPerformed(evt);
-            }
-        });
 
         bt_add.setText("Adicionar");
 
@@ -234,10 +227,6 @@ public final class AddParts extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cb_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_serviceActionPerformed
-
-    }//GEN-LAST:event_cb_serviceActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;

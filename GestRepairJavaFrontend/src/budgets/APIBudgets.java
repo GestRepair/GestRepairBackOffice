@@ -88,7 +88,7 @@ public class APIBudgets extends Connect {
         return dataTable;
     }
 
-    public String POSTAddBudget(String login, String[] data) throws Exception {
+    public String[] POSTAddBudget(String login, String[] data) throws Exception {
         URL url = new URL(IP() + "/budget");
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data[0]);
@@ -97,7 +97,7 @@ public class APIBudgets extends Connect {
         return SendConnect(login, url, "POST", objp);
     }
 
-    public String POSTAddPart(String login, String[] data) throws Exception {
+    public String[] POSTAddPart(String login, String[] data) throws Exception {
         URL url = new URL(IP() + "/budget/part");
         JSONObject objp = new JSONObject();
         objp.put("budget", data[0]);
@@ -124,7 +124,7 @@ public class APIBudgets extends Connect {
         return emp;
     }
 
-    public String UpdateBudget(String login, int id, String[] data) throws Exception {
+    public String[] UpdateBudget(String login, int id, String[] data) throws Exception {
         URL url = new URL(IP() + "/budget/" + id);
         JSONObject objp = new JSONObject();
         objp.put("description", data[0]);

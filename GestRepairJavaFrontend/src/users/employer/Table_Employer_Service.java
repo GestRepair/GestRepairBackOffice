@@ -126,14 +126,14 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                if ("ok".equals(api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0))) {
+                String[] value = api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
                     model.setRowCount(0);
                     int cb = cb_type.getSelectedIndex();
                     showTable(api.ShowEmployer(login, 1, newIdCb(cb, apiService.Service(login))));
                     tbl_usersStart();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro Interno");
                 }
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "O funcionário não foi desativado");
@@ -340,7 +340,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
             int i = tbl_users.getSelectedRow();
             TableModel mod = tbl_users.getModel();
             int val = parseInt((String) mod.getValueAt(i, 0));
-            new EditEmployer(this.login, val ).setVisible(true);
+            new EditEmployer(this.login, val).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);

@@ -61,13 +61,11 @@ public final class EditParts extends javax.swing.JFrame {
             if (tf_name.getText().length() > 0 ) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    if ("ok".equals(api.PutPart(login, sendData(),parseInt(l_idPart.getText())))) {
-                        JOptionPane.showMessageDialog(this, "Reparação inserida com sucesso!");
+                    String[] value = api.PutPart(login, sendData(),parseInt(l_idPart.getText()));
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
                         dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Erro ao inserir os dados!");
                     }
-                    dispose();
                 } else if (x == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
                 }

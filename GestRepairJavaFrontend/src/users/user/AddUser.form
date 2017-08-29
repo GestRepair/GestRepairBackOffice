@@ -13,9 +13,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="m_exitActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -168,9 +165,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfnif">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfnifActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
@@ -192,9 +186,6 @@
     <Component class="javax.swing.JTextField" name="tfmorada">
     </Component>
     <Component class="javax.swing.JTextField" name="tfemail">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfemailActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -215,9 +206,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Utilizador"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_userActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -225,9 +213,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_username">
-      <Events>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tf_usernameKeyTyped"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="tfcodp">
       <Properties>
@@ -235,9 +220,6 @@
           <Format format="####-###" subtype="-1" type="5"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfcodpActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
