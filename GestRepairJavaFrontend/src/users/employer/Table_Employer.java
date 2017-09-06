@@ -92,7 +92,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         mi_upc.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_UPC(evt, login, idService);
+                MI_UPC(evt, login, idService, idEmployer);
             }
         });
         mi_exit.addActionListener(new java.awt.event.ActionListener() {
@@ -153,9 +153,9 @@ public final class Table_Employer extends javax.swing.JFrame {
         }
     }
 
-    private void MI_UPC(java.awt.event.ActionEvent evt, String login, int idService) {
+    private void MI_UPC(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
-            new Table_Users_Type(login, idService).setVisible(true);
+            new Table_Users_Type(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
         }

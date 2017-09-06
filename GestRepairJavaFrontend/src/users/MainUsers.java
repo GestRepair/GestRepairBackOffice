@@ -44,13 +44,13 @@ public class MainUsers extends javax.swing.JFrame {
         bt_showUsers.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListUser(evt, login, idService);
+                BT_ListUser(evt, login, idService,idEmployer);
             }
         });
         bt_showUsersType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListUserType(evt, login, idService);
+                BT_ListUserType(evt, login, idService,idEmployer);
             }
         });
         bt_func_list.addActionListener(new java.awt.event.ActionListener() {
@@ -88,17 +88,17 @@ public class MainUsers extends javax.swing.JFrame {
 
     }
 
-    private void BT_ListUser(java.awt.event.ActionEvent evt, String login, int idService) {
+    private void BT_ListUser(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
-            new Table_Users(login, idService).setVisible(true);
+            new Table_Users(login, idService,idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void BT_ListUserType(java.awt.event.ActionEvent evt, String login, int idService) {
+    private void BT_ListUserType(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
-            new Table_Users_Type(login, idService).setVisible(true);
+            new Table_Users_Type(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }

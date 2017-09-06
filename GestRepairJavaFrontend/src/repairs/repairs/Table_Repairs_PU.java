@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -17,11 +18,14 @@ import javax.swing.table.TableModel;
  * @author Rui Barcelos
  */
 public final class Table_Repairs_PU extends javax.swing.JFrame {
+
     public String login;
     public int id;
     APIRepair api = new APIRepair();
+
     /**
      * Creates new form Table_Vehicles
+     *
      * @param login
      * @param id
      * @throws java.io.IOException
@@ -32,23 +36,28 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
     public Table_Repairs_PU(String login, int id) throws Exception {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showTable(api.ListRepairs(login,id));
+        showTable(api.ListRepairs(login, id));
         this.login = login;
         this.id = id;
     }
-        
+
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-        Object[] row = new Object[8];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
+            Object[] row = new Object[8];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
                     row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+        } else {
+            JOptionPane.showMessageDialog(this, "Não existe dados");
+            dispose();
         }
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -143,11 +152,13 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             //api.PutVehicle(login,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
-            DefaultTableModel mod = (DefaultTableModel)tbl_vehicles.getModel();
+            DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
             mod.setRowCount(0);
-            showTable(api.ListRepairs(login,id));
+            showTable(api.ListRepairs(login, id));
+
         } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs_PU.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Repairs_PU.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_editActionPerformed
 

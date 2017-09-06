@@ -95,7 +95,7 @@ public final class EditUser extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Verifique a Password.");
+            JOptionPane.showMessageDialog(this, "Verifique os dados.");
         }
     }
     /**

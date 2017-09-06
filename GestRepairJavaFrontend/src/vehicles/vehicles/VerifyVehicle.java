@@ -24,18 +24,18 @@ public class VerifyVehicle extends javax.swing.JFrame {
      * @param id
      * @param user
      */
-    public VerifyVehicle(final String login, int id, String user) {
+    public VerifyVehicle(final String login, int id, String user,int idService,int idEmployer) {
         APIVehicles api = new APIVehicles();
         initComponents();
-        Events(login, id, user, api);
+        Events(login, id,idService,idEmployer, user,api);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
     }
 
-    private void Events(final String login, final int id, final String user, final APIVehicles api) {
+    private void Events(final String login, final int id,final int idService ,final int idEmployer, final String user, final APIVehicles api) {
         bt_verify.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_VERIFY(evt, login, id, user, api);
+                BT_VERIFY(evt, login, id,idService,idEmployer, user, api);
             }
         });
     }
@@ -44,7 +44,7 @@ public class VerifyVehicle extends javax.swing.JFrame {
         return tf_registration.getText();
     }
 
-    private void BT_VERIFY(java.awt.event.ActionEvent evt, String login, int id, String user, APIVehicles api) {
+    private void BT_VERIFY(java.awt.event.ActionEvent evt, String login, int id, int idService ,int idEmployer, String user, APIVehicles api) {
         try {
             if (tf_registration.getText().length() > 5) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer verificar se viatura " + Data() + " faz parte do sistema?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -56,10 +56,34 @@ public class VerifyVehicle extends javax.swing.JFrame {
                         if (i == 0) {
                             new AddVehicle(login, id, user, tf_registration.getText()).setVisible(true);
                             dispose();
+                        } else {
+                            String[] value1 = api.POSTVerifyOwnerVehicle(login, Data());
+                            JSONObject res2 = (JSONObject) new JSONParser().parse(value1[2]);
+                            long e = (long) res2.get("bool");
+                            if (e == 1) {
+                                String[] value2 = api.POSTVerifyUserVehicle(login, Data(), id);
+                                JSONObject res3 = (JSONObject) new JSONParser().parse(value2[2]);
+                                long p = (long) res3.get("bool");
+                                if (p == 0) {;
+                                    String[] value3 = api.POSTVerifyADDVehicle(login, Data(), id);
+                                    if ("ok".equals(value3[0])) {
+                                        JOptionPane.showMessageDialog(this, value3[1] );
+                                        dispose();
+                                    }
+                                }else{
+                                    String[] value4 = api.PUTVerifyADDVehicle(login, Data(), id);
+                                    if ("ok".equals(value4[0])) {
+                                        JOptionPane.showMessageDialog(this, value4[1] );
+                                        dispose();
+                                    }
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(this, "Por favor desative a viatura!");
+                                new Table_Vehicles(login,idService,idEmployer).setVisible(true);
+                                dispose();
+                            }
                         }
-                        /**NOT Complete**/
-                        /*
-                         dispose();*/
                     }
                 } else if (x == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(this, "O utilizador não foi adicionado");

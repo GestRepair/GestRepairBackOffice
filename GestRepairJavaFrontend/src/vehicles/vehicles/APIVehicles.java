@@ -49,6 +49,36 @@ public class APIVehicles extends Connect {
         objp.put("vehicle", data);
         return SendConnectResp(login, url, "POST", objp);
     }
+    public String[] POSTVerifyOwnerVehicle(String login, String data) throws Exception {
+        URL url = new URL(IP() + "/vehicle/exists/nuser");
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnectResp(login, url, "POST", objp);
+    }
+    public String[] POSTVerifyUserVehicle(String login, String data, int id) throws Exception {
+        URL url = new URL(IP() + "/vehicle/exists/user/"+id);
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnectResp(login, url, "POST", objp);
+    }
+    public String[] POSTVerifyADDVehicle(String login, String data, int id) throws Exception {
+        URL url = new URL(IP() + "/vehicle/exists/"+id);
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnect(login, url, "POST", objp);
+    }
+    public String[] POSTDisableVehicle(String login, String data) throws Exception {
+        URL url = new URL(IP() + "/vehicle/disable/desktop");
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnect(login, url, "PUT", objp);
+    }
+    public String[] PUTVerifyADDVehicle(String login, String data, int id) throws Exception {
+        URL url = new URL(IP() + "/vehicle/exists/"+id);
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnect(login, url, "PUT", objp);
+    }
     public String[][] vehicles(String login, int id) throws Exception {
         URL url;
         if (id == 0) {
@@ -79,7 +109,6 @@ public class APIVehicles extends Connect {
             }
         };
         return dataTable;
-
     }
 
     public String[] PutVehicle(String login, int id, String[] data) throws Exception {

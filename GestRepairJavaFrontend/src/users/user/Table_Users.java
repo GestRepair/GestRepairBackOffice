@@ -10,13 +10,13 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import repairs.repairs.Table_Repairs_PU;
 import schedule.Table_Schedule_PU;
-import vehicles.vehicles.AddVehicle;
 import vehicles.vehicles.Table_Vehicles_PU;
 import vehicles.vehicles.VerifyVehicle;
 
@@ -25,7 +25,9 @@ import vehicles.vehicles.VerifyVehicle;
  * @author Convite
  */
 public final class Table_Users extends javax.swing.JFrame {
+
     APIUsers api = new APIUsers();
+
     /**
      *
      * @param login
@@ -33,20 +35,25 @@ public final class Table_Users extends javax.swing.JFrame {
      * @throws IOException
      * @throws ParseException
      */
-    public Table_Users(String login, int idService) throws Exception {
+    public Table_Users(String login, int idService, int idEmployer) throws Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowUser(login, 2));
         tbl_usersStart();
-        Events(login, idService);
+        Events(login, idService, idEmployer);
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[10];
-        for (String[] list1 : list) {
-            System.arraycopy(list1, 0, row, 0, row.length);
-            mod.addRow(row);
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+            Object[] row = new Object[10];
+            for (String[] list1 : list) {
+                System.arraycopy(list1, 0, row, 0, row.length);
+                mod.addRow(row);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Não existe dados");
+            dispose();
         }
     }
 
@@ -56,13 +63,13 @@ public final class Table_Users extends javax.swing.JFrame {
         linfoUser.setText(mod.getValueAt(0, 0) + "");
         l_username.setText(mod.getValueAt(0, 8) + "");
     }
-    
-    private void Events(final String login, final int idService) {
+
+    private void Events(final String login, final int idService, final int idEmployer) {
 
         bt_add_vehicle.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADDVehicle(evt, login);
+                BT_ADDVehicle(evt, login, idService, idEmployer);
             }
         });
         bt_budgets.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +99,7 @@ public final class Table_Users extends javax.swing.JFrame {
         bt_vehicles.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Vehicles(evt, login);
+                BT_Vehicles(evt, login, idEmployer, idService);
             }
         });
         bt_schedule.addActionListener(new java.awt.event.ActionListener() {
@@ -104,16 +111,15 @@ public final class Table_Users extends javax.swing.JFrame {
         MI_UserType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_UserType(evt, login,idService);
+                MI_UserType(evt, login, idService, idEmployer);
             }
         });
     }
 
-
-    private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login) {
+    private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             int i = tbl_users.getSelectedRow();
-            new VerifyVehicle(login,parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
+            new VerifyVehicle(login, parseInt(SearchTable(i, 0)), SearchTable(i, 8), idService, idEmployer).setVisible(true);
 //new AddVehicle(login, parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
             dispose();
         } catch (Exception ex) {
@@ -141,7 +147,6 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
-
     private void BT_InfoUser(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -161,6 +166,7 @@ public final class Table_Users extends javax.swing.JFrame {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Schedule(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -170,28 +176,31 @@ public final class Table_Users extends javax.swing.JFrame {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_Vehicles(java.awt.event.ActionEvent evt, String login) {
+
+    private void BT_Vehicles(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
-            new Table_Vehicles_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            new Table_Vehicles_PU(login, parseInt(SearchTable(i, 0)), idEmployer, idService).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void MI_UserType(java.awt.event.ActionEvent evt, String login, int idService) {
-         try {
-            new Table_Users_Type(login, idService).setVisible(true);
+    private void MI_UserType(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
+        try {
+            new Table_Users_Type(login, idService, idEmployer).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private String SearchTable(int row, int tb) {
         TableModel mod = tbl_users.getModel();
-        return mod.getValueAt((row<0)?0:row, tb) + "";
+        return mod.getValueAt((row < 0) ? 0 : row, tb) + "";
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -5,36 +5,44 @@
  */
 package vehicles.vehicles;
 
+import budgets.AddBudget;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import repairs.repairs.AddRepair;
+import users.user.EditUser;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class Table_Vehicles_PU extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Table_Vehicles
+     *
      * @param login
      * @param id
      * @throws java.lang.Exception
      */
-    public Table_Vehicles_PU(String login, int id) throws Exception {
+    public Table_Vehicles_PU(String login, int id, int idEmployer, int idService) throws Exception {
         initComponents();
         APIVehicles api = new APIVehicles();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showTable(api.vehicles(login,id));
+        showTable(api.vehicles(login, id));
         row(0);
-        Events(login);
+        Events(login, id, idEmployer, idService, api);
+
     }
+
     /**
      * Show values in the table
-     * @param list 
+     *
+     * @param list
      */
     private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
@@ -46,22 +54,36 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
+
     private void row(int val) {
         TableModel mod = tbl_vehicles.getModel();
         if (mod.getRowCount() > 0) {
             l_idVehicle.setText(mod.getValueAt(val, 0) + "");
             l_registration.setText(mod.getValueAt(val, 1) + "");
-        }else{
+        } else {
             jLabel1.setText("");
             jLabel7.setText("");
             l_idVehicle.setText("");
             l_registration.setText("Não contem Dados!");
+            bt_disable.setVisible(false);
             bt_edit.setVisible(false);
             bt_info.setVisible(false);
         }
     }
-    private void Events(final String login) {
-        
+
+    private void Events(final String login, final int id, final int idEmployer, final int idService, final APIVehicles api) {
+        bt_add_budgets.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD_BUDGETS(evt, login, idEmployer, idService);
+            }
+        });
+        bt_add_repair.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD_REPAIR(evt, login, idEmployer, idService);
+            }
+        });
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,36 +96,97 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
                 BT_INFO(evt, login);
             }
         });
+        bt_disable.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Disable(evt, login, id, api);
+            }
+        });
         tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TBL_Clicked(evt);
             }
-        });     
+        });
     }
-    
-     private void TBL_Clicked(java.awt.event.MouseEvent evt) {                                          
+
+    private String SelectRow(int val) {
+        int i = tbl_vehicles.getSelectedRow();
+        if (i < 0) {
+            i = 0;
+        }
+        TableModel mod = tbl_vehicles.getModel();
+        return (String) mod.getValueAt(i, val);
+    }
+
+    private void BT_ADD_BUDGETS(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
+        // TODO add your handling code here:
+        try {
+            new AddBudget(login, parseInt(SelectRow(0)), idEmployer, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_ADD_REPAIR(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
+        try {
+            new AddRepair(login, parseInt(l_idVehicle.getText()), idEmployer, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void TBL_Clicked(java.awt.event.MouseEvent evt) {
         int i = tbl_vehicles.getSelectedRow();
         row(i);
-    }                                         
+    }
 
-    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {                                        
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
-            new EditVehicle(login,parseInt(l_idVehicle.getText())).setVisible(true);
+            new EditVehicle(login, parseInt(l_idVehicle.getText())).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }                                       
+    }
 
-    private void BT_INFO(java.awt.event.ActionEvent evt,String login) {                                        
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
-            new InfoVehicle(login,parseInt(l_idVehicle.getText())).setVisible(true);
+            new InfoVehicle(login, parseInt(l_idVehicle.getText())).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
+    }
+
+    private void cleanTable() {
+        DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
+        mod.setRowCount(0);
+    }
+
+    private void BT_Disable(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api) {
+        int i = (tbl_vehicles.getSelectedRow() < 0) ? 0 : tbl_vehicles.getSelectedRow();
+        TableModel mod = tbl_vehicles.getModel();
+        int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desassociar esta viatura ao utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (x == JOptionPane.YES_OPTION) {
+            try {
+                String[] value = api.POSTDisableVehicle(login, (String) mod.getValueAt(i, 1));
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    cleanTable();
+                    showTable(api.vehicles(login, id));
+                    row(0);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro Interno");
+            }
+        } else if (x == JOptionPane.NO_OPTION) {
+            JOptionPane.showMessageDialog(this, "O viatura não desassociada");
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,6 +204,9 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         l_idVehicle = new javax.swing.JLabel();
         l_registration = new javax.swing.JLabel();
         bt_info = new javax.swing.JButton();
+        bt_disable = new javax.swing.JButton();
+        bt_add_budgets = new javax.swing.JButton();
+        bt_add_repair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Viaturas por utilizador");
@@ -156,6 +242,12 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
 
         bt_info.setText("Info");
 
+        bt_disable.setText("Desativar");
+
+        bt_add_budgets.setText("Adicionar Orçamento");
+
+        bt_add_repair.setText("Adicionar Reparação");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,6 +263,12 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(l_registration)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_disable)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_add_repair)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bt_add_budgets)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_info)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit)
@@ -187,7 +285,11 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(l_registration)
                     .addComponent(bt_edit)
-                    .addComponent(bt_info))
+                    .addComponent(bt_info)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bt_add_repair)
+                        .addComponent(bt_add_budgets)
+                        .addComponent(bt_disable)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -195,6 +297,9 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_add_budgets;
+    private javax.swing.JButton bt_add_repair;
+    private javax.swing.JButton bt_disable;
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_info;
     private javax.swing.JLabel jLabel1;

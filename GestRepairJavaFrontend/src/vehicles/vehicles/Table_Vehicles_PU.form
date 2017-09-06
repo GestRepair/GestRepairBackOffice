@@ -35,6 +35,12 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="l_registration" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="bt_disable" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="bt_add_repair" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="bt_add_budgets" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_info" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_edit" min="-2" max="-2" attributes="0"/>
@@ -54,6 +60,11 @@
                   <Component id="l_registration" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_edit" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bt_info" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Component id="bt_add_repair" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_add_budgets" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bt_disable" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -111,6 +122,21 @@
     <Component class="javax.swing.JButton" name="bt_info">
       <Properties>
         <Property name="text" type="java.lang.String" value="Info"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_disable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Desativar"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_add_budgets">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Adicionar Or&#xe7;amento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_add_repair">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Adicionar Repara&#xe7;&#xe3;o"/>
       </Properties>
     </Component>
   </SubComponents>

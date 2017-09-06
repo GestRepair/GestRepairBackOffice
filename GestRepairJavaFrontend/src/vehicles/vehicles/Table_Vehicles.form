@@ -35,6 +35,8 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="l_registration" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="bt_disable" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_add_repair" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="bt_add_budgets" min="-2" max="-2" attributes="0"/>
@@ -67,6 +69,7 @@
                           <Component id="bt_edit" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bt_add_repair" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bt_add_budgets" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="bt_disable" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -95,9 +98,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_vehiclesMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -105,9 +105,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_editActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -133,21 +130,20 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Info"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_infoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_add_repair">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Repara&#xe7;&#xe3;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_add_repairActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_add_budgets">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Or&#xe7;amento"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="bt_disable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Desativar"/>
       </Properties>
     </Component>
   </SubComponents>

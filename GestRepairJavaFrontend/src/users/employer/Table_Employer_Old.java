@@ -296,7 +296,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
             // TODO add your handling code here:
-            new Table_Users_Type(this.login, this.idService).setVisible(true);
+            new Table_Users_Type(this.login, this.idService, this.idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
         }

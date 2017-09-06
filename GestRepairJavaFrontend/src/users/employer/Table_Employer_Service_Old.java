@@ -59,7 +59,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
-    public void cleanTable() {
+    private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
