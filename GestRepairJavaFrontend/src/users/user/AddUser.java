@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
@@ -28,26 +29,39 @@ public class AddUser extends javax.swing.JFrame {
         initComponents();
         Events(login);
     }
-    
-    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    private static boolean validate(String emailStr) {
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NAME_REGEX = Pattern.compile("[A-zÀ-ÖØ-öø-ž ]+", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
+
+    private static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-    
-    private String[] Data(){
+
+    private static boolean validateName(String nameStr) {
+        Matcher matcher = VALID_NAME_REGEX.matcher(nameStr);
+        return matcher.find();
+    }
+
+    private static boolean validateNumber(String numberStr) {
+        Matcher matcher = VALID_NUMBER_REGEX.matcher(numberStr);
+        return matcher.find();
+    }
+
+    private String[] Data() {
         String[] data = new String[8];
         data[0] = tfnome.getText();
-        data[1]= tfmorada.getText();
-        data[2]= tfcodp.getText();
-        data[3]= tflocalidade.getText();
-        data[4]= tfemail.getText();
-        data[5]= tfnif.getText();
-        data[6]= tfcontacto.getText();
-        data[7]= tf_username.getText();
+        data[1] = tfmorada.getText();
+        data[2] = tfcodp.getText();
+        data[3] = tflocalidade.getText();
+        data[4] = tfemail.getText();
+        data[5] = tfnif.getText();
+        data[6] = tfcontacto.getText();
+        data[7] = tf_username.getText();
         return data;
     }
+
     private void Events(final String login) {
         bt_add_user.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -62,34 +76,55 @@ public class AddUser extends javax.swing.JFrame {
             }
         });
     }
-    private void BT_Add_User(java.awt.event.ActionEvent evt, String login) {                                            
+
+    // validate the nif number
+
+    private boolean validateNIF(String nif) {
+        int zerm = 9 * nif.charAt(0);
+        int firm = 8 * nif.charAt(1);
+        int secm = 7 * nif.charAt(2);
+        int trem = 6 * nif.charAt(3);
+        int form = 5 * nif.charAt(4);
+        int fivm = 4 * nif.charAt(5);
+        int sixm = 3 * nif.charAt(6);
+        int sevm = 2 * nif.charAt(7);
+        int sum = zerm + firm + secm + trem + form + fivm + sixm + sevm;
+        int resNif = sum % 11;
+        resNif = (resNif == 0 || resNif == 1) ? 0 : (11 - resNif);
+        return (parseInt(nif.charAt(8)+"") == resNif && nif.length() == 9);
+
+    }
+
+    private void BT_Add_User(java.awt.event.ActionEvent evt, String login) {
         try {
-            if (tf_username.getText().length() > 5 || tfnome.getText().length() > 5  || tfmorada.getText().length() > 5  || (tfcodp.getText().length() > 8||tfcodp.getText().length() < 8  )||tfcodp.getText().length() > 3 || tfnif.getText().length() > 3 ) {
+            if (tf_username.getText().length() > 5 && tfnome.getText().length() > 5 && tfmorada.getText().length() > 5 && tflocalidade.getText().length() > 3) {
                 //https://stackoverflow.com/questions/8204680/java-regex-email
-                if(validate(tfemail.getText())==true){
+                if (validateEmail(tfemail.getText()) == true && validateName(tfnome.getText()) == true && validateName(tflocalidade.getText()) == true && validateNumber(tfcontacto.getText()) == true || validateNIF(tfnif.getText()) == true) {
                     int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (x == JOptionPane.YES_OPTION) {
-                        String[] value = api.PostUser(login,Data());
+                        String[] value = api.PostUser(login, Data());
                         JOptionPane.showMessageDialog(this, value[1]);
-                        if ("ok".equals(value[0])) { 
+                        if ("ok".equals(value[0])) {
                             dispose();
                         }
-                    }else if (x == JOptionPane.NO_OPTION) {
+                    } else if (x == JOptionPane.NO_OPTION) {
                         JOptionPane.showMessageDialog(this, "O utilizador não foi adicionado");
                     }
-                }else{
-                    JOptionPane.showMessageDialog(this, "Email Inválido");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Verifique se inseriu bem os dados");
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Preencha os dados por favor");
+                JOptionPane.showMessageDialog(this, "Preencha os campos por favor");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar utilizador");
         }
-    }   
-    private void M_EXIT(java.awt.event.ActionEvent evt) {                                            
+    }
+
+    private void M_EXIT(java.awt.event.ActionEvent evt) {
         dispose();
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

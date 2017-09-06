@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
@@ -31,7 +32,7 @@ public final class EditUser extends javax.swing.JFrame {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         GetInfo(login, id);
-        Events(login,id);
+        Events(login, id);
     }
 
     public void GetInfo(String login, int id) throws Exception {
@@ -61,43 +62,80 @@ public final class EditUser extends javax.swing.JFrame {
         return data;
     }
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NAME_REGEX = Pattern.compile("[A-zÀ-ÖØ-öø-ž ]+", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
 
-    private static boolean validate(String emailStr) {
+    private static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
-    private void Events(final String login,final int id) {
+
+    private static boolean validateName(String nameStr) {
+        Matcher matcher = VALID_NAME_REGEX.matcher(nameStr);
+        return matcher.find();
+    }
+
+    private static boolean validateNumber(String numberStr) {
+        Matcher matcher = VALID_NUMBER_REGEX.matcher(numberStr);
+        return matcher.find();
+    }
+
+    private void Events(final String login, final int id) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_EDIT(evt, login,id);
+                    BT_EDIT(evt, login, id);
                 } catch (Exception ex) {
                     Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
-    public void BT_EDIT(java.awt.event.ActionEvent evt,String login,int id) throws Exception {
-        if (validate(tf_email.getText())) {
-            int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                try {
-                    String[] value =api.PutUser(login,id, data());
-                    JOptionPane.showMessageDialog(this, value[1]);
-                    if ("ok".equals(value[0])) {
-                        dispose();
+
+    // validate the nif number
+
+    private boolean validateNIF(String nif) {
+        int zerm = 9 * nif.charAt(0);
+        int firm = 8 * nif.charAt(1);
+        int secm = 7 * nif.charAt(2);
+        int trem = 6 * nif.charAt(3);
+        int form = 5 * nif.charAt(4);
+        int fivm = 4 * nif.charAt(5);
+        int sixm = 3 * nif.charAt(6);
+        int sevm = 2 * nif.charAt(7);
+        int sum = zerm + firm + secm + trem + form + fivm + sixm + sevm;
+        int resNif = sum % 11;
+        resNif = (resNif == 0 || resNif == 1) ? 0 : (11 - resNif);
+        return (parseInt(nif.charAt(8)+"") == resNif && nif.length() == 9);
+
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) throws Exception {
+        if (tf_name.getText().length() > 5 && tf_street.getText().length() > 5 && tf_city.getText().length() > 3) {
+            if (validateEmail(tf_email.getText()) == true && validateName(tf_name.getText()) == true && validateName(tf_city.getText()) == true && validateNumber(tf_contact.getText()) == true && validateNIF(tf_nif.getText()) == true) {
+                int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    try {
+                        String[] value = api.PutUser(login, id, data());
+                        JOptionPane.showMessageDialog(this, value[1]);
+                        if ("ok".equals(value[0])) {
+                            dispose();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (Exception ex) {
-                    Logger.getLogger(EditUser.class.getName()).log(Level.SEVERE, null, ex);
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "O utilizador não foi modificada");
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique se inseriu bem os dados");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Verifique os dados.");
+            JOptionPane.showMessageDialog(this, "Preencha os campos por favor");
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -266,7 +304,7 @@ public final class EditUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel1;
