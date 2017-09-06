@@ -17,9 +17,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  * @author Rui Barcelos
  */
 public final class Table_Vehicles_PU extends javax.swing.JFrame {
-    APIVehicles api = new APIVehicles();
-    private final String login;
-    private final int id;
+    
     /**
      * Creates new form Table_Vehicles
      * @param login
@@ -28,13 +26,16 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
      */
     public Table_Vehicles_PU(String login, int id) throws Exception {
         initComponents();
+        APIVehicles api = new APIVehicles();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.vehicles(login,id));
         row(0);
-        this.login = login;
-        this.id = id;
+        Events(login);
     }
-    
+    /**
+     * Show values in the table
+     * @param list 
+     */
     private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
         Object[] row = new Object[11];
@@ -59,6 +60,50 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
             bt_info.setVisible(false);
         }
     }
+    private void Events(final String login) {
+        
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Edit(evt, login);
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_INFO(evt, login);
+            }
+        });
+        tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_Clicked(evt);
+            }
+        });     
+    }
+    
+     private void TBL_Clicked(java.awt.event.MouseEvent evt) {                                          
+        int i = tbl_vehicles.getSelectedRow();
+        row(i);
+    }                                         
+
+    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {                                        
+        try {
+            new EditVehicle(login,parseInt(l_idVehicle.getText())).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }                                       
+
+    private void BT_INFO(java.awt.event.ActionEvent evt,String login) {                                        
+        try {
+            new InfoVehicle(login,parseInt(l_idVehicle.getText())).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,22 +141,12 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_vehiclesMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_vehicles);
         tbl_vehicles.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel1.setText("Matrícula");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Veículo N.º");
 
@@ -120,11 +155,6 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         l_registration.setText("Matrícula");
 
         bt_info.setText("Info");
-        bt_info.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_infoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,29 +193,6 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbl_vehiclesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_vehiclesMouseClicked
-        int i = tbl_vehicles.getSelectedRow();
-        row(i);
-    }//GEN-LAST:event_tbl_vehiclesMouseClicked
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            new EditVehicle(this.login,parseInt(l_idVehicle.getText())).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
-    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
-        try {
-            new InfoVehicle(this.login,parseInt(l_idVehicle.getText())).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Vehicles_PU.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_infoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

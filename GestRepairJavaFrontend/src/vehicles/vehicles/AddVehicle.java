@@ -37,11 +37,12 @@ public final class AddVehicle extends javax.swing.JFrame {
      * @param user
      * @throws org.json.simple.parser.ParseException
      */
-    public AddVehicle(String login, int id, String user) throws ParseException, Exception {
+    public AddVehicle(String login, int id, String user, String vehicle) throws ParseException, Exception {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_id.setText(id + "");
         l_username.setText(user);
+        tf_registration.setText(vehicle);
         this.login = login;
         this.id = id;
         showBrand(apiBrand.Brand(login));

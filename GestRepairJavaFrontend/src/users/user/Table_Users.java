@@ -18,6 +18,7 @@ import repairs.repairs.Table_Repairs_PU;
 import schedule.Table_Schedule_PU;
 import vehicles.vehicles.AddVehicle;
 import vehicles.vehicles.Table_Vehicles_PU;
+import vehicles.vehicles.VerifyVehicle;
 
 /**
  *
@@ -112,7 +113,8 @@ public final class Table_Users extends javax.swing.JFrame {
     private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
-            new AddVehicle(login, parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
+            new VerifyVehicle(login,parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
+//new AddVehicle(login, parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);

@@ -82,4 +82,27 @@ public class Connect{
         val[1] = (String) res.get("message");
         return val;
     }
+    public String[] SendConnectResp(String login, URL url, String method,JSONObject obj)throws Exception{
+        HttpURLConnection connection =Conn(login, url,method);
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+            out.write(obj.toString());
+            out.flush();
+        }
+        connection.getResponseCode();
+
+        InputStream is = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        String json = "";
+        while ((line = br.readLine()) != null) {
+            json += line;
+        }
+        connection.disconnect();
+        JSONObject res = (JSONObject) new JSONParser().parse(json); 
+        String val[] = new String[3];
+        val[0] = (String) res.get("result");
+        val[1] = (String) res.get("message");
+        val[2] = (Object) res.get("data")+"";
+        return val;
+    }
 }

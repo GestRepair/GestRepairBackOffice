@@ -43,7 +43,12 @@ public class APIVehicles extends Connect {
         objp.put("date", data[8]);
         return SendConnect(login, url, "POST", objp);
     }
-
+    public String[] POSTVerifyVehicle(String login, String data) throws Exception {
+        URL url = new URL(IP() + "/vehicle/exists");
+        JSONObject objp = new JSONObject();
+        objp.put("vehicle", data);
+        return SendConnectResp(login, url, "POST", objp);
+    }
     public String[][] vehicles(String login, int id) throws Exception {
         URL url;
         if (id == 0) {
@@ -62,13 +67,13 @@ public class APIVehicles extends Connect {
             dataTable[i][1] = (String) datas.get("registration");
             dataTable[i][2] = (String) datas.get("nameBrand");
             dataTable[i][3] = (String) datas.get("nameModel");
-            dataTable[i][4] = (datas.get("horsepower") == null) ? ((Object) datas.get("horsepower")) + "" : "";
-            dataTable[i][5] = (datas.get("displacement") == null) ? ((Object) datas.get("displacement")) + "" : "";
-            dataTable[i][6] = (datas.get("kilometers") == null) ? ((Object) datas.get("kilometers")) + "" : "";
+            dataTable[i][4] = (datas.get("horsepower") != null) ? ((Object) datas.get("horsepower")) + "" : "";
+            dataTable[i][5] = (datas.get("displacement") != null) ? ((Object) datas.get("displacement")) + "" : "";
+            dataTable[i][6] = (datas.get("kilometers") != null) ? ((Object) datas.get("kilometers")) + "" : "";
             dataTable[i][7] = (String) datas.get("nameFuel");
             dataTable[i][8] = (String) datas.get("fronttiresize");
             dataTable[i][9] = (String) datas.get("reartiresize");
-            dataTable[i][10] = ((String) datas.get("date")).substring(0, 10);
+            dataTable[i][10] = (datas.get("date") != null) ? ((String) datas.get("date")).substring(0, 10):"";
             if (id == 0) {
                 dataTable[i][11] = (String) datas.get("username") + "";
             }
