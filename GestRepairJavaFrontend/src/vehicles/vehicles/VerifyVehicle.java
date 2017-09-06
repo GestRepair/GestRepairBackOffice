@@ -6,7 +6,6 @@
 package vehicles.vehicles;
 
 import java.awt.Toolkit;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

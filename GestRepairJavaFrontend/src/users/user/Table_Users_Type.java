@@ -76,7 +76,6 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         int cb = cbType.getSelectedIndex();
         showTable(api.ShowUser(login, cb));
         bt_info_func.setVisible(cb != 0);
-        bt_rep_func.setVisible(cb != 0);
         linfoUser.setText(SearchTable(0, 0));
         l_username.setText(SearchTable(0, 8));
     }
