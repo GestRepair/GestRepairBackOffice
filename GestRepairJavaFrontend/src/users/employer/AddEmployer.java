@@ -29,10 +29,10 @@ public final class AddEmployer extends javax.swing.JFrame {
         APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        Events(login, idUser, api, apiService);
         lnuser.setText(idUser + "");
         lusername.setText(username);
         showService(apiService.Service(login));
+        Events(login, idUser, api, apiService);
     }
 
     private void showService(String[][] list) {

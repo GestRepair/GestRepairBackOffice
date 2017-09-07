@@ -19,7 +19,7 @@ import vehicles.fuel.Table_Fuel;
 public class AddBrand extends javax.swing.JFrame {
 
     public String login;
-    APIBrand api = new APIBrand();
+    
 
     /**
      * Creates new form addBrand
@@ -27,11 +27,35 @@ public class AddBrand extends javax.swing.JFrame {
      * @param login
      */
     public AddBrand(String login) {
-        this.login = login;
+        APIBrand api = new APIBrand();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
+        Events(login,api);
     }
-
+    private void Events(final String login, final APIBrand api){
+        bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt,login,api);
+            }
+        });
+    }
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIBrand api) {                                            
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca" + tf_brand.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String[] value = api.PostBrand(login, tf_brand.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    new Table_Fuel(login).setVisible(true);
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,11 +73,6 @@ public class AddBrand extends javax.swing.JFrame {
         setTitle("GestRepair - Adicionar Marca");
 
         bt_addBrand.setText("Adicionar Marca");
-        bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addBrandActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Marca");
 
@@ -88,24 +107,6 @@ public class AddBrand extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca" + tf_brand.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.PostBrand(login, tf_brand.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    new Table_Fuel(this.login).setVisible(true);
-                    dispose();
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addBrandActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;

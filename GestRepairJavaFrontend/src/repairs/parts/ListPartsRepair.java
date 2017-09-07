@@ -15,24 +15,28 @@ import javax.swing.table.DefaultTableModel;
  * @author Rui Barcelos
  */
 public class ListPartsRepair extends javax.swing.JFrame {
-    APIPartsRepair api = new APIPartsRepair();
+
     /**
      * Creates new form listPartsRepair
+     *
      * @param login
      * @param idRepair
      * @param idService
      * @throws java.lang.Exception
      */
     public ListPartsRepair(final String login, final int idRepair, final int idService) throws Exception {
+        APIPartsRepair api = new APIPartsRepair();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        Events(login,idRepair,idService);
-        showTableParts(login,idRepair);
+        Events(login, idRepair, idService);
+        showTableParts(login, idRepair, api);
     }
-    private void showTableParts(String login,int idRepair) throws Exception {
+
+    private void showTableParts(String login, int idRepair, APIPartsRepair api) throws Exception {
         String data[][] = api.ListParts(login, idRepair);
         showTable(data);
     }
+
     private void Events(final String login, final int idRepair, final int idService) {
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -45,7 +49,8 @@ public class ListPartsRepair extends javax.swing.JFrame {
             }
         });
     }
-     private void showTable(String[][] list) {
+
+    private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         Object[] row = new Object[2];
         for (String[] list1 : list) {
@@ -60,6 +65,7 @@ public class ListPartsRepair extends javax.swing.JFrame {
         new AddParts(login, idRepair, idService).setVisible(true);
         dispose();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

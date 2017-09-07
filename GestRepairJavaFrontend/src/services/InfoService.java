@@ -20,8 +20,6 @@ import javax.swing.ImageIcon;
  */
 public final class InfoService extends javax.swing.JFrame {
 
-    APIService api = new APIService();
-
     /**
      * Creates new form EditService
      *
@@ -30,13 +28,12 @@ public final class InfoService extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public InfoService(String login, int id) throws Exception {
+        APIService api = new APIService();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         info(api.GetInfo(login, id));
         Events(login, id);
     }
-
-    
 
     public void info(String[] info) throws MalformedURLException, IOException {
         l_service.setText(info[0]);
@@ -49,20 +46,23 @@ public final class InfoService extends javax.swing.JFrame {
         icon = new ImageIcon(newimg);
         l_photo.setIcon(icon);
     }
-    private void Events(final String login, final int idService) {                                        
+
+    private void Events(final String login, final int idService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_EDIT(evt,login,idService);
+                    BT_EDIT(evt, login, idService);
                 } catch (Exception ex) {
                     Logger.getLogger(InfoService.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-    }      
-    private void BT_EDIT(java.awt.event.ActionEvent evt,String login, int idService) throws Exception {                                        
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         new EditService(login, idService).setVisible(true);
-    }      
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,7 +172,7 @@ public final class InfoService extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        
+
     }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

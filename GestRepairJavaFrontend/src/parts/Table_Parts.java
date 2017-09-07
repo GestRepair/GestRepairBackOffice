@@ -20,8 +20,6 @@ import org.json.simple.parser.ParseException;
  */
 public final class Table_Parts extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-
     /**
      *
      * @param login
@@ -30,6 +28,7 @@ public final class Table_Parts extends javax.swing.JFrame {
      * @throws ParseException
      */
     public Table_Parts(String login, int idService) throws Exception {
+        APIParts api = new APIParts();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ListParts(login, 0));
@@ -43,7 +42,7 @@ public final class Table_Parts extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int idPart = parseInt(linfoUser.getText());
-                BT_ADDAmount(evt,login,idPart,idService);
+                BT_ADDAmount(evt, login, idPart, idService);
             }
         });
         bt_add_service.addActionListener(new java.awt.event.ActionListener() {
@@ -51,7 +50,7 @@ public final class Table_Parts extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     int idPart = parseInt(linfoUser.getText());
-                    BT_AddService(evt,login,idPart,idService);
+                    BT_AddService(evt, login, idPart, idService);
                 } catch (Exception ex) {
                     Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -77,37 +76,42 @@ public final class Table_Parts extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int idPart = parseInt(linfoUser.getText());
-                BT_EditPrice(evt,login,idPart,idService);
+                BT_EditPrice(evt, login, idPart, idService);
             }
         });
     }
-    private void BT_AddService(java.awt.event.ActionEvent evt, String login,int idPart ,int idService) throws Exception {
+
+    private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
+
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new EditParts(login, idPart, idService).setVisible(true);
         dispose();
     }
+
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new InfoParts(login, idPart, idService).setVisible(true);
         dispose();
     }
-    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
             dispose();
@@ -115,6 +119,7 @@ public final class Table_Parts extends javax.swing.JFrame {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_part.getModel();
         Object[] row = new Object[6];

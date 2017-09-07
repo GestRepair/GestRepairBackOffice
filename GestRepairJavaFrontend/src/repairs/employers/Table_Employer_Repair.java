@@ -19,12 +19,6 @@ import users.employer.APIEmployer;
  */
 public final class Table_Employer_Repair extends javax.swing.JFrame {
 
-    APIEmployerRepair api = new APIEmployerRepair();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-    private final int idRepair, idService;
-    private final String login;
-
     /**
      * Creates new form AddRepair
      *
@@ -34,14 +28,14 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Employer_Repair(String login, int idRepair, int idService) throws Exception {
+        APIEmployerRepair api = new APIEmployerRepair();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.EployerRepairs(login, idRepair));
-        this.login = login;
-        this.idRepair = idRepair;
-        this.idService = idService;
+        Events(login, idRepair, idService);
     }
-    public void showTable(String[][] list) {
+
+    private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_employers_repair.getModel();
         mod.setRowCount(0);
         Object[] row = new Object[3];
@@ -52,7 +46,23 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
-    
+
+    private void Events(final String login, final int idRepair, final int idService) {
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt, login, idRepair, idService);
+            }
+        });
+    }
+
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
+        try {
+            new AddEmployerRepair(login, idRepair, idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Employer_Repair.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -89,11 +99,6 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_employers_repair);
 
         bt_add.setText("Adicionar Funcionário");
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,15 +121,6 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {
-            new AddEmployerRepair(this.login,this.idRepair,this.idService).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Repair.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;

@@ -23,8 +23,6 @@ public class InfoBrand extends javax.swing.JFrame {
 
     private final String login;
     private final int id;
-    APIBrand api = new APIBrand();
-    APIModel apiModel = new APIModel();
 
     /**
      * Creates new form InfoBrand
@@ -33,11 +31,73 @@ public class InfoBrand extends javax.swing.JFrame {
      * @param id
      */
     public InfoBrand(String login, int id) {
+        APIBrand api = new APIBrand();
+        APIModel apiModel = new APIModel();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        InfoBrand(login, id);
+        InfoBrand(login, id, api, apiModel);
+        Events(login, id, api, apiModel);
         this.id = id;
         this.login = login;
+    }
+
+    private void Events(final String login, final int id, final APIBrand api, final APIModel apiModel) {
+        bt_edit_brand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT_Brand(evt, login, id, api);
+            }
+        });
+        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT_Model(evt, login, id, api);
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_INFO(evt, login, id);
+            }
+        });
+        tbl_model.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt);
+            }
+        });
+    }
+
+    private void BT_EDIT_Brand(java.awt.event.ActionEvent evt, String login, int id, APIBrand api) {
+        try {
+            try {
+                new EditBrand(login, id).setVisible(true);
+                dispose();
+            } catch (Exception ex) {
+                Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EditBrand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_EDIT_Model(java.awt.event.ActionEvent evt, String login, int id, APIBrand api) {
+        try {
+            new EditModel(login, parseInt(l_idModel.getText()), l_nameBrand.getText()).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login, int id) {
+        try {
+            new InfoModel(login, id, l_nameBrand.getText()).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
+        int i = tbl_model.getSelectedRow();
+        row(i);
     }
 
     /**
@@ -45,23 +105,25 @@ public class InfoBrand extends javax.swing.JFrame {
      * @param login
      * @param id
      */
-    private void InfoBrand(String login, int id) {
+    private void InfoBrand(String login, int id, APIBrand api, APIModel apiModel) {
         try {
-            String brand[] = api.InfoBrand(login,id);
-            l_idBrand.setText(id+"");
+            String brand[] = api.InfoBrand(login, id);
+            l_idBrand.setText(id + "");
             l_nameBrand.setText(brand[1]);
             Table(apiModel.Model(login, id));
-            row(0);    
+            row(0);
         } catch (Exception ex) {
             Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void row(int selected){
+
+    private void row(int selected) {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         l_idModel.setText((String) mod.getValueAt(selected, 0));
         l_nameModel.setText((String) mod.getValueAt(selected, 1));
     }
-    private void Table(String[][] list){
+
+    private void Table(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         Object[] row = new Object[2];
         for (String[] list1 : list) {
@@ -114,11 +176,6 @@ public class InfoBrand extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_model.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_modelMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_model);
 
         jLabel1.setText("ID Marca:");
@@ -138,25 +195,10 @@ public class InfoBrand extends javax.swing.JFrame {
         l_idModel.setText("idmodelo");
 
         bt_edit_model.setText("Editar Modelo");
-        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_edit_modelActionPerformed(evt);
-            }
-        });
 
         bt_edit_brand.setText("Editar Marca");
-        bt_edit_brand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_edit_brandActionPerformed(evt);
-            }
-        });
 
         bt_info.setText("Info");
-        bt_info.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_infoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,38 +262,6 @@ public class InfoBrand extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbl_modelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_modelMouseClicked
-        int i = tbl_model.getSelectedRow();
-        row(i);
-    }//GEN-LAST:event_tbl_modelMouseClicked
-
-    private void bt_edit_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_brandActionPerformed
-        try {
-            new EditBrand(this.login,this.id).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(InfoBrand.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_edit_brandActionPerformed
-
-    private void bt_edit_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_modelActionPerformed
-        try {
-            new EditModel(login, parseInt(l_idModel.getText()), l_nameBrand.getText()).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_edit_modelActionPerformed
-
-    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
-        try {
-            new InfoModel(this.login,this.id, l_nameBrand.getText()).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_infoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit_brand;

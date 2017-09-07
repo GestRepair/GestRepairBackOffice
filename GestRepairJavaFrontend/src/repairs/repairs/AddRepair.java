@@ -17,11 +17,6 @@ import users.employer.APIEmployer;
  */
 public final class AddRepair extends javax.swing.JFrame {
 
-    APIRepair api = new APIRepair();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-
-
     /**
      * Creates new form AddRepair
      *
@@ -32,6 +27,9 @@ public final class AddRepair extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddRepair(String login, int vehicle, int idEmployer, int idService) throws Exception {
+        APIRepair api = new APIRepair();
+        APIService apiService = new APIService();
+        APIEmployer apiEmployer = new APIEmployer();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         if (idService == 1 || idService == 2) {
@@ -48,25 +46,25 @@ public final class AddRepair extends javax.swing.JFrame {
             l_employer.setText(apiEmployer.GetInfoEmployerUser(login, idEmployer)[1]);
         }
         ta_pdesc.setLineWrap(true);
-        Events(login, vehicle, idService, idEmployer);
+        Events(login, vehicle, idService, idEmployer, api, apiService, apiEmployer);
     }
 
-    private void Events(final String login, final int vehicle, final int idService, final int idEmployer) {
+    private void Events(final String login, final int vehicle, final int idService, final int idEmployer, final APIRepair api, final APIService apiService, final APIEmployer apiEmployer) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt, login, vehicle, idService,idEmployer);
+                BT_addPost(evt, login, vehicle, idService, idEmployer, api, apiService, apiEmployer);
             }
         });
         cb_service.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_Service(evt, login);
+                CB_Service(evt, login, apiEmployer, apiService);
             }
         });
     }
 
-    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int vehicle, int idService, int idEmployer) {
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int vehicle, int idService, int idEmployer, APIRepair api, APIService apiService, APIEmployer apiEmployer) {
         try {
             int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
             int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
@@ -85,7 +83,8 @@ public final class AddRepair extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
     }
-    private void CB_Service(java.awt.event.ActionEvent evt, String login) {
+
+    private void CB_Service(java.awt.event.ActionEvent evt, String login, APIEmployer apiEmployer, APIService apiService) {
         try {
             showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));
         } catch (Exception ex) {

@@ -52,17 +52,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Servi&#xe7;os"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_listServicesActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_create">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Servi&#xe7;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_createActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

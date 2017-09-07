@@ -16,9 +16,6 @@ import services.APIService;
  */
 public final class AddServicePart extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();
-
     /**
      * Creates new form AddRepair
      *
@@ -28,27 +25,29 @@ public final class AddServicePart extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddServicePart(String login, int idPart, int idService) throws Exception {
+        APIParts api = new APIParts();
+        APIService apiService = new APIService();
         initComponents();
         l_idPart.setText(idPart + "");
-        Events(login, idPart, idService);
-        showServiceCB(login, idPart);
+        Events(login, idPart, idService, api, apiService);
+        showServiceCB(login, idPart, api);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
-    private void Events(final String login, final int idPart, final int idService) {
+    private void Events(final String login, final int idPart, final int idService, final APIParts api, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt, login, idPart, idService);
+                BT_addPost(evt, login, idPart, idService, api, apiService);
             }
         });
     }
 
-    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService, APIParts api, APIService apiService) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.POSTService(login, sendData(login), idPart);
+                String value[] = api.POSTService(login, sendData(login, apiService), idPart);
                 if ("ok".equals(value[0])) {
                     new InfoParts(login, idPart, idService).setVisible(true);
                     dispose();
@@ -72,11 +71,11 @@ public final class AddServicePart extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void showServiceCB(String login, int idPart) throws Exception {
+    private void showServiceCB(String login, int idPart, APIParts api) throws Exception {
         showService(api.ListServiceNotParts(login, idPart));
     }
 
-    private int sendData(String login) throws Exception {
+    private int sendData(String login, APIService apiService) throws Exception {
         return Cb_Val(cb_service.getSelectedIndex(), apiService.Service(login));
     }
 

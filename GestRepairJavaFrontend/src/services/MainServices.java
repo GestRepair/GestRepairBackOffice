@@ -23,9 +23,34 @@ public class MainServices extends javax.swing.JFrame {
     public MainServices(String login) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        this.log = login;
+        Events(login);
     }
+    private void Events(final String login) {                                                
+        bt_create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD_SV(evt,login);
+            }
+        });
+        bt_listServices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_SH_SV(evt,login);
+            }
+        });
 
+    }    
+    private void BT_SH_SV(java.awt.event.ActionEvent evt, String login) {                                                
+        try {
+            new Table_Services(login).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(MainServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }                                               
+
+    private void BT_ADD_SV(java.awt.event.ActionEvent evt, String login) {                                          
+        new Create_Service(login).setVisible(true);
+        dispose();
+    }    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,18 +68,8 @@ public class MainServices extends javax.swing.JFrame {
         setResizable(false);
 
         bt_listServices.setText("Lista de Serviços");
-        bt_listServices.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listServicesActionPerformed(evt);
-            }
-        });
 
         bt_create.setText("Adicionar Serviço");
-        bt_create.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_createActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,20 +94,6 @@ public class MainServices extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_listServicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listServicesActionPerformed
-        try {
-            new Table_Services(log).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(MainServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_listServicesActionPerformed
-
-    private void bt_createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_createActionPerformed
-        new Create_Service(log).setVisible(true);
-        dispose();
-    }//GEN-LAST:event_bt_createActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_create;

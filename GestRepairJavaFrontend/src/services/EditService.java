@@ -23,9 +23,6 @@ import javax.swing.JOptionPane;
  */
 public final class EditService extends javax.swing.JFrame {
 
-    private final int id;
-    private final String log;
-    APIService api = new APIService();
 
     /**
      * Creates new form EditService
@@ -35,15 +32,60 @@ public final class EditService extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditService(String login, int id) throws Exception {
+        APIService api = new APIService();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         info(api.GetInfo(login, id));
-        this.id = id;
-        this.log = login;
+        Events(login, id, api);
         ta_desc.setLineWrap(true);
     }
 
-    public void upload() throws MalformedURLException, Exception {
+    private void Events(final String login, final int id, final APIService api) {
+        bt_upload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_UPLOAD(evt,login,id,api);
+            }
+        });
+
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Edit(evt,login,id,api);
+            }
+        });
+    }
+
+    private void BT_UPLOAD(java.awt.event.ActionEvent evt, String login, int id, APIService api) {
+        try {
+            upload(login, id, api);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
+        }
+    }
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int id, APIService api) {
+        try {
+            if (tf_upload.getText().length() > 0) {
+                if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
+                    File f = new File(tf_upload.getText());
+                    api.PutService(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText(), f);
+                    JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+                }
+            } else {
+                String value[] = api.PutServiceWithout(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EditService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void upload(String login, int id, APIService api) throws Exception {
         // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
@@ -57,7 +99,7 @@ public final class EditService extends javax.swing.JFrame {
             icon = new ImageIcon(newimg);
             l_photo.setIcon(icon);
         } else {
-            ImageIcon icon = new ImageIcon(new URL(api.GetInfo(log, id)[4]));
+            ImageIcon icon = new ImageIcon(new URL(api.GetInfo(login, id)[4]));
             Image image = icon.getImage();
             Image newimg = image.getScaledInstance(300, 180, java.awt.Image.SCALE_SMOOTH);
             icon = new ImageIcon(newimg);
@@ -67,7 +109,7 @@ public final class EditService extends javax.swing.JFrame {
         }
     }
 
-    public void info(String[] info) throws MalformedURLException, IOException {
+    private void info(String[] info) throws MalformedURLException, IOException {
         l_service.setText(info[0]);
         tf_service.setText(info[1]);
         tf_price.setText(info[2]);
@@ -210,34 +252,11 @@ public final class EditService extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_uploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_uploadActionPerformed
-        try {
-            upload();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
-        }
+
     }//GEN-LAST:event_bt_uploadActionPerformed
 
     private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            if (tf_upload.getText().length() > 0) {
-                if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
-                    File f = new File(tf_upload.getText());
-                    api.PutService(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText(), f);
-                    JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
-                }
-            } else {
-                String value[] = api.PutServiceWithout(log, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if("ok".equals(value[0])){
-                    dispose();
-                }
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EditService.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

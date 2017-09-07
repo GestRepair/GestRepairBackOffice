@@ -88,6 +88,7 @@ public class InfoBudget extends javax.swing.JFrame {
             Logger.getLogger(Table_Service_Budget.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget) {
         try {
             new EditBudget(login, idBudget).setVisible(true);
@@ -96,6 +97,7 @@ public class InfoBudget extends javax.swing.JFrame {
             Logger.getLogger(Table_Service_Budget.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -125,9 +125,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_modelMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -175,25 +172,16 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Modelo"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_edit_modelActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_edit_brand">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Marca"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_edit_brandActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_info">
       <Properties>
         <Property name="text" type="java.lang.String" value="Info"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_infoActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

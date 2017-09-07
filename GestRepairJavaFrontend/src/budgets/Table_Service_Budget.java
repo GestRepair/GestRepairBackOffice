@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import repairs.employers.*;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +19,6 @@ import users.employer.APIEmployer;
  */
 public final class Table_Service_Budget extends javax.swing.JFrame {
 
-    APIBudgets api = new APIBudgets();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-
     /**
      * Creates new form AddRepair
      *
@@ -32,6 +27,7 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Service_Budget(String login, int idBudget) throws Exception {
+        APIBudgets api = new APIBudgets();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.ListService(login, idBudget));

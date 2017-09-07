@@ -17,12 +17,6 @@ import users.employer.APIEmployer;
  */
 public final class AddEmployerRepair extends javax.swing.JFrame {
 
-    APIEmployerRepair api = new APIEmployerRepair();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-    private final int idRepair;
-    private final String login;
-
     /**
      * Creates new form AddRepair
      *
@@ -32,22 +26,59 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddEmployerRepair(String login, int idRepair, int idService) throws Exception {
+        APIEmployerRepair api = new APIEmployerRepair();
+        APIService apiService = new APIService();
+        APIEmployer apiEmployer = new APIEmployer();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        showService(apiService.ShowNotRepairService(login,idRepair));
-        showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login,idRepair))));
-        this.login = login;
-        this.idRepair = idRepair;
+        showService(apiService.ShowNotRepairService(login, idRepair));
+        showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair))));
+        Events(login,idRepair,api, apiEmployer,apiService);
     }
-
-    public void showService(String[][] list) {
+    private void Events(final String login, final int idRepair,final APIEmployerRepair api, final APIEmployer apiEmployer, final APIService apiService) {
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt,login, idRepair,api, apiEmployer,apiService);
+            }
+        });
+        cb_service.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_SERVICE(evt,login,  idRepair,  apiEmployer, apiService);
+            }
+        });
+    }
+    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, int idRepair, APIEmployer apiEmployer,APIService apiService) {                                           
+        try {
+            showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair))));
+        } catch (Exception ex) {
+        }
+    }    
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idRepair,APIEmployerRepair api, APIEmployer apiEmployer,APIService apiService) {                                       
+        try {
+            int serv = Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair));
+            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowNotRepairEmployer(login, 1, serv));
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String value[] = api.PostEmployerRepair(login, idRepair, empl);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
+        }
+    }      
+    private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
             cb_service.addItem(list1[1]);
         }
     }
 
-    public void showEmployers(String[][] list) {
+    private void showEmployers(String[][] list) {
         cb_employer.removeAllItems();
         for (String[] list1 : list) {
             cb_employer.addItem(list1[1]);
@@ -143,29 +174,11 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cb_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_serviceActionPerformed
-        try {
-            showEmployers(apiEmployer.ShowNotRepairEmployer(this.login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(this.login,this.idRepair))));
-        } catch (Exception ex) {
-        }
+       
     }//GEN-LAST:event_cb_serviceActionPerformed
 
     private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {
-            int serv = Cb_Val(cb_service.getSelectedIndex() , apiService.ShowNotRepairService(this.login,this.idRepair));
-            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowNotRepairEmployer(login, 1, serv));
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.PostEmployerRepair(this.login,this.idRepair ,empl);
-                JOptionPane.showMessageDialog(this,value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
-        }
+        
     }//GEN-LAST:event_bt_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

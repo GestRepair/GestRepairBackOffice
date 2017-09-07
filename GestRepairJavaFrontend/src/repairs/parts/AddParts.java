@@ -20,10 +20,6 @@ import services.APIService;
  */
 public final class AddParts extends javax.swing.JFrame {
 
-    APIPartsRepair api = new APIPartsRepair();
-    APIParts apiparts = new APIParts();
-    APIService apiService = new APIService();
-
     /**
      * Creates new form AddRepair
      *
@@ -33,14 +29,14 @@ public final class AddParts extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddParts(final String login, final int idRepair, final int idService) throws Exception {
+        APIPartsRepair api = new APIPartsRepair();
+        APIParts apiparts = new APIParts();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-
         l_idRepair.setText(idRepair + "");
-
         showService(apiparts.ListPartswhith(login));
-        Events(login, idRepair, idService);
-        showTableParts(login);
+        Events(login, idRepair, idService, apiparts, api);
+        showTableParts(login, apiparts);
     }
 
     private void showService(String[][] list) {
@@ -54,7 +50,7 @@ public final class AddParts extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void showTableParts(String login) throws Exception {
+    private void showTableParts(String login, APIParts apiparts) throws Exception {
         String data[][] = apiparts.ListPartsZero(login, Cb_Val(cb_service.getSelectedIndex(), apiparts.ListPartswhith(login)));
         showTable(data);
     }
@@ -70,12 +66,12 @@ public final class AddParts extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idRepair, final int idService) {
+    private void Events(final String login, final int idRepair, final int idService, final APIParts apiparts, final APIPartsRepair api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_AddPart(evt, login, idRepair, idService);
+                    BT_AddPart(evt, login, idRepair, idService,api);
                 } catch (Exception ex) {
                     Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -85,7 +81,7 @@ public final class AddParts extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    CB_SERVICE(evt, login);
+                    CB_SERVICE(evt, login, apiparts);
                 } catch (Exception ex) {
                     Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -98,9 +94,9 @@ public final class AddParts extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
-    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login) throws Exception {
+    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, APIParts apiparts) throws Exception {
         cleanTable();
-        showTableParts(login);
+        showTableParts(login, apiparts);
     }
 
     private int sendData() {
@@ -110,7 +106,7 @@ public final class AddParts extends javax.swing.JFrame {
         return val;
     }
 
-    private void BT_AddPart(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
+    private void BT_AddPart(java.awt.event.ActionEvent evt, String login, int idRepair, int idService, APIPartsRepair api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {

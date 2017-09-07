@@ -8,9 +8,6 @@ package parts;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import static javax.xml.bind.DatatypeConverter.parseInt;
-import services.APIService;
 
 /**
  *
@@ -18,9 +15,6 @@ import services.APIService;
  */
 public final class InfoParts extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();
-    
     /**
      * Creates new form AddRepair
      *
@@ -29,54 +23,57 @@ public final class InfoParts extends javax.swing.JFrame {
      * @param idService
      * @throws java.lang.Exception
      */
-    public InfoParts(String login,int idPart ,int idService) throws Exception {
+    public InfoParts(String login, int idPart, int idService) throws Exception {
+        
         initComponents();
-        Events(login,idPart,idService);
+        Events(login, idPart, idService);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         GetData(login, idPart);
     }
 
-    private void Events(final String login,final int idPart, final int idService) {
+    private void Events(final String login, final int idPart, final int idService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt,login,idPart,idService);
+                BT_Edit(evt, login, idPart, idService);
             }
         });
-         bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
+        bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADDAmount(evt,login,idPart,idService);
+                BT_ADDAmount(evt, login, idPart, idService);
             }
         });
         bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_EditPrice(evt,login,idPart,idService);
+                BT_EditPrice(evt, login, idPart, idService);
             }
         });
         bt_service.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListService(evt,login,idPart,idService);
+                BT_ListService(evt, login, idPart, idService);
             }
         });
         bt_add_service.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_AddService(evt,login,idPart,idService);
+                    BT_AddService(evt, login, idPart, idService);
                 } catch (Exception ex) {
                     Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
-    private void BT_AddService(java.awt.event.ActionEvent evt, String login,int idPart ,int idService) throws Exception {
+
+    private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
-    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
             dispose();
@@ -84,30 +81,34 @@ public final class InfoParts extends javax.swing.JFrame {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_Edit(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditParts(login, idPart, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_ListService(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_ListService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new ListServicesPart(login, idPart).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void GetData(String login, int idPart) throws Exception{
-        String[] data = api.InfoParts(login,idPart);
+
+    private void GetData(String login, int idPart) throws Exception {
+        APIParts api = new APIParts();
+        String[] data = api.InfoParts(login, idPart);
         l_idPart.setText(data[0]);
         l_name.setText(data[1]);
         l_desc.setText(data[2]);

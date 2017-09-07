@@ -8,16 +8,12 @@ package budgets;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import repairs.state.APIState;
 
 /**
  *
  * @author Rui Barcelos
  */
 public class EditBudget extends javax.swing.JFrame {
-
-    APIBudgets api = new APIBudgets();
-    APIState apiState = new APIState();
 
     /**
      * Creates new form EditRepair
@@ -27,10 +23,11 @@ public class EditBudget extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditBudget(String login, int idBudget) throws Exception {
+        APIBudgets api = new APIBudgets();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
-        ShowData(login, idBudget);
-        Events(login, idBudget);
+        ShowData(login, idBudget,api);
+        Events(login, idBudget, api);
         insertCb(api.ListState(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
@@ -44,16 +41,16 @@ public class EditBudget extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idBudget) {
+    private void Events(final String login, final int idBudget,final APIBudgets api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt, login, idBudget);
+                BT_Edit(evt, login, idBudget,api);
             }
         });
     }
 
-    private void ShowData(String login, int id) throws Exception {
+    private void ShowData(String login, int id,APIBudgets api) throws Exception {
         String info[] = api.GetInfoBudget(login, id);
         l_idBudget.setText(info[0]);
         l_vehicle.setText(info[1]);
@@ -71,7 +68,7 @@ public class EditBudget extends javax.swing.JFrame {
         ta_resolution.setText(info[8]);
     }
 
-    private String[] SendData(String login) throws Exception {
+    private String[] SendData(String login,APIBudgets api) throws Exception {
         String[] data = new String[5];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
         data[1] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
@@ -85,11 +82,11 @@ public class EditBudget extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget) {
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget, APIBudgets api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.UpdateBudget(login, idBudget, SendData(login));
+                String value[] = api.UpdateBudget(login, idBudget, SendData(login,api));
                 JOptionPane.showMessageDialog(this, value[1]);
                 if ("ok".equals(value[0])) {
                     dispose();

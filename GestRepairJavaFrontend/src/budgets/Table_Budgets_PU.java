@@ -19,8 +19,6 @@ import javax.swing.table.TableModel;
  */
 public final class Table_Budgets_PU extends javax.swing.JFrame {
 
-    APIBudgets api = new APIBudgets();
-
     /**
      * Creates new form Table_Vehicles
      *
@@ -29,6 +27,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Budgets_PU(String login, int idUser) throws Exception {
+        APIBudgets api = new APIBudgets();
         initComponents();
         Events(login);
         showTable(api.ListBudgets(login, idUser));
@@ -47,7 +46,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
             }
             l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
         } else {
-            JOptionPane.showMessageDialog(this, "Não existe dados"); 
+            JOptionPane.showMessageDialog(this, "Não existe dados");
             dispose();
         }
     }

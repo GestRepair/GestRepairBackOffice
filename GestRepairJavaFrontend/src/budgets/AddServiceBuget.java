@@ -17,10 +17,6 @@ import users.employer.APIEmployer;
  */
 public final class AddServiceBuget extends javax.swing.JFrame {
 
-    APIBudgets api = new APIBudgets();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-
     /**
      * Creates new form AddRepair
      *
@@ -29,10 +25,11 @@ public final class AddServiceBuget extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddServiceBuget(String login, int idBudget) throws Exception {
+        APIBudgets api = new APIBudgets();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showService(api.ListServiceNot(login,idBudget));
-        Events(login, idBudget);
+        showService(api.ListServiceNot(login, idBudget));
+        Events(login, idBudget,api);
     }
 
     public void showService(String[][] list) {
@@ -45,24 +42,27 @@ public final class AddServiceBuget extends javax.swing.JFrame {
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-    private String[] sendData(String login, int idBudget) throws Exception{
+
+    private String[] sendData(String login, int idBudget,APIBudgets api) throws Exception {
         String[] data = new String[2];
-        data[0] =  idBudget+"";
-        data[1] = Cb_Val(cb_service.getSelectedIndex(), api.ListServiceNot(login,idBudget))+"";
+        data[0] = idBudget + "";
+        data[1] = Cb_Val(cb_service.getSelectedIndex(), api.ListServiceNot(login, idBudget)) + "";
         return data;
     }
-    private void Events(final String login,final int idBudget){
+
+    private void Events(final String login, final int idBudget, final APIBudgets api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Add(evt,login,idBudget);
+                BT_Add(evt, login, idBudget, api);
             }
         });
     }
-    private void BT_Add(java.awt.event.ActionEvent evt, String login, int idBudget) {                                       
+
+    private void BT_Add(java.awt.event.ActionEvent evt, String login, int idBudget,APIBudgets api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.POSTAddPart(login,sendData(login,idBudget));
+                String[] value = api.POSTAddPart(login, sendData(login, idBudget,api));
                 JOptionPane.showMessageDialog(this, value[1]);
                 if ("ok".equals(value[0])) {
                     dispose();
@@ -73,7 +73,8 @@ public final class AddServiceBuget extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
-    }      
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

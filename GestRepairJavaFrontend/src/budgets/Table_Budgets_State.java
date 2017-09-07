@@ -19,8 +19,6 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public final class Table_Budgets_State extends javax.swing.JFrame {
 
-    APIBudgets api = new APIBudgets();
-
     /**
      * Creates new form Table_Vehicles
      *
@@ -28,13 +26,14 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Budgets_State(String login) throws Exception {
+        APIBudgets api = new APIBudgets();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         int i = cb_state.getSelectedIndex();
         if (i < 0) {
             i = 0;
         }
-        
+
         String[][] data = api.ListBudgetsByState(login, cbVal(api.ListState(login), i));
         if (data.length > 0) {
             showTable(data);
@@ -43,7 +42,7 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Sem dados!");
         }
         insertCb(api.ListState(login));
-        Events(login);
+        Events(login, api);
 
     }
 
@@ -73,7 +72,7 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login) {
+    private void Events(final String login, final APIBudgets api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +94,7 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         cb_state.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_State(evt, login);
+                CB_State(evt, login, api);
             }
         });
     }
@@ -120,7 +119,7 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         }
     }
 
-    private void CB_State(java.awt.event.ActionEvent evt, String login) {
+    private void CB_State(java.awt.event.ActionEvent evt, String login, APIBudgets api) {
         try {
             String[][] data = api.ListBudgetsByState(login, cbVal(api.ListState(login), cb_state.getSelectedIndex()));
             if (data.length > 0) {

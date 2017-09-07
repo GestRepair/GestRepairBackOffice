@@ -55,11 +55,6 @@ public class MainSchedule extends javax.swing.JFrame {
         setResizable(false);
 
         bt_listSchedule.setText("Lista de Agendamentos");
-        bt_listSchedule.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_listScheduleActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,10 +75,6 @@ public class MainSchedule extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_listScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_listScheduleActionPerformed
-        
-    }//GEN-LAST:event_bt_listScheduleActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_listSchedule;

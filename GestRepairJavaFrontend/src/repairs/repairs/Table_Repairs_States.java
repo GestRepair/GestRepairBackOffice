@@ -22,9 +22,6 @@ import repairs.state.APIState;
  */
 public final class Table_Repairs_States extends javax.swing.JFrame {
 
-    APIRepair api = new APIRepair();
-    APIState apiState = new APIState();
-
     /**
      * Creates new form Table_Vehicles
      *
@@ -33,12 +30,14 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Repairs_States(String login, int idService) throws Exception {
+        APIRepair api = new APIRepair();
+        APIState apiState = new APIState();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         String[][] state = apiState.ShowState(login);
         showStates(state);
         showTable(api.ListRepairsState(login, Cb_Val(cb_states.getSelectedIndex(), state)));
-        Events(login, idService);
+        Events(login, idService, api, apiState);
         row();
     }
 
@@ -90,7 +89,7 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void Events(final String login, final int idService) {
+    private void Events(final String login, final int idService, final APIRepair api, final APIState apiState) {
         tbl_repair.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -126,7 +125,7 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         cb_states.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_State(evt, login);
+                CB_State(evt, login, api, apiState);
             }
         });
     }
@@ -167,7 +166,7 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
-    private void CB_State(java.awt.event.ActionEvent evt, String login) {
+    private void CB_State(java.awt.event.ActionEvent evt, String login, APIRepair api, APIState apiState) {
         try {
             String[][] state = apiState.ShowState(login);
             int idState = Cb_Val(cb_states.getSelectedIndex(), state);
@@ -175,7 +174,7 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
             if (list.length > 0) {
                 cleanTable();
                 showTable(list);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Lista sem Dados Disponiveis");
             }
         } catch (Exception ex) {

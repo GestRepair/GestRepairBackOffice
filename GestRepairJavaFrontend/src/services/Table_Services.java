@@ -18,7 +18,7 @@ import javax.swing.table.TableModel;
  */
 public final class Table_Services extends javax.swing.JFrame {
 
-    APIService api = new APIService();
+    
 
     /**
      * Creates new form Table_Vehicles
@@ -30,6 +30,7 @@ public final class Table_Services extends javax.swing.JFrame {
      * @throws java.text.ParseException
      */
     public Table_Services(String login) throws Exception {
+        APIService api = new APIService();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.Service(login));

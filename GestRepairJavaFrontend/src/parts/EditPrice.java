@@ -15,9 +15,6 @@ import services.APIService;
  */
 public final class EditPrice extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();
-    
     /**
      * Creates new form AddRepair
      *
@@ -26,12 +23,12 @@ public final class EditPrice extends javax.swing.JFrame {
      * @param idService
      * @throws java.lang.Exception
      */
-    public EditPrice(String login,int idPart ,int idService) throws Exception {
-        initComponents();
-        l_idPart.setText(idPart+"");
-        Events(login,idPart,idService);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+    public EditPrice(String login, int idPart, int idService) throws Exception {
 
+        initComponents();
+        l_idPart.setText(idPart + "");
+        Events(login, idPart, idService);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
 
     }
 
@@ -39,17 +36,18 @@ public final class EditPrice extends javax.swing.JFrame {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt,login,idPart,idService);
+                BT_addPost(evt, login, idPart, idService);
             }
         });
     }
 
-    private void BT_addPost(java.awt.event.ActionEvent evt,String login, int idPart, int idService) {
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
+        APIParts api = new APIParts();
         try {
             if (tf_price.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String value[] = api.PUTPrice(login, sendData(),idPart);
+                    String value[] = api.PUTPrice(login, sendData(), idPart);
                     JOptionPane.showMessageDialog(this, value[1]);
                     if ("ok".equals(value[0])) {
                         new InfoParts(login, idPart, idService).setVisible(true);

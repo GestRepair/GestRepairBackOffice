@@ -32,7 +32,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
         l_num.setText(emp[0]);
         l_name.setText(emp[1]);
         l_service.setText(emp[2]);
-        l_state.setText(("1".equals(emp[3]) ? "A" : "Ina") + "tivo");
+        l_state.setText(("1".equals(emp[4]) ? "A" : "Ina") + "tivo");
     }
 
     /**

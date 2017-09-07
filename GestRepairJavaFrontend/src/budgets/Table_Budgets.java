@@ -17,7 +17,7 @@ import javax.swing.table.TableModel;
  * @author Rui Barcelos
  */
 public final class Table_Budgets extends javax.swing.JFrame {
-    APIBudgets api = new APIBudgets();
+    
     /**
      * Creates new form Table_Vehicles
      * @param login
@@ -26,6 +26,7 @@ public final class Table_Budgets extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public Table_Budgets(String login) throws Exception {
+        APIBudgets api = new APIBudgets();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.ListBudgets(login,0));

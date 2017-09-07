@@ -17,9 +17,6 @@ import repairs.state.APIState;
  */
 public class EditRepair extends javax.swing.JFrame {
 
-    APIRepair api = new APIRepair();
-    APIState apiState = new APIState();
-
     /**
      * Creates new form EditRepair
      *
@@ -28,13 +25,15 @@ public class EditRepair extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditRepair(String login, int idRepair) throws Exception {
+        APIRepair api = new APIRepair();
+        APIState apiState = new APIState();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        ShowData(login, idRepair);
+        ShowData(login, idRepair, api);
         insertCb(apiState.ShowState(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
-        Events(login, idRepair);
+        Events(login, idRepair, api, apiState);
     }
 
     private void insertCb(String[][] list) throws Exception {
@@ -44,7 +43,7 @@ public class EditRepair extends javax.swing.JFrame {
         }
     }
 
-    private void ShowData(String login, int id) throws Exception {
+    private void ShowData(String login, int id, APIRepair api) throws Exception {
         String info[] = api.GetInfoRepair(login, id);
         l_idRepair.setText(info[0]);
         l_vehicle.setText(info[1]);
@@ -61,7 +60,7 @@ public class EditRepair extends javax.swing.JFrame {
         ta_resolution.setText(info[7]);
     }
 
-    private String[] SendData(String login) throws Exception {
+    private String[] SendData(String login, APIState apiState) throws Exception {
         String[] data = new String[4];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
         data[1] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
@@ -74,20 +73,20 @@ public class EditRepair extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void Events(final String login, final int idRepair) {
+    private void Events(final String login, final int idRepair, final APIRepair api, final APIState apiState) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_EDIT(evt, login, idRepair);
+                BT_EDIT(evt, login, idRepair, api, apiState);
             }
         });
     }
 
-    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idRepair) {
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idRepair, APIRepair api, APIState apiState) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.UpdateRepair(login, idRepair, SendData(login));
+                String[] value = api.UpdateRepair(login, idRepair, SendData(login, apiState));
                 JOptionPane.showMessageDialog(this, value[1]);
                 if ("ok".equals(value[0])) {
                     dispose();

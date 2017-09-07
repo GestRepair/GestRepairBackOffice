@@ -17,9 +17,6 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public final class EditBrand extends javax.swing.JFrame {
 
-    APIBrand api = new APIBrand();
-    private final String login;
-
     /**
      * Creates new form ChangeBrand
      *
@@ -28,19 +25,20 @@ public final class EditBrand extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditBrand(String login, int id) throws Exception {
+        APIBrand api = new APIBrand();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        InfoBrand(login, id);
-        this.login = login;
+        InfoBrand(login, id, api);
+        Events(login, api);
     }
 
-    private void InfoBrand(String login, int id) throws Exception {
+    private void InfoBrand(String login, int id, APIBrand api) throws Exception {
         String brand[] = api.InfoBrand(login, id);
         l_id.setText(brand[0]);
         tf_name.setText(brand[1]);
     }
 
-    private void ChangeBrand(String login, int id, String name) throws Exception {
+    private void ChangeBrand(String login, int id, String name, APIBrand api) throws Exception {
         int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + api.InfoBrand(login, id)[1] + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
             String value[] = api.PutBrand(login, id, name);
@@ -51,6 +49,22 @@ public final class EditBrand extends javax.swing.JFrame {
             }
         } else if (x == JOptionPane.NO_OPTION) {
             JOptionPane.showMessageDialog(this, "A Marca " + api.InfoBrand(login, id)[1] + " não foi modificada");
+        }
+    }
+
+    private void Events(final String login, final APIBrand api) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, api);
+            }
+        });
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, APIBrand api) {
+        try {
+            ChangeBrand(login, parseInt(l_id.getText()), tf_name.getText(), api);
+        } catch (Exception ex) {
+            Logger.getLogger(EditBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -79,11 +93,6 @@ public final class EditBrand extends javax.swing.JFrame {
         l_id.setText("id");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,14 +131,6 @@ public final class EditBrand extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            ChangeBrand(this.login, parseInt(l_id.getText()), tf_name.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(EditBrand.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

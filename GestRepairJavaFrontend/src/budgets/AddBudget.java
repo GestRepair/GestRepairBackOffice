@@ -5,14 +5,12 @@
  */
 package budgets;
 
-import repairs.repairs.*;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
-import users.employer.APIEmployer;
 import vehicles.vehicles.APIVehicles;
 
 /**
@@ -20,11 +18,6 @@ import vehicles.vehicles.APIVehicles;
  * @author Rui Barcelos
  */
 public final class AddBudget extends javax.swing.JFrame {
-
-    APIBudgets api = new APIBudgets();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
-    APIVehicles apiVehicles = new APIVehicles();
 
     /**
      * Creates new form AddRepair
@@ -37,8 +30,11 @@ public final class AddBudget extends javax.swing.JFrame {
      */
     public AddBudget(String login, int idVehicle, int employer, int idService) throws Exception {
         initComponents();
+
+        APIService apiService = new APIService();
+        APIVehicles apiVehicles = new APIVehicles();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        Events(login, idVehicle, idService);
+        Events(login, idVehicle, idService, apiService);
         l_vehicle.setText(apiVehicles.InfoVehicle(login, idVehicle)[3]);
         if (idService == 1 || idService == 2) {
             showService(apiService.Service(login));
@@ -62,11 +58,11 @@ public final class AddBudget extends javax.swing.JFrame {
         return parseInt(list[val][0]);
     }
 
-    private void Events(final String login, final int idVehicle, final int idService) {
+    private void Events(final String login, final int idVehicle, final int idService, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADD(evt, login, idVehicle, idService);
+                BT_ADD(evt, login, idVehicle, idService, apiService);
             }
         });
     }
@@ -83,7 +79,8 @@ public final class AddBudget extends javax.swing.JFrame {
         return data;
     }
 
-    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idVehicle, int idService) {
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idVehicle, int idService, APIService apiService) {
+        APIBudgets api = new APIBudgets();
         try {
             if (ta_pdesc.getText().length() > 10) {
                 int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));

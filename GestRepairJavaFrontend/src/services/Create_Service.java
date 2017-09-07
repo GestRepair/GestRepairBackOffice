@@ -18,18 +18,65 @@ import javax.swing.JOptionPane;
  */
 public class Create_Service extends javax.swing.JFrame {
 
-    public String log;
-
     /**
      * Creates new form CreateServiceIO
      *
      * @param login
      */
     public Create_Service(String login) {
-        this.log = login;
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         tf_localUpload.setEditable(true);
+        Events(login);
+    }
+
+    private void Events(final String login) {
+        bt_upload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_UPLOAD(evt);
+            }
+        });
+        br_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt, login);
+            }
+        });
+
+    }
+
+    private void BT_UPLOAD(java.awt.event.ActionEvent evt) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        if (".png".equals(filename.substring(filename.length() - 4)) || ".jpg".equals(filename.substring(filename.length() - 4)) || ".jpeg".equals(filename.substring(filename.length() - 5))) {
+            tf_localUpload.setText(filename);
+            ImageIcon icon = new ImageIcon(filename);
+            Image image = icon.getImage();
+            Image newimg = image.getScaledInstance(260, 200, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(newimg);
+            l_img.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(this, "Ficheiro Inválido \nUtilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+            tf_localUpload.setText("");
+            l_img.setIcon(null);
+        }
+    }
+
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login) {
+        APIService pst = new APIService();
+        if (".png".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpeg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 5))) {
+            File f = new File(tf_localUpload.getText());
+            try {
+                pst.PostService(login, tf_service.getText(), tf_price.getText(), tf_desc.getText(), f);
+                JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+        }
     }
 
     /**
@@ -61,11 +108,6 @@ public class Create_Service extends javax.swing.JFrame {
         l_img.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         bt_upload.setText("Upload");
-        bt_upload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_uploadActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Serviço");
 
@@ -80,11 +122,6 @@ public class Create_Service extends javax.swing.JFrame {
         jLabel4.setText("Descrição");
 
         br_add.setText("Adicionar Serviço");
-        br_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                br_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,18 +137,16 @@ public class Create_Service extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(tf_service, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_price, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_localUpload, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(br_add)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(tf_service, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(tf_price, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tf_localUpload, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_upload)))
+                        .addComponent(bt_upload))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(br_add)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,50 +172,13 @@ public class Create_Service extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(br_add)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_uploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_uploadActionPerformed
-        // TODO add your handling code here:
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File f = chooser.getSelectedFile();
-        String filename = f.getAbsolutePath();
-        if (".png".equals(filename.substring(filename.length() - 4)) || ".jpg".equals(filename.substring(filename.length() - 4)) || ".jpeg".equals(filename.substring(filename.length() - 5))) {
-            tf_localUpload.setText(filename);
-            ImageIcon icon = new ImageIcon(filename);
-            Image image = icon.getImage();
-            Image newimg = image.getScaledInstance(260, 200, java.awt.Image.SCALE_SMOOTH);
-            icon = new ImageIcon(newimg);
-            l_img.setIcon(icon);
-        } else {
-            JOptionPane.showMessageDialog(this,"Ficheiro Inválido \nUtilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
-            tf_localUpload.setText("");
-            l_img.setIcon(null);
-        }
-    }//GEN-LAST:event_bt_uploadActionPerformed
-
-    private void br_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_br_addActionPerformed
-
-        APIService pst = new APIService();
-        if (".png".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpeg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 5))) {
-            File f = new File(tf_localUpload.getText());
-            try {
-                pst.PostService(log, tf_service.getText(), tf_price.getText(), tf_desc.getText(), f);
-                JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
-        }
-    }//GEN-LAST:event_br_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton br_add;

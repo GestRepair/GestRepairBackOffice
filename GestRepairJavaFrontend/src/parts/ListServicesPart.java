@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Rui Barcelos
  */
 public class ListServicesPart extends javax.swing.JFrame {
-    APIParts api = new APIParts();
+    
     /**
      * Creates new form ListServicesPart
      * @param login
@@ -27,6 +27,7 @@ public class ListServicesPart extends javax.swing.JFrame {
         ShowTablePart(login,idPart);
     }
     private void ShowTablePart(String login, int idPart) throws Exception{
+        APIParts api = new APIParts();
         l_idPart.setText(idPart+"");
         String data[][] = api.ListServiceParts(login, idPart);
         if(data.length>0){

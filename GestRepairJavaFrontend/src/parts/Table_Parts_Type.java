@@ -23,9 +23,6 @@ import users.employer.APIEmployer;
  */
 public final class Table_Parts_Type extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();
-    APIEmployer apiEmployer = new APIEmployer();
     /**
      * Start the interface and need elements
      *
@@ -35,24 +32,27 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
      * @throws ParseException
      */
     public Table_Parts_Type(String login, int idService) throws Exception {
-        initComponents();  
+        APIParts api = new APIParts();
+        APIService apiService = new APIService();
+        initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showService(apiService.Service(login));
-        Events(login,idService);
-        if(idService != 1||idService!=2){
+        Events(login, idService, api, apiService);
+        if (idService != 1 || idService != 2) {
             cbType.setSelectedItem(apiService.GetInfo(login, idService)[1]);
         }
-        int i = cbType.getSelectedIndex(); 
-        showTable(api.ListParts(login,(idService == 1||idService==2)?Cb_Val(i + 2, apiService.Service(login)):idService));
+        int i = cbType.getSelectedIndex();
+        showTable(api.ListParts(login, (idService == 1 || idService == 2) ? Cb_Val(i + 2, apiService.Service(login)) : idService));
         row(0);
     }
-    private void Events(final String login, final int idService) {
+
+    private void Events(final String login, final int idService, final APIParts api, final APIService apiService) {
         bt_add_service.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     int idPart = parseInt(linfoUser.getText());
-                    BT_AddService(evt,login,idPart,idService);
+                    BT_AddService(evt, login, idPart, idService);
                 } catch (Exception ex) {
                     Logger.getLogger(Table_Parts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -82,45 +82,50 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int idPart = parseInt(linfoUser.getText());
-                BT_ADDAmount(evt,login,idPart,idService);
+                BT_ADDAmount(evt, login, idPart, idService);
             }
         });
         bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int idPart = parseInt(linfoUser.getText());
-                BT_EditPrice(evt,login,idPart,idService);
+                BT_EditPrice(evt, login, idPart, idService);
             }
         });
         cbType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_SERVICE(evt,login);
+                CB_SERVICE(evt, login, api, apiService);
             }
         });
     }
-    private void BT_AddService(java.awt.event.ActionEvent evt, String login,int idPart ,int idService) throws Exception {
+
+    private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
+
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new EditParts(login, idPart, idService).setVisible(true);
         dispose();
     }
+
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new InfoParts(login, idPart, idService).setVisible(true);
         dispose();
     }
-    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
             dispose();
@@ -128,24 +133,37 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void CB_SERVICE(java.awt.event.ActionEvent evt,String login)  {
+
+    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, APIParts api, APIService apiService) {
         try {
             int i = cbType.getSelectedIndex();
-            String data[][] =api.ListParts(login, Cb_Val(i + 2, apiService.Service(login)));
-            if(data.length > 0){
+            String data[][] = api.ListParts(login, Cb_Val(i + 2, apiService.Service(login)));
+            if (data.length > 0) {
                 cleanTable();
                 showTable(data);
                 row(0);
-            }else{
+                bt_add_amount.setVisible(true);
+                bt_add_service.setVisible(true);
+                bt_edit.setVisible(true);
+                bt_edit_price.setVisible(true);
+                bt_info.setVisible(true);
+            } else {
+                bt_add_amount.setVisible(false);
+                bt_add_service.setVisible(false);
+                bt_edit.setVisible(false);
+                bt_edit_price.setVisible(false);
+                bt_info.setVisible(false);
                 JOptionPane.showMessageDialog(this, "Não Contem dados");
             }
         } catch (Exception ex) {
         }
     }
+
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         mod.setRowCount(0);
     }
+
     private void showService(String[][] list) {
         cbType.removeAllItems();
         for (String[] list1 : list) {
@@ -158,6 +176,7 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
+
     private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         Object[] row = new Object[6];
@@ -168,6 +187,7 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
+
     private void row(int val) {
         TableModel mod = tbl_parts.getModel();
         if (mod.getRowCount() > 0) {
@@ -175,7 +195,7 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             jLabel6.setText("Nome:");
             linfoUser.setText(mod.getValueAt(val, 0) + "");
             l_username.setText(mod.getValueAt(val, 1) + "");
-        }else{
+        } else {
             jLabel1.setText("");
             jLabel6.setText("");
             linfoUser.setText("");
@@ -184,6 +204,7 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
             //bt_info.setVisible(false);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

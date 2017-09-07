@@ -10,15 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import services.APIService;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class EditParts extends javax.swing.JFrame {
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();   
+
     /**
      * Creates new form AddRepair
      *
@@ -27,41 +25,42 @@ public final class EditParts extends javax.swing.JFrame {
      * @param idService
      * @throws java.lang.Exception
      */
-    public EditParts(String login,int idPart ,int idService) throws Exception {
+    public EditParts(String login, int idPart, int idService) throws Exception {
         initComponents();
-        Events(login,idPart,idService);
+        APIParts api = new APIParts();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        GetData(login, idPart);
+        GetData(login, idPart, api);
         ta_pdesc.setLineWrap(true);
+        Events(login, idPart, idService, api);
     }
 
-    private void Events(final String login,final int idPart ,final int idService) {
+    private void Events(final String login, final int idPart, final int idService, final APIParts api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt,login);
+                BT_Edit(evt, login, api);
             }
         });
         bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADDAmount(evt,login,idPart,idService);
+                BT_ADDAmount(evt, login, idPart, idService);
             }
         });
         bt_edit_price.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_EditPrice(evt,login,idPart,idService);
+                BT_EditPrice(evt, login, idPart, idService);
             }
         });
     }
-    
-    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login, APIParts api) {
         try {
-            if (tf_name.getText().length() > 0 ) {
+            if (tf_name.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String[] value = api.PutPart(login, sendData(),parseInt(l_idPart.getText()));
+                    String[] value = api.PutPart(login, sendData(), parseInt(l_idPart.getText()));
                     JOptionPane.showMessageDialog(this, value[1]);
                     if ("ok".equals(value[0])) {
                         dispose();
@@ -76,8 +75,8 @@ public final class EditParts extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
     }
-    
-    private void BT_EditPrice(java.awt.event.ActionEvent evt,String login,int idPart ,int idService) {
+
+    private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
         } catch (Exception ex) {
@@ -85,7 +84,7 @@ public final class EditParts extends javax.swing.JFrame {
         }
     }
 
-    private void BT_ADDAmount(java.awt.event.ActionEvent evt,String login,int idPart ,int idService)  {
+    private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
             dispose();
@@ -93,8 +92,9 @@ public final class EditParts extends javax.swing.JFrame {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void GetData(String login, int idPart) throws Exception{
-        String[] data = api.InfoParts(login,idPart);
+
+    private void GetData(String login, int idPart, APIParts api) throws Exception {
+        String[] data = api.InfoParts(login, idPart);
         l_idPart.setText(data[0]);
         tf_name.setText(data[1]);
         ta_pdesc.setText(data[2]);

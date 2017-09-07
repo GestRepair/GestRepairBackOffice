@@ -6,22 +6,18 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class Table_Repairs_PU extends javax.swing.JFrame {
-
-    public String login;
-    public int id;
-    APIRepair api = new APIRepair();
 
     /**
      * Creates new form Table_Vehicles
@@ -34,14 +30,14 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * @throws java.text.ParseException
      */
     public Table_Repairs_PU(String login, int id) throws Exception {
+        APIRepair api = new APIRepair();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.ListRepairs(login, id));
-        this.login = login;
-        this.id = id;
+        Events(login, id, api);
     }
 
-    public void showTable(String[][] list) {
+    private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
             Object[] row = new Object[8];
@@ -52,10 +48,41 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 mod.addRow(row);
             }
         } else {
+            bt_edit.setVisible(false);
             JOptionPane.showMessageDialog(this, "Não existe dados");
             dispose();
         }
+    }
 
+    private void Events(final String login, final int id, final APIRepair api) {
+
+        tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt);
+            }
+        });
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, id, api);
+            }
+        });
+    }
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
+        int i = tbl_vehicles.getSelectedRow();
+        TableModel mod = tbl_vehicles.getModel();
+        l_idRepair.setText((String) mod.getValueAt(i, 0));
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIRepair api) {
+        try {
+            int i = ((tbl_vehicles.getSelectedRow() < 0) ? 0 : tbl_vehicles.getSelectedRow());
+            TableModel mod = tbl_vehicles.getModel();
+            new EditRepair(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs_PU.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -93,20 +120,10 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             }
         });
         tbl_vehicles.setColumnSelectionAllowed(true);
-        tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_vehiclesMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_vehicles);
         tbl_vehicles.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         bt_edit.setText("Editar Reparação");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         jLabel7.setText("Reparação N.º");
 
@@ -141,26 +158,6 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbl_vehiclesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_vehiclesMouseClicked
-        int i = tbl_vehicles.getSelectedRow();
-        TableModel mod = tbl_vehicles.getModel();
-        l_idRepair.setText((String) mod.getValueAt(i, 0));
-    }//GEN-LAST:event_tbl_vehiclesMouseClicked
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        // TODO add your handling code here:
-        try {
-            //api.PutVehicle(login,l_idVehicle.getText(), tf_registration.getText(), tf_horsepower.getText(), tf_displacement.getText(), tf_kilometer.getText(), tf_frontTire.getText(), tf_rearTire.getText());
-            DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-            mod.setRowCount(0);
-            showTable(api.ListRepairs(login, id));
-
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs_PU.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

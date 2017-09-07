@@ -6,13 +6,11 @@
 package repairs.repairs;
 
 import java.awt.Toolkit;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import repairs.employers.AddEmployerRepair;
 import repairs.employers.Table_Employer_Repair;
 import repairs.parts.ListPartsRepair;
 
@@ -22,7 +20,7 @@ import repairs.parts.ListPartsRepair;
  */
 public final class Table_Repairs extends javax.swing.JFrame {
 
-    APIRepair api = new APIRepair();
+    
 
     /**
      * Creates new form Table_Vehicles
@@ -34,6 +32,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public Table_Repairs(String login, int idService) throws Exception {
+        APIRepair api = new APIRepair();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.ListRepairs(login, 0));

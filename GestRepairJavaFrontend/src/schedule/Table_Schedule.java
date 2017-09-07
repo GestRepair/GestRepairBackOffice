@@ -17,8 +17,6 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public final class Table_Schedule extends javax.swing.JFrame {
 
-    APISchedule api = new APISchedule();
-
     /**
      * Creates new form Table_Vehicles
      *
@@ -26,12 +24,13 @@ public final class Table_Schedule extends javax.swing.JFrame {
      *
      */
     public Table_Schedule(String login) throws Exception {
+        APISchedule api = new APISchedule();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
-        showTable(api.ListTime(login,i));
-        ShowDate(login);
-        Events(login);
+        showTable(api.ListTime(login, i));
+        ShowDate(login, api);
+        Events(login, api);
 
     }
 
@@ -46,7 +45,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
         }
     }
 
-    private void ShowDate(String login) throws Exception {
+    private void ShowDate(String login, APISchedule api) throws Exception {
         cb_date.removeAllItems();
         String[][] data = api.ListDays(login);
         for (int i = 0; i < data.length; i++) {
@@ -69,7 +68,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
-    private void Events(final String login) {
+    private void Events(final String login, final APISchedule api) {
         tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_scheduleClick(evt, login);
@@ -78,19 +77,19 @@ public final class Table_Schedule extends javax.swing.JFrame {
         cb_date.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_LIST(evt, login);
+                CB_LIST(evt, login, api);
             }
         });
     }
 
-    private void CB_LIST(java.awt.event.ActionEvent evt, String login) {
+    private void CB_LIST(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
             String[][] data = api.ListTime(login, i);
             if (data.length > 0) {
                 cleanTable();
                 showTable(data);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Sem Dados!");
             }
         } catch (Exception ex) {
