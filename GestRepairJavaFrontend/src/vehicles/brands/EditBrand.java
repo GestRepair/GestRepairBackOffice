@@ -5,12 +5,10 @@
  */
 package vehicles.brands;
 
-import vehicles.brands.Table_Brand;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vehicles.vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**

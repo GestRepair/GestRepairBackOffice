@@ -9,16 +9,12 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.xml.bind.DatatypeConverter.parseInt;
 
 /**
  *
  * @author Rui Barcelos
  */
 public final class EditModel extends javax.swing.JFrame {
-
-    APIModel api = new APIModel();
-    private final String login;
 
     /**
      * Creates new form ChangeModel
@@ -29,24 +25,39 @@ public final class EditModel extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditModel(String login, int id, String brand) throws Exception {
+        APIModel api = new APIModel();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_brand.setText(brand);
-        InfoModel(login, id);
-        this.login = login;
+        InfoModel(login, id, api);
+        Events(login, id, api);
     }
 
-    private void InfoModel(String login, int id) throws Exception {
+    private void Events(final String login, final int id, final APIModel api) throws Exception {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    BT_EDIT(evt, login, id, api);
+                } catch (Exception ex) {
+                    Logger.getLogger(EditModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    private void InfoModel(String login, int id, APIModel api) throws Exception {
         String model[] = api.InfoModel(login, id);
         l_id.setText(model[0]);
         tf_name.setText(model[1]);
     }
 
-    private void ChangeModel(String login, int id, String name) throws Exception {
-        String modelName =api.InfoModel(login, id)[1];
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIModel api) throws Exception {
+
+        String modelName = api.InfoModel(login, id)[1];
         int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + modelName + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
-            String[] value = api.PutModel(login, id, name);
+            String[] value = api.PutModel(login, id, tf_name.getText());
             JOptionPane.showMessageDialog(this, value[1]);
             if ("ok".equals(value[0])) {
                 new Table_Model(login).setVisible(true);
@@ -84,11 +95,6 @@ public final class EditModel extends javax.swing.JFrame {
         l_id.setText("id");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Marca:");
 
@@ -143,14 +149,6 @@ public final class EditModel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            ChangeModel(this.login, parseInt(l_id.getText()), tf_name.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(EditModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

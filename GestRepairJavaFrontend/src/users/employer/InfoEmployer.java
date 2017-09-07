@@ -13,8 +13,6 @@ import java.awt.Toolkit;
  */
 public final class InfoEmployer extends javax.swing.JFrame {
 
-    APIEmployer api = new APIEmployer();
-
     /**
      * Creates new form InfoEmployer
      *
@@ -23,12 +21,13 @@ public final class InfoEmployer extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public InfoEmployer(String login, int idUser) throws Exception {
+        APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        GetInfo(login,idUser);
+        GetInfo(login, idUser, api);
     }
 
-    private void GetInfo(String login, int idUser) throws Exception {
+    private void GetInfo(String login, int idUser, APIEmployer api) throws Exception {
         String emp[] = api.GetInfoEmployerUser(login, idUser);
         l_num.setText(emp[0]);
         l_name.setText(emp[1]);

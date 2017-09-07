@@ -26,8 +26,6 @@ import vehicles.vehicles.VerifyVehicle;
  */
 public final class Table_Users extends javax.swing.JFrame {
 
-    APIUsers api = new APIUsers();
-
     /**
      *
      * @param login
@@ -36,6 +34,7 @@ public final class Table_Users extends javax.swing.JFrame {
      * @throws ParseException
      */
     public Table_Users(String login, int idService, int idEmployer) throws Exception {
+        APIUsers api = new APIUsers();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowUser(login, 2));
@@ -52,6 +51,13 @@ public final class Table_Users extends javax.swing.JFrame {
                 mod.addRow(row);
             }
         } else {
+            bt_add_vehicle.setVisible(false);
+            bt_budgets.setVisible(false);
+            bt_edit.setVisible(false);
+            bt_repair.setVisible(false);
+            bt_schedule.setVisible(false);
+            bt_userdata.setVisible(false);
+            bt_vehicles.setVisible(false);
             JOptionPane.showMessageDialog(this, "Não existe dados");
             dispose();
         }
@@ -120,7 +126,6 @@ public final class Table_Users extends javax.swing.JFrame {
         try {
             int i = tbl_users.getSelectedRow();
             new VerifyVehicle(login, parseInt(SearchTable(i, 0)), SearchTable(i, 8), idService, idEmployer).setVisible(true);
-//new AddVehicle(login, parseInt(SearchTable(i,0)), SearchTable(i,8)).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);

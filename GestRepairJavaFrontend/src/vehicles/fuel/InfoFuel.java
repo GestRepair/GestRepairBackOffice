@@ -14,25 +14,31 @@ import java.util.logging.Logger;
  * @author Rui Barcelos
  */
 public class InfoFuel extends javax.swing.JFrame {
-    private final String login;
-    private final int id;
-    APIFuel api = new APIFuel();
 
     /**
      * Creates new form Info_Vehicle
+     *
      * @param login
      * @param id
      */
     public InfoFuel(String login, int id) {
+        APIFuel api = new APIFuel();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        Info(login,id);
-        this.login = login;
-        this.id = id;
+        Info(login, id, api);
+        Events(login, id, api);
+
     }
-    private void Info(String login, int id) {
+    private void Events(final String login, final int id,final APIFuel api) {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, id);
+            }
+        });
+    }
+    private void Info(String login, int id, APIFuel api) {
         try {
-            String[] info = api.InfoFuel(login, id) ;
+            String[] info = api.InfoFuel(login, id);
             l_id.setText(info[0]);
             l_fuel.setText(info[1]);
 
@@ -40,6 +46,15 @@ public class InfoFuel extends javax.swing.JFrame {
             Logger.getLogger(InfoFuel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {                                        
+        try {
+            new EditFuel(login, id).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(InfoFuel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }     
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,9 +69,11 @@ public class InfoFuel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         l_fuel = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação do Combustível");
+        setResizable(false);
 
         jLabel10.setText("Combustível");
 
@@ -67,11 +84,8 @@ public class InfoFuel extends javax.swing.JFrame {
         l_fuel.setText("combustivel");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
+
+        jLabel1.setText("Detalhes do Combustivel:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,47 +93,46 @@ public class InfoFuel extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(l_id, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10)
-                .addGap(18, 18, 18)
-                .addComponent(l_fuel)
-                .addContainerGap(127, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_edit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_edit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(l_id, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(l_fuel))
+                            .addComponent(jLabel1))
+                        .addGap(0, 117, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(l_id)
                     .addComponent(jLabel10)
                     .addComponent(l_fuel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_edit)
-                .addContainerGap())
+                .addGap(6, 6, 6))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            new EditFuel(this.login, this.id).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(InfoFuel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel l_fuel;

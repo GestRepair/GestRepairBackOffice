@@ -19,8 +19,6 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public final class EditUser extends javax.swing.JFrame {
 
-    APIUsers api = new APIUsers();
-
     /**
      * Creates new form editUser
      *
@@ -29,13 +27,14 @@ public final class EditUser extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditUser(String login, int id) throws Exception {
+        APIUsers api = new APIUsers();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        GetInfo(login, id);
-        Events(login, id);
+        GetInfo(login, id, api);
+        Events(login, id, api);
     }
 
-    public void GetInfo(String login, int id) throws Exception {
+    public void GetInfo(String login, int id, APIUsers api) throws Exception {
         String emp[] = api.GetInfoUser(login, id);
         l_id.setText(emp[0]);
         tf_name.setText(emp[1]);
@@ -80,12 +79,12 @@ public final class EditUser extends javax.swing.JFrame {
         return matcher.find();
     }
 
-    private void Events(final String login, final int id) {
+    private void Events(final String login, final int id, final APIUsers api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_EDIT(evt, login, id);
+                    BT_EDIT(evt, login, id, api);
                 } catch (Exception ex) {
                     Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -94,7 +93,6 @@ public final class EditUser extends javax.swing.JFrame {
     }
 
     // validate the nif number
-
     private boolean validateNIF(String nif) {
         int zerm = 9 * nif.charAt(0);
         int firm = 8 * nif.charAt(1);
@@ -107,11 +105,11 @@ public final class EditUser extends javax.swing.JFrame {
         int sum = zerm + firm + secm + trem + form + fivm + sixm + sevm;
         int resNif = sum % 11;
         resNif = (resNif == 0 || resNif == 1) ? 0 : (11 - resNif);
-        return (parseInt(nif.charAt(8)+"") == resNif && nif.length() == 9);
+        return (parseInt(nif.charAt(8) + "") == resNif && nif.length() == 9);
 
     }
 
-    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) throws Exception {
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIUsers api) throws Exception {
         if (tf_name.getText().length() > 5 && tf_street.getText().length() > 5 && tf_city.getText().length() > 3) {
             if (validateEmail(tf_email.getText()) == true && validateName(tf_name.getText()) == true && validateName(tf_city.getText()) == true && validateNumber(tf_contact.getText()) == true && validateNIF(tf_nif.getText()) == true) {
                 int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);

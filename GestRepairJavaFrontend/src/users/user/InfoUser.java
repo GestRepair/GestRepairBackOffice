@@ -14,24 +14,38 @@ import java.util.logging.Logger;
  * @author Rui Barcelos
  */
 public final class InfoUser extends javax.swing.JFrame {
-    APIUsers api = new APIUsers();
-    private final String login;
-    private final int id;
+
     /**
      * Creates new form InfoEmployer
+     *
      * @param login
      * @param id
      * @throws java.lang.Exception
      */
-    public InfoUser(String login,int id) throws Exception {
+    public InfoUser(String login, int id) throws Exception {
+        APIUsers api = new APIUsers();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        GetInfo(login,id);
-        this.login = login;
-        this.id = id;
+        GetInfo(login, id, api);
+        Events(login, id);
     }
-    public void GetInfo(String login,int id) throws Exception{
-        String emp[] = api.GetInfoUser(login,id);
+
+    private void Events(final String login, final int id) {
+        bt_exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EXIT(evt);
+            }
+        });
+
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, id);
+            }
+        });
+    }
+
+    private void GetInfo(String login, int id, APIUsers api) throws Exception {
+        String emp[] = api.GetInfoUser(login, id);
         l_num.setText(emp[0]);
         l_name.setText(emp[1]);
         l_street.setText(emp[2]);
@@ -41,8 +55,21 @@ public final class InfoUser extends javax.swing.JFrame {
         l_contact.setText(emp[6]);
         l_nif.setText(emp[7]);
         l_username.setText(emp[8]);
-        l_state.setText(("1".equals(emp[9]))?"Ativo":"Inativo");        
-        l_type.setText(("1".equals(emp[10]))?"Funcionário":"Cliente");  
+        l_state.setText(("1".equals(emp[9])) ? "Ativo" : "Inativo");
+        l_type.setText(("1".equals(emp[10])) ? "Funcionário" : "Cliente");
+    }
+
+    private void BT_EXIT(java.awt.event.ActionEvent evt) {
+        dispose();
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {
+        try {
+            new EditUser(login, id).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(InfoUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -130,18 +157,8 @@ public final class InfoUser extends javax.swing.JFrame {
         l_username.setText("username");
 
         bt_exit.setText("Sair");
-        bt_exit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_exitActionPerformed(evt);
-            }
-        });
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -246,19 +263,6 @@ public final class InfoUser extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_exitActionPerformed
-        dispose();
-    }//GEN-LAST:event_bt_exitActionPerformed
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            new EditUser(this.login,this.id).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(InfoUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

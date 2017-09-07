@@ -21,19 +21,112 @@ import vehicles.fuel.Table_Fuel;
  * @author Convite
  */
 public class MainVehicles extends javax.swing.JFrame {
-    private final String login;
-    private final int idService;
-    private final int idEmployer;
+
     /**
      * Creates new form mainVehicles
+     *
      * @param login
      */
-    public MainVehicles(String login,int idEmployer,int idService) {
+    public MainVehicles(String login, int idEmployer, int idService) {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        this.login = login;
-        this.idService = idService;
-        this.idEmployer = idEmployer;
+        Events(login, idEmployer, idService);
+    }
+
+    private void Events(final String login, final int idEmployer, final int idService) {
+        bt_showvehicles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_SH_VH(evt, login, idEmployer, idService);
+            }
+        });
+
+        bt_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADDModel(evt, login);
+            }
+        });
+
+        bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADDBrand(evt, login);
+            }
+        });
+
+        bt_lBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_SH_BR(evt, login);
+            }
+        });
+
+        bt_lmodel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_SH_MO(evt, login);
+            }
+        });
+
+        bt_fuel_list.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_SH_FU(evt, login);
+            }
+        });
+
+        bt_fuel_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD_FU(evt, login);
+            }
+        });
+    }
+
+    private void BT_ADDBrand(java.awt.event.ActionEvent evt, String login) {
+        new AddBrand(login).setVisible(true);
+    }
+
+    private void BT_ADDModel(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new AddModel(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_SH_VH(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
+        try {
+            new Table_Vehicles(login, idEmployer, idService).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_SH_BR(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new Table_Brand(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_SH_MO(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new Table_Model(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_SH_FU(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new Table_Fuel(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_ADD_FU(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new AddFuel(login).setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -58,53 +151,18 @@ public class MainVehicles extends javax.swing.JFrame {
         setResizable(false);
 
         bt_showvehicles.setText("Lista de Viaturas");
-        bt_showvehicles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_showvehiclesActionPerformed(evt);
-            }
-        });
 
         bt_model.setText("Adicionar Modelo");
-        bt_model.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_modelActionPerformed(evt);
-            }
-        });
 
         bt_addBrand.setText("Adicionar Marca");
-        bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addBrandActionPerformed(evt);
-            }
-        });
 
         bt_lBrand.setText("Lista de Marcas");
-        bt_lBrand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_lBrandActionPerformed(evt);
-            }
-        });
 
         bt_lmodel.setText("Lista de Modelos");
-        bt_lmodel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_lmodelActionPerformed(evt);
-            }
-        });
 
         bt_fuel_list.setText("Lista de Combustíveis");
-        bt_fuel_list.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_fuel_listActionPerformed(evt);
-            }
-        });
 
         bt_fuel_add.setText("Adicionar Combustível");
-        bt_fuel_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_fuel_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,59 +204,6 @@ public class MainVehicles extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addBrandActionPerformed
-        // TODO add your handling code here:
-        new AddBrand(this.login).setVisible(true);
-    }//GEN-LAST:event_bt_addBrandActionPerformed
-
-    private void bt_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_modelActionPerformed
-        try {
-            new AddModel(this.login).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_modelActionPerformed
-
-    private void bt_showvehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_showvehiclesActionPerformed
-        try {
-            new Table_Vehicles(this.login,this.idEmployer,this.idService).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_showvehiclesActionPerformed
-
-    private void bt_lBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_lBrandActionPerformed
-        try {
-            new Table_Brand(this.login).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_lBrandActionPerformed
-
-    private void bt_lmodelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_lmodelActionPerformed
-        try {
-            new Table_Model(this.login).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_lmodelActionPerformed
-
-    private void bt_fuel_listActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_fuel_listActionPerformed
-        try {
-            new Table_Fuel(this.login).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_fuel_listActionPerformed
-
-    private void bt_fuel_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_fuel_addActionPerformed
-        try {
-            new AddFuel(this.login).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MainVehicles.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_fuel_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addBrand;

@@ -18,31 +18,54 @@ import vehicles.brands.APIBrand;
  */
 public final class AddModel extends javax.swing.JFrame {
 
-    public String login;
-    APIModel api = new APIModel();
-    APIBrand apiBrand = new APIBrand();
     /**
      * Creates new form addBrand
+     *
      * @param login
      * @throws java.lang.Exception
      */
     public AddModel(String login) throws Exception {
-        this.login = login;
+        APIModel api = new APIModel();
+        APIBrand apiBrand = new APIBrand();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showBrand(apiBrand.Brand(login));
+        Events(login, api, apiBrand);
     }
+
     public void showBrand(String[][] list) {
         CB_Brands.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             CB_Brands.addItem(list[i][1]);
         }
     }
-    public int newIdCb(int val,String[][] list) {
-        if (val == 0){
-            return 1;
-        }else{
-            return parseInt(list[val][0]);
+
+    private void Events(final String login, final APIModel api, final APIBrand apiBrand) {
+        bt_addModel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt, login, api, apiBrand);
+            }
+        });
+    }
+
+    public int newIdCb(int val, String[][] list) {
+        return parseInt(list[val][0]);
+    }
+
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIModel api, APIBrand apiBrand) {
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String value[] = api.PostModel(login, newIdCb(CB_Brands.getSelectedIndex(), apiBrand.Brand(login)), tf_model.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -64,11 +87,6 @@ public final class AddModel extends javax.swing.JFrame {
         setTitle("GestRepair - Adicionar Modelo");
 
         bt_addModel.setText("Adicionar Modelo");
-        bt_addModel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addModelActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Modelo");
 
@@ -108,23 +126,6 @@ public final class AddModel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_addModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addModelActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.PostModel(this.login,newIdCb(CB_Brands.getSelectedIndex(),apiBrand.Brand(this.login)),tf_model.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {      
-                    dispose();
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addModelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox CB_Brands;

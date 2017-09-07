@@ -18,8 +18,6 @@ import org.json.simple.parser.JSONParser;
  */
 public class EditPassword extends javax.swing.JFrame {
 
-    APIUsers api = new APIUsers();
-
     /**
      * Creates new form EditPassword
      *
@@ -28,35 +26,38 @@ public class EditPassword extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditPassword(String login, int id) throws Exception {
+        APIUsers api = new APIUsers();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         JSONObject auth = (JSONObject) new JSONParser().parse(login);
-        Events(login,id,(String) auth.get("password"));
+        Events(login, id, (String) auth.get("password"),api);
 
     }
-    private void Events(final String login,final int id,final String password) {
+
+    private void Events(final String login, final int id, final String password, final APIUsers api) {
         bt_chpass.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_ChangePass(evt, login,id,password);
+                    BT_ChangePass(evt, login, id, password,api);
                 } catch (Exception ex) {
                     Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
-    public void BT_ChangePass(java.awt.event.ActionEvent evt,String login,int id,String password) throws Exception {
+
+    public void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password,APIUsers api) throws Exception {
         int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
             if (password.equals(tf_pass_act.getText())) {
                 if (!tf_npass.getText().equals(password) || !tf_npass.getText().equals(password)) {
                     if (tf_npass.getText().equals(tf_cpass.getText())) {
                         String[] value = api.PutPassword(login, id, password, tf_npass.getText());
-                        JOptionPane.showMessageDialog(this, value[1]+(("ok".equals(value[0]))?"\nO sistema irá desligar!":""));
-                        if ("ok".equals(value[0])) {                       
+                        JOptionPane.showMessageDialog(this, value[1] + (("ok".equals(value[0])) ? "\nO sistema irá desligar!" : ""));
+                        if ("ok".equals(value[0])) {
                             System.exit(0);
-                        } 
+                        }
                     } else {
                         JOptionPane.showMessageDialog(this, "A nova password não coicide com a de confirmação");
                     }
@@ -150,5 +151,4 @@ public class EditPassword extends javax.swing.JFrame {
     private javax.swing.JPasswordField tf_pass_act;
     // End of variables declaration//GEN-END:variables
 
-    
 }

@@ -23,10 +23,6 @@ import users.user.Table_Users_Type;
  */
 public final class Table_Employer_Old extends javax.swing.JFrame {
 
-    public String login, service;
-    private final int idEmployer, idService;
-    APIEmployer api = new APIEmployer();
-
     /**
      *
      * @param login
@@ -36,6 +32,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      * @throws ParseException
      */
     public Table_Employer_Old(String login, int idService, int idEmployer) throws Exception {
+        APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowEmployer(login, 0, 0));
@@ -43,9 +40,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         TableColumn col = tbl_users.getColumnModel().getColumn(1);
         tbl_users.removeColumn(col);
         bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
-        this.login = login;
-        this.idService = idService;
-        this.idEmployer = idEmployer;
+        Events(login, idEmployer, api);
     }
 
     /**
@@ -53,21 +48,50 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      * @param list
      */
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[4];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+            Object[] row = new Object[4];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            bt_edit.setVisible(true);
+            bt_enable.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sem Dados");
+            bt_edit.setVisible(false);
+            bt_enable.setVisible(true);
         }
+    }
+
+    private void Events(final String login, final int idEmployer, final APIEmployer api) {
+        bt_enable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ENABLE(evt, login, api);
+            }
+        });
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login);
+            }
+        });
+        tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt, idEmployer);
+            }
+        });
+
     }
 
     /**
      *
+     * @param evt
+     * @param login
+     * @param api
      */
-    @Override
-    public void enable() {
+    public void BT_ENABLE(java.awt.event.ActionEvent evt, String login, APIEmployer api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
@@ -84,6 +108,27 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro Interno");
         }
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
+        try {
+            int i = tbl_users.getSelectedRow();
+            TableModel mod = tbl_users.getModel();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new EditEmployer(login, val).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
+        // TODO add your handling code here:
+        int i = tbl_users.getSelectedRow();
+        TableModel mod = tbl_users.getModel();
+        linfoUser.setText(mod.getValueAt(i, 0) + "");
+        l_username.setText(mod.getValueAt(i, 2) + "");
+        bt_enable.setVisible(idEmployer != parseInt(mod.getValueAt(i, 0) + ""));
     }
 
     public void cleanTable() {
@@ -107,15 +152,6 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         }
     }
 
-    private String SelectRow(int val) {
-        TableModel mod = tbl_users.getModel();
-        int i = tbl_users.getSelectedRow();
-        if (i < 0) {
-            i = 0;
-        }
-        return (String) mod.getValueAt(i, val);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -133,13 +169,6 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         bt_enable = new javax.swing.JButton();
         bt_edit = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Antigos Funcionários");
@@ -163,11 +192,6 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
 
     );
     tbl_users.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tbl_usersMouseClicked(evt);
-        }
-    });
     jScrollPane2.setViewportView(tbl_users);
 
     jLabel1.setText("Nº. de Utilizador:");
@@ -179,50 +203,8 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     l_username.setText("username");
 
     bt_enable.setText("Reademitir");
-    bt_enable.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bt_enableActionPerformed(evt);
-        }
-    });
 
     bt_edit.setText("Editar");
-    bt_edit.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bt_editActionPerformed(evt);
-        }
-    });
-
-    jMenu1.setText("File");
-
-    jMenuItem1.setText("Sair");
-    jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem1ActionPerformed(evt);
-        }
-    });
-    jMenu1.add(jMenuItem1);
-
-    jMenuBar1.add(jMenu1);
-
-    jMenu2.setText("Edit");
-    jMenuBar1.add(jMenu2);
-
-    jMenu3.setText("Utilizadores");
-
-    jMenuItem3.setText("Todos os Utilizadores");
-    jMenu3.add(jMenuItem3);
-
-    jMenuItem4.setText("Utilizadores Por Categoria");
-    jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jMenuItem4ActionPerformed(evt);
-        }
-    });
-    jMenu3.add(jMenuItem4);
-
-    jMenuBar1.add(jMenu3);
-
-    setJMenuBar(jMenuBar1);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -233,106 +215,44 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(88, 88, 88)
-                            .addComponent(linfoUser))
-                        .addComponent(jLabel1))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(36, 36, 36)
-                            .addComponent(l_username))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(bt_edit)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(bt_enable)))
-                    .addGap(0, 1040, Short.MAX_VALUE))))
+                    .addGap(88, 88, 88)
+                    .addComponent(linfoUser))
+                .addComponent(jLabel1))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jLabel6)
+            .addGap(36, 36, 36)
+            .addComponent(l_username)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bt_edit)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(bt_enable)
+            .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addComponent(linfoUser))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel6)
-                .addComponent(l_username))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(bt_enable)
-                .addComponent(bt_edit))
-            .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(linfoUser)
+                    .addComponent(jLabel6)
+                    .addComponent(l_username))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_enable)
+                    .addComponent(bt_edit)))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-    /**
-     *
-     * @param evt
-     */
-    private void tbl_usersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_usersMouseClicked
-        // TODO add your handling code here:
-        int i = tbl_users.getSelectedRow();
-        TableModel mod = tbl_users.getModel();
-        linfoUser.setText(mod.getValueAt(i, 0) + "");
-        l_username.setText(mod.getValueAt(i, 2) + "");
-        bt_enable.setVisible(this.idEmployer != parseInt(linfoUser.getText()));
-    }//GEN-LAST:event_tbl_usersMouseClicked
-    /**
-     *
-     * @param evt
-     */
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        try {
-            // TODO add your handling code here:
-            new Table_Users_Type(this.login, this.idService, this.idEmployer).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Employer_Old.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-    /**
-     *
-     * @param evt
-     */
-    private void bt_enableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_enableActionPerformed
-        enable();
-    }//GEN-LAST:event_bt_enableActionPerformed
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            int i = tbl_users.getSelectedRow();
-            TableModel mod = tbl_users.getModel();
-            int val = parseInt((String) mod.getValueAt(i, 0));
-            new EditEmployer(this.login, val ).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
     private javax.swing.JButton bt_enable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel l_username;
     private javax.swing.JLabel linfoUser;

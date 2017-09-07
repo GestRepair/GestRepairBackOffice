@@ -19,22 +19,79 @@ import vehicles.brands.APIBrand;
  */
 public class Table_Model extends javax.swing.JFrame {
 
-    private final String login;
-    APIModel api = new APIModel();
-    APIBrand apiBrand = new APIBrand();
     /**
      * Creates new form ListBrand
      *
      * @param login
      */
     public Table_Model(String login) {
+        APIModel api = new APIModel();
+        APIBrand apiBrand = new APIBrand();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        ListBrand(login);
-        this.login = login;
+        ListBrand(login, api, apiBrand);
+        Events(login, api, apiBrand);
     }
 
-    public void cleanTable() {
+    private void Events(final String login, final APIModel api, final APIBrand apiBrand) {
+        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login);
+            }
+        });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_INFO(evt, login);
+            }
+        });
+        cb_brand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_BRAND(evt, login, api, apiBrand);
+            }
+        });
+        tbl_model.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt);
+            }
+        });
+    }
+
+    private void CB_BRAND(java.awt.event.ActionEvent evt, String login, APIModel api, APIBrand apiBrand) {
+        try {
+            cleanTable();
+            String brand[][];
+            brand = apiBrand.Brand(login);
+            Table(api.Model(login, cb_val(brand)));
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new EditModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
+        try {
+            new InfoModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
+        int i = tbl_model.getSelectedRow();
+        row(i);
+    }
+
+    private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         mod.setRowCount(0);
     }
@@ -44,7 +101,8 @@ public class Table_Model extends javax.swing.JFrame {
      * @param login
      * @param id
      */
-    private void ListBrand(String login) {
+    private void ListBrand(String login, APIModel api, APIBrand apiBrand) {
+        cb_brand.removeAllItems();
         try {
             String brand[][] = apiBrand.Brand(login);
             for (int i = 0; i < brand.length; i++) {
@@ -59,7 +117,7 @@ public class Table_Model extends javax.swing.JFrame {
 
     private int cb_val(String[][] list) throws Exception {
         int id = cb_brand.getSelectedIndex();
-        return parseInt(list[(id==0)?id:id-1][0]);
+        return parseInt(list[id][0]);
     }
 
     private void row(int selected) {
@@ -118,11 +176,6 @@ public class Table_Model extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_model.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_modelMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_model);
 
         jLabel1.setText("Marca:");
@@ -136,25 +189,10 @@ public class Table_Model extends javax.swing.JFrame {
         l_idModel.setText("idmodelo");
 
         bt_edit_model.setText("Editar Modelo");
-        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_edit_modelActionPerformed(evt);
-            }
-        });
 
         bt_info.setText("Info");
-        bt_info.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_infoActionPerformed(evt);
-            }
-        });
 
         cb_brand.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
-        cb_brand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_brandActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,41 +247,6 @@ public class Table_Model extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbl_modelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_modelMouseClicked
-        int i = tbl_model.getSelectedRow();
-        row(i);
-    }//GEN-LAST:event_tbl_modelMouseClicked
-
-    private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
-        try {
-            cleanTable();
-            String brand[][];
-            brand = apiBrand.Brand(this.login);
-            Table(api.Model(login, cb_val(brand)));
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_cb_brandActionPerformed
-
-    private void bt_edit_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_modelActionPerformed
-        try {
-            new EditModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_edit_modelActionPerformed
-
-    private void bt_infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_infoActionPerformed
-        try {
-            new InfoModel(this.login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_infoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit_model;

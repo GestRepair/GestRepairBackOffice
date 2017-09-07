@@ -17,8 +17,6 @@ import org.json.simple.parser.ParseException;
  */
 public final class AddFuel extends javax.swing.JFrame {
 
-    APIFuel api = new APIFuel();
-
     /**
      * Creates new form AddFuel
      *
@@ -26,21 +24,22 @@ public final class AddFuel extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      */
     public AddFuel(String login) throws ParseException, Exception {
+        APIFuel api = new APIFuel();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        Events(login);
+        Events(login,api);
     }
 
-    private void Events(final String login) {
+    private void Events(final String login, final APIFuel api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADD(evt, login);
+                BT_ADD(evt, login, api);
             }
         });
     }
 
-    private void BT_ADD(java.awt.event.ActionEvent evt, String login) {
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIFuel api) {
         try {
             int tfuel = tf_fuel.getText().length();
             if (tfuel < 0 || tfuel > 50) {

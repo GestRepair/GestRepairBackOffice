@@ -9,20 +9,12 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vehicles.brands.APIBrand;
-import vehicles.models.APIModel;
 
 /**
  *
  * @author Rui Barcelos
  */
 public class EditFuel extends javax.swing.JFrame {
-
-    APIFuel api = new APIFuel();
-    APIBrand apiBrand = new APIBrand();
-    APIModel apiModel = new APIModel();
-    private final String login;
-    private final int id;
 
     /**
      * Creates new form EditVehicle
@@ -32,17 +24,44 @@ public class EditFuel extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditFuel(String login, int id) throws Exception {
+        APIFuel api = new APIFuel();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        InfoVehicle(login, id);
-        this.login = login;
-        this.id = id;
+        InfoFuel(login, id, api);
+        Events(login, id, api);
     }
 
-    private void InfoVehicle(String login, int id) throws Exception {
+    private void InfoFuel(String login, int id, APIFuel api) throws Exception {
         String fuel[] = api.InfoFuel(login, id);
         l_id.setText(fuel[0]);
         tf_fuel.setText(fuel[1]);
+    }
+
+    private void Events(final String login, final int id, final APIFuel api) throws Exception {
+        bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, id, api);
+            }
+        });
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIFuel api) {
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String[] value = api.PutFuel(login, id, tf_fuel.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    new Table_Fuel(login).setVisible(true);
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,11 +89,6 @@ public class EditFuel extends javax.swing.JFrame {
         jLabel10.setText("Combustível");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,24 +125,6 @@ public class EditFuel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.PutFuel(this.login, this.id, tf_fuel.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    new Table_Fuel(this.login).setVisible(true);
-                    dispose();
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_editActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

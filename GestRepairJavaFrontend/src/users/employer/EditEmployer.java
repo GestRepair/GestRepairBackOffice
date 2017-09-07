@@ -18,9 +18,6 @@ import services.APIService;
  */
 public class EditEmployer extends javax.swing.JFrame {
 
-    APIService apiService = new APIService();
-    APIEmployer api = new APIEmployer();
-
     /**
      * Creates new form EditEmployer
      *
@@ -29,11 +26,13 @@ public class EditEmployer extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditEmployer(String login, int id) throws Exception {
+        APIService apiService = new APIService();
+        APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         insertCb(apiService.Service(login));
-        int idEmployer = parseInt(GetInfo(login, id));
-        Events(login,id,idEmployer); 
+        int idEmployer = parseInt(GetInfo(login, id, api));
+        Events(login, id, idEmployer, api, apiService);
     }
 
     /**
@@ -59,7 +58,7 @@ public class EditEmployer extends javax.swing.JFrame {
         return (val == 0) ? 1 : parseInt(list[val][0]);
     }
 
-    private String GetInfo(String login, int id) throws Exception {
+    private String GetInfo(String login, int id, APIEmployer api) throws Exception {
         String emp[] = api.InfoEmployer(login, id);
         l_idEmployer.setText(emp[0]);
         l_name.setText(emp[1]);
@@ -71,16 +70,17 @@ public class EditEmployer extends javax.swing.JFrame {
         }
         return emp[0];
     }
-    private void Events(final String login, final int idUser,final int idEmp) {
+
+    private void Events(final String login, final int idUser, final int idEmp, final APIEmployer api, final APIService apiService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_EditEmployer(evt, login, idUser,idEmp);
+                BT_EditEmployer(evt, login, idUser, idEmp, api, apiService);
             }
         });
     }
 
-    private void BT_EditEmployer(java.awt.event.ActionEvent evt, String login, int idUser,final int idEmp) {
+    private void BT_EditEmployer(java.awt.event.ActionEvent evt, String login, int idUser, int idEmp, APIEmployer api, APIService apiService) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Deseja Alterar o serviço deste funcionário para " + cb_service.getSelectedItem() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
@@ -88,14 +88,15 @@ public class EditEmployer extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, value[1]);
                 if ("ok".equals(value[0])) {
                     dispose();
-                } 
-            } else if(x == JOptionPane.NO_OPTION){
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "O serviço não foi alterado!");
             }
         } catch (Exception ex) {
             Logger.getLogger(EditEmployer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

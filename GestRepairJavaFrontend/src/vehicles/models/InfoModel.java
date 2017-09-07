@@ -16,10 +16,6 @@ import vehicles.vehicles.APIVehicles;
  */
 public class InfoModel extends javax.swing.JFrame {
 
-    private final String login;
-    private final int id;
-    APIModel api = new APIModel();
-
     /**
      * Creates new form InfoModel
      *
@@ -28,12 +24,29 @@ public class InfoModel extends javax.swing.JFrame {
      * @param brand
      */
     public InfoModel(String login, int id, String brand) {
+        APIModel api = new APIModel();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         l_brand.setText(brand);
-        InfoModel(login, id);
-        this.id = id;
-        this.login = login;
+        InfoModel(login, id, api);
+        Events(login, id, brand);
+    }
+
+    private void Events(final String login, final int id, final String brand) {
+        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_EDIT(evt, login, id, brand);
+            }
+        });
+    }
+
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, String brand) {
+        try {
+            new EditModel(login, id, brand).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -41,16 +54,15 @@ public class InfoModel extends javax.swing.JFrame {
      * @param login
      * @param id
      */
-    private void InfoModel(String login, int id) {
+    private void InfoModel(String login, int id, APIModel api) {
         try {
-            String brand[] = api.InfoModel(login,id);
+            String brand[] = api.InfoModel(login, id);
             l_idModel.setText(brand[0]);
-            l_nameModel.setText(brand[1]); 
+            l_nameModel.setText(brand[1]);
         } catch (Exception ex) {
             Logger.getLogger(InfoModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,6 +80,7 @@ public class InfoModel extends javax.swing.JFrame {
         bt_edit_model = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         l_brand = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação do Modelo");
@@ -81,41 +94,45 @@ public class InfoModel extends javax.swing.JFrame {
         l_nameModel.setText("nomeModelo");
 
         bt_edit_model.setText("Editar Modelo");
-        bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_edit_modelActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Marca:");
 
         l_brand.setText("marca");
 
+        jLabel4.setText("Detalhes do modelo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_nameModel)
-                    .addComponent(l_idModel)
-                    .addComponent(l_brand))
-                .addGap(117, 117, 117))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bt_edit_model)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(l_nameModel)
+                            .addComponent(l_idModel)
+                            .addComponent(l_brand))
+                        .addGap(117, 117, 117))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(l_idModel))
@@ -127,7 +144,7 @@ public class InfoModel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(l_brand))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_edit_model)
                 .addContainerGap())
         );
@@ -135,20 +152,12 @@ public class InfoModel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_edit_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_edit_modelActionPerformed
-        try {
-            new EditModel(this.login,this.id, l_brand.getText()).setVisible(true);
-            dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_edit_modelActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit_model;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel l_brand;
     private javax.swing.JLabel l_idModel;
     private javax.swing.JLabel l_nameModel;

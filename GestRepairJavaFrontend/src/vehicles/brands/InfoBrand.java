@@ -4,7 +4,6 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import vehicles.vehicles.APIVehicles;
 import vehicles.models.EditModel;
 import vehicles.models.InfoModel;
 import vehicles.models.Table_Model;

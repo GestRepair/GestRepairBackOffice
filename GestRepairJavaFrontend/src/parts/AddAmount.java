@@ -7,7 +7,6 @@ package parts;
 
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
-import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
 
 /**
@@ -16,9 +15,6 @@ import services.APIService;
  */
 public final class AddAmount extends javax.swing.JFrame {
 
-    APIParts api = new APIParts();
-    APIService apiService = new APIService();
-    
     /**
      * Creates new form AddRepair
      *
@@ -27,32 +23,32 @@ public final class AddAmount extends javax.swing.JFrame {
      * @param idService
      * @throws java.lang.Exception
      */
-    public AddAmount(String login,int idPart ,int idService) throws Exception {
+    public AddAmount(String login, int idPart, int idService) throws Exception {
+        APIParts api = new APIParts();
         initComponents();
-        l_idPart.setText(idPart+"");
-        Events(login,idPart,idService);
+        l_idPart.setText(idPart + "");
+        Events(login, idPart, idService,api);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-
 
     }
 
-    private void Events(final String login, final int idPart, final int idService) {
+    private void Events(final String login, final int idPart, final int idService, final APIParts api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt,login,idPart,idService);
+                BT_addPost(evt, login, idPart, idService,api);
             }
         });
     }
 
-    private void BT_addPost(java.awt.event.ActionEvent evt,String login, int idPart, int idService) {
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService, APIParts api) {
         try {
             if (tf_amount.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String value[] = api.PUTAmount(login, sendData(),idPart);
+                    String value[] = api.PUTAmount(login, sendData(), idPart);
                     JOptionPane.showMessageDialog(this, value[1]);
-                    if ("ok".equals(value[0])) {        
+                    if ("ok".equals(value[0])) {
                         new InfoParts(login, idPart, idService).setVisible(true);
                         dispose();
                     }

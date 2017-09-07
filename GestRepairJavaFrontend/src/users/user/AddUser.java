@@ -17,17 +17,16 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  */
 public class AddUser extends javax.swing.JFrame {
 
-    APIUsers api = new APIUsers();
-
     /**
      * Creates new form AddUserForm
      *
      * @param login
      */
     public AddUser(String login) {
+        APIUsers api = new APIUsers();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        Events(login);
+        Events(login, api);
     }
 
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -62,11 +61,11 @@ public class AddUser extends javax.swing.JFrame {
         return data;
     }
 
-    private void Events(final String login) {
+    private void Events(final String login, final APIUsers api) {
         bt_add_user.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Add_User(evt, login);
+                BT_Add_User(evt, login, api);
             }
         });
         m_exit.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +77,6 @@ public class AddUser extends javax.swing.JFrame {
     }
 
     // validate the nif number
-
     private boolean validateNIF(String nif) {
         int zerm = 9 * nif.charAt(0);
         int firm = 8 * nif.charAt(1);
@@ -91,11 +89,11 @@ public class AddUser extends javax.swing.JFrame {
         int sum = zerm + firm + secm + trem + form + fivm + sixm + sevm;
         int resNif = sum % 11;
         resNif = (resNif == 0 || resNif == 1) ? 0 : (11 - resNif);
-        return (parseInt(nif.charAt(8)+"") == resNif && nif.length() == 9);
+        return (parseInt(nif.charAt(8) + "") == resNif && nif.length() == 9);
 
     }
 
-    private void BT_Add_User(java.awt.event.ActionEvent evt, String login) {
+    private void BT_Add_User(java.awt.event.ActionEvent evt, String login, APIUsers api) {
         try {
             if (tf_username.getText().length() > 5 && tfnome.getText().length() > 5 && tfmorada.getText().length() > 5 && tflocalidade.getText().length() > 3) {
                 //https://stackoverflow.com/questions/8204680/java-regex-email

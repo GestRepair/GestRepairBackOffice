@@ -73,57 +73,36 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Viaturas"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_showvehiclesActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_model">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Modelo"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_modelActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_addBrand">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Marca"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addBrandActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_lBrand">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Marcas"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_lBrandActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_lmodel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Modelos"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_lmodelActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_fuel_list">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lista de Combust&#xed;veis"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_fuel_listActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bt_fuel_add">
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar Combust&#xed;vel"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_fuel_addActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

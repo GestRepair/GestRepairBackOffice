@@ -8,6 +8,8 @@ package vehicles.vehicles;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
@@ -21,33 +23,29 @@ import vehicles.models.APIModel;
  */
 public final class AddVehicle extends javax.swing.JFrame {
 
-    APIVehicles api = new APIVehicles();
-    APIBrand apiBrand = new APIBrand();
-    APIModel apiModel = new APIModel();
-    APIFuel apiFuel = new APIFuel();
-
-    private final String login;
-    private final int id;
-
     /**
      * Creates new form AddVehicle
      *
      * @param login
      * @param id
      * @param user
+     * @param vehicle
      * @throws org.json.simple.parser.ParseException
      */
     public AddVehicle(String login, int id, String user, String vehicle) throws ParseException, Exception {
+        APIVehicles api = new APIVehicles();
+        APIBrand apiBrand = new APIBrand();
+        APIModel apiModel = new APIModel();
+        APIFuel apiFuel = new APIFuel();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_id.setText(id + "");
         l_username.setText(user);
-        tf_registration.setText(vehicle);
-        this.login = login;
-        this.id = id;
+        l_registration.setText(vehicle);
         showBrand(apiBrand.Brand(login));
         showModel(apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login))));
         showFuel(apiFuel.Fuel(login));
+        Events(login, id, api, apiModel, apiBrand, apiFuel);
     }
 
     public void showBrand(String[][] list) {
@@ -79,10 +77,10 @@ public final class AddVehicle extends javax.swing.JFrame {
         }
     }
 
-    private String[] data(String login) throws Exception {
+    private String[] data(String login, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) throws Exception {
         String data[] = new String[9];
         data[0] = newIdCb(cb_model.getSelectedIndex(), apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";
-        data[1] = tf_registration.getText();
+        data[1] = l_registration.getText();
         data[2] = newIdCb(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
         data[3] = tf_horsepower.getText();
         data[4] = tf_displacement.getText();
@@ -91,6 +89,58 @@ public final class AddVehicle extends javax.swing.JFrame {
         data[7] = tf_reartiresize.getText();
         data[8] = tf_date.getText();
         return data;
+    }
+    private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
+
+    private static boolean validateNumber(String numberStr) {
+        Matcher matcher = VALID_NUMBER_REGEX.matcher(numberStr);
+        return matcher.find();
+    }
+
+    private void Events(final String login, final int id, final APIVehicles api, final APIModel apiModel, final APIBrand apiBrand, final APIFuel apiFuel) {
+        bt_add.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ADD(evt, login, id, api, apiModel, apiBrand, apiFuel);
+            }
+        });
+        cb_brand.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_BRAND(evt, login, apiModel, apiBrand);
+            }
+        });
+
+    }
+
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
+        if (validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length()>8) {
+            try {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String[] value = api.POSTAddVehicle(login, id, data(login, apiModel, apiBrand, apiFuel));
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Erro Interno");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Verifique se os dados estão corretos");
+        }
+    }
+
+    private void CB_BRAND(java.awt.event.ActionEvent evt, String login, APIModel apiModel, APIBrand apiBrand) {
+        try {
+            showModel(apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login))));
+        } catch (Exception ex) {
+            Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -117,7 +167,6 @@ public final class AddVehicle extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         tf_displacement = new javax.swing.JTextField();
-        tf_registration = new javax.swing.JFormattedTextField();
         tf_reartiresize = new javax.swing.JTextField();
         tf_fronttiresize = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -127,20 +176,18 @@ public final class AddVehicle extends javax.swing.JFrame {
         l_id = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         l_username = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        l_registration = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Adicionar Viatura");
+        setResizable(false);
 
         jLabel1.setText("Matrícula");
 
         jLabel2.setText("Marca");
 
         cb_brand.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
-        cb_brand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_brandActionPerformed(evt);
-            }
-        });
 
         cb_model.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -160,28 +207,11 @@ public final class AddVehicle extends javax.swing.JFrame {
 
         jLabel8.setText("Cilindrada");
 
-        try {
-            tf_registration.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("AA-AA-AA")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        tf_reartiresize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_reartiresizeActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("Pneu Frente");
 
         jLabel10.setText("Pneu Trás");
 
         bt_add.setText("Adicionar Viatura");
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addActionPerformed(evt);
-            }
-        });
 
         jLabel11.setText("Utilizador n.º:");
 
@@ -191,72 +221,79 @@ public final class AddVehicle extends javax.swing.JFrame {
 
         l_username.setText("user");
 
+        jLabel13.setText("Adicione uma nova Viatura");
+
+        l_registration.setText("matricula");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel13)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_add))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(l_id)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(l_username))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(bt_add)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cb_brand, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cb_fuel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cb_model, 0, 300, Short.MAX_VALUE)
-                                    .addComponent(tf_date)
-                                    .addComponent(tf_registration))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(tf_reartiresize)
-                                    .addComponent(tf_horsepower)
-                                    .addComponent(tf_kilometers)
-                                    .addComponent(tf_displacement)
-                                    .addComponent(tf_fronttiresize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(l_id)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(l_username)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(cb_model, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(l_registration))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel10))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tf_reartiresize)
+                                .addComponent(tf_horsepower)
+                                .addComponent(tf_kilometers)
+                                .addComponent(tf_displacement)
+                                .addComponent(tf_fronttiresize, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel13)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(l_id)
                     .addComponent(jLabel12)
                     .addComponent(l_username))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tf_registration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel6)
-                    .addComponent(tf_kilometers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_kilometers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(l_registration))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -281,43 +318,13 @@ public final class AddVehicle extends javax.swing.JFrame {
                     .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(tf_reartiresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(bt_add)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cb_brandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_brandActionPerformed
-        try {
-            showModel(apiModel.Model(this.login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(this.login))));
-        } catch (Exception ex) {
-            Logger.getLogger(AddVehicle.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cb_brandActionPerformed
-
-    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.POSTAddVehicle(this.login, this.id, data(this.login));
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
-                }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
-            }
-
-        } catch (Exception ex) {
-            Logger.getLogger(EditVehicle.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_bt_addActionPerformed
-
-    private void tf_reartiresizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_reartiresizeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_reartiresizeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;
@@ -328,6 +335,7 @@ public final class AddVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -337,6 +345,7 @@ public final class AddVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel l_id;
+    private javax.swing.JLabel l_registration;
     private javax.swing.JLabel l_username;
     private javax.swing.JFormattedTextField tf_date;
     private javax.swing.JTextField tf_displacement;
@@ -344,6 +353,5 @@ public final class AddVehicle extends javax.swing.JFrame {
     private javax.swing.JTextField tf_horsepower;
     private javax.swing.JTextField tf_kilometers;
     private javax.swing.JTextField tf_reartiresize;
-    private javax.swing.JFormattedTextField tf_registration;
     // End of variables declaration//GEN-END:variables
 }

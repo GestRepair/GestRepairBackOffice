@@ -22,9 +22,6 @@ import users.user.Table_Users_Type;
  * @author Convite
  */
 public final class Table_Employer extends javax.swing.JFrame {
-
-    APIEmployer api = new APIEmployer();
-
     /**
      *
      * @param login
@@ -34,12 +31,13 @@ public final class Table_Employer extends javax.swing.JFrame {
      * @throws ParseException
      */
     public Table_Employer(String login, int idService, int idEmployer) throws IOException, ParseException, Exception {
+        APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowEmployer(login, 1, 0));
         tbl_usersStart();
         TableColumn col = tbl_users.getColumnModel().getColumn(1);
-        Events(login, idService, idEmployer);
+        Events(login, idService, idEmployer, api);
         tbl_users.removeColumn(col);
         bt_disable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
     }
@@ -76,7 +74,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idService, final int idEmployer) {
+    private void Events(final String login, final int idService, final int idEmployer,final APIEmployer api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +84,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         bt_disable.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Disable(evt, login);
+                BT_Disable(evt, login, api);
             }
         });
         mi_upc.addActionListener(new java.awt.event.ActionListener() {
@@ -134,7 +132,7 @@ public final class Table_Employer extends javax.swing.JFrame {
      * @param evt
      * @param login
      */
-    public void BT_Disable(java.awt.event.ActionEvent evt, String login) {
+    public void BT_Disable(java.awt.event.ActionEvent evt, String login, APIEmployer api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {

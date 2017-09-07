@@ -28,9 +28,6 @@ import vehicles.vehicles.VerifyVehicle;
  */
 public final class Table_Users_Type extends javax.swing.JFrame {
 
-    APIUsers api = new APIUsers();
-    APIEmployer apiEmployer = new APIEmployer();
-
     /**
      * Start the interface and need elements
      *
@@ -39,20 +36,22 @@ public final class Table_Users_Type extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public Table_Users_Type(String login, int idService, int idEmployer) throws Exception {
+        APIUsers api = new APIUsers();
+        APIEmployer apiEmployer = new APIEmployer();
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
-        Events(login, idService, idEmployer);
-        tbl_usersStart(login);
+        Events(login, idService, idEmployer,api);
+        tbl_usersStart(login, api);
         int gest = parseInt(apiEmployer.GetInfoEmployerUser(login, idService)[0]);
         bt_edit.setVisible(gest == 1);
         bt_addEmployer.setVisible(gest == 1);
 
     }
 
-    public void upTable(String login) throws Exception {
+    public void upTable(String login, APIUsers api) throws Exception {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
-        tbl_usersStart(login);
+        tbl_usersStart(login, api);
     }
 
     private void showTable(String[][] list) {
@@ -66,13 +65,27 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 mod.addRow(row);
             }
             tbl_users.setRowSelectionInterval(0, 0);
+            bt_add_vehicle.setVisible(true);
+            bt_budgets.setVisible(true);
+            bt_edit.setVisible(true);
+            bt_repair.setVisible(true);
+            bt_schedule.setVisible(true);
+            bt_userdata.setVisible(true);
+            bt_vehicles.setVisible(true);
         } else {
+            bt_add_vehicle.setVisible(false);
+            bt_budgets.setVisible(false);
+            bt_edit.setVisible(false);
+            bt_repair.setVisible(false);
+            bt_schedule.setVisible(false);
+            bt_userdata.setVisible(false);
+            bt_vehicles.setVisible(false);
             JOptionPane.showMessageDialog(this, "Não existe dados");
             dispose();
         }
     }
 
-    private void tbl_usersStart(String login) throws Exception {
+    private void tbl_usersStart(String login, APIUsers api) throws Exception {
         int cb = cbType.getSelectedIndex();
         showTable(api.ShowUser(login, cb));
         bt_info_func.setVisible(cb != 0);
@@ -80,7 +93,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         l_username.setText(SearchTable(0, 8));
     }
 
-    private void Events(final String login, final int idService, final int idEmployer) {
+    private void Events(final String login, final int idService, final int idEmployer, final APIUsers api) {
         bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +151,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         cbType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_Service(evt, login);
+                CB_Service(evt, login, api);
             }
         });
         MI_UserType.addActionListener(new java.awt.event.ActionListener() {
@@ -246,14 +259,14 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
-    private void CB_Service(java.awt.event.ActionEvent evt, String login) {
+    private void CB_Service(java.awt.event.ActionEvent evt, String login, APIUsers api) {
         try {
             if (cbType.getSelectedIndex() == 0) {
                 bt_addEmployer.setText("Adicionar Funcionário");
             } else {
                 bt_addEmployer.setText("Editar Funcionário");
             }
-            upTable(login);
+            upTable(login, api);
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
         }

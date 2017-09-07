@@ -16,9 +16,6 @@ import services.APIService;
  */
 public final class AddEmployer extends javax.swing.JFrame {
 
-    APIService apiService = new APIService();
-    APIEmployer api = new APIEmployer();
-
     /**
      * Creates new form AddEmployer Create Employers
      *
@@ -28,10 +25,12 @@ public final class AddEmployer extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddEmployer(String login, int idUser, String username) throws Exception {
+        APIService apiService = new APIService();
+        APIEmployer api = new APIEmployer();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
-        Events(login, idUser);
-        lnuser.setText(idUser+"");
+        Events(login, idUser, api, apiService);
+        lnuser.setText(idUser + "");
         lusername.setText(username);
         showService(apiService.Service(login));
     }
@@ -46,16 +45,17 @@ public final class AddEmployer extends javax.swing.JFrame {
     private int newIdCb(int val, String[][] list) {
         return (val < 1) ? 1 : parseInt(list[val][0]);
     }
-    private void Events(final String login, final int idUser) {
+
+    private void Events(final String login, final int idUser, final APIEmployer api, final APIService apiService) {
         bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addEmployer(evt, login, idUser);
+                BT_addEmployer(evt, login, idUser,api,apiService);
             }
         });
     }
 
-    private void BT_addEmployer(java.awt.event.ActionEvent evt, String login, int idUser) {
+    private void BT_addEmployer(java.awt.event.ActionEvent evt, String login, int idUser, APIEmployer api, APIService apiService) {
         int serv;
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -74,6 +74,7 @@ public final class AddEmployer extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro a adicionar funcionário!\n Verifique se os dados estão corretos");
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
