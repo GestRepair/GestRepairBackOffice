@@ -25,7 +25,6 @@ public final class AddFuel extends javax.swing.JFrame {
      */
     public AddFuel(String login) throws ParseException, Exception {
         APIFuel api = new APIFuel();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         Events(login,api);
     }

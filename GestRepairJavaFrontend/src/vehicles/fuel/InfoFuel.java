@@ -23,7 +23,6 @@ public class InfoFuel extends javax.swing.JFrame {
      */
     public InfoFuel(String login, int id) {
         APIFuel api = new APIFuel();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         Info(login, id, api);
         Events(login, id, api);

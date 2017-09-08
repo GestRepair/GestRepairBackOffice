@@ -30,7 +30,6 @@ public class MainUsers extends javax.swing.JFrame {
      */
     public MainUsers(String login, int idService, int idEmployer) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login, idService,idEmployer);
     }
 

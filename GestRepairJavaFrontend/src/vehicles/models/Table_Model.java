@@ -4,7 +4,6 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import vehicles.vehicles.APIVehicles;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import vehicles.brands.APIBrand;
 
@@ -28,7 +27,6 @@ public class Table_Model extends javax.swing.JFrame {
         APIModel api = new APIModel();
         APIBrand apiBrand = new APIBrand();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         ListBrand(login, api, apiBrand);
         Events(login, api, apiBrand);
     }

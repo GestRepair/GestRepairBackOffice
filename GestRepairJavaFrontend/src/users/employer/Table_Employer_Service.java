@@ -39,7 +39,6 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         initComponents();
         TableColumn col = tbl_users.getColumnModel().getColumn(1);
         tbl_users.removeColumn(col);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         insertCb(apiService.Service(login));
         showTable(api.ShowEmployer(login, 1, 1));
         tbl_usersStart();

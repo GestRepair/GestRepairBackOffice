@@ -5,13 +5,10 @@
  */
 package repairs.employers;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.table.DefaultTableModel;
-import services.APIService;
-import users.employer.APIEmployer;
 
 /**
  *
@@ -30,7 +27,6 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
     public Table_Employer_Repair(String login, int idRepair, int idService) throws Exception {
         APIEmployerRepair api = new APIEmployerRepair();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.EployerRepairs(login, idRepair));
         Events(login, idRepair, idService);
     }

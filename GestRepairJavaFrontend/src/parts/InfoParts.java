@@ -24,10 +24,8 @@ public final class InfoParts extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public InfoParts(String login, int idPart, int idService) throws Exception {
-        
         initComponents();
         Events(login, idPart, idService);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         GetData(login, idPart);
     }
 

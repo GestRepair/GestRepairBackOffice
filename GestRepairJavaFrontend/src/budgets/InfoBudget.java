@@ -23,7 +23,7 @@ public class InfoBudget extends javax.swing.JFrame {
      * @throws Exception
      */
     public InfoBudget(String login, int idBudget) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idBudget);
         Events(login, idBudget);

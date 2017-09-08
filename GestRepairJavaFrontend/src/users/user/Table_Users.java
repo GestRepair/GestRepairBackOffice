@@ -35,7 +35,6 @@ public final class Table_Users extends javax.swing.JFrame {
      */
     public Table_Users(String login, int idService, int idEmployer) throws Exception {
         APIUsers api = new APIUsers();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowUser(login, 2));
         tbl_usersStart();

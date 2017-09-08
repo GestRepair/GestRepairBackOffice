@@ -34,7 +34,6 @@ public final class Table_Vehicles extends javax.swing.JFrame {
     public Table_Vehicles(String login, int idEmployer, int idService) throws Exception {
         APIVehicles api = new APIVehicles();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.vehicles(login, 0));
         row(0);
         Events(login, idEmployer, idService, api);

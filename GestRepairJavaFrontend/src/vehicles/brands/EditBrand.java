@@ -26,7 +26,6 @@ public final class EditBrand extends javax.swing.JFrame {
      */
     public EditBrand(String login, int id) throws Exception {
         APIBrand api = new APIBrand();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         InfoBrand(login, id, api);
         Events(login, api);

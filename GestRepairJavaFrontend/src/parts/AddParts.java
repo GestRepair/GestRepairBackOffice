@@ -28,7 +28,6 @@ public final class AddParts extends javax.swing.JFrame {
         APIService apiService = new APIService();
         initComponents();
         Events(login,apiService);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showService(apiService.Service(login));
         cb_service.removeItemAt(0);
         cb_service.removeItemAt(0);

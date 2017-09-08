@@ -1,9 +1,7 @@
 package vehicles.models;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import vehicles.vehicles.APIVehicles;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,7 +24,6 @@ public class InfoModel extends javax.swing.JFrame {
     public InfoModel(String login, int id, String brand) {
         APIModel api = new APIModel();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         l_brand.setText(brand);
         InfoModel(login, id, api);
         Events(login, id, brand);

@@ -30,7 +30,6 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         APIService apiService = new APIService();
         APIEmployer apiEmployer = new APIEmployer();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showService(apiService.ShowNotRepairService(login, idRepair));
         showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair))));
         Events(login,idRepair,api, apiEmployer,apiService);

@@ -24,7 +24,7 @@ public class EditBudget extends javax.swing.JFrame {
      */
     public EditBudget(String login, int idBudget) throws Exception {
         APIBudgets api = new APIBudgets();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idBudget,api);
         Events(login, idBudget, api);

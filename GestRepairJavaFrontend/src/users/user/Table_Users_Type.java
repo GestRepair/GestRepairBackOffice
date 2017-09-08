@@ -39,7 +39,6 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         APIUsers api = new APIUsers();
         APIEmployer apiEmployer = new APIEmployer();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         Events(login, idService, idEmployer,api);
         tbl_usersStart(login, api);
         int gest = parseInt(apiEmployer.GetInfoEmployerUser(login, idService)[0]);

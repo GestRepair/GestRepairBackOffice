@@ -26,10 +26,11 @@ public class MainVehicles extends javax.swing.JFrame {
      * Creates new form mainVehicles
      *
      * @param login
+     * @param idEmployer
+     * @param idService
      */
     public MainVehicles(String login, int idEmployer, int idService) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login, idEmployer, idService);
     }
 

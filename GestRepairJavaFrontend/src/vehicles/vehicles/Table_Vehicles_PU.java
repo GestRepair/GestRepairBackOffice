@@ -27,12 +27,13 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
      *
      * @param login
      * @param id
+     * @param idEmployer
+     * @param idService
      * @throws java.lang.Exception
      */
     public Table_Vehicles_PU(String login, int id, int idEmployer, int idService) throws Exception {
         initComponents();
         APIVehicles api = new APIVehicles();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.vehicles(login, id));
         row(0);
         Events(login, id, idEmployer, idService, api);

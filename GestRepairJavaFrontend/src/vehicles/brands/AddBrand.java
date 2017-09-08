@@ -28,7 +28,6 @@ public class AddBrand extends javax.swing.JFrame {
      */
     public AddBrand(String login) {
         APIBrand api = new APIBrand();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         Events(login,api);
     }

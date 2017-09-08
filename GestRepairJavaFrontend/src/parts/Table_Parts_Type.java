@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,6 @@ import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
 import services.APIService;
-import users.employer.APIEmployer;
 
 /**
  *
@@ -35,7 +33,6 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         APIParts api = new APIParts();
         APIService apiService = new APIService();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showService(apiService.Service(login));
         Events(login, idService, api, apiService);
         if (idService != 1 || idService != 2) {

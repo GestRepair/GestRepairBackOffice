@@ -37,7 +37,6 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         APIEmployer api = new APIEmployer();
         APIService apiService = new APIService();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         insertCb(apiService.Service(login));
         showTable(api.ShowEmployer(login, 0, 1));
         bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);

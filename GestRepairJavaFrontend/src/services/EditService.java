@@ -33,7 +33,6 @@ public final class EditService extends javax.swing.JFrame {
      */
     public EditService(String login, int id) throws Exception {
         APIService api = new APIService();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         info(api.GetInfo(login, id));
         Events(login, id, api);

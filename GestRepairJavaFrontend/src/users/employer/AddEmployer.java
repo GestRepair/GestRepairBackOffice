@@ -27,7 +27,6 @@ public final class AddEmployer extends javax.swing.JFrame {
     public AddEmployer(String login, int idUser, String username) throws Exception {
         APIService apiService = new APIService();
         APIEmployer api = new APIEmployer();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         lnuser.setText(idUser + "");
         lusername.setText(username);

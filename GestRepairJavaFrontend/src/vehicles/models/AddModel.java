@@ -27,7 +27,6 @@ public final class AddModel extends javax.swing.JFrame {
     public AddModel(String login) throws Exception {
         APIModel api = new APIModel();
         APIBrand apiBrand = new APIBrand();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showBrand(apiBrand.Brand(login));
         Events(login, api, apiBrand);

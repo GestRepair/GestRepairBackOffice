@@ -6,7 +6,6 @@
 package repairs;
 
 import repairs.repairs.Table_Repairs;
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import repairs.parts.AddParts;
@@ -25,7 +24,6 @@ public class MainRepairs extends javax.swing.JFrame {
      */
     public MainRepairs(String login,int idService) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login,idService);
     }
     

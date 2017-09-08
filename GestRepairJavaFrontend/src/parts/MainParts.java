@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +23,6 @@ public class MainParts extends javax.swing.JFrame {
     public MainParts(String login, int idService) {
         initComponents();
         Events(login, idService);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
     private void Events(final String login, final int idService) {

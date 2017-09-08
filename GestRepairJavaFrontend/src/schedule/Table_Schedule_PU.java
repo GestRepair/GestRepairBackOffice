@@ -28,7 +28,6 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
     public Table_Schedule_PU(String login, int id) throws Exception {
         APISchedule api = new APISchedule();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
         ShowDate(login, api);
         showTable(api.ListTimeUser(login, i, id));

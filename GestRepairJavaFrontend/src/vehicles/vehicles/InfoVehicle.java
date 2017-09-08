@@ -22,7 +22,6 @@ public class InfoVehicle extends javax.swing.JFrame {
      */
     public InfoVehicle(String login, int id) {
         APIVehicles api = new APIVehicles();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         Info(login,id,api);
         Events(login,id);

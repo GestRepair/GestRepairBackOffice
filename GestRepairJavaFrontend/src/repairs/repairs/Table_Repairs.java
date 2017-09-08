@@ -34,7 +34,6 @@ public final class Table_Repairs extends javax.swing.JFrame {
     public Table_Repairs(String login, int idService) throws Exception {
         APIRepair api = new APIRepair();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.ListRepairs(login, 0));
         Events(login,idService);
         row();

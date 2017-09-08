@@ -26,7 +26,6 @@ public class EditFuel extends javax.swing.JFrame {
     public EditFuel(String login, int id) throws Exception {
         APIFuel api = new APIFuel();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         InfoFuel(login, id, api);
         Events(login, id, api);
     }

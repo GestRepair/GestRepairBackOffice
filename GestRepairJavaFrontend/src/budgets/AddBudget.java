@@ -33,7 +33,7 @@ public final class AddBudget extends javax.swing.JFrame {
 
         APIService apiService = new APIService();
         APIVehicles apiVehicles = new APIVehicles();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login, idVehicle, idService, apiService);
         l_vehicle.setText(apiVehicles.InfoVehicle(login, idVehicle)[3]);
         if (idService == 1 || idService == 2) {

@@ -34,7 +34,6 @@ public class InfoBrand extends javax.swing.JFrame {
         APIBrand api = new APIBrand();
         APIModel apiModel = new APIModel();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         InfoBrand(login, id, api, apiModel);
         Events(login, id, api, apiModel);
         this.id = id;

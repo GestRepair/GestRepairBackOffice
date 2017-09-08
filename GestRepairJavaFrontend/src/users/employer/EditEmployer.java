@@ -28,7 +28,6 @@ public class EditEmployer extends javax.swing.JFrame {
     public EditEmployer(String login, int id) throws Exception {
         APIService apiService = new APIService();
         APIEmployer api = new APIEmployer();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         insertCb(apiService.Service(login));
         int idEmployer = parseInt(GetInfo(login, id, api));

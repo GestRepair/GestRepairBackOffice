@@ -29,7 +29,6 @@ public final class EditUser extends javax.swing.JFrame {
     public EditUser(String login, int id) throws Exception {
         APIUsers api = new APIUsers();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         GetInfo(login, id, api);
         Events(login, id, api);
     }

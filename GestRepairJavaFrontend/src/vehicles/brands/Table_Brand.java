@@ -26,7 +26,6 @@ public class Table_Brand extends javax.swing.JFrame {
     public Table_Brand(String login) throws Exception {
         APIBrand api = new APIBrand();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         Table(api.Brand(login));
         row(0);
     }

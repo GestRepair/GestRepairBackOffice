@@ -32,7 +32,6 @@ public final class Table_Employer extends javax.swing.JFrame {
      */
     public Table_Employer(String login, int idService, int idEmployer) throws IOException, ParseException, Exception {
         APIEmployer api = new APIEmployer();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowEmployer(login, 1, 0));
         tbl_usersStart();

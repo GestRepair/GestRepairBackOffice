@@ -27,7 +27,6 @@ public class ListPartsRepair extends javax.swing.JFrame {
     public ListPartsRepair(final String login, final int idRepair, final int idService) throws Exception {
         APIPartsRepair api = new APIPartsRepair();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         Events(login, idRepair, idService);
         showTableParts(login, idRepair, api);
     }

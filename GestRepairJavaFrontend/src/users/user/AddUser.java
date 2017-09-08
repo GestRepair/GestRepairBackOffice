@@ -24,7 +24,6 @@ public class AddUser extends javax.swing.JFrame {
      */
     public AddUser(String login) {
         APIUsers api = new APIUsers();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         Events(login, api);
     }

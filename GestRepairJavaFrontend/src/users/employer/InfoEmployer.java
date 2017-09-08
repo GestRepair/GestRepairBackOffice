@@ -22,7 +22,6 @@ public final class InfoEmployer extends javax.swing.JFrame {
      */
     public InfoEmployer(String login, int idUser) throws Exception {
         APIEmployer api = new APIEmployer();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         GetInfo(login, idUser, api);
     }

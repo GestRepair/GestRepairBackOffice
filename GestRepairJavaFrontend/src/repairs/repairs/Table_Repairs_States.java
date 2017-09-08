@@ -33,7 +33,6 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         APIRepair api = new APIRepair();
         APIState apiState = new APIState();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         String[][] state = apiState.ShowState(login);
         showStates(state);
         showTable(api.ListRepairsState(login, Cb_Val(cb_states.getSelectedIndex(), state)));

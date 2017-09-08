@@ -27,7 +27,6 @@ public class EditPassword extends javax.swing.JFrame {
      */
     public EditPassword(String login, int id) throws Exception {
         APIUsers api = new APIUsers();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         JSONObject auth = (JSONObject) new JSONParser().parse(login);
         Events(login, id, (String) auth.get("password"),api);
@@ -36,7 +35,6 @@ public class EditPassword extends javax.swing.JFrame {
 
     private void Events(final String login, final int id, final String password, final APIUsers api) {
         bt_chpass.addActionListener(new java.awt.event.ActionListener() {
-            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     BT_ChangePass(evt, login, id, password,api);
@@ -47,7 +45,7 @@ public class EditPassword extends javax.swing.JFrame {
         });
     }
 
-    public void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password,APIUsers api) throws Exception {
+    private void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password,APIUsers api) throws Exception {
         int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
         if (x == JOptionPane.YES_OPTION) {
             if (password.equals(tf_pass_act.getText())) {

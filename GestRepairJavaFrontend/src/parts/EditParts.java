@@ -28,7 +28,6 @@ public final class EditParts extends javax.swing.JFrame {
     public EditParts(String login, int idPart, int idService) throws Exception {
         initComponents();
         APIParts api = new APIParts();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         GetData(login, idPart, api);
         ta_pdesc.setLineWrap(true);
         Events(login, idPart, idService, api);

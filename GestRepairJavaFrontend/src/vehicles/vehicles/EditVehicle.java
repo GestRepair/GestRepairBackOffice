@@ -35,7 +35,6 @@ public class EditVehicle extends javax.swing.JFrame {
         APIModel apiModel = new APIModel();
         APIFuel apiFuel = new APIFuel();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         InfoVehicle(login, id, api, apiBrand, apiModel, apiFuel);
         Events(login, id, api, apiModel, apiBrand, apiFuel);
     }

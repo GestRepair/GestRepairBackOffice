@@ -24,7 +24,6 @@ public final class InfoUser extends javax.swing.JFrame {
      */
     public InfoUser(String login, int id) throws Exception {
         APIUsers api = new APIUsers();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         GetInfo(login, id, api);
         Events(login, id);

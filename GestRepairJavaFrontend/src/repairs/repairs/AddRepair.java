@@ -31,7 +31,6 @@ public final class AddRepair extends javax.swing.JFrame {
         APIService apiService = new APIService();
         APIEmployer apiEmployer = new APIEmployer();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         if (idService == 1 || idService == 2) {
             showService(apiService.Service(login));
             showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));

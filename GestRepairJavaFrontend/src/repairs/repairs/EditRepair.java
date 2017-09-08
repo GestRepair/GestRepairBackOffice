@@ -27,7 +27,6 @@ public class EditRepair extends javax.swing.JFrame {
     public EditRepair(String login, int idRepair) throws Exception {
         APIRepair api = new APIRepair();
         APIState apiState = new APIState();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idRepair, api);
         insertCb(apiState.ShowState(login));

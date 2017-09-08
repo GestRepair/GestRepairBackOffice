@@ -26,7 +26,6 @@ public class InfoRepair extends javax.swing.JFrame {
      * @throws Exception
      */
     public InfoRepair(String login, int idRepair, int idService) throws Exception {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idRepair);
         Events(login, idRepair, idService);

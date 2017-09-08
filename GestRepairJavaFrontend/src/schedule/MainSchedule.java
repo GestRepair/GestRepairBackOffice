@@ -21,7 +21,6 @@ public class MainSchedule extends javax.swing.JFrame {
      */
     public MainSchedule(String login) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login);
     }
     private void Events(final String login){

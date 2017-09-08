@@ -37,7 +37,6 @@ public final class AddVehicle extends javax.swing.JFrame {
         APIBrand apiBrand = new APIBrand();
         APIModel apiModel = new APIModel();
         APIFuel apiFuel = new APIFuel();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_id.setText(id + "");
         l_username.setText(user);

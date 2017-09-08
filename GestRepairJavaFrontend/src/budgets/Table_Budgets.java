@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import static java.lang.Integer.parseInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,7 +27,7 @@ public final class Table_Budgets extends javax.swing.JFrame {
     public Table_Budgets(String login) throws Exception {
         APIBudgets api = new APIBudgets();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.ListBudgets(login,0));
         l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
         Events(login);

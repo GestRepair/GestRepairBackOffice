@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +28,6 @@ public final class Table_Parts extends javax.swing.JFrame {
      */
     public Table_Parts(String login, int idService) throws Exception {
         APIParts api = new APIParts();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ListParts(login, 0));
         tbl_usersStart();

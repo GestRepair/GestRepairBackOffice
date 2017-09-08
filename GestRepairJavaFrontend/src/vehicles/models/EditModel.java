@@ -26,7 +26,6 @@ public final class EditModel extends javax.swing.JFrame {
      */
     public EditModel(String login, int id, String brand) throws Exception {
         APIModel api = new APIModel();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         l_brand.setText(brand);
         InfoModel(login, id, api);

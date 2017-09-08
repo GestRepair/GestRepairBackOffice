@@ -28,7 +28,6 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
     public Table_Budgets_State(String login) throws Exception {
         APIBudgets api = new APIBudgets();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         int i = cb_state.getSelectedIndex();
         if (i < 0) {
             i = 0;

@@ -27,8 +27,6 @@ public final class AddAmount extends javax.swing.JFrame {
         initComponents();
         l_idPart.setText(idPart + "");
         Events(login, idPart, idService,api);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-
     }
 
     private void Events(final String login, final int idPart, final int idService, final APIParts api) {

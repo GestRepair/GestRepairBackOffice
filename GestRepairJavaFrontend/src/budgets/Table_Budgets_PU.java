@@ -31,7 +31,6 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         initComponents();
         Events(login);
         showTable(api.ListBudgets(login, idUser));
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
     private void showTable(String[][] list) {

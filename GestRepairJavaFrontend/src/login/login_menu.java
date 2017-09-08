@@ -5,8 +5,6 @@
  */
 package login;
 
-import java.awt.Toolkit;
-
 import mainMenu.MainMenu;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
@@ -23,9 +21,9 @@ public class login_menu extends javax.swing.JFrame {
      * Creates new form login_menu
      */
     public login_menu() {
-        initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        initComponents();     
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +42,7 @@ public class login_menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GestRepair - Login");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         txp_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,28 +136,28 @@ public class login_menu extends javax.swing.JFrame {
                 String result = newjson.get("result").toString();
                 //Obtém os dados recebidos do post
                 String data = newjson.get("data").toString();
-                
+
                 String message = newjson.get("message").toString();
                 //Transforma a String JSON em objecto
                 JSONObject newjsondata = (JSONObject) new JSONParser().parse(data);
                 String name = newjsondata.get("name").toString();
                 String role = newjsondata.get("isEmployer").toString();
                 if (!"0".equals(role)) {
-                    JOptionPane.showMessageDialog(this,message+"\nBem Vindo "+name);
+                    JOptionPane.showMessageDialog(this, message + "\nBem Vindo " + name);
                     new MainMenu(session[0], session[1]).setVisible(true);
                     dispose();
-                }else{
-                    JOptionPane.showMessageDialog(this,"Não tem premissões para se Autenticar no Sistema");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Não tem premissões para se Autenticar no Sistema");
                 };
                 //Depois de Fazer Login Fecha o Menu de Login 
             } catch (ParseException pe) {
                 //caso exista erro no parse
                 JOptionPane.showMessageDialog(this, pe);
-                
+
             }
         } catch (Exception ex) {
             //outro erro
-            JOptionPane.showMessageDialog(this,"Erro na autenticação");
+            JOptionPane.showMessageDialog(this, "Erro na autenticação");
         }
     }//GEN-LAST:event_bt_loginActionPerformed
 
@@ -175,7 +174,6 @@ public class login_menu extends javax.swing.JFrame {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    
                     break;
                 }
             }
@@ -189,13 +187,12 @@ public class login_menu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(login_menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new login_menu().setVisible(true);
-                
             }
         });
     }

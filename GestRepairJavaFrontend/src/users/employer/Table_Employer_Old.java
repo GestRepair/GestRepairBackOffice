@@ -33,7 +33,6 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
      */
     public Table_Employer_Old(String login, int idService, int idEmployer) throws Exception {
         APIEmployer api = new APIEmployer();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         initComponents();
         showTable(api.ShowEmployer(login, 0, 0));
         tbl_usersStart();

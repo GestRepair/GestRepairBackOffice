@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +21,6 @@ public class MainBudgets extends javax.swing.JFrame {
      */
     public MainBudgets(String login) {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         Events(login);
     }
 

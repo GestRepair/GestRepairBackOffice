@@ -32,7 +32,6 @@ public final class AddParts extends javax.swing.JFrame {
         APIPartsRepair api = new APIPartsRepair();
         APIParts apiparts = new APIParts();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         l_idRepair.setText(idRepair + "");
         showService(apiparts.ListPartswhith(login));
         Events(login, idRepair, idService, apiparts, api);

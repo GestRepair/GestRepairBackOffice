@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,7 +21,6 @@ public class ListServicesPart extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public ListServicesPart(final String login, final int idPart)throws Exception{
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowTablePart(login,idPart);
     }

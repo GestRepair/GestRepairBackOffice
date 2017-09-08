@@ -25,7 +25,7 @@ public final class AddServiceBuget extends javax.swing.JFrame {
     public AddServiceBuget(String login, int idBudget) throws Exception {
         APIBudgets api = new APIBudgets();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
+        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showService(api.ListServiceNot(login, idBudget));
         Events(login, idBudget,api);
     }

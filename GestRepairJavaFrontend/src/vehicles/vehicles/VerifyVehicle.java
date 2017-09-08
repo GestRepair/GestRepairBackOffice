@@ -22,12 +22,13 @@ public class VerifyVehicle extends javax.swing.JFrame {
      * @param login
      * @param id
      * @param user
+     * @param idService
+     * @param idEmployer
      */
     public VerifyVehicle(final String login, int id, String user,int idService,int idEmployer) {
         APIVehicles api = new APIVehicles();
         initComponents();
         Events(login, id,idService,idEmployer, user,api);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
     }
 
     private void Events(final String login, final int id,final int idService ,final int idEmployer, final String user, final APIVehicles api) {

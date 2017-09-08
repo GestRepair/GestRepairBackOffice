@@ -31,7 +31,6 @@ public final class AddServicePart extends javax.swing.JFrame {
         l_idPart.setText(idPart + "");
         Events(login, idPart, idService, api, apiService);
         showServiceCB(login, idPart, api);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
     }
 
     private void Events(final String login, final int idPart, final int idService, final APIParts api, final APIService apiService) {

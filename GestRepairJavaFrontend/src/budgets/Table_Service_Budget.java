@@ -29,7 +29,6 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
     public Table_Service_Budget(String login, int idBudget) throws Exception {
         APIBudgets api = new APIBudgets();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         showTable(api.ListService(login, idBudget));
         Events(login, idBudget);
     }

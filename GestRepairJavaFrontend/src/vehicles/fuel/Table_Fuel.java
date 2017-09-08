@@ -29,7 +29,6 @@ public final class Table_Fuel extends javax.swing.JFrame {
     public Table_Fuel(String login) throws Exception {
         APIFuel api = new APIFuel();
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../img/imageedit_4_8303763918.png")));
         showTable(api.Fuel(login));
         Events(login);
         row(0);
