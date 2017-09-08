@@ -163,6 +163,7 @@ public class InfoRepair extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação da Reparação");
+        setResizable(false);
 
         l_idRe.setText("ID:");
 
@@ -286,15 +287,16 @@ public class InfoRepair extends javax.swing.JFrame {
                     .addComponent(l_price)
                     .addComponent(jLabel4)
                     .addComponent(l_state))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_edit)
                     .addComponent(bt_emplyers)
                     .addComponent(bt_parts))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(434, 275));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

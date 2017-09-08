@@ -248,7 +248,8 @@ public final class EditService extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(772, 320));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_uploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_uploadActionPerformed

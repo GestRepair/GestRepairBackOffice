@@ -131,6 +131,7 @@ public final class AddRepair extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Adicionar Reparação");
+        setResizable(false);
 
         jLabel1.setText("Serviço:");
 
@@ -139,6 +140,7 @@ public final class AddRepair extends javax.swing.JFrame {
         jLabel2.setText("Descrição do Problema:");
 
         ta_pdesc.setColumns(20);
+        ta_pdesc.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         ta_pdesc.setRows(5);
         jScrollPane1.setViewportView(ta_pdesc);
 
@@ -209,7 +211,8 @@ public final class AddRepair extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(416, 359));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

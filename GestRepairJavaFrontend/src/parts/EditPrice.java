@@ -85,6 +85,7 @@ public final class EditPrice extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Alterar Preço");
+        setResizable(false);
 
         jLabel4.setText("Preço:");
 
@@ -130,7 +131,7 @@ public final class EditPrice extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(283, 115));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

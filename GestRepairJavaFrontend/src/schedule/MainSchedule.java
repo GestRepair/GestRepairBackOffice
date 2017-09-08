@@ -52,7 +52,6 @@ public class MainSchedule extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Menu Agendamentos");
-        setResizable(false);
 
         bt_listSchedule.setText("Lista de Agendamentos");
 
@@ -73,7 +72,8 @@ public class MainSchedule extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(286, 84));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

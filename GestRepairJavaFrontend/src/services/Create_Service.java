@@ -102,6 +102,7 @@ public class Create_Service extends javax.swing.JFrame {
         br_add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         l_img.setBackground(new java.awt.Color(255, 40, 40));
         l_img.setToolTipText("");
@@ -114,6 +115,7 @@ public class Create_Service extends javax.swing.JFrame {
         jLabel2.setText("Preço");
 
         tf_desc.setColumns(20);
+        tf_desc.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         tf_desc.setRows(5);
         jScrollPane1.setViewportView(tf_desc);
 
@@ -177,7 +179,8 @@ public class Create_Service extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(613, 390));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

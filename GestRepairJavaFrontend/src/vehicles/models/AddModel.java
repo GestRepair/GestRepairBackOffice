@@ -124,7 +124,8 @@ public final class AddModel extends javax.swing.JFrame {
                 .addGap(23, 23, 23))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(236, 168));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -113,11 +113,12 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         l_idSchedule = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        cb_date = new javax.swing.JComboBox<>();
+        cb_date = new javax.swing.JComboBox<String>();
         bt_info = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Marcações por Utilizador");
+        setResizable(false);
 
         tbl_schedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -144,7 +145,7 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
 
         jLabel1.setText("Selecione a data do serviço em que pretende ver as marcações:");
 
-        cb_date.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_date.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         bt_info.setText("Info");
 
@@ -186,7 +187,8 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 585));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

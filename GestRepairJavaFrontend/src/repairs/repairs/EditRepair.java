@@ -131,6 +131,7 @@ public class EditRepair extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Editar Reparação");
+        setResizable(false);
 
         l_dFinish.setText("conclusao");
 
@@ -258,7 +259,8 @@ public class EditRepair extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(430, 295));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

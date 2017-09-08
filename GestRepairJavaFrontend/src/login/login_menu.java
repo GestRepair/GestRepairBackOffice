@@ -111,7 +111,8 @@ public class login_menu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(301, 400));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txp_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txp_passwordActionPerformed

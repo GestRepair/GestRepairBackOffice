@@ -127,7 +127,8 @@ public class InfoFuel extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(366, 124));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

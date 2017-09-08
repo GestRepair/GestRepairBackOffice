@@ -230,6 +230,7 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Peeças por catergoria");
+        setResizable(false);
 
         tbl_parts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -342,7 +343,8 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1176, 539));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbl_partsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_partsMouseClicked

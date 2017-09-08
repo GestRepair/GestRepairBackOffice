@@ -118,6 +118,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de orçamento por utilizador");
+        setResizable(false);
 
         bt_edit.setText("Editar");
 
@@ -171,10 +172,11 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(bt_edit)
                     .addComponent(bt_info))
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 588));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -112,6 +112,7 @@ public final class Table_Budgets extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Orçamentos");
+        setResizable(false);
 
         tbl_budgets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -172,7 +173,8 @@ public final class Table_Budgets extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 584));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

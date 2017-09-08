@@ -160,6 +160,7 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de orçamentos por estado");
+        setResizable(false);
 
         tbl_budgets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -236,7 +237,8 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 622));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

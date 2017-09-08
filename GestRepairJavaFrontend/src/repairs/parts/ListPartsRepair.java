@@ -81,6 +81,7 @@ public class ListPartsRepair extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Peças");
+        setResizable(false);
 
         bt_parts.setText("Adicionar Peça");
 
@@ -121,7 +122,8 @@ public class ListPartsRepair extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(416, 354));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -123,7 +123,8 @@ public class EditFuel extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(300, 135));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
 

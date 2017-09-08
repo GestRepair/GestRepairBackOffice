@@ -8,8 +8,6 @@ package budgets;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
-import services.APIService;
-import users.employer.APIEmployer;
 
 /**
  *
@@ -90,6 +88,7 @@ public final class AddServiceBuget extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Adicionar Serviço ao Orçamento");
+        setResizable(false);
 
         jLabel1.setText("Indique o serviço que quer adicionar ao orçamento:");
 

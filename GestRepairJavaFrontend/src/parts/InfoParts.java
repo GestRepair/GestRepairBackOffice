@@ -143,6 +143,8 @@ public final class InfoParts extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação da Peça");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         jLabel2.setText("Descrição da Peça:");
 
@@ -173,11 +175,6 @@ public final class InfoParts extends javax.swing.JFrame {
         bt_service.setText("Serviços");
 
         bt_add_service.setText("Adicionar Serviço");
-        bt_add_service.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_add_serviceActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,13 +250,9 @@ public final class InfoParts extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(430, 381));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_add_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_serviceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bt_add_serviceActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add_amount;

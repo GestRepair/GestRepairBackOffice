@@ -80,6 +80,7 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de serviços no orçamento");
+        setResizable(false);
 
         tbl_employers_repair.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -120,7 +121,8 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(635, 467));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

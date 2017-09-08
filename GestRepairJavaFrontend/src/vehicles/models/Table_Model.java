@@ -178,7 +178,7 @@ public class Table_Model extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_model);
 
-        jLabel1.setText("Marca:");
+        jLabel1.setText("Selecione a marca do modelo que pretende ver:");
 
         jLabel3.setText("Nome do Modelo:");
 
@@ -245,7 +245,8 @@ public class Table_Model extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(599, 544));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

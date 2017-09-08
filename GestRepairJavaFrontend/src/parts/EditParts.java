@@ -129,6 +129,7 @@ public final class EditParts extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Editar Peça");
+        setResizable(false);
 
         jLabel2.setText("Descrição da Peça:");
 
@@ -197,7 +198,7 @@ public final class EditParts extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(416, 381));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

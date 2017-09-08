@@ -58,6 +58,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Dados do Funcionário");
+        setResizable(false);
 
         jLabel1.setText("N.º de Funcionário:");
 
@@ -92,7 +93,7 @@ public final class InfoEmployer extends javax.swing.JFrame {
                     .addComponent(l_service)
                     .addComponent(l_name)
                     .addComponent(l_num))
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +117,8 @@ public final class InfoEmployer extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(316, 135));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox jComboBox1;

@@ -160,6 +160,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações");
+        setResizable(false);
 
         tbl_repair.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,7 +233,8 @@ public final class Table_Repairs extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 596));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
