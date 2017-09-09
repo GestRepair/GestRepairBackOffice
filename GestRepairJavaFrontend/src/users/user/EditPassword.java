@@ -5,7 +5,6 @@
  */
 package users.user;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -35,6 +34,7 @@ public class EditPassword extends javax.swing.JFrame {
 
     private void Events(final String login, final int id, final String password, final APIUsers api) {
         bt_chpass.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     BT_ChangePass(evt, login, id, password,api);

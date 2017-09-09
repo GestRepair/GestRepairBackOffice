@@ -89,6 +89,12 @@ public final class AddVehicle extends javax.swing.JFrame {
         data[8] = tf_date.getText();
         return data;
     }
+    private static final Pattern VALID_TIRE_REGEX = Pattern.compile("[0-9]{3}\\/[0-9]{2}R{1}[0-9]{2}", Pattern.CASE_INSENSITIVE);
+
+    private static boolean validateTire(String numberStr) {
+        Matcher matcher = VALID_TIRE_REGEX.matcher(numberStr);
+        return matcher.find();
+    }
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
 
     private static boolean validateNumber(String numberStr) {
@@ -113,7 +119,7 @@ public final class AddVehicle extends javax.swing.JFrame {
     }
 
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length()>8) {
+        if (validateTire(tf_fronttiresize.getText()) && validateTire(tf_reartiresize.getText()) && validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {

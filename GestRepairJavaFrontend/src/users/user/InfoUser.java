@@ -5,7 +5,6 @@
  */
 package users.user;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

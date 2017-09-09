@@ -64,11 +64,11 @@ public class EditVehicle extends javax.swing.JFrame {
     }
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
+        if (validateTire(tf_rearTire.getText()) == true && validateTire(tf_rearTire.getText()) && validateNumber(tf_displacement.getText()) == true && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String[] value = api.PutVehicle(login, id, data(login,apiModel,apiBrand,apiFuel));
+                    String[] value = api.PutVehicle(login, id, data(login, apiModel, apiBrand, apiFuel));
                     JOptionPane.showMessageDialog(this, value[1]);
                     if ("ok".equals(value[0])) {
                         dispose();
@@ -94,12 +94,12 @@ public class EditVehicle extends javax.swing.JFrame {
         cb_brand.setSelectedItem(api.InfoVehicle(login, id)[1]);
         String[][] model = apiModel.Model(login, Cb_Val(cb_brand.getSelectedIndex(), brand));
         showModel(model);
-        String info[]=api.InfoVehicle(login, id);
+        String info[] = api.InfoVehicle(login, id);
         cb_model.setSelectedItem(info[2]);
         tf_register.setText(info[3]);
-        tf_horsepower.setText((info[4]!=null)?info[4]:"");
-        tf_displacement.setText((info[5]!=null)?info[5]:"");
-        tf_kilometer.setText((info[6]!=null)?info[6]:"");
+        tf_horsepower.setText((info[4] != null) ? info[4] : "");
+        tf_displacement.setText((info[5] != null) ? info[5] : "");
+        tf_kilometer.setText((info[6] != null) ? info[6] : "");
         cb_fuel.setSelectedItem(info[7]);
         tf_frontTire.setText(info[8]);
         tf_rearTire.setText(info[9]);
@@ -131,11 +131,17 @@ public class EditVehicle extends javax.swing.JFrame {
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-    
+
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
 
     private static boolean validateNumber(String numberStr) {
         Matcher matcher = VALID_NUMBER_REGEX.matcher(numberStr);
+        return matcher.find();
+    }
+    private static final Pattern VALID_TIRE_REGEX = Pattern.compile("[0-9]{3}\\/[0-9]{2}R{1}[0-9]{2}", Pattern.CASE_INSENSITIVE);
+
+    private static boolean validateTire(String numberStr) {
+        Matcher matcher = VALID_TIRE_REGEX.matcher(numberStr);
         return matcher.find();
     }
 

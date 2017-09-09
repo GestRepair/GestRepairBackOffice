@@ -138,9 +138,9 @@ public class APIVehicles extends Connect {
         emp[1] = (String) newjsondata.get("nameBrand");
         emp[2] = (String) newjsondata.get("nameModel");
         emp[3] = (String) newjsondata.get("registration");
-        emp[4] = (newjsondata.get("horsepower") == null) ? ((Object) newjsondata.get("horsepower")) + "" : "";
-        emp[5] = (newjsondata.get("displacement") == null) ? ((Object) newjsondata.get("displacement")) + "" : "";
-        emp[6] = (newjsondata.get("kilometers") == null) ? ((Object) newjsondata.get("kilometers")) + "" : "";
+        emp[4] = (newjsondata.get("horsepower") != null) ? ((Object) newjsondata.get("horsepower")) + "" : "";
+        emp[5] = (newjsondata.get("displacement") != null) ? ((Object) newjsondata.get("displacement")) + "" : "";
+        emp[6] = (newjsondata.get("kilometers") != null) ? ((Object) newjsondata.get("kilometers")) + "" : "";
         emp[7] = (String) newjsondata.get("nameFuel");
         emp[8] = (String) newjsondata.get("fronttiresize");
         emp[9] = (String) newjsondata.get("reartiresize");

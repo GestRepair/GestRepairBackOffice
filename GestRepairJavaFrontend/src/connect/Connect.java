@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
  */
 public class Connect{
     public String IP(){
-     return "http://127.0.0.1:8080";
+     return "http://ec2-52-56-143-158.eu-west-2.compute.amazonaws.com:8080";
     }
     public HttpURLConnection Conn(String login, URL url, String method) throws ParseException, IOException {
         HttpURLConnection connection;
