@@ -113,6 +113,17 @@ public final class Table_Users extends javax.swing.JFrame {
                 BT_Schedule(evt, login);
             }
         });
+        tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt);
+            }
+        });
+    }
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
+        int i = tbl_users.getSelectedRow();
+        linfoUser.setText(SearchTable(i, 0));
+        l_username.setText(SearchTable(i, 8));
     }
 
     private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
@@ -273,16 +284,14 @@ public final class Table_Users extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel6))
+                    .addGap(18, 18, 18)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(88, 88, 88)
-                                    .addComponent(linfoUser))
-                                .addComponent(jLabel1))
+                            .addComponent(linfoUser)
                             .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createSequentialGroup()
                             .addComponent(l_username)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))

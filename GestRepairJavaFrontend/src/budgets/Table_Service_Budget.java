@@ -5,13 +5,9 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.table.DefaultTableModel;
-import services.APIService;
-import users.employer.APIEmployer;
 
 /**
  *

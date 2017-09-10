@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,9 +47,15 @@ public class InfoBudget extends javax.swing.JFrame {
             l_price.setVisible(false);
             l_pric.setVisible(false);
         }
-        l_state.setText(info[5]);
+        l_state.setText(info[3]);
+        if (info[6] != null) {
         l_trep.setText(info[6]);
-        l_dStart.setText(info[3]);
+        } else {
+            l_trep.setVisible(false);
+            l_itrep.setVisible(false);
+            ldis.setVisible(false);
+        }
+        l_dStart.setText(info[5]);
         if (info[7] != null) {
             l_dFinish.setText(info[7]);
         } else {
@@ -126,8 +131,8 @@ public class InfoBudget extends javax.swing.JFrame {
         bt_edit = new javax.swing.JButton();
         bt_services = new javax.swing.JButton();
         l_trep = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        l_itrep = new javax.swing.JLabel();
+        ldis = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Informação do Orçamento");
@@ -171,9 +176,9 @@ public class InfoBudget extends javax.swing.JFrame {
 
         l_trep.setText("trep");
 
-        jLabel6.setText("Tempo de Reparação:");
+        l_itrep.setText("Tempo de Reparação:");
 
-        jLabel5.setText("dias");
+        ldis.setText("dias");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,50 +187,51 @@ public class InfoBudget extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(l_description, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(l_vehicle))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(l_trep)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel5))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(75, 75, 75)
-                                    .addComponent(l_state)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(l_dFin))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(l_dStart)
-                                        .addComponent(l_dFinish)))
-                                .addComponent(l_resolution, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(l_res)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(l_pric)
-                                    .addGap(22, 22, 22)
-                                    .addComponent(l_price))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(bt_services)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bt_edit)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(l_description, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(l_vehicle))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(l_itrep)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(l_trep)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(ldis))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(75, 75, 75)
+                                        .addComponent(l_state)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(l_dFin))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(l_dStart)
+                                            .addComponent(l_dFinish)))
+                                    .addComponent(l_resolution, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(l_res)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(l_pric)
+                                        .addGap(22, 22, 22)
+                                        .addComponent(l_price))))
+                            .addComponent(bt_services))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(bt_edit))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(l_idRe)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(l_idRepair)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(l_idRepair)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,8 +272,8 @@ public class InfoBudget extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(l_trep)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5))
+                    .addComponent(l_itrep)
+                    .addComponent(ldis))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_edit)
@@ -275,7 +281,7 @@ public class InfoBudget extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(444, 322));
+        setSize(new java.awt.Dimension(513, 322));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -286,14 +292,13 @@ public class InfoBudget extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel l_dFin;
     private javax.swing.JLabel l_dFinish;
     private javax.swing.JLabel l_dStart;
     private javax.swing.JLabel l_description;
     private javax.swing.JLabel l_idRe;
     private javax.swing.JLabel l_idRepair;
+    private javax.swing.JLabel l_itrep;
     private javax.swing.JLabel l_pric;
     private javax.swing.JLabel l_price;
     private javax.swing.JLabel l_res;
@@ -301,5 +306,6 @@ public class InfoBudget extends javax.swing.JFrame {
     private javax.swing.JLabel l_state;
     private javax.swing.JLabel l_trep;
     private javax.swing.JLabel l_vehicle;
+    private javax.swing.JLabel ldis;
     // End of variables declaration//GEN-END:variables
 }

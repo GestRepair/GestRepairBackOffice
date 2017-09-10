@@ -21,13 +21,13 @@ public class APIBudgets extends Connect {
     @SuppressWarnings("empty-statement")
     public String[][] ListBudgets(String login, int id) throws Exception {
         URL url = new URL(IP() + "/budget" + ((id == 0) ? "" : "/" + id));
-        return dataBudget(login, id, url);
+        return dataBudget(login, url);
     }
     public String[][] ListBudgetsByState(String login, int id) throws Exception {
         URL url = new URL(IP() + "/budget/state/" + id);
-        return dataBudget(login, id, url);
+        return dataBudget(login, url);
     }
-    private String[][] dataBudget(String login, int id,URL url) throws Exception{
+    private String[][] dataBudget(String login,URL url) throws Exception{
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -37,11 +37,11 @@ public class APIBudgets extends Connect {
             dataTable[i][0] = (long) datas.get("idBudget") + "";
             dataTable[i][1] = (String) datas.get("vehicle");
             dataTable[i][2] = (String) datas.get("description");
-            dataTable[i][3] = ((datas.get("price") != null) ? (Object) datas.get("price") + "" : null);
+            dataTable[i][3] = ((datas.get("price") != null) ? (Object) datas.get("price") + "" : "");
             dataTable[i][4] = ((String) datas.get("processOpen")).substring(0, 10);
-            dataTable[i][5] = ((datas.get("repairTime") != null) ? (Object) datas.get("repairTime") + "" : null);
-            dataTable[i][6] = ((datas.get("processClose") != null) ? ((String) datas.get("processClose")).substring(0, 10) + "" : null);
-            dataTable[i][7] = (String) datas.get("resolution");
+            dataTable[i][5] = ((datas.get("repairTime") != null) ? (Object) datas.get("repairTime") + "" : "");
+            dataTable[i][6] = ((datas.get("processClose") != null) ? ((String) datas.get("processClose")).substring(0, 10) + "" : "");
+            dataTable[i][7] = ((datas.get("price") != null) ? (String) datas.get("resolution")+"":"");
             dataTable[i][8] = (String) datas.get("state");
         };
         return dataTable;

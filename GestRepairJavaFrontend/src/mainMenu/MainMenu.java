@@ -55,6 +55,8 @@ public final class MainMenu extends javax.swing.JFrame {
             idEmployer = parseInt(api.GetInfoEmployerUser(login,(int) idUser)[0]);
             idService = parseInt(api.GetInfoEmployerUser(login,(int) idUser)[3]);
             l_service.setText(api.GetInfoEmployerUser(login,(int) idUser)[2]);
+            bt_services.setVisible(idEmployer==1);
+            bt_parts.setVisible(idEmployer==1||idEmployer==2);
             Events(login, idEmployer, idService, (int) idUser);
         } catch (ParseException pe) {
             System.out.println("Erro");

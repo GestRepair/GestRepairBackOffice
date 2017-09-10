@@ -73,6 +73,7 @@ public final class Table_Budgets extends javax.swing.JFrame {
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
+            i = (i>0)?i:0;
             new EditBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,6 +84,7 @@ public final class Table_Budgets extends javax.swing.JFrame {
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
+            i = (i>0)?i:0;
             new InfoBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);

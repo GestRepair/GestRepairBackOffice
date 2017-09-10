@@ -153,8 +153,17 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 CB_Service(evt, login, api);
             }
         });
+        tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBL_CLICKED(evt);
+            }
+        });
     }
-
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {                                       
+        int i = tbl_users.getSelectedRow();
+        linfoUser.setText(SearchTable(i, 0));
+        l_username.setText(SearchTable(i, 8));
+    }     
     private void BT_addEmployer(java.awt.event.ActionEvent evt, String login) {
         try {
             if ("Adicionar Funcionário".equals(bt_addEmployer.getText())) {
@@ -299,6 +308,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Utilizadores por catergoria");
+        setResizable(false);
 
         tbl_users.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -307,11 +317,6 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                 "N.º Utilizador", "Nome", "Morada", "Código de Postal","Localidade","E-mail","NIF","Contacto","Username"
             }
         ));
-        tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_usersMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(tbl_users);
 
         jLabel1.setText("Nº. de Utilizador:");
@@ -359,16 +364,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(l_username)
-                                .addGap(40, 40, 40))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(linfoUser)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 386, Short.MAX_VALUE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(l_username)
+                            .addComponent(linfoUser))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
                         .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,12 +433,6 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1352, 590));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbl_usersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_usersMouseClicked
-        int i = tbl_users.getSelectedRow();
-        linfoUser.setText(SearchTable(i, 0));
-        l_username.setText(SearchTable(i, 8));
-    }//GEN-LAST:event_tbl_usersMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_addEmployer;
