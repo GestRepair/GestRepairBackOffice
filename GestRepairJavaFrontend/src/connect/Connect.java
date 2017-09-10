@@ -20,10 +20,12 @@ import org.json.simple.parser.ParseException;
  *
  * @author Convite
  */
-public class Connect{
-    public String IP(){
-     return "http://ec2-52-56-143-158.eu-west-2.compute.amazonaws.com:8080";
+public class Connect {
+
+    public String IP() {
+        return "http://ec2-52-56-143-158.eu-west-2.compute.amazonaws.com:8080";
     }
+
     public HttpURLConnection Conn(String login, URL url, String method) throws ParseException, IOException {
         HttpURLConnection connection;
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
@@ -38,16 +40,18 @@ public class Connect{
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Authorization", "Basic " + encoded);
+        connection.setRequestProperty("charset", "UTF-8");
         connection.setRequestMethod(method);
         connection.setDoOutput(true);
         return connection;
     }
-    public String GETConnect (String login, URL url,String method) throws Exception {
-        HttpURLConnection connection =Conn(login, url, method);
+
+    public String GETConnect(String login, URL url, String method) throws Exception {
+        HttpURLConnection connection = Conn(login, url, method);
         //Get Response  
         InputStream is = connection.getInputStream();
         String json;
-        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
             StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
             String line;
             json = "";
@@ -60,49 +64,51 @@ public class Connect{
         connection.disconnect();
         return json;
     }
-    public String[] SendConnect(String login, URL url, String method,JSONObject obj)throws Exception{
-        HttpURLConnection connection =Conn(login, url,method);
-        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+
+    public String[] SendConnect(String login, URL url, String method, JSONObject obj) throws Exception {
+        HttpURLConnection connection = Conn(login, url, method);
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
             out.write(obj.toString());
             out.flush();
         }
         connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         String line = null;
         String json = "";
         while ((line = br.readLine()) != null) {
             json += line;
         }
         connection.disconnect();
-        JSONObject res = (JSONObject) new JSONParser().parse(json); 
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
         String val[] = new String[2];
         val[0] = (String) res.get("result");
         val[1] = (String) res.get("message");
         return val;
     }
-    public String[] SendConnectResp(String login, URL url, String method,JSONObject obj)throws Exception{
-        HttpURLConnection connection =Conn(login, url,method);
-        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
+
+    public String[] SendConnectResp(String login, URL url, String method, JSONObject obj) throws Exception {
+        HttpURLConnection connection = Conn(login, url, method);
+        try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
             out.write(obj.toString());
             out.flush();
         }
         connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         String line = null;
         String json = "";
         while ((line = br.readLine()) != null) {
             json += line;
         }
         connection.disconnect();
-        JSONObject res = (JSONObject) new JSONParser().parse(json); 
+        JSONObject res = (JSONObject) new JSONParser().parse(json);
         String val[] = new String[3];
         val[0] = (String) res.get("result");
         val[1] = (String) res.get("message");
-        val[2] = (Object) res.get("data")+"";
+        val[2] = (Object) res.get("data") + "";
         return val;
     }
 }

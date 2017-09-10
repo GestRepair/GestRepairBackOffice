@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 

@@ -6,7 +6,6 @@
 package users.user;
 
 import budgets.Table_Budgets_PU;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +29,7 @@ public final class Table_Users extends javax.swing.JFrame {
      *
      * @param login
      * @param idService
+     * @param idEmployer
      * @throws IOException
      * @throws ParseException
      */
