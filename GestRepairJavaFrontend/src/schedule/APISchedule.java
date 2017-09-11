@@ -50,7 +50,22 @@ public class APISchedule extends Connect {
     }
 
     public String[][] ListTime(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/schedule/" + ((id == 1) ? "now" : ((id == 2) ? "previous" : "next")));
+        String moment;
+        switch (id) {
+            case 1:
+                moment = "now";
+                break;
+            case 2:
+                moment = "previous";
+                break;
+            case 3:
+                moment = "next";
+                break;
+            default:
+                moment = "next";
+                break;
+        }
+        URL url = new URL(IP() + "/schedule/" + moment);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -58,14 +73,30 @@ public class APISchedule extends Connect {
         for (int i = 0; i < data.size(); i++) {
             JSONObject datas = (JSONObject) data.get(i);
             dataTable[i][0] = (long) datas.get("idSchedule") + "";
-            dataTable[i][1] = (Object) datas.get("vehicle")+"";
-            dataTable[i][2] = (Object) datas.get("service")+"";
-            dataTable[i][3] = (String) datas.get("date");
+            dataTable[i][1] = (Object) datas.get("vehicle") + "";
+            dataTable[i][2] = (Object) datas.get("service") + "";
+            dataTable[i][3] = ((String) datas.get("date")).substring(0,10)+" - "+((String) datas.get("date")).substring(11,16);
         };
         return dataTable;
     }
-    public String[][] ListTimeUser(String login, int id,int idUser) throws Exception {
-        URL url = new URL(IP() + "/schedule/" + ((id == 1) ? "now/" : ((id == 2) ? "previous/" : "next/"))+idUser);
+
+    public String[][] ListTimeUser(String login, int id, int idUser) throws Exception {
+        String moment;
+        switch (id) {
+            case 1:
+                moment = "now";
+                break;
+            case 2:
+                moment = "previous";
+                break;
+            case 3:
+                moment = "next";
+                break;
+            default:
+                moment = "next";
+                break;
+        }
+        URL url = new URL(IP() + "/schedule/" + moment +"/"+ idUser);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -73,9 +104,9 @@ public class APISchedule extends Connect {
         for (int i = 0; i < data.size(); i++) {
             JSONObject datas = (JSONObject) data.get(i);
             dataTable[i][0] = (long) datas.get("idSchedule") + "";
-            dataTable[i][1] = (Object) datas.get("vehicle")+"";
-            dataTable[i][2] = (Object) datas.get("service")+"";
-            dataTable[i][3] = (String) datas.get("date");
+            dataTable[i][1] = (Object) datas.get("vehicle") + "";
+            dataTable[i][2] = (Object) datas.get("service") + "";
+            dataTable[i][3] = ((String) datas.get("date")).substring(0,10)+" - "+((String) datas.get("date")).substring(11,16);
         };
         return dataTable;
     }

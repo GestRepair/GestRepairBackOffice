@@ -8,7 +8,6 @@ package users.user;
 import budgets.Table_Budgets_PU;
 import users.employer.InfoEmployer;
 import users.employer.AddEmployer;
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -132,7 +131,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         bt_repair.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Repair(evt, login);
+                BT_Repair(evt, login, idService);
             }
         });
         bt_vehicles.addActionListener(new java.awt.event.ActionListener() {
@@ -231,10 +230,10 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
-    private void BT_Repair(java.awt.event.ActionEvent evt, String login) {
+    private void BT_Repair(java.awt.event.ActionEvent evt, String login,int idService) {
         try {
             int i = tbl_users.getSelectedRow();
-            new Table_Repairs_PU(login, parseInt(SearchTable(i, 0))).setVisible(true);
+            new Table_Repairs_PU(login, idService, parseInt(SearchTable(i, 0))).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,7 +369,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(l_username)
                             .addComponent(linfoUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                         .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,8 +398,8 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -427,10 +426,10 @@ public final class Table_Users_Type extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(l_username))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1352, 590));
+        setSize(new java.awt.Dimension(1216, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

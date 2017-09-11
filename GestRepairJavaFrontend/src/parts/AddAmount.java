@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /**

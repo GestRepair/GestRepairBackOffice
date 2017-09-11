@@ -5,9 +5,7 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
-import services.APIService;
 
 /**
  *
@@ -102,7 +100,7 @@ public final class EditPrice extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 182, Short.MAX_VALUE)
                         .addComponent(bt_add))
                     .addGroup(layout.createSequentialGroup()
@@ -111,7 +109,7 @@ public final class EditPrice extends javax.swing.JFrame {
                         .addComponent(l_idPart)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_price, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );

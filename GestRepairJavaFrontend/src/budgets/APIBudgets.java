@@ -118,9 +118,9 @@ public class APIBudgets extends Connect {
         emp[2] = (String) newjsondata.get("description");
         emp[3] = (String) newjsondata.get("state");
         emp[4] = (newjsondata.get("price") != null) ? (Object) newjsondata.get("price") + "" : null;
-        emp[5] = ((String) newjsondata.get("processOpen")).substring(0, 10);
-        emp[6] = (newjsondata.get("repairTime") != null) ? ((long) newjsondata.get("repairTime")) + "" : null;
-        emp[7] = (newjsondata.get("processClose") != null) ? ((String) newjsondata.get("finishDate")).substring(0, 10) : null;
+        emp[5] = ((String) newjsondata.get("processOpen")).substring(0, 10)+" - "+((String) newjsondata.get("processOpen")).substring(11, 16);
+        emp[6] = (newjsondata.get("repairTime") != null) ? ((long) newjsondata.get("repairTime")) + "" : "";
+        emp[7] = (newjsondata.get("processClose") != null) ? ((String) newjsondata.get("processClose")).substring(0, 10)+" - "+((String) newjsondata.get("processClose")).substring(11, 16) : "";
         emp[8] = (String) newjsondata.get("resolution");
         return emp;
     }

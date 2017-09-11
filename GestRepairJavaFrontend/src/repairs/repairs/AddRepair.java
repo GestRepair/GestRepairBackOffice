@@ -5,7 +5,6 @@
  */
 package repairs.repairs;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
@@ -139,7 +138,7 @@ public final class AddRepair extends javax.swing.JFrame {
         jLabel2.setText("Descrição do Problema:");
 
         ta_pdesc.setColumns(20);
-        ta_pdesc.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        ta_pdesc.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         ta_pdesc.setRows(5);
         jScrollPane1.setViewportView(ta_pdesc);
 

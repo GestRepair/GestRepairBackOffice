@@ -189,7 +189,7 @@ public class APIService extends Connect {
         info[1] = (String) newjsondata.get("nameService");
         info[2] = (newjsondata.get("priceService") != null) ? (Object) newjsondata.get("priceService") + "" : null;
         info[3] = (String) newjsondata.get("description");
-        info[4] = (String) newjsondata.get("photo");
+        info[4] = IP()+"/service/img/"+(long) newjsondata.get("idService");
         return info;
     }
 

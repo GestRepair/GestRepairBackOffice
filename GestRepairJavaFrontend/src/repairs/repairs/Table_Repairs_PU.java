@@ -5,13 +5,14 @@
  */
 package repairs.repairs;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import repairs.employers.Table_Employer_Repair;
+import repairs.parts.ListPartsRepair;
 
 /**
  *
@@ -29,11 +30,11 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      * @throws java.text.ParseException
      */
-    public Table_Repairs_PU(String login, int id) throws Exception {
+    public Table_Repairs_PU(String login,int idService, int id) throws Exception {
         APIRepair api = new APIRepair();
         initComponents();
         showTable(api.ListRepairs(login, id));
-        Events(login, id, api);
+        Events(login, id,idService ,api);
     }
 
     private void showTable(String[][] list) {
@@ -53,7 +54,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int id, final APIRepair api) {
+    private void Events(final String login, final int id, final int idService ,final APIRepair api) {
 
         tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -65,8 +66,57 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 BT_EDIT(evt, login, id, api);
             }
         });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Info(evt, login,idService);
+            }
+        });
+        bt_list_empl.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ListEmployer(evt, login,idService);
+            }
+        });
+        bt_parts.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_Parts(evt, login,idService);
+            }
+        });
     }
-
+    private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
+        try {
+            new InfoRepair(login, SelectRow(0), idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
+        try {
+            new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
+        try {
+            new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private int SelectRow(int val) {
+        int i = tbl_vehicles.getSelectedRow();
+        TableModel mod = tbl_vehicles.getModel();
+        if (i < 0) {
+            i = 0;
+        }
+        return parseInt((String) mod.getValueAt(i, val));
+    }
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_vehicles.getSelectedRow();
         TableModel mod = tbl_vehicles.getModel();
@@ -98,9 +148,14 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         bt_edit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         l_idRepair = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        bt_info = new javax.swing.JButton();
+        bt_list_empl = new javax.swing.JButton();
+        bt_parts = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações por utilizador");
+        setPreferredSize(new java.awt.Dimension(1200, 600));
         setResizable(false);
 
         tbl_vehicles.setModel(new javax.swing.table.DefaultTableModel(
@@ -129,6 +184,14 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
         l_idRepair.setText("reparação");
 
+        jLabel1.setText("Lista de reparações por utilizador");
+
+        bt_info.setText("Info");
+
+        bt_list_empl.setText("Ver Funcionários");
+
+        bt_parts.setText("Ver Peças");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,32 +199,55 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(l_idRepair)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bt_edit)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(l_idRepair)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_parts)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_list_empl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bt_info)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bt_edit))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_edit)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bt_edit)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_info)
+                            .addComponent(bt_list_empl)
+                            .addComponent(bt_parts)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(l_idRepair)
                         .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1216, 584));
+        setSize(new java.awt.Dimension(1216, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
+    private javax.swing.JButton bt_info;
+    private javax.swing.JButton bt_list_empl;
+    private javax.swing.JButton bt_parts;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idRepair;

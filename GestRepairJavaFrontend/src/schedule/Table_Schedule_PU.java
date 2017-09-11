@@ -5,7 +5,6 @@
  */
 package schedule;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -29,21 +28,27 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         APISchedule api = new APISchedule();
         initComponents();
         int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
-        ShowDate(login, api);
         showTable(api.ListTimeUser(login, i, id));
+        ShowDate(login, api);
         Events(login, id, api);
-
     }
 
     private void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
-        Object[] row = new Object[4];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
+            Object[] row = new Object[4];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            bt_info.setVisible(true);
+        } else {
+            bt_info.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Sem dados");
         }
+
     }
 
     private void ShowDate(String login, APISchedule api) throws Exception {
@@ -87,12 +92,9 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
             String[][] data = api.ListTimeUser(login, i, id);
-            if (data.length > 0) {
-                cleanTable();
-                showTable(data);
-            } else {
-                JOptionPane.showMessageDialog(this, "Sem Dados!");
-            }
+            cleanTable();
+            showTable(data);
+
         } catch (Exception ex) {
 
         }
@@ -177,16 +179,16 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(cb_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_info)
                     .addComponent(jLabel7)
                     .addComponent(l_idSchedule))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(1216, 585));
+        setSize(new java.awt.Dimension(1216, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

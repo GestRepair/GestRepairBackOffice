@@ -65,7 +65,6 @@ public class InfoFuel extends javax.swing.JFrame {
 
         jLabel10 = new javax.swing.JLabel();
         l_id = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         l_fuel = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -78,47 +77,38 @@ public class InfoFuel extends javax.swing.JFrame {
 
         l_id.setText("ID");
 
-        jLabel2.setText("ID");
-
         l_fuel.setText("combustivel");
 
         bt_edit.setText("Editar");
 
-        jLabel1.setText("Detalhes do Combustivel:");
+        jLabel1.setText("Detalhes do Combustivel N.º:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(bt_edit))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(l_id, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
-                                .addComponent(l_fuel))
-                            .addComponent(jLabel1))
-                        .addGap(0, 117, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_fuel))
+                    .addComponent(bt_edit)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(l_id, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(l_id))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(l_id)
                     .addComponent(jLabel10)
                     .addComponent(l_fuel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -126,7 +116,7 @@ public class InfoFuel extends javax.swing.JFrame {
                 .addGap(6, 6, 6))
         );
 
-        setSize(new java.awt.Dimension(366, 124));
+        setSize(new java.awt.Dimension(210, 124));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -134,7 +124,6 @@ public class InfoFuel extends javax.swing.JFrame {
     private javax.swing.JButton bt_edit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel l_fuel;
     private javax.swing.JLabel l_id;
     // End of variables declaration//GEN-END:variables

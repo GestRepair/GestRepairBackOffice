@@ -105,15 +105,15 @@ public class EditPassword extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(l_pass_act)
+                    .addComponent(l_cpass)
                     .addComponent(l_npass)
-                    .addComponent(l_cpass))
+                    .addComponent(l_pass_act))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_chpass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                    .addComponent(tf_cpass)
+                    .addComponent(bt_chpass, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                    .addComponent(tf_pass_act)
                     .addComponent(tf_npass)
-                    .addComponent(tf_pass_act))
+                    .addComponent(tf_cpass))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,7 +136,7 @@ public class EditPassword extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(286, 162));
+        setSize(new java.awt.Dimension(365, 162));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

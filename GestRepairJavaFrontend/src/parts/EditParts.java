@@ -5,7 +5,6 @@
  */
 package parts;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -133,6 +132,7 @@ public final class EditParts extends javax.swing.JFrame {
         jLabel2.setText("Descrição da Peça:");
 
         ta_pdesc.setColumns(20);
+        ta_pdesc.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         ta_pdesc.setRows(5);
         jScrollPane1.setViewportView(ta_pdesc);
 
@@ -140,7 +140,7 @@ public final class EditParts extends javax.swing.JFrame {
 
         bt_edit.setText("Editar");
 
-        jLabel1.setText("ID:");
+        jLabel1.setText("Editar Peça n.º:");
 
         l_idPart.setText("id");
 
