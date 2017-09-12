@@ -7,6 +7,8 @@ package users.user;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,7 +30,7 @@ public class EditPassword extends javax.swing.JFrame {
         APIUsers api = new APIUsers();
         initComponents();
         JSONObject auth = (JSONObject) new JSONParser().parse(login);
-        Events(login, id, (String) auth.get("password"),api);
+        Events(login, id, (String) auth.get("password"), api);
 
     }
 
@@ -37,36 +39,46 @@ public class EditPassword extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_ChangePass(evt, login, id, password,api);
+                    BT_ChangePass(evt, login, id, password, api);
                 } catch (Exception ex) {
                     Logger.getLogger(EditPassword.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
+    private static final Pattern VALID_PASS_REGEX = Pattern.compile("^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$", Pattern.CASE_INSENSITIVE);
 
-    private void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password,APIUsers api) throws Exception {
-        int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
-        if (x == JOptionPane.YES_OPTION) {
-            if (password.equals(tf_pass_act.getText())) {
-                if (!tf_npass.getText().equals(password) || !tf_npass.getText().equals(password)) {
-                    if (tf_npass.getText().equals(tf_cpass.getText())) {
-                        String[] value = api.PutPassword(login, id, password, tf_npass.getText());
-                        JOptionPane.showMessageDialog(this, value[1] + (("ok".equals(value[0])) ? "\nO sistema irá desligar!" : ""));
-                        if ("ok".equals(value[0])) {
-                            System.exit(0);
+    private static boolean validatePASS(String pass) {
+        Matcher matcher = VALID_PASS_REGEX.matcher(pass);
+        return matcher.find();
+    }
+
+    private void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password, APIUsers api) throws Exception {
+        if (validatePASS(tf_npass.getText()) == true) {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                if (password.equals(tf_pass_act.getText())) {
+                    if (!tf_npass.getText().equals(password) || !tf_npass.getText().equals(password)) {
+                        if (tf_npass.getText().equals(tf_cpass.getText())) {
+                            String[] value = api.PutPassword(login, id, password, tf_npass.getText());
+                            JOptionPane.showMessageDialog(this, value[1] + (("ok".equals(value[0])) ? "\nO sistema irá desligar!" : ""));
+                            if ("ok".equals(value[0])) {
+                                System.exit(0);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(this, "A nova password não coicide com a de confirmação");
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "A nova password não coicide com a de confirmação");
+                        JOptionPane.showMessageDialog(this, "A nova password é igual à actual");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "A nova password é igual à actual");
+                    JOptionPane.showMessageDialog(this, "A Password atual é não é igual à do sistema");
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "A Password atual é não é igual à do sistema");
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Password não foi alterada");
             }
-        } else if (x == JOptionPane.NO_OPTION) {
-            JOptionPane.showMessageDialog(this, "A Password não foi alterada");
+        } else {
+            JOptionPane.showMessageDialog(this, "Verifique se a nova password com pelo menos 8 caracteres e uma letra maiuscula/caracter especial.");
         }
     }
 
