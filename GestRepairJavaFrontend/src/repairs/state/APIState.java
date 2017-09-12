@@ -29,4 +29,17 @@ public class APIState extends Connect {
         }
         return dataTable;
     }
+    public String[][] ShowStateComplete(String login) throws Exception {
+        URL url = new URL(IP() + "/repair/states/complete");
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idstate") + "";
+            dataTable[i][1] = (String) datas.get("nameState");
+        }
+        return dataTable;
+    }
 }

@@ -42,6 +42,7 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
                 }
                 mod.addRow(row);
             }
+            tbl_budgets.setRowSelectionInterval(0, 0);
             l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
         } else {
             JOptionPane.showMessageDialog(this, "Não existe dados");

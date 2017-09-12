@@ -32,13 +32,13 @@ public class Table_Brand extends javax.swing.JFrame {
     private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_EDIT(evt,login);
+                BT_EDIT(evt, login);
             }
         });
 
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_INFO(evt,login);
+                BT_INFO(evt, login);
             }
         });
         tbl_brand.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -54,7 +54,7 @@ public class Table_Brand extends javax.swing.JFrame {
         row(i);
     }
 
-    private void BT_EDIT(java.awt.event.ActionEvent evt,String login) {
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditBrand(login, parseInt(l_idBrand.getText())).setVisible(true);
             dispose();
@@ -63,7 +63,7 @@ public class Table_Brand extends javax.swing.JFrame {
         }
     }
 
-    private void BT_INFO(java.awt.event.ActionEvent evt,String login) {
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         new InfoBrand(login, parseInt(l_idBrand.getText())).setVisible(true);
     }
 
@@ -74,13 +74,17 @@ public class Table_Brand extends javax.swing.JFrame {
     }
 
     private void Table(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_brand.getModel();
-        Object[] row = new Object[2];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_brand.getModel();
+            Object[] row = new Object[2];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_brand.setRowSelectionInterval(0, 0);
+            l_idBrand.setText((String) tbl_brand.getModel().getValueAt(0, 0));
         }
     }
 

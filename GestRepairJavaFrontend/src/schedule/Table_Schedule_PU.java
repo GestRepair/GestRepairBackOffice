@@ -27,9 +27,12 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
     public Table_Schedule_PU(String login, int id) throws Exception {
         APISchedule api = new APISchedule();
         initComponents();
-        int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
-        showTable(api.ListTimeUser(login, i, id));
-        ShowDate(login, api);
+        String[][] listDays = api.ListDaysUser(login, id);
+        if (listDays.length > 0) {
+            int i = cbVal(cb_date.getSelectedIndex(), listDays);
+            showTable(api.ListTimeUser(login, i, id));
+            ShowDate(listDays);
+        }
         Events(login, id, api);
     }
 
@@ -44,6 +47,8 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
                 mod.addRow(row);
             }
             bt_info.setVisible(true);
+            l_idSchedule.setText((String) mod.getValueAt(0, 0));
+            tbl_schedule.setRowSelectionInterval(0, 0);
         } else {
             bt_info.setVisible(false);
             JOptionPane.showMessageDialog(this, "Sem dados");
@@ -51,11 +56,10 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
 
     }
 
-    private void ShowDate(String login, APISchedule api) throws Exception {
+    private void ShowDate(String[][] listDays) throws Exception {
         cb_date.removeAllItems();
-        String[][] data = api.ListDays(login);
-        for (int i = 0; i < data.length; i++) {
-            cb_date.addItem(data[i][1]);
+        for (int i = 0; i < listDays.length; i++) {
+            cb_date.addItem(listDays[i][1]);
         }
     }
 
@@ -86,6 +90,24 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
                 CB_LIST(evt, login, id, api);
             }
         });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_INFO(evt, login);
+            }
+        });
+    }
+
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
+        try {
+            DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
+            int i = tbl_schedule.getSelectedRow();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new InfoSchedule(login, val).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+
+        }
     }
 
     private void CB_LIST(java.awt.event.ActionEvent evt, String login, int id, APISchedule api) {

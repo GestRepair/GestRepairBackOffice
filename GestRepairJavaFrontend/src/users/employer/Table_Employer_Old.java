@@ -57,6 +57,8 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
             }
             bt_edit.setVisible(true);
             bt_enable.setVisible(true);
+            tbl_users.setRowSelectionInterval(0, 0);
+            linfoUser.setText((String) tbl_users.getModel().getValueAt(0, 0));
         } else {
             JOptionPane.showMessageDialog(this, "Sem Dados");
             bt_edit.setVisible(false);

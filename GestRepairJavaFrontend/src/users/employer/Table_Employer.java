@@ -21,6 +21,7 @@ import users.user.Table_Users_Type;
  * @author Convite
  */
 public final class Table_Employer extends javax.swing.JFrame {
+
     /**
      *
      * @param login
@@ -45,15 +46,18 @@ public final class Table_Employer extends javax.swing.JFrame {
      * @param list
      */
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-        Object[] row = new Object[4];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+            Object[] row = new Object[4];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_users.setRowSelectionInterval(0, 0);
+            linfoUser.setText((String) tbl_users.getModel().getValueAt(0, 0));
         }
-
     }
 
     public void cleanTable() {
@@ -72,7 +76,7 @@ public final class Table_Employer extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idService, final int idEmployer,final APIEmployer api) {
+    private void Events(final String login, final int idService, final int idEmployer, final APIEmployer api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +110,7 @@ public final class Table_Employer extends javax.swing.JFrame {
             int i = tbl_users.getSelectedRow();
             TableModel mod = tbl_users.getModel();
             int val = parseInt((String) mod.getValueAt(i, 0));
-            new EditEmployer(login, val ).setVisible(true);
+            new EditEmployer(login, val).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +127,7 @@ public final class Table_Employer extends javax.swing.JFrame {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer desabilitar o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
                 String[] value = api.ActivityEmplyer(login, parseInt(linfoUser.getText()), 0);
-                JOptionPane.showMessageDialog(this,value[1]);
+                JOptionPane.showMessageDialog(this, value[1]);
                 if ("ok".equals(value[0])) {
                     cleanTable();
                     showTable(api.ShowEmployer(login, 1, 0));
@@ -239,15 +243,16 @@ public final class Table_Employer extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(linfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(l_username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bt_disable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bt_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(bt_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(linfoUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(l_username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jLabel1))
             .addGap(1028, 1028, 1028))
     );
 

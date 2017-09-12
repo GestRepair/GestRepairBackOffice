@@ -24,6 +24,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * Creates new form Table_Vehicles
      *
      * @param login
+     * @param idService
      * @param id
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
@@ -39,7 +40,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
     private void showTable(String[][] list) {
         if (list.length > 0) {
-            DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
+            DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
             Object[] row = new Object[8];
             for (String[] list1 : list) {
                 for (int i = 0; i < row.length; i++) {
@@ -47,6 +48,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 }
                 mod.addRow(row);
             }
+            tbl_repair.setRowSelectionInterval(0, 0);
         } else {
             bt_edit.setVisible(false);
             JOptionPane.showMessageDialog(this, "Não existe dados");
@@ -56,7 +58,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
     private void Events(final String login, final int id, final int idService ,final APIRepair api) {
 
-        tbl_vehicles.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl_repair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TBL_CLICKED(evt);
             }
@@ -110,23 +112,23 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         }
     }
     private int SelectRow(int val) {
-        int i = tbl_vehicles.getSelectedRow();
-        TableModel mod = tbl_vehicles.getModel();
+        int i = tbl_repair.getSelectedRow();
+        TableModel mod = tbl_repair.getModel();
         if (i < 0) {
             i = 0;
         }
         return parseInt((String) mod.getValueAt(i, val));
     }
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
-        int i = tbl_vehicles.getSelectedRow();
-        TableModel mod = tbl_vehicles.getModel();
+        int i = tbl_repair.getSelectedRow();
+        TableModel mod = tbl_repair.getModel();
         l_idRepair.setText((String) mod.getValueAt(i, 0));
     }
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIRepair api) {
         try {
-            int i = ((tbl_vehicles.getSelectedRow() < 0) ? 0 : tbl_vehicles.getSelectedRow());
-            TableModel mod = tbl_vehicles.getModel();
+            int i = ((tbl_repair.getSelectedRow() < 0) ? 0 : tbl_repair.getSelectedRow());
+            TableModel mod = tbl_repair.getModel();
             new EditRepair(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Repairs_PU.class
@@ -144,7 +146,7 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_vehicles = new javax.swing.JTable();
+        tbl_repair = new javax.swing.JTable();
         bt_edit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         l_idRepair = new javax.swing.JLabel();
@@ -155,10 +157,9 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Reparações por utilizador");
-        setPreferredSize(new java.awt.Dimension(1200, 600));
         setResizable(false);
 
-        tbl_vehicles.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_repair.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -174,9 +175,9 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_vehicles.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(tbl_vehicles);
-        tbl_vehicles.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_repair.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(tbl_repair);
+        tbl_repair.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         bt_edit.setText("Editar Reparação");
 
@@ -227,11 +228,10 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bt_edit)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(bt_info)
-                            .addComponent(bt_list_empl)
-                            .addComponent(bt_parts)))
+                        .addComponent(bt_info)
+                        .addComponent(bt_list_empl)
+                        .addComponent(bt_parts))
+                    .addComponent(bt_edit)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(l_idRepair)
                         .addComponent(jLabel7)))
@@ -251,6 +251,6 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idRepair;
-    private javax.swing.JTable tbl_vehicles;
+    private javax.swing.JTable tbl_repair;
     // End of variables declaration//GEN-END:variables
 }

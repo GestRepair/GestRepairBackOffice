@@ -16,9 +16,10 @@ import javax.swing.table.TableModel;
  * @author Rui Barcelos
  */
 public final class Table_Budgets extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Table_Vehicles
+     *
      * @param login
      * @throws java.io.IOException
      * @throws java.net.MalformedURLException
@@ -27,37 +28,36 @@ public final class Table_Budgets extends javax.swing.JFrame {
     public Table_Budgets(String login) throws Exception {
         APIBudgets api = new APIBudgets();
         initComponents();
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
-        showTable(api.ListBudgets(login,0));
-        l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
+        showTable(api.ListBudgets(login, 0));
         Events(login);
     }
-        
+
     private void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
-        Object[] row = new Object[9];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                if(i == 5||i == 6){
-                    row[i] = list1[i];
-                }else{
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
+            Object[] row = new Object[9];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
                     row[i] = list1[i];
                 }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            l_idBudget.setText((String) tbl_budgets.getModel().getValueAt(0, 0));
+            tbl_budgets.setRowSelectionInterval(0, 0);
         }
     }
-    private void Events(final String login){
+
+    private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt,login);
+                BT_Edit(evt, login);
             }
         });
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Info(evt,login);
+                BT_Info(evt, login);
             }
         });
         tbl_budgets.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -67,34 +67,37 @@ public final class Table_Budgets extends javax.swing.JFrame {
             }
         });
     }
-       
-    private void BT_Edit(java.awt.event.ActionEvent evt, String login) {                                        
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         // TODO add your handling code here:
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
-            i = (i>0)?i:0;
-            new EditBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
+            i = (i > 0) ? i : 0;
+            new EditBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
-    private void BT_Info(java.awt.event.ActionEvent evt, String login) {                                        
+    }
+
+    private void BT_Info(java.awt.event.ActionEvent evt, String login) {
         // TODO add your handling code here:
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
-            i = (i>0)?i:0;
-            new InfoBudget(login, parseInt((String)mod.getValueAt(i, 0))).setVisible(true);
+            i = (i > 0) ? i : 0;
+            new InfoBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
-    private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {                                         
+    }
+
+    private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_budgets.getSelectedRow();
         TableModel mod = tbl_budgets.getModel();
         l_idBudget.setText((String) mod.getValueAt(i, 0));
-    }   
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

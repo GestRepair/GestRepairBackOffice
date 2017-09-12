@@ -48,6 +48,8 @@ public final class Table_Vehicles extends javax.swing.JFrame {
                 }
                 mod.addRow(row);
             }
+            tbl_vehicles.setRowSelectionInterval(0, 0);
+            l_idVehicle.setText((String) tbl_vehicles.getModel().getValueAt(0, 0));
         } else {
             JOptionPane.showMessageDialog(this, "Não existe dados");
             dispose();

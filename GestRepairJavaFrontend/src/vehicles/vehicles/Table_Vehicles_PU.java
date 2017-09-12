@@ -44,13 +44,17 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
      * @param list
      */
     private void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
-        Object[] row = new Object[11];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
+            Object[] row = new Object[11];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_vehicles.setRowSelectionInterval(0, 0);
+            l_idVehicle.setText((String) tbl_vehicles.getModel().getValueAt(0, 0));
         }
     }
 

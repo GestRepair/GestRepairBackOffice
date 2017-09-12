@@ -7,7 +7,6 @@ package budgets;
 
 import connect.Connect;
 import java.net.URL;
-import java.nio.charset.Charset;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -49,6 +48,20 @@ public class APIBudgets extends Connect {
 
     public String[][] ListState(String login) throws Exception {
         URL url = new URL(IP() + "/budget/state");
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+        JSONArray data = (JSONArray) jo.get("data");
+        String[][] dataTable = new String[data.size()][9];
+        for (int i = 0; i < data.size(); i++) {
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idState") + "";
+            dataTable[i][1] = (String) datas.get("nameState");
+        };
+        return dataTable;
+    }
+    
+    public String[][] ListStateComplete(String login) throws Exception {
+        URL url = new URL(IP() + "/budget/state/complete");
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");

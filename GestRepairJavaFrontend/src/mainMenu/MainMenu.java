@@ -105,12 +105,6 @@ public final class MainMenu extends javax.swing.JFrame {
                 BT_Parts(evt,login,idService);
             }
         });
-        mi_logout.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MI_Logout(evt);
-            }
-        });
         mi_exit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +234,7 @@ public final class MainMenu extends javax.swing.JFrame {
         mi_info = new javax.swing.JMenuItem();
         mi_edit = new javax.swing.JMenuItem();
         mi_change_pass = new javax.swing.JMenuItem();
-        mi_logout = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mi_exit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -286,8 +280,13 @@ public final class MainMenu extends javax.swing.JFrame {
         mi_change_pass.setText("Alterar Password");
         m_session.add(mi_change_pass);
 
-        mi_logout.setText("Terminar Sessão");
-        m_session.add(mi_logout);
+        jMenuItem1.setText("Creditos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        m_session.add(jMenuItem1);
 
         mi_exit.setText("Sair");
         m_session.add(mi_exit);
@@ -368,6 +367,11 @@ public final class MainMenu extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(505, 389));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        new info().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_Schedule;
     private javax.swing.JButton bt_budgets;
@@ -379,6 +383,7 @@ public final class MainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel l_id_nome;
     private javax.swing.JLabel l_id_nome1;
     private javax.swing.JLabel l_nome;
@@ -388,6 +393,5 @@ public final class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_edit;
     private javax.swing.JMenuItem mi_exit;
     private javax.swing.JMenuItem mi_info;
-    private javax.swing.JMenuItem mi_logout;
     // End of variables declaration//GEN-END:variables
 }

@@ -40,13 +40,16 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
-        Object[] row = new Object[8];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
+            Object[] row = new Object[8];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_repair.setRowSelectionInterval(0, 0);
         }
     }
 

@@ -33,19 +33,23 @@ public final class Table_Repairs extends javax.swing.JFrame {
         APIRepair api = new APIRepair();
         initComponents();
         showTable(api.ListRepairs(login, 0));
-        Events(login,idService);
+        Events(login, idService);
         row();
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
-        Object[] row = new Object[8];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
+            Object[] row = new Object[8];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_repair.setRowSelectionInterval(0, 0);
         }
+
     }
 
     private void row() {
@@ -80,19 +84,19 @@ public final class Table_Repairs extends javax.swing.JFrame {
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Info(evt, login,idService);
+                BT_Info(evt, login, idService);
             }
         });
         bt_list_empl.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListEmployer(evt, login,idService);
+                BT_ListEmployer(evt, login, idService);
             }
         });
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Parts(evt, login,idService);
+                BT_Parts(evt, login, idService);
             }
         });
         tbl_repair.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -102,6 +106,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
             }
         });
     }
+
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditRepair(login, SelectRow(0)).setVisible(true);
@@ -110,6 +115,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(EditRepair.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new InfoRepair(login, SelectRow(0), idService).setVisible(true);
@@ -118,6 +124,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
@@ -126,6 +133,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
@@ -134,9 +142,11 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void TBL_RepairClick(java.awt.event.MouseEvent evt) {
         row();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -191,7 +201,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
         bt_parts.setText("Ver Peças");
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("Lista de reparações");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

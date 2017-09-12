@@ -30,7 +30,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
         Events(login, api);
         int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
         showTable(api.ListTime(login, i));
-
+        
     }
 
     private void showTable(String[][] list) {
@@ -44,6 +44,8 @@ public final class Table_Schedule extends javax.swing.JFrame {
                 mod.addRow(row);
             }
             bt_info.setVisible(true);
+            l_idSchedule.setText((String) mod.getValueAt(0, 0));
+            tbl_schedule.setRowSelectionInterval(0, 0);
         } else {
             bt_info.setVisible(false);
             JOptionPane.showMessageDialog(this, "Sem dados");
@@ -85,8 +87,24 @@ public final class Table_Schedule extends javax.swing.JFrame {
                 CB_LIST(evt, login, api);
             }
         });
+        bt_info.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_INFO(evt, login);
+            }
+        });
     }
+    private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
+        try {
+            DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
+            int i = tbl_schedule.getSelectedRow();
+            int val = parseInt((String) mod.getValueAt(i, 0));
+            new InfoSchedule(login, val).setVisible(true);
+            dispose();
+        } catch (Exception ex) {
 
+        }
+    }
     private void CB_LIST(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));

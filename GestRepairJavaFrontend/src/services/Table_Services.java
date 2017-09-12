@@ -17,8 +17,6 @@ import javax.swing.table.TableModel;
  */
 public final class Table_Services extends javax.swing.JFrame {
 
-    
-
     /**
      * Creates new form Table_Vehicles
      *
@@ -32,61 +30,70 @@ public final class Table_Services extends javax.swing.JFrame {
         APIService api = new APIService();
         initComponents();
         showTable(api.Service(login));
-        Events (login);
+        Events(login);
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
-        Object[] row = new Object[5];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_service.getModel();
+            Object[] row = new Object[5];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_service.setRowSelectionInterval(0, 0);
+            l_idService.setText((String) mod.getValueAt(0, 0));
         }
     }
-    private int SelectedRow(int val){
-        int i = tbl_schedule.getSelectedRow();
-        TableModel mod = tbl_schedule.getModel();
+
+    private int SelectedRow(int val) {
+        int i = tbl_service.getSelectedRow();
+        TableModel mod = tbl_service.getModel();
         return parseInt((String) mod.getValueAt(i, val));
     }
-    private void TBL_ScheduleClicked(java.awt.event.MouseEvent evt) {                                          
-        int i = tbl_schedule.getSelectedRow();
-        TableModel mod = tbl_schedule.getModel();
-        l_idService.setText((String) mod.getValueAt(i, 0));
-    }                                         
 
-    private void BT_Edit(java.awt.event.ActionEvent evt,String login) {                                        
+    private void TBL_ScheduleClicked(java.awt.event.MouseEvent evt) {
+        int i = tbl_service.getSelectedRow();
+        TableModel mod = tbl_service.getModel();
+        l_idService.setText((String) mod.getValueAt(i, 0));
+    }
+
+    private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
-            new EditService(login,SelectedRow(0)).setVisible(true);
+            new EditService(login, SelectedRow(0)).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }     
-    private void BT_Info(java.awt.event.ActionEvent evt,String login) {                                        
+    }
+
+    private void BT_Info(java.awt.event.ActionEvent evt, String login) {
         try {
-            new InfoService(login,SelectedRow(0)).setVisible(true);
+            new InfoService(login, SelectedRow(0)).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }     
-    private void Events (final String login){
+    }
+
+    private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt,login);
+                BT_Edit(evt, login);
             }
         });
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Info(evt,login);
+                BT_Info(evt, login);
             }
         });
-        tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl_service.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TBL_ScheduleClicked(evt);
             }
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,7 +104,7 @@ public final class Table_Services extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_schedule = new javax.swing.JTable();
+        tbl_service = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         l_idService = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
@@ -108,7 +115,7 @@ public final class Table_Services extends javax.swing.JFrame {
         setTitle("GestRepair - Lista de Serviços");
         setResizable(false);
 
-        tbl_schedule.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_service.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -124,9 +131,9 @@ public final class Table_Services extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tbl_schedule.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(tbl_schedule);
-        tbl_schedule.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_service.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(tbl_service);
+        tbl_service.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel7.setText("Serviço  N.º");
 
@@ -186,6 +193,6 @@ public final class Table_Services extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel l_idService;
-    private javax.swing.JTable tbl_schedule;
+    private javax.swing.JTable tbl_service;
     // End of variables declaration//GEN-END:variables
 }

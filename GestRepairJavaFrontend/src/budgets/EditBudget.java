@@ -27,7 +27,7 @@ public class EditBudget extends javax.swing.JFrame {
         initComponents();
         ShowData(login, idBudget, api);
         Events(login, idBudget, api);
-        insertCb(api.ListState(login));
+        insertCb(api.ListStateComplete(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
 

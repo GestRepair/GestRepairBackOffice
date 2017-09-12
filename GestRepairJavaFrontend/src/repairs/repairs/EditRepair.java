@@ -27,7 +27,7 @@ public class EditRepair extends javax.swing.JFrame {
         APIState apiState = new APIState();
         initComponents();
         ShowData(login, idRepair, api);
-        insertCb(apiState.ShowState(login));
+        insertCb(apiState.ShowStateComplete(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
         Events(login, idRepair, api, apiState);

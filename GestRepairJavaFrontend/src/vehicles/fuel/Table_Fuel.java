@@ -52,14 +52,19 @@ public final class Table_Fuel extends javax.swing.JFrame {
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_fuels.getModel();
-        Object[] row = new Object[2];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_fuels.getModel();
+            Object[] row = new Object[2];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_fuels.setRowSelectionInterval(0, 0);
+            l_id.setText((String) tbl_fuels.getModel().getValueAt(0, 0));
         }
+
     }
 
     private void row(int val) {
@@ -76,7 +81,7 @@ public final class Table_Fuel extends javax.swing.JFrame {
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_fuels.getModel();
-            int val = (tbl_fuels.getSelectedRow()>0)?tbl_fuels.getSelectedRow():0;
+            int val = (tbl_fuels.getSelectedRow() > 0) ? tbl_fuels.getSelectedRow() : 0;
             new EditFuel(login, parseInt((String) mod.getValueAt(val, 0))).setVisible(true);
             dispose();
         } catch (Exception ex) {
@@ -87,7 +92,7 @@ public final class Table_Fuel extends javax.swing.JFrame {
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_fuels.getModel();
-            int val = (tbl_fuels.getSelectedRow()>0)?tbl_fuels.getSelectedRow():0;
+            int val = (tbl_fuels.getSelectedRow() > 0) ? tbl_fuels.getSelectedRow() : 0;
             new InfoFuel(login, parseInt((String) mod.getValueAt(val, 0))).setVisible(true);
             dispose();
         } catch (Exception ex) {

@@ -119,13 +119,16 @@ public final class Table_Parts extends javax.swing.JFrame {
     }
 
     public void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_part.getModel();
-        Object[] row = new Object[6];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_part.getModel();
+            Object[] row = new Object[6];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_part.setRowSelectionInterval(0, 0);
         }
     }
 

@@ -30,15 +30,19 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
     }
 
     private void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_employers_repair.getModel();
-        mod.setRowCount(0);
-        Object[] row = new Object[2];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                row[i] = list1[i];
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_employers_repair.getModel();
+            mod.setRowCount(0);
+            Object[] row = new Object[2];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = list1[i];
+                }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_employers_repair.setRowSelectionInterval(0, 0);
         }
+
     }
 
     private void Events(final String login, final int idBudget) {

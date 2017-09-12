@@ -179,7 +179,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="text" type="java.lang.String" value="Lista de repara&#xe7;&#xf5;es"/>
       </Properties>
     </Component>
   </SubComponents>

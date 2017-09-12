@@ -45,17 +45,16 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
     }
 
     private void showTable(String[][] list) {
-        DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
-        Object[] row = new Object[9];
-        for (String[] list1 : list) {
-            for (int i = 0; i < row.length; i++) {
-                if (i == 5 || i == 6) {
-                    row[i] = list1[i];
-                } else {
+        if (list.length > 0) {
+            DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
+            Object[] row = new Object[9];
+            for (String[] list1 : list) {
+                for (int i = 0; i < row.length; i++) {
                     row[i] = list1[i];
                 }
+                mod.addRow(row);
             }
-            mod.addRow(row);
+            tbl_budgets.setRowSelectionInterval(0, 0);
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package users.user;
 
+import budgets.APIBudgets;
 import budgets.Table_Budgets_PU;
 import users.employer.InfoEmployer;
 import users.employer.AddEmployer;
@@ -14,10 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
+import repairs.repairs.APIRepair;
 import repairs.repairs.Table_Repairs_PU;
+import schedule.APISchedule;
 import schedule.Table_Schedule_PU;
 import users.employer.APIEmployer;
 import users.employer.EditEmployer;
+import vehicles.vehicles.APIVehicles;
 import vehicles.vehicles.Table_Vehicles_PU;
 import vehicles.vehicles.VerifyVehicle;
 
@@ -38,7 +42,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         APIUsers api = new APIUsers();
         APIEmployer apiEmployer = new APIEmployer();
         initComponents();
-        Events(login, idService, idEmployer,api);
+        Events(login, idService, idEmployer, api);
         tbl_usersStart(login, api);
         int gest = parseInt(apiEmployer.GetInfoEmployerUser(login, idService)[0]);
         bt_edit.setVisible(gest == 1);
@@ -52,24 +56,34 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         tbl_usersStart(login, api);
     }
 
-    private void showTable(String[][] list) {
+    private void showTable(String login, String[][] list) {
+        APIVehicles apiVehicle = new APIVehicles();
+        APISchedule apiSchedule = new APISchedule();
+        APIRepair apiRepair = new APIRepair();
+        APIBudgets apiBudgets = new APIBudgets();
         if (list.length > 0) {
-            DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
-            Object[] row = new Object[9];
-            for (String[] list1 : list) {
-                for (int i = 0; i < row.length; i++) {
-                    row[i] = list1[i];
+            try {
+                DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
+                Object[] row = new Object[9];
+                for (String[] list1 : list) {
+                    for (int i = 0; i < row.length; i++) {
+                        row[i] = list1[i];
+                    }
+                    mod.addRow(row);
                 }
-                mod.addRow(row);
+                tbl_users.setRowSelectionInterval(0, 0);
+                String id = (String) tbl_users.getModel().getValueAt(0, 0);
+                linfoUser.setText(id);
+                bt_add_vehicle.setVisible(true);
+                bt_edit.setVisible(true);
+                bt_userdata.setVisible(true);
+                bt_vehicles.setVisible(apiVehicle.vehicles(login, parseInt(id)).length > 0);
+                bt_schedule.setVisible(apiSchedule.ListSchedule(login, parseInt(id)).length > 0);
+                bt_repair.setVisible(apiRepair.ListRepairs(login, parseInt(id)).length > 0);
+                bt_budgets.setVisible(apiBudgets.ListBudgets(login, parseInt(id)).length > 0);
+            } catch (Exception ex) {
+                Logger.getLogger(Table_Users_Type.class.getName()).log(Level.SEVERE, null, ex);
             }
-            tbl_users.setRowSelectionInterval(0, 0);
-            bt_add_vehicle.setVisible(true);
-            bt_budgets.setVisible(true);
-            bt_edit.setVisible(true);
-            bt_repair.setVisible(true);
-            bt_schedule.setVisible(true);
-            bt_userdata.setVisible(true);
-            bt_vehicles.setVisible(true);
         } else {
             bt_add_vehicle.setVisible(false);
             bt_budgets.setVisible(false);
@@ -85,7 +99,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
 
     private void tbl_usersStart(String login, APIUsers api) throws Exception {
         int cb = cbType.getSelectedIndex();
-        showTable(api.ShowUser(login, cb));
+        showTable(login,api.ShowUser(login, cb));
         bt_info_func.setVisible(cb != 0);
         linfoUser.setText(SearchTable(0, 0));
         l_username.setText(SearchTable(0, 8));
@@ -154,15 +168,30 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         });
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TBL_CLICKED(evt);
+                TBL_CLICKED(evt,login);
             }
         });
     }
-    private void TBL_CLICKED(java.awt.event.MouseEvent evt) {                                       
-        int i = tbl_users.getSelectedRow();
-        linfoUser.setText(SearchTable(i, 0));
-        l_username.setText(SearchTable(i, 8));
-    }     
+
+    private void TBL_CLICKED(java.awt.event.MouseEvent evt, String login) {
+        try {
+            APIVehicles apiVehicle = new APIVehicles();
+            APISchedule apiSchedule = new APISchedule();
+            APIRepair apiRepair = new APIRepair();
+            APIBudgets apiBudgets = new APIBudgets();
+            int i = tbl_users.getSelectedRow();
+            String id = SearchTable(i, 0);
+            linfoUser.setText(id);
+            l_username.setText(SearchTable(i, 8));
+            bt_vehicles.setVisible(apiVehicle.vehicles(login, parseInt(id)).length > 0);
+            bt_schedule.setVisible(apiSchedule.ListSchedule(login, parseInt(id)).length > 0);
+            bt_repair.setVisible(apiRepair.ListRepairs(login, parseInt(id)).length > 0);
+            bt_budgets.setVisible(apiBudgets.ListBudgets(login, parseInt(id)).length > 0);
+        } catch (Exception ex) {
+            Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void BT_addEmployer(java.awt.event.ActionEvent evt, String login) {
         try {
             if ("Adicionar Funcionário".equals(bt_addEmployer.getText())) {
@@ -230,7 +259,7 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
-    private void BT_Repair(java.awt.event.ActionEvent evt, String login,int idService) {
+    private void BT_Repair(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
             new Table_Repairs_PU(login, idService, parseInt(SearchTable(i, 0))).setVisible(true);
@@ -354,79 +383,72 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_addEmployer, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                        .addComponent(bt_budgets, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_repair, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_add_vehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(l_username)
-                            .addComponent(linfoUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
-                        .addComponent(bt_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_userdata, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_add_vehicle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bt_repair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bt_budgets, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bt_schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bt_vehicles, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bt_info_func, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_addEmployer, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addComponent(linfoUser)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(l_username, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(bt_userdata, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_info_func, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_vehicles, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23))
             .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(l_username)
+                    .addComponent(jLabel1)
+                    .addComponent(linfoUser))
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(bt_budgets)
-                                .addComponent(bt_vehicles)
-                                .addComponent(bt_info_func))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(bt_repair)
-                                .addComponent(bt_schedule)
-                                .addComponent(bt_addEmployer)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(bt_userdata)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(bt_add_vehicle)
-                                .addComponent(bt_edit))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(linfoUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(l_username))))
-                .addContainerGap())
+                            .addComponent(bt_add_vehicle)
+                            .addComponent(bt_repair)
+                            .addComponent(bt_budgets)
+                            .addComponent(bt_edit)
+                            .addComponent(bt_addEmployer))
+                        .addGap(29, 29, 29))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bt_userdata)
+                        .addComponent(bt_vehicles)
+                        .addComponent(bt_schedule)
+                        .addComponent(bt_info_func)))
+                .addGap(11, 11, 11))
         );
 
         setSize(new java.awt.Dimension(1216, 639));
