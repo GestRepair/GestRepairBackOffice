@@ -13,6 +13,7 @@ import users.employer.Table_Employer_Service;
 import users.employer.Table_Employer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import users.employer.APIEmployer;
 import users.employer.Table_Employer_Old;
 
 /**
@@ -28,15 +29,13 @@ public class MainUsers extends javax.swing.JFrame {
      * @param idService
      * @param idEmployer
      */
-    public MainUsers(String login, int idService, int idEmployer) {
+    public MainUsers(String login, int idService, int idEmployer) throws Exception {
         initComponents();
-        if (idService != 1 || idService != 2) {
-            bt_showUsersType.setVisible(false);
-            bt_func_list.setVisible(false);
-            bt_func_list_old.setVisible(false);
-            bt_func_list_type.setVisible(false);
-            bt_func_list_type_old.setVisible(false);
-        }
+        bt_showUsersType.setVisible(idService == 1 || idService == 2);
+        bt_func_list.setVisible(idService == 1 || idService == 2);
+        bt_func_list_type.setVisible(idService == 1 || idService == 2);
+        bt_func_list_old.setVisible((idService == 1 || idService == 2) && new APIEmployer().ShowServiceEmployer(login, 0).length > 0);
+        bt_func_list_type_old.setVisible((idService == 1 || idService == 2) && new APIEmployer().ShowServiceEmployer(login, 0).length > 0);
         Events(login, idService, idEmployer);
     }
 
@@ -51,6 +50,7 @@ public class MainUsers extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ListUser(evt, login, idService, idEmployer);
+                
             }
         });
         bt_showUsersType.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +88,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_addUser(java.awt.event.ActionEvent evt, String login) {
         try {
             new AddUser(login).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,6 +98,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_ListUser(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Users(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,6 +107,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_ListUserType(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Users_Type(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,6 +116,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_Fl(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,6 +125,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_Flo(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Old(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -129,6 +134,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_Flt(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -137,6 +143,7 @@ public class MainUsers extends javax.swing.JFrame {
     private void BT_Flto(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service_Old(login, idService, idEmployer).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,18 +188,18 @@ public class MainUsers extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bt_addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_showUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_func_list, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_func_list_type, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_showUsersType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_func_list_old, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_func_list_type_old, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                    .addComponent(bt_func_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_showUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list_old, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(bt_addUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_func_list_type_old, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_func_list_type, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_showUsersType, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -207,11 +214,11 @@ public class MainUsers extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_func_list)
-                    .addComponent(bt_func_list_old))
+                    .addComponent(bt_func_list_type))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_func_list_type)
-                    .addComponent(bt_func_list_type_old))
+                    .addComponent(bt_func_list_type_old)
+                    .addComponent(bt_func_list_old))
                 .addContainerGap())
         );
 

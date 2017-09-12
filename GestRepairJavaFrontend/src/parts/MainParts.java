@@ -49,6 +49,7 @@ public class MainParts extends javax.swing.JFrame {
     private void BT_addPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new AddParts(login, idService).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,6 +58,7 @@ public class MainParts extends javax.swing.JFrame {
     private void BT_ListPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Parts(login, idService).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,6 +67,7 @@ public class MainParts extends javax.swing.JFrame {
     private void BT_ListPartService(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Parts_Type(login, idService).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }

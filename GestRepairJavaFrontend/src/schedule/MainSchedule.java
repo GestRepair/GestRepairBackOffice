@@ -32,6 +32,7 @@ public class MainSchedule extends javax.swing.JFrame {
     private void BT_List(java.awt.event.ActionEvent evt,String login){
         try {
             new Table_Schedule(login).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainSchedule.class.getName()).log(Level.SEVERE, null, ex);
         }

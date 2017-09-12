@@ -43,6 +43,7 @@ public class MainBudgets extends javax.swing.JFrame {
     private void BT_List(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Budgets(login).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,6 +51,7 @@ public class MainBudgets extends javax.swing.JFrame {
     private void BT_ListState(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Budgets_State(login).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
         }

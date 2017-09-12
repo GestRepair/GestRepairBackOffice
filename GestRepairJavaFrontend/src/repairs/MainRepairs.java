@@ -54,9 +54,11 @@ public class MainRepairs extends javax.swing.JFrame {
 
     private void BT_ListRepair(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         new Table_Repairs(login,idService).setVisible(true);
+        dispose();
     }
     private void BT_ListRepairState(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         new Table_Repairs_States(login,idService).setVisible(true);
+        dispose();
     }
     /**
      * This method is called from within the constructor to initialize the form.
