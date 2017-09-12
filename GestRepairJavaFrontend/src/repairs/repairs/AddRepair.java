@@ -64,22 +64,28 @@ public final class AddRepair extends javax.swing.JFrame {
 
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int vehicle, int idService, int idEmployer, APIRepair api, APIService apiService, APIEmployer apiEmployer) {
         try {
-            int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
-            int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.PostRepair(login, vehicle, ta_pdesc.getText(), (idService == 1 || idService == 2) ? empl : idEmployer);
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
+            if (ta_pdesc.getText().length()>0) {
+                int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
+                int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
+                int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String value[] = api.PostRepair(login, vehicle, ta_pdesc.getText(), (idService == 1 || idService == 2) ? empl : idEmployer);
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
                     dispose();
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
                 }
-                dispose();
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi introduzida no sistema!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique o se o campo descrição está preenchidos!");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
+
         }
+
     }
 
     private void CB_Service(java.awt.event.ActionEvent evt, String login, APIEmployer apiEmployer, APIService apiService) {

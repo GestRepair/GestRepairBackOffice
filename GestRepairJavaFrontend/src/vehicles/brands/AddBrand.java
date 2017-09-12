@@ -17,7 +17,6 @@ import vehicles.fuel.Table_Fuel;
 public class AddBrand extends javax.swing.JFrame {
 
     public String login;
-    
 
     /**
      * Creates new form addBrand
@@ -27,32 +26,40 @@ public class AddBrand extends javax.swing.JFrame {
     public AddBrand(String login) {
         APIBrand api = new APIBrand();
         initComponents();
-        Events(login,api);
+        Events(login, api);
     }
-    private void Events(final String login, final APIBrand api){
+
+    private void Events(final String login, final APIBrand api) {
         bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADD(evt,login,api);
+                BT_ADD(evt, login, api);
             }
         });
     }
-    private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIBrand api) {                                            
+
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIBrand api) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca" + tf_brand.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.PostBrand(login, tf_brand.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    new Table_Fuel(login).setVisible(true);
-                    dispose();
+            int lbrand = tf_brand.getText().length();
+            if (lbrand > 1 && lbrand < 25) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar a marca" + tf_brand.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String[] value = api.PostBrand(login, tf_brand.getText());
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        new Table_Fuel(login).setVisible(true);
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A marca não foi adicionada!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique se o número de caracteres é entre 2 a 24");
             }
         } catch (Exception ex) {
             Logger.getLogger(AddBrand.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

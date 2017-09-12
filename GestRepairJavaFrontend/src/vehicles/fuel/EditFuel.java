@@ -47,16 +47,21 @@ public class EditFuel extends javax.swing.JFrame {
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIFuel api) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.PutFuel(login, id, tf_fuel.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    new Table_Fuel(login).setVisible(true);
-                    dispose();
+            int tfuel = tf_fuel.getText().length();
+            if (tfuel > 1 && tfuel < 50) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar o combustivel?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String[] value = api.PutFuel(login, id, tf_fuel.getText());
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        new Table_Fuel(login).setVisible(true);
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "O combustivel não foi alterada");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
+            } else {
+                JOptionPane.showMessageDialog(this, "O combustivel tem de ter entre 2 a 50 caracteres");
             }
         } catch (Exception ex) {
             Logger.getLogger(EditFuel.class.getName()).log(Level.SEVERE, null, ex);

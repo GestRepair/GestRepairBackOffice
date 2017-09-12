@@ -84,17 +84,12 @@ public final class AddVehicle extends javax.swing.JFrame {
         data[3] = tf_horsepower.getText();
         data[4] = tf_displacement.getText();
         data[5] = tf_kilometers.getText();
-        data[6] = tf_fronttiresize.getText();
-        data[7] = tf_reartiresize.getText();
+        data[6] = tf_fronttire.getText();
+        data[7] = tf_reartire.getText();
         data[8] = tf_date.getText();
         return data;
     }
-    private static final Pattern VALID_TIRE_REGEX = Pattern.compile("[0-9]{3}\\/[0-9]{2}R{1}[0-9]{2}", Pattern.CASE_INSENSITIVE);
 
-    private static boolean validateTire(String numberStr) {
-        Matcher matcher = VALID_TIRE_REGEX.matcher(numberStr);
-        return matcher.find();
-    }
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
 
     private static boolean validateNumber(String numberStr) {
@@ -119,7 +114,7 @@ public final class AddVehicle extends javax.swing.JFrame {
     }
 
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (validateTire(tf_fronttiresize.getText()) && validateTire(tf_reartiresize.getText()) && validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length() > 8) {
+        if (tf_fronttire.getText().length()>8 && tf_reartire.getText().length()>8 &&validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
@@ -172,8 +167,6 @@ public final class AddVehicle extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         tf_displacement = new javax.swing.JTextField();
-        tf_reartiresize = new javax.swing.JTextField();
-        tf_fronttiresize = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         bt_add = new javax.swing.JButton();
@@ -183,6 +176,8 @@ public final class AddVehicle extends javax.swing.JFrame {
         l_username = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         l_registration = new javax.swing.JLabel();
+        tf_fronttire = new javax.swing.JFormattedTextField();
+        tf_reartire = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Adicionar Viatura");
@@ -229,6 +224,18 @@ public final class AddVehicle extends javax.swing.JFrame {
         jLabel13.setText("Adicione uma nova Viatura");
 
         l_registration.setText("matricula");
+
+        try {
+            tf_fronttire.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###/##R##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tf_reartire.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###/##R##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,23 +287,24 @@ public final class AddVehicle extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                     .addComponent(tf_kilometers, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(tf_horsepower, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addGap(0, 0, Short.MAX_VALUE))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(318, 318, 318)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(bt_add, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(bt_add, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(tf_displacement, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                                    .addComponent(tf_fronttiresize)
-                                                    .addComponent(tf_reartiresize))
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))))
+                                            .addComponent(tf_displacement, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf_fronttire, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tf_reartire, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,13 +340,13 @@ public final class AddVehicle extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(cb_fuel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(tf_fronttiresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_fronttire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tf_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(tf_reartiresize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_reartire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(bt_add)
                 .addContainerGap(28, Short.MAX_VALUE))
@@ -371,9 +379,9 @@ public final class AddVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel l_username;
     private javax.swing.JFormattedTextField tf_date;
     private javax.swing.JTextField tf_displacement;
-    private javax.swing.JTextField tf_fronttiresize;
+    private javax.swing.JFormattedTextField tf_fronttire;
     private javax.swing.JTextField tf_horsepower;
     private javax.swing.JTextField tf_kilometers;
-    private javax.swing.JTextField tf_reartiresize;
+    private javax.swing.JFormattedTextField tf_reartire;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
  */
 public final class EditService extends javax.swing.JFrame {
 
-
     /**
      * Creates new form EditService
      *
@@ -42,13 +41,13 @@ public final class EditService extends javax.swing.JFrame {
     private void Events(final String login, final int id, final APIService api) {
         bt_upload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_UPLOAD(evt,login,id,api);
+                BT_UPLOAD(evt, login, id, api);
             }
         });
 
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt,login,id,api);
+                BT_Edit(evt, login, id, api);
             }
         });
     }
@@ -63,21 +62,25 @@ public final class EditService extends javax.swing.JFrame {
 
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int id, APIService api) {
         try {
-            if (tf_upload.getText().length() > 0) {
-                if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
-                    File f = new File(tf_upload.getText());
-                    api.PutService(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText(), f);
-                    JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-                    dispose();
+            if (tf_price.getText().length() > 0 && tf_service.getText().length() > 5 && ta_desc.getText().length() > 5) {
+                if (tf_upload.getText().length() > 0) {
+                    if (".png".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 4)) || ".jpeg".equals(tf_upload.getText().substring(tf_upload.getText().length() - 5))) {
+                        File f = new File(tf_upload.getText());
+                        api.PutService(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText(), f);
+                        JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+                    String value[] = api.PutServiceWithout(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
                 }
             } else {
-                String value[] = api.PutServiceWithout(login, id, tf_service.getText(), tf_price.getText(), ta_desc.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
-                }
+                JOptionPane.showMessageDialog(this, "Verifique o se os campos nome do serviço, preço e descrição estão preenchidos!");
             }
         } catch (Exception ex) {
             Logger.getLogger(EditService.class.getName()).log(Level.SEVERE, null, ex);

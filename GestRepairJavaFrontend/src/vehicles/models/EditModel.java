@@ -52,18 +52,21 @@ public final class EditModel extends javax.swing.JFrame {
     }
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIModel api) throws Exception {
-
-        String modelName = api.InfoModel(login, id)[1];
-        int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + modelName + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (x == JOptionPane.YES_OPTION) {
-            String[] value = api.PutModel(login, id, tf_name.getText());
-            JOptionPane.showMessageDialog(this, value[1]);
-            if ("ok".equals(value[0])) {
-                new Table_Model(login).setVisible(true);
-                dispose();
+        if (tf_name.getText().length() < 25 && tf_name.getText().length() > 1) {
+            String modelName = api.InfoModel(login, id)[1];
+            int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + modelName + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String[] value = api.PutModel(login, id, tf_name.getText());
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    new Table_Model(login).setVisible(true);
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Marca " + modelName + " não foi modificada");
             }
-        } else if (x == JOptionPane.NO_OPTION) {
-            JOptionPane.showMessageDialog(this, "A Marca " + modelName + " não foi modificada");
+        } else {
+            JOptionPane.showMessageDialog(this, "O modelo tem de ter entre 2 a 25 caracteres");
         }
     }
 

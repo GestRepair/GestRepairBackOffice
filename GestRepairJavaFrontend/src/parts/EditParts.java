@@ -55,7 +55,7 @@ public final class EditParts extends javax.swing.JFrame {
 
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, APIParts api) {
         try {
-            if (tf_name.getText().length() > 0) {
+            if (tf_name.getText().length() > 0 && ta_pdesc.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
                     String[] value = api.PutPart(login, sendData(), parseInt(l_idPart.getText()));

@@ -86,27 +86,28 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabel10" max="32767" attributes="0"/>
-                                          <Component id="jLabel9" pref="88" max="32767" attributes="0"/>
-                                          <Component id="jLabel8" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="318" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel10" max="32767" attributes="0"/>
+                                  <Component id="jLabel9" pref="88" max="32767" attributes="0"/>
+                                  <Component id="jLabel8" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="bt_add" min="-2" pref="300" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <Component id="bt_add" min="-2" pref="300" max="-2" attributes="0"/>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="tf_displacement" pref="300" max="32767" attributes="0"/>
-                                                  <Component id="tf_fronttiresize" max="32767" attributes="0"/>
-                                                  <Component id="tf_reartiresize" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="tf_displacement" min="-2" pref="300" max="-2" attributes="0"/>
+                                          <Component id="tf_fronttire" min="-2" pref="300" max="-2" attributes="0"/>
+                                          <Component id="tf_reartire" min="-2" pref="300" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -154,14 +155,14 @@
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cb_fuel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tf_fronttiresize" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tf_fronttire" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tf_date" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tf_reartiresize" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tf_reartire" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="bt_add" min="-2" max="-2" attributes="0"/>
@@ -255,10 +256,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tf_displacement">
     </Component>
-    <Component class="javax.swing.JTextField" name="tf_reartiresize">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tf_fronttiresize">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
         <Property name="text" type="java.lang.String" value="Pneu Frente"/>
@@ -302,6 +299,20 @@
     <Component class="javax.swing.JLabel" name="l_registration">
       <Properties>
         <Property name="text" type="java.lang.String" value="matricula"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="tf_fronttire">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="###/##R##" subtype="-1" type="5"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="tf_reartire">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="###/##R##" subtype="-1" type="5"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

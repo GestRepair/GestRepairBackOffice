@@ -53,7 +53,7 @@ public final class EditPrice extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "A peça não foi introduzida no sistema!");
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Por Favor preencha os dados todos!");
+                JOptionPane.showMessageDialog(this, "Por favor preencha os dados todos!");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");

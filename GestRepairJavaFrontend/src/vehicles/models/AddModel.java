@@ -53,15 +53,20 @@ public final class AddModel extends javax.swing.JFrame {
 
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIModel api, APIBrand apiBrand) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.PostModel(login, newIdCb(CB_Brands.getSelectedIndex(), apiBrand.Brand(login)), tf_model.getText());
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
+            int lmod = tf_model.getText().length();
+            if ( lmod < 25 && lmod > 1) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo modelo?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String value[] = api.PostModel(login, newIdCb(CB_Brands.getSelectedIndex(), apiBrand.Brand(login)), tf_model.getText());
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "O modelo não foi adicionada!");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Viatura não foi adicionada!");
+            } else {
+                JOptionPane.showMessageDialog(this, "O modelo tem de ter entre 2 a 25 caracteres");
             }
         } catch (Exception ex) {
             Logger.getLogger(AddModel.class.getName()).log(Level.SEVERE, null, ex);

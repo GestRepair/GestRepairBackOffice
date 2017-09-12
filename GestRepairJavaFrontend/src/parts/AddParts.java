@@ -45,7 +45,7 @@ public final class AddParts extends javax.swing.JFrame {
     private void BT_addPost(java.awt.event.ActionEvent evt, String login,APIService apiService) {
         APIParts api = new APIParts();
         try {
-            if ((tf_name.getText().length() > 0 && tf_amount.getText().length() > 0) || tf_name.getText().length() > 0 || tf_amount.getText().length() > 0) {
+            if (tf_name.getText().length() > 0 && tf_amount.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
                     String value[] = api.PostPart(login, sendData(login,apiService));

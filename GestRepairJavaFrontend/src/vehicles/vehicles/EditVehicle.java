@@ -64,7 +64,7 @@ public class EditVehicle extends javax.swing.JFrame {
     }
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (validateTire(tf_rearTire.getText()) == true && validateTire(tf_rearTire.getText()) && validateNumber(tf_displacement.getText()) == true && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
+        if (tf_fronttire.getText().length()>8 && tf_reartire.getText().length()>8 && validateNumber(tf_displacement.getText()) == true && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
@@ -101,8 +101,8 @@ public class EditVehicle extends javax.swing.JFrame {
         tf_displacement.setText((info[5] != null) ? info[5] : "");
         tf_kilometer.setText((info[6] != null) ? info[6] : "");
         cb_fuel.setSelectedItem(info[7]);
-        tf_frontTire.setText(info[8]);
-        tf_rearTire.setText(info[9]);
+        tf_fronttire.setText(info[8]);
+        tf_reartire.setText(info[9]);
         tf_date.setText(info[10].substring(0, 10));
 
     }
@@ -138,12 +138,6 @@ public class EditVehicle extends javax.swing.JFrame {
         Matcher matcher = VALID_NUMBER_REGEX.matcher(numberStr);
         return matcher.find();
     }
-    private static final Pattern VALID_TIRE_REGEX = Pattern.compile("[0-9]{3}\\/[0-9]{2}R{1}[0-9]{2}", Pattern.CASE_INSENSITIVE);
-
-    private static boolean validateTire(String numberStr) {
-        Matcher matcher = VALID_TIRE_REGEX.matcher(numberStr);
-        return matcher.find();
-    }
 
     private String[] data(String login, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) throws Exception {
         String vehicle[] = new String[10];
@@ -154,8 +148,8 @@ public class EditVehicle extends javax.swing.JFrame {
         vehicle[4] = tf_displacement.getText();
         vehicle[5] = tf_kilometer.getText();
         vehicle[6] = Cb_Val(cb_fuel.getSelectedIndex(), apiFuel.Fuel(login)) + "";
-        vehicle[7] = tf_frontTire.getText();
-        vehicle[8] = tf_rearTire.getText();
+        vehicle[7] = tf_fronttire.getText();
+        vehicle[8] = tf_reartire.getText();
         vehicle[9] = tf_date.getText();
         return vehicle;
 
@@ -178,8 +172,6 @@ public class EditVehicle extends javax.swing.JFrame {
         cb_model = new javax.swing.JComboBox();
         l_id = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tf_frontTire = new javax.swing.JTextField();
-        tf_rearTire = new javax.swing.JTextField();
         tf_kilometer = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         tf_horsepower = new javax.swing.JTextField();
@@ -193,6 +185,8 @@ public class EditVehicle extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         bt_edit = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
+        tf_reartire = new javax.swing.JFormattedTextField();
+        tf_fronttire = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Editar Viatura");
@@ -216,12 +210,6 @@ public class EditVehicle extends javax.swing.JFrame {
 
         jLabel6.setText("Pneu Trás");
 
-        tf_horsepower.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_horsepowerActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("CV");
 
         jLabel8.setText("Cilindrada");
@@ -237,6 +225,18 @@ public class EditVehicle extends javax.swing.JFrame {
         bt_edit.setText("Editar");
 
         jLabel12.setText("Alterar a viatura n.º:");
+
+        try {
+            tf_reartire.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###/##R##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tf_fronttire.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###/##R##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -284,12 +284,12 @@ public class EditVehicle extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_rearTire, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tf_frontTire)
                     .addComponent(tf_displacement)
                     .addComponent(tf_horsepower)
                     .addComponent(tf_kilometer)
-                    .addComponent(bt_edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bt_edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_reartire, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tf_fronttire, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -322,26 +322,21 @@ public class EditVehicle extends javax.swing.JFrame {
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cb_fuel)
-                    .addComponent(tf_frontTire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_fronttire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_rearTire)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tf_date)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_date)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_reartire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(bt_edit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(91, 91, 91))
+                .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(711, 285));
+        setSize(new java.awt.Dimension(761, 280));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tf_horsepowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_horsepowerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_horsepowerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -363,10 +358,10 @@ public class EditVehicle extends javax.swing.JFrame {
     private javax.swing.JLabel l_id;
     private javax.swing.JFormattedTextField tf_date;
     private javax.swing.JTextField tf_displacement;
-    private javax.swing.JTextField tf_frontTire;
+    private javax.swing.JFormattedTextField tf_fronttire;
     private javax.swing.JTextField tf_horsepower;
     private javax.swing.JTextField tf_kilometer;
-    private javax.swing.JTextField tf_rearTire;
+    private javax.swing.JFormattedTextField tf_reartire;
     private javax.swing.JFormattedTextField tf_register;
     // End of variables declaration//GEN-END:variables
 }

@@ -81,15 +81,19 @@ public class EditRepair extends javax.swing.JFrame {
 
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idRepair, APIRepair api, APIState apiState) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String[] value = api.UpdateRepair(login, idRepair, SendData(login, apiState));
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
+            if (ta_description.getText().length()>0) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String[] value = api.UpdateRepair(login, idRepair, SendData(login, apiState));
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique o se o campo descrição está preenchido!");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a atualizar reparação!\n Verifique se os dados estão corretos");

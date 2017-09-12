@@ -25,7 +25,7 @@ public class EditBudget extends javax.swing.JFrame {
         APIBudgets api = new APIBudgets();
         //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
-        ShowData(login, idBudget,api);
+        ShowData(login, idBudget, api);
         Events(login, idBudget, api);
         insertCb(api.ListState(login));
         ta_description.setLineWrap(true);
@@ -40,16 +40,16 @@ public class EditBudget extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idBudget,final APIBudgets api) {
+    private void Events(final String login, final int idBudget, final APIBudgets api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Edit(evt, login, idBudget,api);
+                BT_Edit(evt, login, idBudget, api);
             }
         });
     }
 
-    private void ShowData(String login, int id,APIBudgets api) throws Exception {
+    private void ShowData(String login, int id, APIBudgets api) throws Exception {
         String info[] = api.GetInfoBudget(login, id);
         l_idBudget.setText(info[0]);
         l_vehicle.setText(info[1]);
@@ -67,7 +67,7 @@ public class EditBudget extends javax.swing.JFrame {
         ta_resolution.setText(info[8]);
     }
 
-    private String[] SendData(String login,APIBudgets api) throws Exception {
+    private String[] SendData(String login, APIBudgets api) throws Exception {
         String[] data = new String[5];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
         data[1] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
@@ -83,15 +83,19 @@ public class EditBudget extends javax.swing.JFrame {
 
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget, APIBudgets api) {
         try {
-            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
-            if (x == JOptionPane.YES_OPTION) {
-                String value[] = api.UpdateBudget(login, idBudget, SendData(login,api));
-                JOptionPane.showMessageDialog(this, value[1]);
-                if ("ok".equals(value[0])) {
-                    dispose();
+            if (ta_description.getText().length() > 0) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (x == JOptionPane.YES_OPTION) {
+                    String value[] = api.UpdateBudget(login, idBudget, SendData(login, api));
+                    JOptionPane.showMessageDialog(this, value[1]);
+                    if ("ok".equals(value[0])) {
+                        dispose();
+                    }
+                } else if (x == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
                 }
-            } else if (x == JOptionPane.NO_OPTION) {
-                JOptionPane.showMessageDialog(this, "A Reparação não foi atualizada!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Verifique o campo descrição!");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a atualizar reparação!\n Verifique se os dados estão corretos");

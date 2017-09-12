@@ -37,16 +37,21 @@ public final class EditBrand extends javax.swing.JFrame {
     }
 
     private void ChangeBrand(String login, int id, String name, APIBrand api) throws Exception {
-        int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + api.InfoBrand(login, id)[1] + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (x == JOptionPane.YES_OPTION) {
-            String value[] = api.PutBrand(login, id, name);
-            JOptionPane.showMessageDialog(this, value[1]);
-            if ("ok".equals(value[0])) {
-                new Table_Brand(login).setVisible(true);
-                dispose();
+        int lbrand = tf_name.getText().length();
+        if (lbrand > 1 && lbrand < 25) {
+            int x = JOptionPane.showConfirmDialog(this, "Quer modificar a marca " + api.InfoBrand(login, id)[1] + " para " + tf_name.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String value[] = api.PutBrand(login, id, name);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    new Table_Brand(login).setVisible(true);
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "A Marca " + api.InfoBrand(login, id)[1] + " não foi modificada");
             }
-        } else if (x == JOptionPane.NO_OPTION) {
-            JOptionPane.showMessageDialog(this, "A Marca " + api.InfoBrand(login, id)[1] + " não foi modificada");
+        }else{
+            JOptionPane.showMessageDialog(this, "Verifique se o número de caracteres é entre 2 a 24");
         }
     }
 

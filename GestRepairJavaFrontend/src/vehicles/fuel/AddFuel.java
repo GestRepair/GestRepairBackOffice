@@ -40,8 +40,8 @@ public final class AddFuel extends javax.swing.JFrame {
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIFuel api) {
         try {
             int tfuel = tf_fuel.getText().length();
-            if (tfuel < 0 || tfuel > 50) {
-                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (tfuel > 1 && tfuel < 50) {
+                int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar o combustivel?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
                     String[] value = api.PostFuel(login, tf_fuel.getText());
                     JOptionPane.showMessageDialog(this, value[1]);
@@ -50,7 +50,7 @@ public final class AddFuel extends javax.swing.JFrame {
                         dispose();
                     }
                 } else if (x == JOptionPane.NO_OPTION) {
-                    JOptionPane.showMessageDialog(this, "A Viatura não foi alterada");
+                    JOptionPane.showMessageDialog(this, "O combustivel não foi alterada");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Verifique se o número de caracteres é entre 1 a 50");

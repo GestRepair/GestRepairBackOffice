@@ -64,17 +64,21 @@ public class Create_Service extends javax.swing.JFrame {
 
     private void BT_ADD(java.awt.event.ActionEvent evt, String login) {
         APIService pst = new APIService();
-        if (".png".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpeg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 5))) {
-            File f = new File(tf_localUpload.getText());
-            try {
-                pst.PostService(login, tf_service.getText(), tf_price.getText(), tf_desc.getText(), f);
-                JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
+        if (tf_price.getText().length() > 0 && tf_service.getText().length() > 5 && tf_desc.getText().length() > 5) {
+            if (".png".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 4)) || ".jpeg".equals(tf_localUpload.getText().substring(tf_localUpload.getText().length() - 5))) {
+                File f = new File(tf_localUpload.getText());
+                try {
+                    pst.PostService(login, tf_service.getText(), tf_price.getText(), tf_desc.getText(), f);
+                    JOptionPane.showMessageDialog(this, "Dados Inseridos com sucesso");
+                    dispose();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Ficheiro Não Existe");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Ficheiro Inválido \n Utilize os formatos \".png\", \".jpeg\" ou \".jpg\"");
+            JOptionPane.showMessageDialog(this, "Verifique o se os campos nome do serviço, preço e descrição estão preenchidos!");
         }
     }
 

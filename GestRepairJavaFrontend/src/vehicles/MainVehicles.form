@@ -27,25 +27,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="bt_showvehicles" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="bt_lBrand" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                          <Component id="bt_fuel_list" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                          <Component id="bt_lmodel" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="bt_addBrand" alignment="1" max="32767" attributes="0"/>
-                          <Component id="bt_model" alignment="1" max="32767" attributes="0"/>
-                          <Component id="bt_fuel_add" min="-2" pref="300" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="bt_showvehicles" max="32767" attributes="0"/>
+                  <Component id="bt_lBrand" alignment="1" pref="300" max="32767" attributes="0"/>
+                  <Component id="bt_fuel_list" alignment="1" pref="300" max="32767" attributes="0"/>
+                  <Component id="bt_lmodel" alignment="1" pref="300" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="bt_addBrand" alignment="1" max="32767" attributes="0"/>
+                  <Component id="bt_model" alignment="1" max="32767" attributes="0"/>
+                  <Component id="bt_fuel_add" min="-2" pref="300" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,7 +49,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="bt_showvehicles" max="32767" attributes="0"/>
+              <Component id="bt_showvehicles" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_lBrand" alignment="3" max="32767" attributes="0"/>
