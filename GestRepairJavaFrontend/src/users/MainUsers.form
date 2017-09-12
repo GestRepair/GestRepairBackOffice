@@ -28,20 +28,20 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="bt_showUsers" max="32767" attributes="0"/>
-                  <Component id="bt_showUsersType" alignment="0" pref="300" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="bt_addUser" min="-2" pref="300" max="-2" attributes="0"/>
+                  <Component id="bt_showUsers" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
                   <Component id="bt_func_list" alignment="0" max="32767" attributes="0"/>
                   <Component id="bt_func_list_type" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="bt_showUsersType" max="32767" attributes="0"/>
                   <Component id="bt_func_list_old" max="32767" attributes="0"/>
-                  <Component id="bt_addUser" max="32767" attributes="0"/>
                   <Component id="bt_func_list_type_old" pref="300" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,11 +49,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="bt_showUsers" min="-2" max="-2" attributes="0"/>
+              <Component id="bt_addUser" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="bt_showUsersType" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="bt_addUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bt_showUsers" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

@@ -14,7 +14,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import org.json.simple.parser.ParseException;
-import services.APIService;
 import users.user.Table_Users_Type;
 
 /**
@@ -34,22 +33,31 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
      */
     public Table_Employer_Service_Old(String login, int idService, int idEmployer) throws Exception {
         APIEmployer api = new APIEmployer();
-        APIService apiService = new APIService();
         initComponents();
-        insertCb(apiService.Service(login));
-        showTable(api.ShowEmployer(login, 0, 1));
-        bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
+        String[][] listcb = api.ShowServiceEmployer(login, 0);
+        insertCb(listcb, idEmployer);
+        if (listcb.length > 0) {
+            showTable(api.ShowEmployer(login, 0, newIdCb(cb_type.getSelectedIndex(), listcb)), idEmployer);
+        }else{
+            dispose();
+        }
         tbl_usersStart();
         TableColumn col = tbl_users.getColumnModel().getColumn(1);
         tbl_users.removeColumn(col);
-        Events(login, idEmployer, api, apiService);
+        Events(login, idEmployer, api);
     }
 
-    public void insertCb(String[][] list) throws Exception {
-        cb_type.removeAllItems();
-        for (String[] list1 : list) {
-            cb_type.addItem(list1[1]);
+    public void insertCb(String[][] list, int idEmployer) throws Exception {
+        if (list.length > 0) {
+            cb_type.removeAllItems();
+            for (String[] list1 : list) {
+                cb_type.addItem(list1[1]);
+            }
+        } else {
+            cb_type.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Sem Dados");
         }
+
     }
 
     private void cleanTable() {
@@ -57,14 +65,18 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         mod.setRowCount(0);
     }
 
-    public void upTable(String login, APIEmployer api, APIService apiService) throws Exception {
+    public void upTable(String login, int idEmployer, APIEmployer api) throws Exception {
         cleanTable();
         int cb = cb_type.getSelectedIndex();
-        showTable(api.ShowEmployer(login, 0, newIdCb(cb, apiService.Service(login))));
+        String[][] listcb = api.ShowServiceEmployer(login, 0);
+        if (listcb.length > 0) {
+            showTable(api.ShowEmployer(login, 0, newIdCb(cb, listcb)), idEmployer);
+        }
         tbl_usersStart();
     }
 
-    public void showTable(String[][] list) {
+    public void showTable(String[][] list, int idEmployer) {
+        bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
             Object[] row = new Object[3];
@@ -76,10 +88,10 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
             }
             bt_edit.setVisible(true);
             bt_enable.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Sem Dados");
             bt_edit.setVisible(false);
-            bt_enable.setVisible(true);
+            bt_enable.setVisible(false);
         }
 
     }
@@ -105,10 +117,10 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int idEmployer, final APIEmployer api, final APIService apiService) throws Exception {
+    private void Events(final String login, final int idEmployer, final APIEmployer api) throws Exception {
         bt_enable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ENABLE(evt, login, api, apiService);
+                BT_ENABLE(evt, login, api, idEmployer);
             }
         });
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +130,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         });
         cb_type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_TYPE(evt, login, idEmployer, api, apiService);
+                CB_TYPE(evt, login, idEmployer, api);
             }
         });
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -130,6 +142,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
         // TODO add your handling code here:
+        //bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
@@ -149,16 +162,16 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
-    private void CB_TYPE(java.awt.event.ActionEvent evt, String login, int idEmployer, APIEmployer api, APIService apiService) {
+    private void CB_TYPE(java.awt.event.ActionEvent evt, String login, int idEmployer, APIEmployer api) {
         try {
-            upTable(login, api, apiService);
+            upTable(login, idEmployer, api);
             bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         } catch (Exception ex) {
             Logger.getLogger(Table_Employer_Service_Old.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void BT_ENABLE(java.awt.event.ActionEvent evt, String login, APIEmployer api, APIService apiService) {
+    public void BT_ENABLE(java.awt.event.ActionEvent evt, String login, APIEmployer api, int idEmployer) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
             if (x == JOptionPane.YES_OPTION) {
@@ -171,7 +184,13 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                     DefaultTableModel model = (DefaultTableModel) tbl_users.getModel();
                     model.setRowCount(0);
                     int cb = cb_type.getSelectedIndex();
-                    showTable(api.ShowEmployer(login, 0, newIdCb(cb, apiService.Service(login))));
+                    String[][] listcb = api.ShowServiceEmployer(login, 0);
+                    insertCb(listcb, idEmployer);
+                    if (listcb.length > 0) {
+                        showTable(api.ShowEmployer(login, 0, newIdCb(cb, listcb)), idEmployer);
+                    }else{
+                        dispose();
+                    }
                     tbl_usersStart();
                 }
             } else if (x == JOptionPane.NO_OPTION) {
@@ -244,8 +263,8 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(l_username, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(l_username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_enable, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(bt_edit)

@@ -20,6 +20,7 @@ import users.employer.Table_Employer_Old;
  * @author Convite
  */
 public class MainUsers extends javax.swing.JFrame {
+
     /**
      * Creates new form mainVehicles
      *
@@ -29,7 +30,14 @@ public class MainUsers extends javax.swing.JFrame {
      */
     public MainUsers(String login, int idService, int idEmployer) {
         initComponents();
-        Events(login, idService,idEmployer);
+        if (idService != 1 || idService != 2) {
+            bt_showUsersType.setVisible(false);
+            bt_func_list.setVisible(false);
+            bt_func_list_old.setVisible(false);
+            bt_func_list_type.setVisible(false);
+            bt_func_list_type_old.setVisible(false);
+        }
+        Events(login, idService, idEmployer);
     }
 
     private void Events(final String login, final int idService, final int idEmployer) {
@@ -42,37 +50,37 @@ public class MainUsers extends javax.swing.JFrame {
         bt_showUsers.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListUser(evt, login, idService,idEmployer);
+                BT_ListUser(evt, login, idService, idEmployer);
             }
         });
         bt_showUsersType.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListUserType(evt, login, idService,idEmployer);
+                BT_ListUserType(evt, login, idService, idEmployer);
             }
         });
         bt_func_list.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Fl(evt, login, idService,idEmployer);
+                BT_Fl(evt, login, idService, idEmployer);
             }
         });
         bt_func_list_old.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Flo(evt, login, idService,idEmployer);
+                BT_Flo(evt, login, idService, idEmployer);
             }
         });
         bt_func_list_type.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Flt(evt, login, idService,idEmployer);
+                BT_Flt(evt, login, idService, idEmployer);
             }
         });
         bt_func_list_type_old.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Flto(evt, login, idService,idEmployer);
+                BT_Flto(evt, login, idService, idEmployer);
             }
         });
     }
@@ -88,7 +96,7 @@ public class MainUsers extends javax.swing.JFrame {
 
     private void BT_ListUser(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
-            new Table_Users(login, idService,idEmployer).setVisible(true);
+            new Table_Users(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -102,15 +110,15 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
-    private void BT_Fl(java.awt.event.ActionEvent evt, String login, int idService,int idEmployer) {
+    private void BT_Fl(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
-            new Table_Employer(login, idService,idEmployer).setVisible(true);
+            new Table_Employer(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(MainUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void BT_Flo(java.awt.event.ActionEvent evt, String login, int idService,int idEmployer) {
+    private void BT_Flo(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Old(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
@@ -118,7 +126,7 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
-    private void BT_Flt(java.awt.event.ActionEvent evt, String login, int idService,int idEmployer) {
+    private void BT_Flt(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
@@ -126,7 +134,7 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
-    private void BT_Flto(java.awt.event.ActionEvent evt, String login, int idService,int idEmployer) {
+    private void BT_Flto(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service_Old(login, idService, idEmployer).setVisible(true);
         } catch (Exception ex) {
@@ -175,15 +183,15 @@ public class MainUsers extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_showUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_showUsersType, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(bt_func_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_func_list_type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bt_addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_showUsers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_func_list, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bt_func_list_type, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_showUsersType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_func_list_old, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_addUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_func_list_type_old, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -191,11 +199,11 @@ public class MainUsers extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bt_showUsers)
+                .addComponent(bt_addUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_showUsersType)
-                    .addComponent(bt_addUser))
+                    .addComponent(bt_showUsers))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_func_list)

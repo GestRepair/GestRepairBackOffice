@@ -61,6 +61,21 @@ public class APIEmployer extends Connect {
         };
         return dataTable;
     }
+    public String[][] ShowServiceEmployer(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/user/employer/service/" + id );
+        String list = GETConnect(login, url, "GET");
+        JSONObject jo = (JSONObject) new JSONParser().parse(list);
+        JSONArray data = (JSONArray) jo.get("data");
+
+        String[][] dataTable = new String[data.size()][2];
+        for (int i = 0; i < data.size(); i++) {
+
+            JSONObject datas = (JSONObject) data.get(i);
+            dataTable[i][0] = (long) datas.get("idService") + "";
+            dataTable[i][1] = (String) datas.get("nameService");
+        };
+        return dataTable;
+    }
     public String[][] ShowNotRepairEmployer(String login, int id, int serv) throws Exception {
         URL url = new URL(IP() + "/repair/employer/" + id +"/" + serv);
         String list = GETConnect(login, url, "GET");
