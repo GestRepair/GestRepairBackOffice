@@ -29,6 +29,15 @@ public class APISchedule extends Connect {
         emp[3] = ((String) newjsondata.get("date")).substring(0, 10)+" - "+((String) newjsondata.get("date")).substring(11, 16);
         return emp;
     }
+    public String[] GETDisable(String login, int id) throws Exception {
+        URL url = new URL(IP() + "/schedule/disable/" + id);  
+        String json = GETConnect(login, url, "GET");
+        JSONObject newjson = (JSONObject) new JSONParser().parse(json);
+        String data[] = new String[2];
+        data[0] = newjson.get("result").toString();
+        data[1] = newjson.get("message").toString();
+        return data;
+    }
     @SuppressWarnings("empty-statement")
     public String[][] ListSchedule(String login, int id) throws Exception {
         URL url = new URL(IP() + "/schedule" + ((id == 0) ? "" : "/" + id));

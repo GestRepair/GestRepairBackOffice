@@ -30,7 +30,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
         Events(login, api);
         int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
         showTable(api.ListTime(login, i));
-        
+
     }
 
     private void showTable(String[][] list) {
@@ -93,7 +93,34 @@ public final class Table_Schedule extends javax.swing.JFrame {
                 BT_INFO(evt, login);
             }
         });
+        bt_disable.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_DISABLE(evt, login, api);
+            }
+        });
     }
+
+    private void BT_DISABLE(java.awt.event.ActionEvent evt, String login, APISchedule api) {
+        DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
+        int i = tbl_schedule.getSelectedRow();
+        int val = parseInt((String) mod.getValueAt(i, 0));
+        try {
+            int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            if (x == JOptionPane.YES_OPTION) {
+                String value[] = api.GETDisable(login, val);
+                JOptionPane.showMessageDialog(this, value[1]);
+                if ("ok".equals(value[0])) {
+                    dispose();
+                }
+            } else if (x == JOptionPane.NO_OPTION) {
+                JOptionPane.showMessageDialog(this, "O agendamento não foi atualizado!");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro a agendar!");
+        }
+    }
+
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
@@ -105,6 +132,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
 
         }
     }
+
     private void CB_LIST(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));
@@ -130,8 +158,9 @@ public final class Table_Schedule extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         l_idSchedule = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        cb_date = new javax.swing.JComboBox<String>();
+        cb_date = new javax.swing.JComboBox<>();
         bt_info = new javax.swing.JButton();
+        bt_disable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GestRepair - Lista de Marcações");
@@ -162,9 +191,11 @@ public final class Table_Schedule extends javax.swing.JFrame {
 
         jLabel1.setText("Selecione a data do serviço em que pretende ver as marcações:");
 
-        cb_date.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_date.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         bt_info.setText("Info");
+
+        bt_disable.setText("Desativar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,6 +215,8 @@ public final class Table_Schedule extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(l_idSchedule)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bt_disable)
+                        .addGap(18, 18, 18)
                         .addComponent(bt_info)))
                 .addContainerGap())
         );
@@ -200,7 +233,8 @@ public final class Table_Schedule extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_info)
                     .addComponent(jLabel7)
-                    .addComponent(l_idSchedule))
+                    .addComponent(l_idSchedule)
+                    .addComponent(bt_disable))
                 .addContainerGap())
         );
 
@@ -209,6 +243,7 @@ public final class Table_Schedule extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_disable;
     private javax.swing.JButton bt_info;
     private javax.swing.JComboBox<String> cb_date;
     private javax.swing.JLabel jLabel1;

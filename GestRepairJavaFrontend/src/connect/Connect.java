@@ -6,7 +6,6 @@
 package connect;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -14,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -26,7 +24,7 @@ public class Connect {
         return "http://ec2-52-56-143-158.eu-west-2.compute.amazonaws.com:8080";
     }
 
-    public HttpURLConnection Conn(String login, URL url, String method) throws ParseException, IOException {
+    public HttpURLConnection Conn(String login, URL url, String method) throws Exception {
         HttpURLConnection connection;
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
         String user = newjson.get("login").toString();
