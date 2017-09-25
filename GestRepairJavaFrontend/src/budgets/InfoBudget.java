@@ -15,23 +15,19 @@ import java.util.logging.Logger;
 public class InfoBudget extends javax.swing.JFrame {
 
     /**
-     * Creates new form Info
-     *
+     * Cria um formulário para mostrar a informação do orçamento
      * @param login
      * @param idBudget
      * @throws Exception
      */
     public InfoBudget(String login, int idBudget) throws Exception {
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idBudget);
         Events(login, idBudget);
-        
-        
     }
 
     /**
-     *
+     * Vai buscar os dados à API para mostrar
      * @param login
      * @param id
      * @throws Exception
@@ -70,7 +66,11 @@ public class InfoBudget extends javax.swing.JFrame {
             l_res.setVisible(false);
         }
     }
-
+    /**
+     * Aqui é onde é definido os eventos
+     * @param login
+     * @param idBudget 
+     */
     private void Events(final String login, final int idBudget) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -85,7 +85,12 @@ public class InfoBudget extends javax.swing.JFrame {
             }
         });
     }
-
+    /**
+     * Quando o botão Serviços é clicado muda para a outra form e fecha esta
+     * @param evt
+     * @param login
+     * @param idBudget 
+     */
     private void BT_SERVICES(java.awt.event.ActionEvent evt, String login, int idBudget) {
         try {
             new Table_Service_Budget(login, idBudget).setVisible(true);
@@ -94,7 +99,12 @@ public class InfoBudget extends javax.swing.JFrame {
             Logger.getLogger(Table_Service_Budget.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Abre a form Editar orçamento e fecha esta
+     * @param evt
+     * @param login
+     * @param idBudget 
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget) {
         try {
             new EditBudget(login, idBudget).setVisible(true);

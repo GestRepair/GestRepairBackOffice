@@ -15,7 +15,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public class EditBudget extends javax.swing.JFrame {
 
     /**
-     * Creates new form EditRepair
+     * Cria um formulário para editar os dados do orçamento
      *
      * @param login
      * @param idBudget
@@ -23,7 +23,6 @@ public class EditBudget extends javax.swing.JFrame {
      */
     public EditBudget(String login, int idBudget) throws Exception {
         APIBudgets api = new APIBudgets();
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/imageedit_4_8303763918.png")));
         initComponents();
         ShowData(login, idBudget, api);
         Events(login, idBudget, api);
@@ -33,13 +32,23 @@ public class EditBudget extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere os dados na combobox
+     * @param list
+     * @throws Exception
+     */
     private void insertCb(String[][] list) throws Exception {
         cb_state.removeAllItems();
         for (String[] list1 : list) {
             cb_state.addItem(list1[1]);
         }
     }
-
+    /**
+     * Aqui é onde está definido os eventos
+     * @param login
+     * @param idBudget
+     * @param api 
+     */
     private void Events(final String login, final int idBudget, final APIBudgets api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -48,7 +57,13 @@ public class EditBudget extends javax.swing.JFrame {
             }
         });
     }
-
+    /**
+     * Aqui é onde é definido os dados vindos da API e mostrar no ecrã
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception 
+     */
     private void ShowData(String login, int id, APIBudgets api) throws Exception {
         String info[] = api.GetInfoBudget(login, id);
         l_idBudget.setText(info[0]);
@@ -66,7 +81,13 @@ public class EditBudget extends javax.swing.JFrame {
         }
         ta_resolution.setText(info[8]);
     }
-
+    /**
+     * Aqui é onde é preparado os dados para enviar para a api
+     * @param login
+     * @param api
+     * @return
+     * @throws Exception 
+     */
     private String[] SendData(String login, APIBudgets api) throws Exception {
         String[] data = new String[5];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
@@ -76,11 +97,22 @@ public class EditBudget extends javax.swing.JFrame {
         data[4] = (ta_resolution.getText().length() > 0) ? ta_resolution.getText() : "n/d";
         return data;
     }
-
+    /**
+     * Verifica a posição dos dados e vai buscar o ID
+     * @param list
+     * @param val
+     * @return 
+     */
     private int cbVal(String[][] list, int val) {
         return parseInt(list[val][0]);
     }
-
+    /**
+     * Verifica atravéz da ação do botão se pode editar e se poder edita
+     * @param evt
+     * @param login
+     * @param idBudget
+     * @param api 
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idBudget, APIBudgets api) {
         try {
             if (ta_description.getText().length() > 0) {
@@ -178,12 +210,6 @@ public class EditBudget extends javax.swing.JFrame {
         l_cif.setText("€");
 
         bt_edit.setText("Editar");
-
-        tf_time.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_timeActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Tempo de Reparação:");
 
@@ -297,10 +323,6 @@ public class EditBudget extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(970, 357));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tf_timeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_timeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_timeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

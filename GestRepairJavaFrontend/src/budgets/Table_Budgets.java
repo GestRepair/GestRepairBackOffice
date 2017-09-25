@@ -18,12 +18,10 @@ import javax.swing.table.TableModel;
 public final class Table_Budgets extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Vehicles
+     * Cria uma form para listar orçamentos
      *
      * @param login
-     * @throws java.io.IOException
-     * @throws java.net.MalformedURLException
-     * @throws org.json.simple.parser.ParseException
+     * @throws Exception
      */
     public Table_Budgets(String login) throws Exception {
         APIBudgets api = new APIBudgets();
@@ -32,6 +30,11 @@ public final class Table_Budgets extends javax.swing.JFrame {
         Events(login);
     }
 
+    /**
+     * Mostra os dados da tabela é coloca no JTable
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
@@ -47,6 +50,11 @@ public final class Table_Budgets extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Aqui é onde é definido os eventos
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -68,18 +76,30 @@ public final class Table_Budgets extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Muda para a form editar orçamento e fecha esta
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
-        // TODO add your handling code here:
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
             i = (i > 0) ? i : 0;
             new EditBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Muda de form para a da informações do orçamento e fecha esta form
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login) {
         // TODO add your handling code here:
         try {
@@ -87,11 +107,17 @@ public final class Table_Budgets extends javax.swing.JFrame {
             int i = tbl_budgets.getSelectedRow();
             i = (i > 0) ? i : 0;
             new InfoBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Seleciona o valor da tabela quando esta é clicada
+     *
+     * @param evt
+     */
     private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_budgets.getSelectedRow();
         TableModel mod = tbl_budgets.getModel();

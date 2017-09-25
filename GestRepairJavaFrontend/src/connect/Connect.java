@@ -20,10 +20,24 @@ import org.json.simple.parser.JSONParser;
  */
 public class Connect {
 
+    /**
+     * Aqui é definido o ip da API
+     *
+     * @return
+     */
     public String IP() {
         return "http://ec2-52-56-143-158.eu-west-2.compute.amazonaws.com:8080";
     }
 
+    /**
+     * Aqui é feita a conexão à API
+     * 
+     * @param login
+     * @param url
+     * @param method
+     * @return
+     * @throws Exception
+     */
     public HttpURLConnection Conn(String login, URL url, String method) throws Exception {
         HttpURLConnection connection;
         JSONObject newjson = (JSONObject) new JSONParser().parse(login);
@@ -43,7 +57,15 @@ public class Connect {
         connection.setDoOutput(true);
         return connection;
     }
-
+    /**
+     * Esta função é chamada caso se queira efectual um GET à API caso queira receber os dados
+     * 
+     * @param login
+     * @param url
+     * @param method
+     * @return
+     * @throws Exception 
+     */
     public String GETConnect(String login, URL url, String method) throws Exception {
         HttpURLConnection connection = Conn(login, url, method);
         //Get Response  
@@ -62,7 +84,15 @@ public class Connect {
         connection.disconnect();
         return json;
     }
-
+    /**
+     * Faz um pedido à API enviando lhe parametros
+     * @param login
+     * @param url
+     * @param method
+     * @param obj
+     * @return
+     * @throws Exception 
+     */
     public String[] SendConnect(String login, URL url, String method, JSONObject obj) throws Exception {
         HttpURLConnection connection = Conn(login, url, method);
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
@@ -85,7 +115,15 @@ public class Connect {
         val[1] = (String) res.get("message");
         return val;
     }
-
+    /**
+     * Faz um pedido à API enviando lhe parametros e recebe uma reposta
+     * @param login
+     * @param url
+     * @param method
+     * @param obj
+     * @return
+     * @throws Exception 
+     */
     public String[] SendConnectResp(String login, URL url, String method, JSONObject obj) throws Exception {
         HttpURLConnection connection = Conn(login, url, method);
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {

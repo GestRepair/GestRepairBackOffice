@@ -19,11 +19,11 @@ import javax.swing.table.TableModel;
 public final class Table_Budgets_PU extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Vehicles
+     * Cria uma nova form para ver os dados dos orçamentos por utilizador
      *
      * @param login
      * @param idUser
-     * @throws java.lang.Exception
+     * @throws Exception
      */
     public Table_Budgets_PU(String login, int idUser) throws Exception {
         APIBudgets api = new APIBudgets();
@@ -32,6 +32,11 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         showTable(api.ListBudgets(login, idUser));
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
@@ -50,6 +55,11 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Aqui é onde é definido os eventos dos objetos
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -71,30 +81,47 @@ public final class Table_Budgets_PU extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Mostra o formulário editar e fecha este
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
-        // TODO add your handling code here:
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
-            i = (i>0)?i:0;
+            i = (i > 0) ? i : 0;
             new EditBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Abre o form informação de um orçamento e fecha este
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login) {
-        // TODO add your handling code here:
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
-            i = (i>0)?i:0;
+            i = (i > 0) ? i : 0;
             new InfoBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Seleciona o dado de uma tabela ao clicar
+     *
+     * @param evt
+     */
     private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_budgets.getSelectedRow();
         TableModel mod = tbl_budgets.getModel();

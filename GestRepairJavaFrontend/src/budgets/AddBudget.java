@@ -19,7 +19,7 @@ import vehicles.vehicles.APIVehicles;
 public final class AddBudget extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddRepair
+     * Cria novo formulário para adicionar orçamento
      *
      * @param login
      * @param idVehicle
@@ -29,7 +29,6 @@ public final class AddBudget extends javax.swing.JFrame {
      */
     public AddBudget(String login, int idVehicle, int employer, int idService) throws Exception {
         initComponents();
-
         APIService apiService = new APIService();
         APIVehicles apiVehicles = new APIVehicles();
         Events(login, idVehicle, idService, apiService);
@@ -44,18 +43,32 @@ public final class AddBudget extends javax.swing.JFrame {
         }
         ta_pdesc.setLineWrap(true);
     }
-
+    /**
+     * Mostra os seviços numa combobox
+     * @param list 
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
             cb_service.addItem(list1[1]);
         }
     }
-
+    /**
+     * Vai buscar o id a uma combobox
+     * @param val
+     * @param list
+     * @return 
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-
+    /**
+     * Cria os eventos dos botões
+     * @param login
+     * @param idVehicle
+     * @param idService
+     * @param apiService 
+     */
     private void Events(final String login, final int idVehicle, final int idService, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -64,7 +77,12 @@ public final class AddBudget extends javax.swing.JFrame {
             }
         });
     }
-
+    /**
+     * Prepara os dados do formulário para enviar à base de dados
+     * @param idVehicle
+     * @param idService
+     * @return 
+     */
     private String[] SendData(int idVehicle, int idService) {
         String[] data = new String[3];
         try {
@@ -76,7 +94,14 @@ public final class AddBudget extends javax.swing.JFrame {
         }
         return data;
     }
-
+    /**
+     * Após a acção do Botão, verifica se pode enviar os dados e se poder envia.
+     * @param evt
+     * @param login
+     * @param idVehicle
+     * @param idService
+     * @param apiService 
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idVehicle, int idService, APIService apiService) {
         APIBudgets api = new APIBudgets();
         try {

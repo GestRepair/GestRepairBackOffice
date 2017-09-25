@@ -5,7 +5,6 @@
  */
 package budgets;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
@@ -16,7 +15,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public final class AddServiceBuget extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddRepair
+     * Cria um formulário para adicionar um serviço ao orçamento
      *
      * @param login
      * @param idBudget
@@ -29,33 +28,60 @@ public final class AddServiceBuget extends javax.swing.JFrame {
         showService(api.ListServiceNot(login, idBudget));
         Events(login, idBudget,api);
     }
-
+    /**
+     * Envia os dados para a combobox
+     * @param list 
+     */
     public void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
             cb_service.addItem(list1[1]);
         }
     }
-
+    /**
+     * Vai inserir o id do valor da combobox
+     * @param val
+     * @param list
+     * @return 
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-
+    /**
+     * Prepara os dados para enviar para a API
+     * @param login
+     * @param idBudget
+     * @param api
+     * @return
+     * @throws Exception 
+     */
     private String[] sendData(String login, int idBudget,APIBudgets api) throws Exception {
         String[] data = new String[2];
         data[0] = idBudget + "";
         data[1] = Cb_Val(cb_service.getSelectedIndex(), api.ListServiceNot(login, idBudget)) + "";
         return data;
     }
-
+    /**
+     * Aqui são definidos os eventos do formulário
+     * @param login
+     * @param idBudget
+     * @param api 
+     */
     private void Events(final String login, final int idBudget, final APIBudgets api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_Add(evt, login, idBudget, api);
             }
         });
     }
-
+    /**
+     * Ao clicar no botão verifica se pode enviar os dados e se poder envia
+     * @param evt
+     * @param login
+     * @param idBudget
+     * @param api 
+     */
     private void BT_Add(java.awt.event.ActionEvent evt, String login, int idBudget,APIBudgets api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);

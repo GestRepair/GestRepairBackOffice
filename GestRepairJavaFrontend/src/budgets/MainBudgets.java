@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class MainBudgets extends javax.swing.JFrame {
 
     /**
-     * Creates new form mainVehicles
+     * Cria um menu para mostrar os orçamentos
      *
      * @param login
      */
@@ -24,6 +24,11 @@ public class MainBudgets extends javax.swing.JFrame {
         Events(login);
     }
 
+    /**
+     * Aqui é onde é definido os eventos dos objetos graficos da form
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_listBudgets.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -38,8 +43,13 @@ public class MainBudgets extends javax.swing.JFrame {
             }
         });
     }
-    
 
+    /**
+     * Mostra a Tabela de listagem completa de orçamentos e fecha esta form
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_List(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Budgets(login).setVisible(true);
@@ -48,6 +58,13 @@ public class MainBudgets extends javax.swing.JFrame {
             Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Mostra a form listagem de orçamentos por estado
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_ListState(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Budgets_State(login).setVisible(true);
@@ -56,6 +73,7 @@ public class MainBudgets extends javax.swing.JFrame {
             Logger.getLogger(MainBudgets.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

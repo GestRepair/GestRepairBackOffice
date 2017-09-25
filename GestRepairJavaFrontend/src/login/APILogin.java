@@ -22,7 +22,8 @@ import org.json.simple.JSONObject;
  */
 public class APILogin extends Connect{
     /**
-     *
+     * Faz um pedido à API para efectuar login
+     * 
      * @param user
      * @param pass
      * @return senddata

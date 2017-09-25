@@ -16,11 +16,11 @@ import javax.swing.table.DefaultTableModel;
 public final class Table_Service_Budget extends javax.swing.JFrame {
 
     /**
-     * Creates new form AddRepair
+     * Mostra os serviços associados a um orçamento
      *
      * @param login
      * @param idBudget
-     * @throws java.lang.Exception
+     * @throws Exception
      */
     public Table_Service_Budget(String login, int idBudget) throws Exception {
         APIBudgets api = new APIBudgets();
@@ -29,6 +29,11 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
         Events(login, idBudget);
     }
 
+    /**
+     * Insere os dados dos serviços na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_employers_repair.getModel();
@@ -45,6 +50,12 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Aqui é onde está definido os eventos
+     *
+     * @param login
+     * @param idBudget
+     */
     private void Events(final String login, final int idBudget) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -55,6 +66,12 @@ public final class Table_Service_Budget extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Abre o form add service budget e fecha esta form
+     * @param evt
+     * @param login
+     * @param idBudget
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idBudget) {
         try {
             new AddServiceBuget(login, idBudget).setVisible(true);

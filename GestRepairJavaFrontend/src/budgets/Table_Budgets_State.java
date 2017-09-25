@@ -19,10 +19,10 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public final class Table_Budgets_State extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Vehicles
+     * Mostra os orçamentos por estado
      *
      * @param login
-     * @throws java.lang.Exception
+     * @throws Exception
      */
     public Table_Budgets_State(String login) throws Exception {
         APIBudgets api = new APIBudgets();
@@ -31,7 +31,6 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         if (i < 0) {
             i = 0;
         }
-
         String[][] data = api.ListBudgetsByState(login, cbVal(api.ListState(login), i));
         if (data.length > 0) {
             showTable(data);
@@ -41,9 +40,13 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         }
         insertCb(api.ListState(login));
         Events(login, api);
-
     }
 
+    /**
+     * Vai buscar os dados à API e insere na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_budgets.getModel();
@@ -58,10 +61,23 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai buscar o valor da combobox e boscar o seu is
+     *
+     * @param list
+     * @param val
+     * @return
+     */
     private int cbVal(String[][] list, int val) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Insere os dados na combobox
+     *
+     * @param list
+     * @throws Exception
+     */
     private void insertCb(String[][] list) throws Exception {
         cb_state.removeAllItems();
         for (String[] list1 : list) {
@@ -69,6 +85,12 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Aqui é onde é definido os eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APIBudgets api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -96,16 +118,29 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form edit e fecha esta
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_budgets.getModel();
             int i = tbl_budgets.getSelectedRow();
             new EditBudget(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Budgets_State.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Abre a form info e fecha esta
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_budgets.getModel();
@@ -115,7 +150,12 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
             Logger.getLogger(Table_Budgets_State.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Insere os dados na combobox
+     * @param evt
+     * @param login
+     * @param api 
+     */
     private void CB_State(java.awt.event.ActionEvent evt, String login, APIBudgets api) {
         try {
             String[][] data = api.ListBudgetsByState(login, cbVal(api.ListState(login), cb_state.getSelectedIndex()));
@@ -130,7 +170,10 @@ public final class Table_Budgets_State extends javax.swing.JFrame {
             Logger.getLogger(Table_Budgets_State.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Ao clicar na tabela seleciona um id
+     * @param evt 
+     */
     private void TBL_budgetsClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_budgets.getSelectedRow();
         TableModel mod = tbl_budgets.getModel();
