@@ -16,6 +16,14 @@ import org.json.simple.parser.JSONParser;
  * @author Rui Barcelos
  */
 public class APIState extends Connect {
+
+    /**
+     * LISTA os estados da reparação que existem
+     *
+     * @param login
+     * @return
+     * @throws Exception
+     */
     public String[][] ShowState(String login) throws Exception {
         URL url = new URL(IP() + "/repair/states");
         String list = GETConnect(login, url, "GET");
@@ -29,6 +37,14 @@ public class APIState extends Connect {
         }
         return dataTable;
     }
+
+    /**
+     * Lista completa de estados da reparação
+     *
+     * @param login
+     * @return
+     * @throws Exception
+     */
     public String[][] ShowStateComplete(String login) throws Exception {
         URL url = new URL(IP() + "/repair/states/complete");
         String list = GETConnect(login, url, "GET");

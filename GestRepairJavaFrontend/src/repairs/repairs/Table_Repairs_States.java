@@ -22,7 +22,7 @@ import repairs.state.APIState;
 public final class Table_Repairs_States extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Vehicles
+     * Creates new form Table_Repairs
      *
      * @param login
      * @param idService
@@ -39,7 +39,12 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         row();
     }
 
-    public void showTable(String[][] list) {
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
+    private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
             Object[] row = new Object[8];
@@ -53,6 +58,9 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Define com pré definição a linha 0
+     */
     private void row() {
         TableModel mod = tbl_repair.getModel();
         if (mod.getRowCount() > 0) {
@@ -65,6 +73,12 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona a linha
+     *
+     * @param val
+     * @return
+     */
     private int SelectRow(int val) {
         int i = tbl_repair.getSelectedRow();
         TableModel mod = tbl_repair.getModel();
@@ -74,6 +88,11 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         return parseInt((String) mod.getValueAt(i, val));
     }
 
+    /**
+     * Insere os dados na dropdown
+     *
+     * @param list
+     */
     private void showStates(String[][] list) {
         cb_states.removeAllItems();
         for (String[] list1 : list) {
@@ -81,15 +100,33 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Fução que limpa a tabela
+     */
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Função que vai buscar o id da dropdown
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Aquí é definido os eventos
+     *
+     * @param login
+     * @param idService
+     * @param api
+     * @param apiState
+     */
     private void Events(final String login, final int idService, final APIRepair api, final APIState apiState) {
         tbl_repair.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +168,12 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Aqui é onde é chamado a form de editar
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditRepair(login, SelectRow(0)).setVisible(true);
@@ -140,6 +183,13 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Aqui é onde é chamado a form de informação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new InfoRepair(login, SelectRow(0), idService).setVisible(true);
@@ -149,6 +199,13 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form com a lista de empregados associados a uma reparação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
@@ -158,6 +215,13 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form que lista as peças associadas a uma reparação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
@@ -167,6 +231,14 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os dados na tabela consoante a alteração da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param api
+     * @param apiState
+     */
     private void CB_State(java.awt.event.ActionEvent evt, String login, APIRepair api, APIState apiState) {
         try {
             String[][] state = apiState.ShowState(login);
@@ -183,6 +255,11 @@ public final class Table_Repairs_States extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona uma linha da coluna ao clicar
+     *
+     * @param evt
+     */
     private void TBL_RepairClick(java.awt.event.MouseEvent evt) {
         row();
     }

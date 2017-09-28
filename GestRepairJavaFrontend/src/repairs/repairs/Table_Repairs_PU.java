@@ -31,13 +31,18 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      * @throws java.text.ParseException
      */
-    public Table_Repairs_PU(String login,int idService, int id) throws Exception {
+    public Table_Repairs_PU(String login, int idService, int id) throws Exception {
         APIRepair api = new APIRepair();
         initComponents();
         showTable(api.ListRepairs(login, id));
-        Events(login, id,idService ,api);
+        Events(login, id, idService, api);
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
@@ -56,8 +61,15 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         }
     }
 
-    private void Events(final String login, final int id, final int idService ,final APIRepair api) {
-
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param id
+     * @param idService
+     * @param api
+     */
+    private void Events(final String login, final int id, final int idService, final APIRepair api) {
         tbl_repair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TBL_CLICKED(evt);
@@ -71,22 +83,30 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         bt_info.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Info(evt, login,idService);
+                BT_Info(evt, login, idService);
             }
         });
         bt_list_empl.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ListEmployer(evt, login,idService);
+                BT_ListEmployer(evt, login, idService);
             }
         });
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Parts(evt, login,idService);
+                BT_Parts(evt, login, idService);
             }
         });
     }
+
+    /**
+     * Abre a form de detalhes de informação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new InfoRepair(login, SelectRow(0), idService).setVisible(true);
@@ -95,6 +115,14 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Mostra a lista de funcionários na na reparação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
@@ -103,6 +131,14 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Abre a form onde contém as peças associadas a uma reparação
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
@@ -111,6 +147,13 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Seleciona uma determinada linha da tabela
+     *
+     * @param val
+     * @return
+     */
     private int SelectRow(int val) {
         int i = tbl_repair.getSelectedRow();
         TableModel mod = tbl_repair.getModel();
@@ -119,20 +162,34 @@ public final class Table_Repairs_PU extends javax.swing.JFrame {
         }
         return parseInt((String) mod.getValueAt(i, val));
     }
+
+    /**
+     * Ativa a ação do click
+     *
+     * @param evt
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_repair.getSelectedRow();
         TableModel mod = tbl_repair.getModel();
         l_idRepair.setText((String) mod.getValueAt(i, 0));
     }
 
+    /**
+     * Abre a form de editar
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIRepair api) {
         try {
             int i = ((tbl_repair.getSelectedRow() < 0) ? 0 : tbl_repair.getSelectedRow());
             TableModel mod = tbl_repair.getModel();
             new EditRepair(login, parseInt((String) mod.getValueAt(i, 0))).setVisible(true);
+            dispose();
         } catch (Exception ex) {
-            Logger.getLogger(Table_Repairs_PU.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Table_Repairs_PU.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

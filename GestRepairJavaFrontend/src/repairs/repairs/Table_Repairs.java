@@ -5,6 +5,7 @@
  */
 package repairs.repairs;
 
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +38,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
     }
 
     /**
-     * Mostra os dados na tabela
+     * Mostra as tabelas
      *
      * @param list
      */
@@ -57,7 +58,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
     }
 
     /**
-     * Mostra os dados a selecionar a linha
+     * Mostra as seleciona a primeira linha
      */
     private void row() {
         TableModel mod = tbl_repair.getModel();
@@ -72,7 +73,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
     }
 
     /**
-     * Seleciona a linha
+     * Seleciona a primeira linha
      *
      * @param val
      * @return
@@ -127,7 +128,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
     }
 
     /**
-     * Mostra os forms de editar
+     * Abre o o form de editar
      *
      * @param evt
      * @param login
@@ -142,7 +143,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
     }
 
     /**
-     * Mostra o form de editar
+     * Abre a form de informação
      *
      * @param evt
      * @param login
@@ -156,11 +157,13 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
-     * Abre a form da lista de funcionários associados a uma reparação
+     * Lista abre o form de lista de reparações
+     *
      * @param evt
      * @param login
-     * @param idService 
+     * @param idService
      */
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
@@ -171,7 +174,7 @@ public final class Table_Repairs extends javax.swing.JFrame {
         }
     }
     /**
-     *  Abre a lista de peças associadas a uma reparação
+     * Abre as lista de peças associadas a uma reparação
      * @param evt
      * @param login
      * @param idService 
