@@ -25,6 +25,12 @@ public class MainParts extends javax.swing.JFrame {
         Events(login, idService);
     }
 
+    /**
+     * Efectua Eventos
+     *
+     * @param login
+     * @param idService
+     */
     private void Events(final String login, final int idService) {
         bt_addParts.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -46,6 +52,13 @@ public class MainParts extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre o form de adicionar peças
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_addPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new AddParts(login, idService).setVisible(true);
@@ -54,7 +67,12 @@ public class MainParts extends javax.swing.JFrame {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Abre o Form da tabela de peças
+     * @param evt
+     * @param login
+     * @param idService 
+     */
     private void BT_ListPart(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Parts(login, idService).setVisible(true);
@@ -63,7 +81,12 @@ public class MainParts extends javax.swing.JFrame {
             Logger.getLogger(MainParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Mostra o form da lista de peças por serviço
+     * @param evt
+     * @param login
+     * @param idService 
+     */
     private void BT_ListPartService(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Parts_Type(login, idService).setVisible(true);

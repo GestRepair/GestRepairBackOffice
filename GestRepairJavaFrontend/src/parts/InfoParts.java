@@ -28,6 +28,13 @@ public final class InfoParts extends javax.swing.JFrame {
         GetData(login, idPart);
     }
 
+    /**
+     * Declara os eventos
+     *
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void Events(final String login, final int idPart, final int idService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -65,11 +72,28 @@ public final class InfoParts extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Mostra o formulário para adicionar serviço a uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     * @throws Exception
+     */
     private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Mostra o formulário para adicionar quantidade a uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
@@ -79,6 +103,14 @@ public final class InfoParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra o formulário para editar detalhe de uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditParts(login, idPart, idService).setVisible(true);
@@ -87,6 +119,14 @@ public final class InfoParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra o formulário para editar preço de uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
@@ -95,6 +135,14 @@ public final class InfoParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra o formulário da listagem de peças a uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_ListService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new ListServicesPart(login, idPart).setVisible(true);
@@ -103,12 +151,19 @@ public final class InfoParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os detalhes da peça no formulário
+     *
+     * @param login
+     * @param idPart
+     * @throws Exception
+     */
     private void GetData(String login, int idPart) throws Exception {
         APIParts api = new APIParts();
         String[] data = api.InfoParts(login, idPart);
         l_idPart.setText(data[0]);
         l_name.setText(data[1]);
-        l_desc.setText("<html>"+data[2]+"</html>");
+        l_desc.setText("<html>" + data[2] + "</html>");
         l_amount.setText(data[3]);
         l_price.setText(data[4]);
     }

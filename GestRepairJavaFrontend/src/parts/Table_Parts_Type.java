@@ -43,6 +43,14 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         row(0);
     }
 
+    /**
+     * Adiciona os eventos
+     *
+     * @param login
+     * @param idService
+     * @param api
+     * @param apiService
+     */
     private void Events(final String login, final int idService, final APIParts api, final APIService apiService) {
         bt_add_service.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -97,31 +105,73 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form para adicionar serviço a uma peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     * @throws Exception
+     */
     private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form para editar a peça
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new EditParts(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form para mostrar os detalhes
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new InfoParts(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form para editar preço
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(InfoParts.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Abre a form para adicionar quantidade
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
@@ -131,6 +181,14 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os dados na combobox serviços
+     *
+     * @param evt
+     * @param login
+     * @param api
+     * @param apiService
+     */
     private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, APIParts api, APIService apiService) {
         try {
             int i = cbType.getSelectedIndex();
@@ -156,11 +214,19 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Limpa a tabela
+     */
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Mostra os serviços na combobox serviços
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cbType.removeAllItems();
         for (String[] list1 : list) {
@@ -170,10 +236,22 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         cbType.removeItemAt(0);
     }
 
+    /**
+     * Vai buscar o id da combobox
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Mostra os serviços na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
@@ -189,6 +267,11 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Seleciona os dados de uma tabela caso ela tenha dados
+     *
+     * @param val
+     */
     private void row(int val) {
         TableModel mod = tbl_parts.getModel();
         if (mod.getRowCount() > 0) {
@@ -280,11 +363,6 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         bt_edit_price.setText("Alterar Preço");
 
         bt_add_service.setText("Adicionar Serviço");
-        bt_add_service.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_add_serviceActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -347,15 +425,15 @@ public final class Table_Parts_Type extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1216, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Verifica a linha ao clicar
+     *
+     * @param evt
+     */
     private void tbl_partsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_partsMouseClicked
         int i = tbl_parts.getSelectedRow();
         row(i);
     }//GEN-LAST:event_tbl_partsMouseClicked
-
-    private void bt_add_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_add_serviceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bt_add_serviceActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add_amount;

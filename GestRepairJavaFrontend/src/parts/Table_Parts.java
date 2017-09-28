@@ -35,6 +35,12 @@ public final class Table_Parts extends javax.swing.JFrame {
         Events(login, idService);
     }
 
+    /**
+     * Define os eventos dos botões
+     *
+     * @param login
+     * @param idService
+     */
     private void Events(final String login, final int idService) {
         bt_add_amount.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -84,23 +90,56 @@ public final class Table_Parts extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de adicionar serviço a uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     * @throws Exception
+     */
     private void BT_AddService(java.awt.event.ActionEvent evt, String login, int idPart, int idService) throws Exception {
         new AddServicePart(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form de editar uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new EditParts(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form de detalhe de uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         int idPart = parseInt(linfoUser.getText());
         new InfoParts(login, idPart, idService).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre a form de alterar preço de uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
@@ -109,6 +148,14 @@ public final class Table_Parts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Adiciona quantidade de uma determinada peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
@@ -118,7 +165,12 @@ public final class Table_Parts extends javax.swing.JFrame {
         }
     }
 
-    public void showTable(String[][] list) {
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
+    private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_part.getModel();
             Object[] row = new Object[6];
@@ -132,12 +184,18 @@ public final class Table_Parts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Define que a primeira linha da tabela a ser utilizada é a linha 0
+     */
     private void tbl_usersStart() {
-        // TODO add your handling code here:
-        TableModel mod = tbl_part.getModel();
         row(0);
     }
 
+    /**
+     * Define a linha selecionada
+     *
+     * @param val
+     */
     private void row(int val) {
         TableModel mod = tbl_part.getModel();
         linfoUser.setText(mod.getValueAt(val, 0) + "");
@@ -274,7 +332,10 @@ public final class Table_Parts extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1216, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Vai buscar o numero da linha a ser selecionada a clicar
+     * @param evt 
+     */
     private void tbl_partMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_partMouseClicked
         // TODO add your handling code here:
         int i = tbl_part.getSelectedRow();

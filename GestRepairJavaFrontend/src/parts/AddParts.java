@@ -23,32 +23,44 @@ public final class AddParts extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public AddParts(String login, int idService) throws Exception {
-        
         APIService apiService = new APIService();
         initComponents();
-        Events(login,apiService);
+        Events(login, apiService);
         showService(apiService.Service(login));
         cb_service.removeItemAt(0);
         cb_service.removeItemAt(0);
         ta_pdesc.setLineWrap(true);
     }
 
-    private void Events(final String login,final APIService apiService) {
+    /**
+     * Declara os eventos
+     *
+     * @param login
+     * @param apiService
+     */
+    private void Events(final String login, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt, login,apiService);
+                BT_addPost(evt, login, apiService);
             }
         });
     }
 
-    private void BT_addPost(java.awt.event.ActionEvent evt, String login,APIService apiService) {
+    /**
+     * Adiciona a peça
+     *
+     * @param evt
+     * @param login
+     * @param apiService
+     */
+    private void BT_addPost(java.awt.event.ActionEvent evt, String login, APIService apiService) {
         APIParts api = new APIParts();
         try {
             if (tf_name.getText().length() > 0 && tf_amount.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
-                    String value[] = api.PostPart(login, sendData(login,apiService));
+                    String value[] = api.PostPart(login, sendData(login, apiService));
                     JOptionPane.showMessageDialog(this, value[1]);
                     if ("ok".equals(value[0])) {
                         dispose();
@@ -64,6 +76,11 @@ public final class AddParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os serviços e envia para a dropdown
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
@@ -71,11 +88,26 @@ public final class AddParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai buscar o id da dropdown
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
-    private String[] sendData(String login,APIService apiService) throws Exception {
+    /**
+     * Trata os dados para ser enviados para a API
+     *
+     * @param login
+     * @param apiService
+     * @return
+     * @throws Exception
+     */
+    private String[] sendData(String login, APIService apiService) throws Exception {
         String[] data = new String[5];
         data[0] = tf_name.getText();
         data[1] = (ta_pdesc.getText().length() > 0) ? ta_pdesc.getText() : "n/d";

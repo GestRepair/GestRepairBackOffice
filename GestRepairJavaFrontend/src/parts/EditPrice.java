@@ -22,12 +22,18 @@ public final class EditPrice extends javax.swing.JFrame {
      * @throws java.lang.Exception
      */
     public EditPrice(String login, int idPart, int idService) throws Exception {
-
         initComponents();
         l_idPart.setText(idPart + "");
         Events(login, idPart, idService);
     }
 
+    /**
+     * Declara os eventos
+     *
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void Events(final String login, final int idPart, final int idService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -37,6 +43,15 @@ public final class EditPrice extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Verifica se pode enviar os dados e caso possa depois da confirmação do
+     * cliente ele envia
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         APIParts api = new APIParts();
         try {
@@ -60,6 +75,12 @@ public final class EditPrice extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @return
+     * @throws Exception
+     */
     private String sendData() throws Exception {
         return tf_price.getText().replace(",", ".");
     }

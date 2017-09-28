@@ -13,28 +13,43 @@ import javax.swing.table.DefaultTableModel;
  * @author Rui Barcelos
  */
 public class ListServicesPart extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form ListServicesPart
+     *
      * @param login
      * @param idPart
      * @throws java.lang.Exception
      */
-    public ListServicesPart(final String login, final int idPart)throws Exception{
+    public ListServicesPart(final String login, final int idPart) throws Exception {
         initComponents();
-        ShowTablePart(login,idPart);
+        ShowTablePart(login, idPart);
     }
-    private void ShowTablePart(String login, int idPart) throws Exception{
+
+    /**
+     * Mostra os dados na tabela peças
+     *
+     * @param login
+     * @param idPart
+     * @throws Exception
+     */
+    private void ShowTablePart(String login, int idPart) throws Exception {
         APIParts api = new APIParts();
-        l_idPart.setText(idPart+"");
+        l_idPart.setText(idPart + "");
         String data[][] = api.ListServiceParts(login, idPart);
-        if(data.length>0){
-            showTable(data); 
-        }else{
-            JOptionPane.showMessageDialog(this,"Sem dados");
+        if (data.length > 0) {
+            showTable(data);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sem dados");
             dispose();
         }
     }
+
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     public void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_service_price.getModel();
         Object[] row = new Object[2];
@@ -45,6 +60,7 @@ public class ListServicesPart extends javax.swing.JFrame {
             mod.addRow(row);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

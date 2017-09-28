@@ -32,6 +32,15 @@ public final class AddServicePart extends javax.swing.JFrame {
         showServiceCB(login, idPart, api);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param idPart
+     * @param idService
+     * @param api
+     * @param apiService
+     */
     private void Events(final String login, final int idPart, final int idService, final APIParts api, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -41,6 +50,16 @@ public final class AddServicePart extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Verifica se pode enviar os dados, caso possa envia após confirmação
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     * @param api
+     * @param apiService
+     */
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService, APIParts api, APIService apiService) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -58,6 +77,11 @@ public final class AddServicePart extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os serviços na dropdown
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
@@ -65,14 +89,37 @@ public final class AddServicePart extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai buscar o ID do valor da dropdown
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Mostra os serviços na dropdown
+     *
+     * @param login
+     * @param idPart
+     * @param api
+     * @throws Exception
+     */
     private void showServiceCB(String login, int idPart, APIParts api) throws Exception {
         showService(api.ListServiceNotParts(login, idPart));
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @param login
+     * @param apiService
+     * @return
+     * @throws Exception
+     */
     private int sendData(String login, APIService apiService) throws Exception {
         return Cb_Val(cb_service.getSelectedIndex(), apiService.Service(login));
     }

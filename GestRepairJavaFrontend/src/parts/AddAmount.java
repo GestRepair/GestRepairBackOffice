@@ -25,18 +25,35 @@ public final class AddAmount extends javax.swing.JFrame {
         APIParts api = new APIParts();
         initComponents();
         l_idPart.setText(idPart + "");
-        Events(login, idPart, idService,api);
+        Events(login, idPart, idService, api);
     }
 
+    /**
+     * Declaração de eventos
+     *
+     * @param login
+     * @param idPart
+     * @param idService
+     * @param api
+     */
     private void Events(final String login, final int idPart, final int idService, final APIParts api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addPost(evt, login, idPart, idService,api);
+                BT_addPost(evt, login, idPart, idService, api);
             }
         });
     }
 
+    /**
+     * Adiciona a quantidade da peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     * @param api
+     */
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int idPart, int idService, APIParts api) {
         try {
             if (tf_amount.getText().length() > 0) {
@@ -59,6 +76,11 @@ public final class AddAmount extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Envia os dados
+     * @return
+     * @throws Exception 
+     */
     private String sendData() throws Exception {
         return tf_amount.getText();
     }

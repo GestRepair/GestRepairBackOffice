@@ -32,6 +32,14 @@ public final class EditParts extends javax.swing.JFrame {
         Events(login, idPart, idService, api);
     }
 
+    /**
+     * Aqui são declarados os eventos
+     *
+     * @param login
+     * @param idPart
+     * @param idService
+     * @param api
+     */
     private void Events(final String login, final int idPart, final int idService, final APIParts api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -53,6 +61,13 @@ public final class EditParts extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, APIParts api) {
         try {
             if (tf_name.getText().length() > 0 && ta_pdesc.getText().length() > 0) {
@@ -74,6 +89,14 @@ public final class EditParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form para alterar o preço da peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_EditPrice(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new EditPrice(login, idPart, idService).setVisible(true);
@@ -82,6 +105,14 @@ public final class EditParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form para adicionar a quantidade da peça
+     *
+     * @param evt
+     * @param login
+     * @param idPart
+     * @param idService
+     */
     private void BT_ADDAmount(java.awt.event.ActionEvent evt, String login, int idPart, int idService) {
         try {
             new AddAmount(login, idPart, idService).setVisible(true);
@@ -91,6 +122,14 @@ public final class EditParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Envia insere os dados nas textboxs
+     *
+     * @param login
+     * @param idPart
+     * @param api
+     * @throws Exception
+     */
     private void GetData(String login, int idPart, APIParts api) throws Exception {
         String[] data = api.InfoParts(login, idPart);
         l_idPart.setText(data[0]);
@@ -98,6 +137,12 @@ public final class EditParts extends javax.swing.JFrame {
         ta_pdesc.setText(data[2]);
     }
 
+    /**
+     * Prepara os dados para enviar para a API
+     *
+     * @return
+     * @throws Exception
+     */
     private String[] sendData() throws Exception {
         String[] data = new String[3];
         data[0] = tf_name.getText();
