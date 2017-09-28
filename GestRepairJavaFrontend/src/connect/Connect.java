@@ -18,7 +18,7 @@ import org.json.simple.parser.JSONParser;
  *
  * @author Convite
  */
-public class Connect {
+public abstract class Connect {
 
     /**
      * Aqui é definido o ip da API

@@ -31,27 +31,59 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         initComponents();
         showService(apiService.ShowNotRepairService(login, idRepair));
         showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair))));
-        Events(login,idRepair,api, apiEmployer,apiService);
+        Events(login, idRepair, api, apiEmployer, apiService);
     }
-    private void Events(final String login, final int idRepair,final APIEmployerRepair api, final APIEmployer apiEmployer, final APIService apiService) {
+
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param idRepair
+     * @param api
+     * @param apiEmployer
+     * @param apiService
+     */
+    private void Events(final String login, final int idRepair, final APIEmployerRepair api, final APIEmployer apiEmployer, final APIService apiService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADD(evt,login, idRepair,api, apiEmployer,apiService);
+                BT_ADD(evt, login, idRepair, api, apiEmployer, apiService);
             }
         });
         cb_service.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CB_SERVICE(evt,login,  idRepair,  apiEmployer, apiService);
+                CB_SERVICE(evt, login, idRepair, apiEmployer, apiService);
             }
         });
     }
-    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, int idRepair, APIEmployer apiEmployer,APIService apiService) {                                           
+
+    /**
+     * Mostra os enpregados na combobox
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param apiEmployer
+     * @param apiService
+     */
+    private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, int idRepair, APIEmployer apiEmployer, APIService apiService) {
         try {
             showEmployers(apiEmployer.ShowNotRepairEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair))));
         } catch (Exception ex) {
         }
-    }    
-    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idRepair,APIEmployerRepair api, APIEmployer apiEmployer,APIService apiService) {                                       
+    }
+
+    /**
+     * Pede a confirmação do utilizador, e se sim insere a o registo na base de
+     * dados
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param api
+     * @param apiEmployer
+     * @param apiService
+     */
+    private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idRepair, APIEmployerRepair api, APIEmployer apiEmployer, APIService apiService) {
         try {
             int serv = Cb_Val(cb_service.getSelectedIndex(), apiService.ShowNotRepairService(login, idRepair));
             int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowNotRepairEmployer(login, 1, serv));
@@ -68,7 +100,13 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro a adicionar reparação!\n Verifique se os dados estão corretos");
         }
-    }      
+    }
+
+    /**
+     * Insere os dados na dropdown serviços
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
@@ -76,13 +114,23 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os dados na dropdown Empregados
+     *
+     * @param list
+     */
     private void showEmployers(String[][] list) {
         cb_employer.removeAllItems();
         for (String[] list1 : list) {
             cb_employer.addItem(list1[1]);
         }
     }
-
+    /**
+     * Vai buscar o id dos valores da dropdown
+     * @param val
+     * @param list
+     * @return 
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
@@ -108,22 +156,12 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         jLabel1.setText("Serviço:");
 
         cb_service.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cb_service.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_serviceActionPerformed(evt);
-            }
-        });
 
         cb_employer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Funcionário:");
 
         bt_add.setText("Adicionar");
-        bt_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_addActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,14 +198,6 @@ public final class AddEmployerRepair extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(236, 218));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cb_serviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_serviceActionPerformed
-       
-    }//GEN-LAST:event_cb_serviceActionPerformed
-
-    private void bt_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_addActionPerformed
-        
-    }//GEN-LAST:event_bt_addActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_add;

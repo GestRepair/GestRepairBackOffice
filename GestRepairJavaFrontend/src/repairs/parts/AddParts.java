@@ -36,6 +36,11 @@ public final class AddParts extends javax.swing.JFrame {
         showTableParts(login, apiparts);
     }
 
+    /**
+     * Adiciona os a informação à dropdown
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
@@ -43,15 +48,34 @@ public final class AddParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai inserir os ids quando se seleciona
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Mostra as peças na tabela
+     *
+     * @param login
+     * @param apiparts
+     * @throws Exception
+     */
     private void showTableParts(String login, APIParts apiparts) throws Exception {
         String data[][] = apiparts.ListPartsZero(login, Cb_Val(cb_service.getSelectedIndex(), apiparts.ListPartswhith(login)));
         showTable(data);
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         Object[] row = new Object[2];
@@ -63,12 +87,21 @@ public final class AddParts extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Aqui é definido os eventos
+     *
+     * @param login
+     * @param idRepair
+     * @param idService
+     * @param apiparts
+     * @param api
+     */
     private void Events(final String login, final int idRepair, final int idService, final APIParts apiparts, final APIPartsRepair api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_AddPart(evt, login, idRepair, idService,api);
+                    BT_AddPart(evt, login, idRepair, idService, api);
                 } catch (Exception ex) {
                     Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -86,16 +119,32 @@ public final class AddParts extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Limpa a tabela
+     */
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Limpa a Tabela e insere os dados caso da tabela na combobox
+     *
+     * @param evt
+     * @param login
+     * @param apiparts
+     * @throws Exception
+     */
     private void CB_SERVICE(java.awt.event.ActionEvent evt, String login, APIParts apiparts) throws Exception {
         cleanTable();
         showTableParts(login, apiparts);
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @return
+     */
     private int sendData() {
         DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
         int i = tbl_parts.getSelectedRow();
@@ -103,6 +152,15 @@ public final class AddParts extends javax.swing.JFrame {
         return val;
     }
 
+    /**
+     * Envia a confirmação e se for aceite adiciona a peça à reparação
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param idService
+     * @param api
+     */
     private void BT_AddPart(java.awt.event.ActionEvent evt, String login, int idRepair, int idService, APIPartsRepair api) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);

@@ -78,9 +78,6 @@
           </StringArray>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_serviceActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="cb_employer">
       <Properties>
@@ -103,9 +100,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Adicionar"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_addActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -33,6 +33,12 @@ public class EditRepair extends javax.swing.JFrame {
         Events(login, idRepair, api, apiState);
     }
 
+    /**
+     * Insere os estados da reparação na dropdown
+     *
+     * @param list
+     * @throws Exception
+     */
     private void insertCb(String[][] list) throws Exception {
         cb_state.removeAllItems();
         for (String[] list1 : list) {
@@ -40,6 +46,14 @@ public class EditRepair extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os dados na interface
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void ShowData(String login, int id, APIRepair api) throws Exception {
         String info[] = api.GetInfoRepair(login, id);
         l_idRepair.setText(info[0]);
@@ -57,6 +71,14 @@ public class EditRepair extends javax.swing.JFrame {
         ta_resolution.setText(info[7]);
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @param login
+     * @param apiState
+     * @return
+     * @throws Exception
+     */
     private String[] SendData(String login, APIState apiState) throws Exception {
         String[] data = new String[4];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
@@ -66,10 +88,25 @@ public class EditRepair extends javax.swing.JFrame {
         return data;
     }
 
+    /**
+     * Vai buscar o id do valor da dropdown
+     *
+     * @param list
+     * @param val
+     * @return
+     */
     private int cbVal(String[][] list, int val) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Determina os eventos
+     *
+     * @param login
+     * @param idRepair
+     * @param api
+     * @param apiState
+     */
     private void Events(final String login, final int idRepair, final APIRepair api, final APIState apiState) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -79,9 +116,19 @@ public class EditRepair extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Verifica se pode enviar os dados e pede a confirmação dos utilizadores e
+     * depois da confirmação envia
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param api
+     * @param apiState
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idRepair, APIRepair api, APIState apiState) {
         try {
-            if (ta_description.getText().length()>0) {
+            if (ta_description.getText().length() > 0) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer atualizar os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
                     String[] value = api.UpdateRepair(login, idRepair, SendData(login, apiState));

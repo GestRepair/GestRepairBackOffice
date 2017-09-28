@@ -5,7 +5,6 @@
  */
 package repairs.repairs;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -37,6 +36,11 @@ public final class Table_Repairs extends javax.swing.JFrame {
         row();
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param list
+     */
     public void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_repair.getModel();
@@ -52,6 +56,9 @@ public final class Table_Repairs extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Mostra os dados a selecionar a linha
+     */
     private void row() {
         TableModel mod = tbl_repair.getModel();
         if (mod.getRowCount() > 0) {
@@ -64,6 +71,12 @@ public final class Table_Repairs extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona a linha
+     *
+     * @param val
+     * @return
+     */
     private int SelectRow(int val) {
         int i = tbl_repair.getSelectedRow();
         TableModel mod = tbl_repair.getModel();
@@ -73,6 +86,12 @@ public final class Table_Repairs extends javax.swing.JFrame {
         return parseInt((String) mod.getValueAt(i, val));
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param idService
+     */
     private void Events(final String login, final int idService) {
         tbl_repair.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +126,12 @@ public final class Table_Repairs extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Mostra os forms de editar
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditRepair(login, SelectRow(0)).setVisible(true);
@@ -116,6 +141,13 @@ public final class Table_Repairs extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra o form de editar
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new InfoRepair(login, SelectRow(0), idService).setVisible(true);
@@ -124,7 +156,12 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Abre a form da lista de funcionários associados a uma reparação
+     * @param evt
+     * @param login
+     * @param idService 
+     */
     private void BT_ListEmployer(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new Table_Employer_Repair(login, SelectRow(0), idService).setVisible(true);
@@ -133,7 +170,12 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     *  Abre a lista de peças associadas a uma reparação
+     * @param evt
+     * @param login
+     * @param idService 
+     */
     private void BT_Parts(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             new ListPartsRepair(login, SelectRow(0), idService).setVisible(true);
@@ -142,7 +184,10 @@ public final class Table_Repairs extends javax.swing.JFrame {
             Logger.getLogger(Table_Repairs.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Seleciona a linha ao clicar
+     * @param evt 
+     */
     private void TBL_RepairClick(java.awt.event.MouseEvent evt) {
         row();
     }

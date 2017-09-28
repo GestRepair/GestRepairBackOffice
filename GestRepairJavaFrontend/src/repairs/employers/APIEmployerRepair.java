@@ -17,8 +17,16 @@ import repairs.repairs.APIRepair;
  */
 public class APIEmployerRepair extends APIRepair {
 
+    /**
+     * Mostra a lista de funcionários
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
-    public String[][] EployerRepairs(String login, int id) throws Exception {
+    public String[][] EmployerRepairs(String login, int id) throws Exception {
         URL url = new URL(IP() + "/repair/employer/" + id);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
@@ -33,6 +41,15 @@ public class APIEmployerRepair extends APIRepair {
         return dataTable;
     }
 
+    /**
+     * Adiciona a relação entre funcionário e uma reparação
+     *
+     * @param login
+     * @param idRepair
+     * @param empl
+     * @return
+     * @throws Exception
+     */
     public String[] PostEmployerRepair(String login, int idRepair, int empl) throws Exception {
         URL url = new URL(IP() + "/repair/employer");
         JSONObject objp = new JSONObject();

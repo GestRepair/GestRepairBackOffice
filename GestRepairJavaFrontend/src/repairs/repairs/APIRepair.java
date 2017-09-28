@@ -17,18 +17,41 @@ import org.json.simple.parser.JSONParser;
  */
 public class APIRepair extends Connect {
 
+    /**
+     * Pede para listar a reparação ou por utilizador
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ListRepairs(String login, int id) throws Exception {
         URL url = new URL(IP() + "/repair" + ((id == 0) ? "" : "/user/" + id));
         return GETListRepair(login, url);
     }
 
+    /**
+     * Pede para listar a reparação por estado
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] ListRepairsState(String login, int id) throws Exception {
         URL url = new URL(IP() + "/repair/states/" + id);
         return GETListRepair(login, url);
     }
-    
 
+    /**
+     * Lista geral de reparações
+     *
+     * @param login
+     * @param url
+     * @return
+     * @throws Exception
+     */
     private String[][] GETListRepair(String login, URL url) throws Exception {
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
@@ -41,13 +64,23 @@ public class APIRepair extends Connect {
             dataTable[i][2] = (String) datas.get("description");
             dataTable[i][3] = (datas.get("price") != null) ? (Object) datas.get("price") + "" : "";
             dataTable[i][4] = ((String) datas.get("startDate")).substring(0, 10) + " - " + ((String) datas.get("startDate")).substring(11, 16);
-            dataTable[i][5] = (datas.get("finishDate") != null) ? ((String) datas.get("finishDate")).substring(0, 10) + " - " + ((String) datas.get("finishDate")).substring(11, 16): null;
+            dataTable[i][5] = (datas.get("finishDate") != null) ? ((String) datas.get("finishDate")).substring(0, 10) + " - " + ((String) datas.get("finishDate")).substring(11, 16) : null;
             dataTable[i][6] = (String) datas.get("information");
             dataTable[i][7] = (String) datas.get("state");
         };
         return dataTable;
     }
 
+    /**
+     * Envia os dados da reparação
+     *
+     * @param login
+     * @param vehicle
+     * @param description
+     * @param employer
+     * @return
+     * @throws Exception
+     */
     public String[] PostRepair(String login, int vehicle, String description, int employer) throws Exception {
         URL url = new URL(IP() + "/repair");
         JSONObject objp = new JSONObject();
@@ -58,6 +91,7 @@ public class APIRepair extends Connect {
     }
 
     /**
+     * Mostra a informação da reparação
      *
      * @param login
      * @param id
@@ -81,7 +115,14 @@ public class APIRepair extends Connect {
         emp[7] = (String) newjsondata.get("information");
         return emp;
     }
-
+    /**
+     * Altera os dados da reparação
+     * @param login
+     * @param id
+     * @param data
+     * @return
+     * @throws Exception 
+     */
     public String[] UpdateRepair(String login, int id, String[] data) throws Exception {
         URL url = new URL(IP() + "/repair/" + id);
         JSONObject objp = new JSONObject();

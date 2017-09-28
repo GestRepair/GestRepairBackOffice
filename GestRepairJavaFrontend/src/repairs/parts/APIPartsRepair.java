@@ -17,6 +17,14 @@ import repairs.repairs.APIRepair;
  */
 public class APIPartsRepair extends APIRepair {
 
+    /**
+     * Lista as peças de uma reparação
+     *
+     * @param login
+     * @param idRepair
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ListParts(String login, int idRepair) throws Exception {
         URL url = new URL(IP() + "/repair/parts/" + idRepair);
@@ -26,13 +34,23 @@ public class APIPartsRepair extends APIRepair {
         String[][] dataTable = new String[data.size()][2];
         for (int i = 0; i < data.size(); i++) {
             JSONObject datas = (JSONObject) data.get(i);
-            dataTable[i][0] = (long) datas.get("idPart")+"";
+            dataTable[i][0] = (long) datas.get("idPart") + "";
             dataTable[i][1] = (String) datas.get("namePart");
         };
         return dataTable;
     }
+
+    /**
+     * Associa a peça a uma reparação
+     *
+     * @param login
+     * @param idRepair
+     * @param idPart
+     * @return
+     * @throws Exception
+     */
     public String[] PostParts(String login, int idRepair, int idPart) throws Exception {
-        URL url = new URL(IP() + "/repair/parts/"+idRepair);
+        URL url = new URL(IP() + "/repair/parts/" + idRepair);
         JSONObject objp = new JSONObject();
         objp.put("part", idPart);
         return SendConnect(login, url, "POST", objp);

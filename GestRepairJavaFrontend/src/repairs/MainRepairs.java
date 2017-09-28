@@ -19,14 +19,21 @@ public class MainRepairs extends javax.swing.JFrame {
 
     /**
      * Creates new form mainVehicles
+     *
      * @param login
      * @param idService
      */
-    public MainRepairs(String login,int idService) {
+    public MainRepairs(String login, int idService) {
         initComponents();
-        Events(login,idService);
+        Events(login, idService);
     }
-    
+
+    /**
+     * Define os eventos dos botões
+     *
+     * @param login
+     * @param idService
+     */
     private void Events(final String login, final int idService) {
 
         bt_listRepair.addActionListener(new java.awt.event.ActionListener() {
@@ -52,14 +59,31 @@ public class MainRepairs extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Mostra a lista de reparações
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_ListRepair(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
-        new Table_Repairs(login,idService).setVisible(true);
+        new Table_Repairs(login, idService).setVisible(true);
         dispose();
     }
+   
+    /**
+     * Abre a form que contém a lista de reparações por estado
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception 
+     */
     private void BT_ListRepairState(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
-        new Table_Repairs_States(login,idService).setVisible(true);
+        new Table_Repairs_States(login, idService).setVisible(true);
         dispose();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

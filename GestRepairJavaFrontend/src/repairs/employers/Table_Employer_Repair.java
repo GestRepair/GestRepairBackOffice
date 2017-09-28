@@ -27,10 +27,15 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
     public Table_Employer_Repair(String login, int idRepair, int idService) throws Exception {
         APIEmployerRepair api = new APIEmployerRepair();
         initComponents();
-        showTable(api.EployerRepairs(login, idRepair));
+        showTable(api.EmployerRepairs(login, idRepair));
         Events(login, idRepair, idService);
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_employers_repair.getModel();
         mod.setRowCount(0);
@@ -43,6 +48,13 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param login
+     * @param idRepair
+     * @param idService
+     */
     private void Events(final String login, final int idRepair, final int idService) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,6 +63,14 @@ public final class Table_Employer_Repair extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de adicionar funcionário à reparação
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param idService
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
         try {
             new AddEmployerRepair(login, idRepair, idService).setVisible(true);

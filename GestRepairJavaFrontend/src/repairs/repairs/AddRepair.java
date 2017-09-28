@@ -47,6 +47,17 @@ public final class AddRepair extends javax.swing.JFrame {
         Events(login, vehicle, idService, idEmployer, api, apiService, apiEmployer);
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param vehicle
+     * @param idService
+     * @param idEmployer
+     * @param api
+     * @param apiService
+     * @param apiEmployer
+     */
     private void Events(final String login, final int vehicle, final int idService, final int idEmployer, final APIRepair api, final APIService apiService, final APIEmployer apiEmployer) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -62,9 +73,22 @@ public final class AddRepair extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Verifica se pode fazer adicionar a Base de dados, se poder envia a
+     * confirmação e caso seja confirmado faz post
+     *
+     * @param evt
+     * @param login
+     * @param vehicle
+     * @param idService
+     * @param idEmployer
+     * @param api
+     * @param apiService
+     * @param apiEmployer
+     */
     private void BT_addPost(java.awt.event.ActionEvent evt, String login, int vehicle, int idService, int idEmployer, APIRepair api, APIService apiService, APIEmployer apiEmployer) {
         try {
-            if (ta_pdesc.getText().length()>0) {
+            if (ta_pdesc.getText().length() > 0) {
                 int serv = Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login));
                 int empl = Cb_Val(cb_employer.getSelectedIndex(), apiEmployer.ShowEmployer(login, 1, serv));
                 int x = JOptionPane.showConfirmDialog(this, "Tem a ceteza que quer inserir os dados?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -88,13 +112,27 @@ public final class AddRepair extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Mostra os dados dos funcionários,pela acção da combobox
+     *
+     * @param evt
+     * @param login
+     * @param apiEmployer
+     * @param apiService
+     */
     private void CB_Service(java.awt.event.ActionEvent evt, String login, APIEmployer apiEmployer, APIService apiService) {
         try {
             showEmployers(apiEmployer.ShowEmployer(login, 1, Cb_Val(cb_service.getSelectedIndex() + 2, apiService.Service(login))));
         } catch (Exception ex) {
+
         }
     }
 
+    /**
+     * Insere os dados na dropdown Serviços
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cb_service.removeAllItems();
         for (String[] list1 : list) {
@@ -102,13 +140,23 @@ public final class AddRepair extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os dados na dropdown empregados
+     *
+     * @param list
+     */
     private void showEmployers(String[][] list) {
         cb_employer.removeAllItems();
         for (String[] list1 : list) {
             cb_employer.addItem(list1[2]);
         }
     }
-
+    /**
+     * Vai buscar o ida da base de dados do que é mostrado na dropdown
+     * @param val
+     * @param list
+     * @return 
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }

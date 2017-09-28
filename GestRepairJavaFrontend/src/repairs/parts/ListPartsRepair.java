@@ -30,11 +30,26 @@ public class ListPartsRepair extends javax.swing.JFrame {
         showTableParts(login, idRepair, api);
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param login
+     * @param idRepair
+     * @param api
+     * @throws Exception
+     */
     private void showTableParts(String login, int idRepair, APIPartsRepair api) throws Exception {
         String data[][] = api.ListParts(login, idRepair);
         showTable(data);
     }
 
+    /**
+     * Adiciona eventos
+     *
+     * @param login
+     * @param idRepair
+     * @param idService
+     */
     private void Events(final String login, final int idRepair, final int idService) {
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -48,6 +63,11 @@ public class ListPartsRepair extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_parts.getModel();
@@ -60,7 +80,14 @@ public class ListPartsRepair extends javax.swing.JFrame {
             }
         }
     }
-
+    /**
+     * Abre a form adicionar peças
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param idService
+     * @throws Exception 
+     */
     private void BT_AddPart(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) throws Exception {
         new AddParts(login, idRepair, idService).setVisible(true);
         dispose();

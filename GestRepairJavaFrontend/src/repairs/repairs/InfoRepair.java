@@ -17,6 +17,7 @@ import repairs.parts.ListPartsRepair;
  * @author Rui Barcelos
  */
 public class InfoRepair extends javax.swing.JFrame {
+
     /**
      * Creates new form Info
      *
@@ -31,7 +32,9 @@ public class InfoRepair extends javax.swing.JFrame {
         Events(login, idRepair, idService);
 
     }
+
     /**
+     * Mostra dos dados na form
      *
      * @param login
      * @param id
@@ -42,7 +45,7 @@ public class InfoRepair extends javax.swing.JFrame {
         String info[] = api.GetInfoRepair(login, id);
         l_idRepair.setText(info[0]);
         l_vehicle.setText(info[1]);
-        l_description.setText("<html>"+info[2]+"</html>");
+        l_description.setText("<html>" + info[2] + "</html>");
         if (info[3] != null) {
             l_price.setText(info[3]);
         } else {
@@ -58,13 +61,20 @@ public class InfoRepair extends javax.swing.JFrame {
             l_dFin.setVisible(false);
         }
         if (info[7] != null) {
-            l_resolution.setText("<html>"+info[7]+"</html>");
+            l_resolution.setText("<html>" + info[7] + "</html>");
         } else {
             l_resolution.setVisible(false);
             l_res.setVisible(false);
         }
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param idRepair
+     * @param idService
+     */
     private void Events(final String login, final int idRepair, final int idService) {
         bt_parts.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -90,7 +100,7 @@ public class InfoRepair extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
-                    BT_Emplyers(evt, login, idRepair, idService);
+                    BT_Employers(evt, login, idRepair, idService);
                 } catch (Exception ex) {
                     Logger.getLogger(AddParts.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -109,10 +119,26 @@ public class InfoRepair extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Abre as peças para listar uma reparação
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param idService
+     * @throws Exception
+     */
     private void BT_ListPartsRepair(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) throws Exception {
         new ListPartsRepair(login, idRepair, idService).setVisible(true);
     }
 
+    /**
+     * Abre o formulário de editar
+     *
+     * @param evt
+     * @param login
+     * @param idRepair
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int idRepair) {
         try {
             new EditRepair(login, idRepair).setVisible(true);
@@ -121,8 +147,14 @@ public class InfoRepair extends javax.swing.JFrame {
             Logger.getLogger(InfoRepair.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    private void BT_Emplyers(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
+    /**
+     * Abre a form de dos funcionários de uma determinada reparação
+     * @param evt
+     * @param login
+     * @param idRepair
+     * @param idService 
+     */
+    private void BT_Employers(java.awt.event.ActionEvent evt, String login, int idRepair, int idService) {
         try {
             new Table_Employer_Repair(login, idRepair, idService).setVisible(true);
             dispose();
