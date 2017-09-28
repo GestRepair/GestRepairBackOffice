@@ -5,7 +5,6 @@
  */
 package schedule;
 
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,22 +13,37 @@ import java.util.logging.Logger;
  * @author Convite
  */
 public class MainSchedule extends javax.swing.JFrame {
+
     /**
-     * Creates new form mainVehicles
+     * Creates new form MainSchedule
+     *
      * @param login
      */
     public MainSchedule(String login) {
         initComponents();
         Events(login);
     }
-    private void Events(final String login){
+
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     */
+    private void Events(final String login) {
         bt_listSchedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_List(evt,login);
+                BT_List(evt, login);
             }
         });
     }
-    private void BT_List(java.awt.event.ActionEvent evt,String login){
+
+    /**
+     * Mosrtra a lista de marcações
+     *
+     * @param evt
+     * @param login
+     */
+    private void BT_List(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Schedule(login).setVisible(true);
             dispose();
@@ -37,7 +51,7 @@ public class MainSchedule extends javax.swing.JFrame {
             Logger.getLogger(MainSchedule.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

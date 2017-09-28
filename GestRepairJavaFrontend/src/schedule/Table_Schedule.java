@@ -17,7 +17,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
 public final class Table_Schedule extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Vehicles
+     * Creates new form Table_Schedule
      *
      * @param login
      * @throws java.lang.Exception
@@ -33,6 +33,11 @@ public final class Table_Schedule extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
@@ -52,6 +57,13 @@ public final class Table_Schedule extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere as Datas numa combobox
+     *
+     * @param login
+     * @param api
+     * @throws Exception
+     */
     private void ShowDate(String login, APISchedule api) throws Exception {
         cb_date.removeAllItems();
         String[][] data = api.ListDays(login);
@@ -60,21 +72,43 @@ public final class Table_Schedule extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Atravez da combobox vai buscar o id
+     *
+     * @param val
+     * @param data
+     * @return
+     */
     private int cbVal(int val, String[][] data) {
         return parseInt(data[val][0]);
     }
 
+    /**
+     * Atravez do click vai-se buscar o id
+     *
+     * @param evt
+     * @param login
+     */
     private void tbl_scheduleClick(java.awt.event.MouseEvent evt, String login) {
         int i = tbl_schedule.getSelectedRow();
         TableModel mod = tbl_schedule.getModel();
         l_idSchedule.setText((String) mod.getValueAt(i, 0));
     }
 
-    public void cleanTable() {
+    /**
+     * Limpa os dados da tabela
+     */
+    private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Aqui são definido os eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APISchedule api) {
         tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -101,6 +135,13 @@ public final class Table_Schedule extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Após a confirmação do utilizador a marcação é desativada
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_DISABLE(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
         int i = tbl_schedule.getSelectedRow();
@@ -121,6 +162,12 @@ public final class Table_Schedule extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form que mostra os detalhes do serviço
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
@@ -133,6 +180,13 @@ public final class Table_Schedule extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a tablela consoante a escolha da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void CB_LIST(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));

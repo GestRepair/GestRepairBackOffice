@@ -36,6 +36,11 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         Events(login, id, api);
     }
 
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
@@ -56,6 +61,12 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere as datas na combobox
+     *
+     * @param listDays
+     * @throws Exception
+     */
     private void ShowDate(String[][] listDays) throws Exception {
         cb_date.removeAllItems();
         for (int i = 0; i < listDays.length; i++) {
@@ -63,21 +74,44 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai Buscar o id da listagem
+     *
+     * @param val
+     * @param data
+     * @return
+     */
     private int cbVal(int val, String[][] data) {
         return parseInt(data[val][0]);
     }
 
+    /**
+     * Atravez do click vai modar a label com o id de utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void tbl_scheduleClick(java.awt.event.MouseEvent evt, String login) {
         int i = tbl_schedule.getSelectedRow();
         TableModel mod = tbl_schedule.getModel();
         l_idSchedule.setText((String) mod.getValueAt(i, 0));
     }
 
-    public void cleanTable() {
+    /**
+     * Limpa a Tabela
+     */
+    private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Gere os eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
     private void Events(final String login, final int id, final APISchedule api) {
         tbl_schedule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -103,6 +137,14 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
             }
         });
     }
+
+    /**
+     * Serve para desativar após confirmação a marcação
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_DISABLE(java.awt.event.ActionEvent evt, String login, APISchedule api) {
         DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
         int i = tbl_schedule.getSelectedRow();
@@ -123,6 +165,12 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre os a form que mostra os detalhes da marcação e fecha esta
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             DefaultTableModel mod = (DefaultTableModel) tbl_schedule.getModel();
@@ -135,6 +183,14 @@ public final class Table_Schedule_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Moatra os dados consoante a escolha do utilizador
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void CB_LIST(java.awt.event.ActionEvent evt, String login, int id, APISchedule api) {
         try {
             int i = cbVal(cb_date.getSelectedIndex(), api.ListDays(login));

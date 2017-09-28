@@ -10,6 +10,7 @@ package schedule;
  * @author Rui Barcelos
  */
 public class InfoSchedule extends javax.swing.JFrame {
+
     /**
      * Creates new form Info
      *
@@ -21,7 +22,9 @@ public class InfoSchedule extends javax.swing.JFrame {
         initComponents();
         ShowData(login, idSchedule);
     }
+
     /**
+     * Mostra os detalhes do ortaçamento
      *
      * @param login
      * @param id
@@ -36,7 +39,6 @@ public class InfoSchedule extends javax.swing.JFrame {
         l_service.setText(info[2]);
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

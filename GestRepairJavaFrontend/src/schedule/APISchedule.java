@@ -16,6 +16,15 @@ import org.json.simple.parser.JSONParser;
  * @author Rui Barcelos
  */
 public class APISchedule extends Connect {
+
+    /**
+     * Mostra os detalhes de uma marcação
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] GetInfoSchedule(String login, int id) throws Exception {
         URL url = new URL(IP() + "/schedule/info/" + id);
         String json = GETConnect(login, url, "GET");
@@ -26,11 +35,20 @@ public class APISchedule extends Connect {
         emp[0] = (long) newjsondata.get("idSchedule") + "";
         emp[1] = (String) newjsondata.get("vehicle");
         emp[2] = (String) newjsondata.get("service");
-        emp[3] = ((String) newjsondata.get("date")).substring(0, 10)+" - "+((String) newjsondata.get("date")).substring(11, 16);
+        emp[3] = ((String) newjsondata.get("date")).substring(0, 10) + " - " + ((String) newjsondata.get("date")).substring(11, 16);
         return emp;
     }
+
+    /**
+     * Desactiva uma marcação
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] GETDisable(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/schedule/disable/" + id);  
+        URL url = new URL(IP() + "/schedule/disable/" + id);
         String json = GETConnect(login, url, "GET");
         JSONObject newjson = (JSONObject) new JSONParser().parse(json);
         String data[] = new String[2];
@@ -38,6 +56,15 @@ public class APISchedule extends Connect {
         data[1] = newjson.get("message").toString();
         return data;
     }
+
+    /**
+     * Lista as marcações
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ListSchedule(String login, int id) throws Exception {
         URL url = new URL(IP() + "/schedule" + ((id == 0) ? "" : "/" + id));
@@ -55,6 +82,13 @@ public class APISchedule extends Connect {
         return dataTable;
     }
 
+    /**
+     * Mostra os dias
+     *
+     * @param login
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ListDays(String login) throws Exception {
         URL url = new URL(IP() + "/schedule/days");
@@ -69,6 +103,15 @@ public class APISchedule extends Connect {
         };
         return dataTable;
     }
+
+    /**
+     * Mostra os dias por utilizador
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] ListDaysUser(String login, int id) throws Exception {
         URL url = new URL(IP() + "/schedule/days/" + id);
         String list = GETConnect(login, url, "GET");
@@ -83,6 +126,14 @@ public class APISchedule extends Connect {
         return dataTable;
     }
 
+    /**
+     * Lista as marcações por tempo
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] ListTime(String login, int id) throws Exception {
         String moment;
         switch (id) {
@@ -109,11 +160,20 @@ public class APISchedule extends Connect {
             dataTable[i][0] = (long) datas.get("idSchedule") + "";
             dataTable[i][1] = (Object) datas.get("vehicle") + "";
             dataTable[i][2] = (Object) datas.get("service") + "";
-            dataTable[i][3] = ((String) datas.get("date")).substring(0,10)+" - "+((String) datas.get("date")).substring(11,16);
+            dataTable[i][3] = ((String) datas.get("date")).substring(0, 10) + " - " + ((String) datas.get("date")).substring(11, 16);
         };
         return dataTable;
     }
 
+    /**
+     * Lista as marcações por tempo e por utilizador
+     *
+     * @param login
+     * @param id
+     * @param idUser
+     * @return
+     * @throws Exception
+     */
     public String[][] ListTimeUser(String login, int id, int idUser) throws Exception {
         String moment;
         switch (id) {
@@ -130,7 +190,7 @@ public class APISchedule extends Connect {
                 moment = "next";
                 break;
         }
-        URL url = new URL(IP() + "/schedule/" + moment +"/"+ idUser);
+        URL url = new URL(IP() + "/schedule/" + moment + "/" + idUser);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -140,7 +200,7 @@ public class APISchedule extends Connect {
             dataTable[i][0] = (long) datas.get("idSchedule") + "";
             dataTable[i][1] = (Object) datas.get("vehicle") + "";
             dataTable[i][2] = (Object) datas.get("service") + "";
-            dataTable[i][3] = ((String) datas.get("date")).substring(0,10)+" - "+((String) datas.get("date")).substring(11,16);
+            dataTable[i][3] = ((String) datas.get("date")).substring(0, 10) + " - " + ((String) datas.get("date")).substring(11, 16);
         };
         return dataTable;
     }
