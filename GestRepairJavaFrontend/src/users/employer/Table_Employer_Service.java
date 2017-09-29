@@ -44,6 +44,14 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         Events(login, idEmployer, api);
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param idEmployer
+     * @param api
+     * @throws Exception
+     */
     private void Events(final String login, final int idEmployer, final APIEmployer api) throws Exception {
         bt_disable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,8 +75,13 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Ao clicar aparece a informação do id e do username
+     *
+     * @param evt
+     * @param idEmployer
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
-        // TODO add your handling code here:
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
@@ -76,6 +89,12 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         bt_disable.setVisible(idEmployer != parseInt(linfoUser.getText()));
     }
 
+    /**
+     * Insere os dados na combobox
+     *
+     * @param list
+     * @throws Exception
+     */
     private void insertCb(String[][] list) throws Exception {
         if (list.length > 0) {
             cb_type.removeAllItems();
@@ -87,12 +106,16 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Limpa os dados da tabela
+     */
     private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
 
     /**
+     * Actualiza a tabela conforme a escolha da dropdown
      *
      * @param login
      * @throws Exception
@@ -110,6 +133,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     }
 
     /**
+     * Mostra os dados na tabela
      *
      * @param list
      */
@@ -129,6 +153,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     }
 
     /**
+     * Vai buscar os id do que foi selecionado na dropdown
      *
      * @param val
      * @param list
@@ -139,6 +164,7 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     }
 
     /**
+     * Mostra os dados quando abre a form
      *
      * @throws Exception
      */
@@ -156,6 +182,8 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
     }
 
     /**
+     * Verifica se o utilizador quere realmente demitir os funcionários, e se
+     * sim "despede-o"
      *
      * @param login
      */
@@ -186,6 +214,12 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form de editar o utilizador selecionado
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -198,6 +232,14 @@ public final class Table_Employer_Service extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Atualiza a tabela ao selecionar uma opção da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param api
+     */
     private void CB_TYPE(java.awt.event.ActionEvent evt, String login, int idEmployer, APIEmployer api) {
         try {
             upTable(login, api);

@@ -34,6 +34,14 @@ public class EditPassword extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param id
+     * @param password
+     * @param api
+     */
     private void Events(final String login, final int id, final String password, final APIUsers api) {
         bt_chpass.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -46,6 +54,9 @@ public class EditPassword extends javax.swing.JFrame {
             }
         });
     }
+    /**
+     * Validação
+     */
     private static final Pattern VALID_PASS_REGEX = Pattern.compile("^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{8,}$", Pattern.CASE_INSENSITIVE);
 
     private static boolean validatePASS(String pass) {
@@ -53,6 +64,16 @@ public class EditPassword extends javax.swing.JFrame {
         return matcher.find();
     }
 
+    /**
+     * Altera password caso seja confirmado pelo utilizador a ação
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param password
+     * @param api
+     * @throws Exception
+     */
     private void BT_ChangePass(java.awt.event.ActionEvent evt, String login, int id, String password, APIUsers api) throws Exception {
         if (validatePASS(tf_npass.getText()) == true) {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a sua password?", "GestRepair", JOptionPane.YES_NO_OPTION);

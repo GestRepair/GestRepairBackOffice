@@ -5,7 +5,6 @@
  */
 package services;
 
-
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,41 +14,65 @@ import java.util.logging.Logger;
  * @author Convite
  */
 public class MainServices extends javax.swing.JFrame {
+
     public String log;
+
     /**
      * Creates new form mainVehicles
+     *
      * @param login
      */
     public MainServices(String login) {
         initComponents();
         Events(login);
     }
-    private void Events(final String login) {                                                
+
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     */
+    private void Events(final String login) {
         bt_create.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ADD_SV(evt,login);
+                BT_ADD_SV(evt, login);
             }
         });
         bt_listServices.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_SH_SV(evt,login);
+                BT_SH_SV(evt, login);
             }
         });
 
-    }    
-    private void BT_SH_SV(java.awt.event.ActionEvent evt, String login) {                                                
+    }
+
+    /**
+     * Mostra a tabela de serviços
+     *
+     * @param evt
+     * @param login
+     */
+    private void BT_SH_SV(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Services(login).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(MainServices.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }                                               
-
-    private void BT_ADD_SV(java.awt.event.ActionEvent evt, String login) {                                          
+    }
+    /**
+     * Abre a Form para adicionar serviços
+     * 
+     * @param evt
+     * @param login 
+     */
+    private void BT_ADD_SV(java.awt.event.ActionEvent evt, String login) {
         new Create_Service(login).setVisible(true);
         dispose();
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

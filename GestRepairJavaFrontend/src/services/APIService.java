@@ -37,16 +37,35 @@ public class APIService extends Connect {
     private static final String CHARSET = "UTF-8";
     private long start;
 
+    /**
+     * URL de postagem
+     *
+     * @return @throws MalformedURLException
+     */
     public URL POSTUrl() throws MalformedURLException {
         URL url = new URL(IP() + "/service");
         return url;
     }
 
+    /**
+     * URL para o put do serviço com foto
+     *
+     * @param id
+     * @return
+     * @throws MalformedURLException
+     */
     public URL PUTUrl(int id) throws MalformedURLException {
         URL url = new URL(IP() + "/service/" + id);
         return url;
     }
 
+    /**
+     * URL de atualizar serviço sem foto
+     *
+     * @param id
+     * @return
+     * @throws MalformedURLException
+     */
     public URL PUTUrlWithout(int id) throws MalformedURLException {
         URL url = new URL(IP() + "/service/" + id + "/without");
         return url;
@@ -56,6 +75,16 @@ public class APIService extends Connect {
     String boundary;
     HttpURLConnection connection;
 
+    /**
+     * Criar um novo serviço
+     *
+     * @param login
+     * @param name
+     * @param price
+     * @param description
+     * @param photo
+     * @throws Exception
+     */
     public void PostService(String login, String name, String price, String description, File photo) throws Exception {
         final File uploadFile = photo;
         try {
@@ -73,6 +102,16 @@ public class APIService extends Connect {
 
     }
 
+    /**
+     * Conectar para a atualização do serviço
+     *
+     * @param login
+     * @param method
+     * @param url
+     * @throws UnsupportedEncodingException
+     * @throws ParseException
+     * @throws IOException
+     */
     public void Connection(String login, String method, URL url) throws UnsupportedEncodingException, ParseException, IOException {
 
         start = currentTimeMillis();
@@ -99,6 +138,12 @@ public class APIService extends Connect {
         writer = new PrintWriter(new OutputStreamWriter(outputStream, CHARSET), true);
     }
 
+    /**
+     * Serve para enviar dados
+     *
+     * @param name
+     * @param value
+     */
     public void addFormField(final String name, final String value) {
         writer.append("--").append(boundary).append(LINE_FEED)
                 .append("Content-Disposition: form-data; name=\"").append(name)
@@ -107,6 +152,13 @@ public class APIService extends Connect {
                 .append(LINE_FEED).append(LINE_FEED).append(value).append(LINE_FEED);
     }
 
+    /**
+     * Adicionar ficheiros por binário
+     *
+     * @param fieldName
+     * @param uploadFile
+     * @throws IOException
+     */
     public void addFilePart(final String fieldName, final File uploadFile)
             throws IOException {
         final String fileName = uploadFile.getName();
@@ -132,10 +184,23 @@ public class APIService extends Connect {
         writer.append(LINE_FEED);
     }
 
+    /**
+     * Adicionar header
+     *
+     * @param name
+     * @param value
+     */
     public void addHeaderField(String name, String value) {
         writer.append(name).append(": ").append(value).append(LINE_FEED);
     }
 
+    /**
+     * Fim de ligação
+     *
+     * @param url
+     * @return
+     * @throws IOException
+     */
     public byte[] finish(URL url) throws IOException {
         writer.append(LINE_FEED).append("--").append(boundary).append("--")
                 .append(LINE_FEED);
@@ -160,6 +225,13 @@ public class APIService extends Connect {
         }
     }
 
+    /**
+     * Vai buscar os dados para postriormente serem inseridos na tabela
+     *
+     * @param login
+     * @return
+     * @throws Exception
+     */
     public String[][] Service(String login) throws Exception {
         URL url = new URL(IP() + "/service/comp");
         String list = GETConnect(login, url, "GET");
@@ -178,6 +250,14 @@ public class APIService extends Connect {
 
     }
 
+    /**
+     * Mostra a informação do serviço
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] GetInfo(String login, int id) throws Exception {
         URL url = new URL(IP() + "/service/desk/" + id);
         String json = GETConnect(login, url, "GET");
@@ -189,7 +269,7 @@ public class APIService extends Connect {
         info[1] = (String) newjsondata.get("nameService");
         info[2] = (newjsondata.get("priceService") != null) ? (Object) newjsondata.get("priceService") + "" : null;
         info[3] = (String) newjsondata.get("description");
-        info[4] = IP()+"/service/img/"+(long) newjsondata.get("idService");
+        info[4] = IP() + "/service/img/" + (long) newjsondata.get("idService");
         return info;
     }
 
@@ -215,14 +295,14 @@ public class APIService extends Connect {
     }
 
     /**
-     * Put Service Whithout Photo
+     * Put Service Without Photo
      *
      * @param login
      * @param id
      * @param name
      * @param price
      * @param description
-     * @return 
+     * @return
      * @throws Exception
      */
     public String[] PutServiceWithout(String login, int id, String name, String price, String description) throws Exception {
@@ -233,8 +313,17 @@ public class APIService extends Connect {
         objp.put("description", description);
         return SendConnect(login, url, "PUT", objp);
     }
+
+    /**
+     * Lista os serviços que não estão associados a uma reparação
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] ShowNotRepairService(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/repair/service/" + id );
+        URL url = new URL(IP() + "/repair/service/" + id);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");

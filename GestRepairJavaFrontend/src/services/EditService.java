@@ -6,7 +6,6 @@
 package services;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -38,20 +37,36 @@ public final class EditService extends javax.swing.JFrame {
         ta_desc.setLineWrap(true);
     }
 
+    /**
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
     private void Events(final String login, final int id, final APIService api) {
         bt_upload.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_UPLOAD(evt, login, id, api);
             }
         });
 
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_Edit(evt, login, id, api);
             }
         });
     }
 
+    /**
+     * Chama a class para fazer o upload de imágem
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_UPLOAD(java.awt.event.ActionEvent evt, String login, int id, APIService api) {
         try {
             upload(login, id, api);
@@ -60,6 +75,14 @@ public final class EditService extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Edita a base de dados
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login, int id, APIService api) {
         try {
             if (tf_price.getText().length() > 0 && tf_service.getText().length() > 5 && ta_desc.getText().length() > 5) {
@@ -87,8 +110,15 @@ public final class EditService extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Faz o upload de imágem
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void upload(String login, int id, APIService api) throws Exception {
-        // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
@@ -111,6 +141,13 @@ public final class EditService extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a informação dos serviços e cuja imagem que está associada
+     *
+     * @param info
+     * @throws MalformedURLException
+     * @throws IOException
+     */
     private void info(String[] info) throws MalformedURLException, IOException {
         l_service.setText(info[0]);
         tf_service.setText(info[1]);
@@ -159,29 +196,13 @@ public final class EditService extends javax.swing.JFrame {
 
         jLabel2.setText("Preço:");
 
-        tf_price.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_priceActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Descrição:");
 
         jLabel5.setText("Imagem:");
 
         bt_upload.setText("Upload");
-        bt_upload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_uploadActionPerformed(evt);
-            }
-        });
 
         bt_edit.setText("Editar Serviço");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         ta_desc.setColumns(20);
         ta_desc.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -263,18 +284,6 @@ public final class EditService extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(786, 283));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_uploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_uploadActionPerformed
-
-    }//GEN-LAST:event_bt_uploadActionPerformed
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-
-    }//GEN-LAST:event_bt_editActionPerformed
-
-    private void tf_priceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_priceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_priceActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

@@ -33,11 +33,18 @@ public final class InfoService extends javax.swing.JFrame {
         Events(login, id);
     }
 
-    public void info(String[] info) throws MalformedURLException, IOException {
+    /**
+     * Mostra os dados no formulário
+     *
+     * @param info
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    private void info(String[] info) throws MalformedURLException, IOException {
         l_service.setText(info[0]);
         l_name.setText(info[1]);
         l_price.setText(info[2]);
-        l_description.setText("<html>"+info[3]+"</html>");
+        l_description.setText("<html>" + info[3] + "</html>");
         ImageIcon icon = new ImageIcon(new URL(info[4]));
         Image image = icon.getImage();
         Image newimg = image.getScaledInstance(300, 180, java.awt.Image.SCALE_SMOOTH);
@@ -45,8 +52,15 @@ public final class InfoService extends javax.swing.JFrame {
         l_photo.setIcon(icon);
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param idService
+     */
     private void Events(final String login, final int idService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     BT_EDIT(evt, login, idService);
@@ -57,8 +71,17 @@ public final class InfoService extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de editar serviço
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @throws Exception
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int idService) throws Exception {
         new EditService(login, idService).setVisible(true);
+        dispose();
     }
 
     /**
@@ -99,11 +122,6 @@ public final class InfoService extends javax.swing.JFrame {
         jLabel5.setText("Imagem:");
 
         bt_edit.setText("Editar Serviço");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         l_name.setText("name");
 
@@ -124,11 +142,8 @@ public final class InfoService extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(l_name)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(l_service)
-                                    .addComponent(l_price))
-                                .addGap(87, 87, 87))))
+                            .addComponent(l_service)
+                            .addComponent(l_price)))
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
                     .addComponent(l_description, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -172,10 +187,6 @@ public final class InfoService extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(639, 309));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

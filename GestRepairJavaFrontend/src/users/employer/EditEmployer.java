@@ -48,6 +48,7 @@ public class EditEmployer extends javax.swing.JFrame {
     }
 
     /**
+     * Verifica o id de uma dropdown pela posição
      *
      * @param val
      * @param list
@@ -57,6 +58,15 @@ public class EditEmployer extends javax.swing.JFrame {
         return (val == 0) ? 1 : parseInt(list[val][0]);
     }
 
+    /**
+     * Mostra a informação do funcionário na form
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @return
+     * @throws Exception
+     */
     private String GetInfo(String login, int id, APIEmployer api) throws Exception {
         String emp[] = api.InfoEmployer(login, id);
         l_idEmployer.setText(emp[0]);
@@ -70,6 +80,15 @@ public class EditEmployer extends javax.swing.JFrame {
         return emp[0];
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param idUser
+     * @param idEmp
+     * @param api
+     * @param apiService
+     */
     private void Events(final String login, final int idUser, final int idEmp, final APIEmployer api, final APIService apiService) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -79,6 +98,16 @@ public class EditEmployer extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Verifica se o utilizador quer actualizar o registo se sim actualiza
+     *
+     * @param evt
+     * @param login
+     * @param idUser
+     * @param idEmp
+     * @param api
+     * @param apiService
+     */
     private void BT_EditEmployer(java.awt.event.ActionEvent evt, String login, int idUser, int idEmp, APIEmployer api, APIService apiService) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Deseja Alterar o serviço deste funcionário para " + cb_service.getSelectedItem() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -189,7 +218,7 @@ public class EditEmployer extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(cb_service, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(l_state))))
                 .addContainerGap())

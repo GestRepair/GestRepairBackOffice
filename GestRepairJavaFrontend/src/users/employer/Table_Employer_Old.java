@@ -42,6 +42,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     }
 
     /**
+     * Mostra os dados na tabela
      *
      * @param list
      */
@@ -66,6 +67,13 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Cria os eventos
+     *
+     * @param login
+     * @param idEmployer
+     * @param api
+     */
     private void Events(final String login, final int idEmployer, final APIEmployer api) {
         bt_enable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +94,7 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
     }
 
     /**
+     * "Readmite o cliente"
      *
      * @param evt
      * @param login
@@ -110,6 +119,12 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form para editar o funcionário
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -122,8 +137,13 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona o dado na tabela
+     *
+     * @param evt
+     * @param idEmployer
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
-        // TODO add your handling code here:
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
@@ -131,13 +151,16 @@ public final class Table_Employer_Old extends javax.swing.JFrame {
         bt_enable.setVisible(idEmployer != parseInt(mod.getValueAt(i, 0) + ""));
     }
 
+    /**
+     * Limpa os dados na tabela
+     */
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
 
     /**
-     *
+     * Inicia os dados da tabela 
      */
     private void tbl_usersStart() {
 

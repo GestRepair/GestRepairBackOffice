@@ -36,13 +36,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="l_name" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="l_service" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="l_price" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="87" pref="87" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="l_service" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="l_price" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -134,9 +129,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar Servi&#xe7;o"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bt_editActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="l_name">
       <Properties>

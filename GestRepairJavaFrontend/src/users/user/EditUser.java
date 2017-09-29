@@ -32,6 +32,14 @@ public final class EditUser extends javax.swing.JFrame {
         Events(login, id, api);
     }
 
+    /**
+     * Mostra na form a utilização existente
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     public void GetInfo(String login, int id, APIUsers api) throws Exception {
         String emp[] = api.GetInfoUser(login, id);
         l_id.setText(emp[0]);
@@ -47,6 +55,11 @@ public final class EditUser extends javax.swing.JFrame {
         l_type.setText(("1".equals(emp[10])) ? "Funcionário" : "Cliente");
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @return
+     */
     private String[] data() {
         String data[] = new String[7];
         data[0] = tf_name.getText();
@@ -58,6 +71,9 @@ public final class EditUser extends javax.swing.JFrame {
         data[6] = tf_contact.getText();
         return data;
     }
+    /**
+     * Validações
+     */
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NAME_REGEX = Pattern.compile("[A-zÀ-ÖØ-öø-ž ]+", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
@@ -77,6 +93,13 @@ public final class EditUser extends javax.swing.JFrame {
         return matcher.find();
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
     private void Events(final String login, final int id, final APIUsers api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -90,6 +113,12 @@ public final class EditUser extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Algoritmo para validar o NIF
+     *
+     * @param nif
+     * @return
+     */
     // validate the nif number
     private boolean validateNIF(String nif) {
         int zerm = 9 * nif.charAt(0);
@@ -107,6 +136,15 @@ public final class EditUser extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Edita os dados após a validação dos dados e confirmação do utilizador
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIUsers api) throws Exception {
         if (tf_name.getText().length() > 5 && tf_street.getText().length() > 5 && tf_city.getText().length() > 3) {
             if (validateEmail(tf_email.getText()) == true && validateName(tf_name.getText()) == true && validateName(tf_city.getText()) == true && validateNumber(tf_contact.getText()) == true && validateNIF(tf_nif.getText()) == true) {

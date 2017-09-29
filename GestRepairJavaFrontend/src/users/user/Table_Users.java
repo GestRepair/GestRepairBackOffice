@@ -46,6 +46,12 @@ public final class Table_Users extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param login
+     * @param list
+     */
     public void showTable(String login, String[][] list) {
         APIVehicles apiVehicle = new APIVehicles();
         APISchedule apiSchedule = new APISchedule();
@@ -82,6 +88,9 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Inicializa a primera linha na tabela
+     */
     private void tbl_usersStart() {
         // TODO add your handling code here:
         TableModel mod = tbl_users.getModel();
@@ -89,6 +98,13 @@ public final class Table_Users extends javax.swing.JFrame {
         l_username.setText(mod.getValueAt(0, 8) + "");
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void Events(final String login, final int idService, final int idEmployer) {
 
         bt_add_vehicle.addActionListener(new java.awt.event.ActionListener() {
@@ -140,6 +156,12 @@ public final class Table_Users extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Ao clicar mostra a informação retivo à linha clicada
+     *
+     * @param evt
+     * @param login
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, String login) {
         try {
             APIVehicles apiVehicle = new APIVehicles();
@@ -159,6 +181,14 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de criar utilizador
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -169,6 +199,12 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os dados da tabela budget
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Budget(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -179,6 +215,12 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de editar utilizador na qual a linha foi editada
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -189,6 +231,12 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os dados de informação de utilizador no qual a linha selecionada
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_InfoUser(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -199,6 +247,13 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela de reparações consoante a linha clicada
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Repair(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -209,6 +264,12 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela de marcações consoante a linha clicada
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Schedule(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -219,6 +280,14 @@ public final class Table_Users extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela de viaturas consoante as linhas clicadas
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_Vehicles(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -228,7 +297,12 @@ public final class Table_Users extends javax.swing.JFrame {
             Logger.getLogger(Table_Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Procura qual é a linha clicada
+     * @param row
+     * @param tb
+     * @return 
+     */
     private String SearchTable(int row, int tb) {
         TableModel mod = tbl_users.getModel();
         return mod.getValueAt((row < 0) ? 0 : row, tb) + "";

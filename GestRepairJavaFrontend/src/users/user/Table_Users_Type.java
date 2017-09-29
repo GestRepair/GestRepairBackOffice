@@ -47,15 +47,27 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         int gest = parseInt(apiEmployer.GetInfoEmployerUser(login, idService)[0]);
         bt_edit.setVisible(gest == 1);
         bt_addEmployer.setVisible(gest == 1);
-
     }
 
-    public void upTable(String login, APIUsers api) throws Exception {
+    /**
+     * Objecto que actualiza a tabela
+     *
+     * @param login
+     * @param api
+     * @throws Exception
+     */
+    private void upTable(String login, APIUsers api) throws Exception {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
         tbl_usersStart(login, api);
     }
 
+    /**
+     * Faz mostrar os dados na tabela
+     *
+     * @param login
+     * @param list
+     */
     private void showTable(String login, String[][] list) {
         APIVehicles apiVehicle = new APIVehicles();
         APISchedule apiSchedule = new APISchedule();
@@ -97,14 +109,29 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Inicializa a tabela com o primeiro valor após a sua inicialização
+     *
+     * @param login
+     * @param api
+     * @throws Exception
+     */
     private void tbl_usersStart(String login, APIUsers api) throws Exception {
         int cb = cbType.getSelectedIndex();
-        showTable(login,api.ShowUser(login, cb));
+        showTable(login, api.ShowUser(login, cb));
         bt_info_func.setVisible(cb != 0);
         linfoUser.setText(SearchTable(0, 0));
         l_username.setText(SearchTable(0, 8));
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param idService
+     * @param idEmployer
+     * @param api
+     */
     private void Events(final String login, final int idService, final int idEmployer, final APIUsers api) {
         bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -168,11 +195,17 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         });
         tbl_users.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TBL_CLICKED(evt,login);
+                TBL_CLICKED(evt, login);
             }
         });
     }
 
+    /**
+     * Seleciona a linha ao clicar
+     *
+     * @param evt
+     * @param login
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, String login) {
         try {
             APIVehicles apiVehicle = new APIVehicles();
@@ -192,6 +225,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Adiciona o funcionário após a confirmação do utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_addEmployer(java.awt.event.ActionEvent evt, String login) {
         try {
             if ("Adicionar Funcionário".equals(bt_addEmployer.getText())) {
@@ -209,6 +248,14 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de um veículo para verificar se pode adicionar viatura
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_ADDVehicle(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -219,6 +266,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela de orçamento
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Budget(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -229,6 +282,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de editar utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -239,6 +298,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form com a informação de funcionário
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_InfoFunc(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -249,6 +314,12 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de informação da informação do utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_InfoUser(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -259,6 +330,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a tabela de reparações pelo utilizador clicado
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     */
     private void BT_Repair(java.awt.event.ActionEvent evt, String login, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -269,6 +347,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela de marcação após clicar na linha onde contém a informação
+     * do utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Schedule(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -279,6 +364,14 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela viatura
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_Vehicles(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -289,6 +382,14 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Ao selecionar a dropdown actualiza a tabela e actualiza o estado da
+     * tabela
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void CB_Service(java.awt.event.ActionEvent evt, String login, APIUsers api) {
         try {
             if (cbType.getSelectedIndex() == 0) {
@@ -302,6 +403,13 @@ public final class Table_Users_Type extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Procura qual é a linha da tabela selecionada
+     *
+     * @param row
+     * @param tb
+     * @return
+     */
     private String SearchTable(int row, int tb) {
         TableModel mod = tbl_users.getModel();
         return mod.getValueAt((row < 0) ? 0 : row, tb) + "";

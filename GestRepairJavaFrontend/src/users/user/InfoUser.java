@@ -28,6 +28,12 @@ public final class InfoUser extends javax.swing.JFrame {
         Events(login, id);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     */
     private void Events(final String login, final int id) {
         bt_exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -42,6 +48,14 @@ public final class InfoUser extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Mostra a informação do utilizador na form
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void GetInfo(String login, int id, APIUsers api) throws Exception {
         String emp[] = api.GetInfoUser(login, id);
         l_num.setText(emp[0]);
@@ -57,10 +71,20 @@ public final class InfoUser extends javax.swing.JFrame {
         l_type.setText(("1".equals(emp[10])) ? "Funcionário" : "Cliente");
     }
 
+    /**
+     * Fecha a form
+     *
+     * @param evt
+     */
     private void BT_EXIT(java.awt.event.ActionEvent evt) {
         dispose();
     }
-
+    /**
+     * Abre a form para editar os dados
+     * @param evt
+     * @param login
+     * @param id 
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {
         try {
             new EditUser(login, id).setVisible(true);

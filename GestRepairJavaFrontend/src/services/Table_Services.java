@@ -33,7 +33,12 @@ public final class Table_Services extends javax.swing.JFrame {
         Events(login);
     }
 
-    public void showTable(String[][] list) {
+    /**
+     * Mostra os dados na tabela
+     *
+     * @param list
+     */
+    private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_service.getModel();
             Object[] row = new Object[5];
@@ -48,34 +53,63 @@ public final class Table_Services extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Vai buscar a informação de um determinado campo de um id Selecionado
+     *
+     * @param val
+     * @return
+     */
     private int SelectedRow(int val) {
         int i = tbl_service.getSelectedRow();
         TableModel mod = tbl_service.getModel();
         return parseInt((String) mod.getValueAt(i, val));
     }
 
+    /**
+     * Vai buscar o valor id da linha da tabela ao clicar
+     * @param evt
+     */
     private void TBL_ScheduleClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_service.getSelectedRow();
         TableModel mod = tbl_service.getModel();
         l_idService.setText((String) mod.getValueAt(i, 0));
     }
 
+    /**
+     * Abte a form de editar serviço
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditService(login, SelectedRow(0)).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Mostra as informações numa outra form dos serviços
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Info(java.awt.event.ActionEvent evt, String login) {
         try {
             new InfoService(login, SelectedRow(0)).setVisible(true);
+            dispose();
         } catch (Exception ex) {
             Logger.getLogger(Table_Services.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

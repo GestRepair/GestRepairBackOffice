@@ -5,7 +5,6 @@
  */
 package users.employer;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 import services.APIService;
@@ -34,6 +33,11 @@ public final class AddEmployer extends javax.swing.JFrame {
         Events(login, idUser, api, apiService);
     }
 
+    /**
+     * Mostra os seviços e insere na dropdown
+     *
+     * @param list
+     */
     private void showService(String[][] list) {
         cbService.removeAllItems();
         for (String[] list1 : list) {
@@ -41,19 +45,42 @@ public final class AddEmployer extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Verifica o id do dado clicado na tabela
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     private int newIdCb(int val, String[][] list) {
         return (val < 1) ? 1 : parseInt(list[val][0]);
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param idUser
+     * @param api
+     * @param apiService
+     */
     private void Events(final String login, final int idUser, final APIEmployer api, final APIService apiService) {
         bt_addEmployer.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_addEmployer(evt, login, idUser,api,apiService);
+                BT_addEmployer(evt, login, idUser, api, apiService);
             }
         });
     }
 
+    /**
+     * Pede a confirmação e adiciona funcionário
+     * @param evt
+     * @param login
+     * @param idUser
+     * @param api
+     * @param apiService
+     */
     private void BT_addEmployer(java.awt.event.ActionEvent evt, String login, int idUser, APIEmployer api, APIService apiService) {
         int serv;
         try {

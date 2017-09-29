@@ -39,6 +39,13 @@ public class MainUsers extends javax.swing.JFrame {
         Events(login, idService, idEmployer);
     }
 
+    /**
+     * Aqui é definido o login
+     *
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void Events(final String login, final int idService, final int idEmployer) {
         bt_addUser.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -50,7 +57,7 @@ public class MainUsers extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ListUser(evt, login, idService, idEmployer);
-                
+
             }
         });
         bt_showUsersType.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +92,12 @@ public class MainUsers extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de adicionar utilizador
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_addUser(java.awt.event.ActionEvent evt, String login) {
         try {
             new AddUser(login).setVisible(true);
@@ -95,6 +108,14 @@ public class MainUsers extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Abre a form de listagem de utilizadores
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_ListUser(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Users(login, idService, idEmployer).setVisible(true);
@@ -104,6 +125,14 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de listagem de utilizadores por estado
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_ListUserType(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Users_Type(login, idService, idEmployer).setVisible(true);
@@ -113,6 +142,14 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de listagem de funcionários
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_Fl(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer(login, idService, idEmployer).setVisible(true);
@@ -122,6 +159,14 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de listagem de antigos funcionários
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_Flo(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Old(login, idService, idEmployer).setVisible(true);
@@ -131,6 +176,14 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de listagem de funcionários por serviço
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_Flt(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service(login, idService, idEmployer).setVisible(true);
@@ -140,6 +193,14 @@ public class MainUsers extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de listagem de antigos funcionários por serviço
+     *
+     * @param evt
+     * @param login
+     * @param idService
+     * @param idEmployer
+     */
     private void BT_Flto(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
         try {
             new Table_Employer_Service_Old(login, idService, idEmployer).setVisible(true);

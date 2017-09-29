@@ -17,12 +17,30 @@ import org.json.simple.parser.JSONParser;
  */
 public class APIEmployer extends Connect {
 
+    /**
+     * Envia os dados sobre a actividade do funcionário
+     *
+     * @param login
+     * @param id
+     * @param opt
+     * @return
+     * @throws Exception
+     */
     public String[] ActivityEmplyer(String login, int id, int opt) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id + "/activity/" + opt);
         JSONObject objp = new JSONObject();
         return SendConnect(login, url, "PUT", objp);
     }
 
+    /**
+     * Envia os dados para a criação de funcionários
+     *
+     * @param login
+     * @param idUser
+     * @param service
+     * @return
+     * @throws Exception
+     */
     public String[] PostEmployer(String login, int idUser, int service) throws Exception {
         URL url = new URL(IP() + "/user/employer");
         JSONObject objp = new JSONObject();
@@ -30,8 +48,18 @@ public class APIEmployer extends Connect {
         objp.put("service", service);
         return SendConnect(login, url, "POST", objp);
     }
+
     /*
      *Employers
+     */
+    /**
+     * Envia os dados para editar funcionário
+     *
+     * @param login
+     * @param id
+     * @param service
+     * @return
+     * @throws Exception
      */
     public String[] PutEmployer(String login, int id, int service) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
@@ -40,6 +68,15 @@ public class APIEmployer extends Connect {
         return SendConnect(login, url, "PUT", objp);
     }
 
+    /**
+     * Mostra a lista de funcionários
+     *
+     * @param login
+     * @param id
+     * @param serv
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ShowEmployer(String login, int id, int serv) throws Exception {
         URL url = new URL(IP() + "/user/employer/type/" + id + ((serv == 0) ? "" : "/" + serv));
@@ -61,8 +98,17 @@ public class APIEmployer extends Connect {
         };
         return dataTable;
     }
+
+    /**
+     * Mostra os serviços que tem empregados
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] ShowServiceEmployer(String login, int id) throws Exception {
-        URL url = new URL(IP() + "/user/employer/service/" + id );
+        URL url = new URL(IP() + "/user/employer/service/" + id);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -76,8 +122,18 @@ public class APIEmployer extends Connect {
         };
         return dataTable;
     }
+
+    /**
+     * Mostra os empregados que não estão associados a uma reparação
+     *
+     * @param login
+     * @param id
+     * @param serv
+     * @return
+     * @throws Exception
+     */
     public String[][] ShowNotRepairEmployer(String login, int id, int serv) throws Exception {
-        URL url = new URL(IP() + "/repair/employer/" + id +"/" + serv);
+        URL url = new URL(IP() + "/repair/employer/" + id + "/" + serv);
         String list = GETConnect(login, url, "GET");
         JSONObject jo = (JSONObject) new JSONParser().parse(list);
         JSONArray data = (JSONArray) jo.get("data");
@@ -89,16 +145,42 @@ public class APIEmployer extends Connect {
         };
         return dataTable;
     }
-    
+
+    /**
+     * Mostra as informações dos funcionários
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] GetInfoEmployerUser(String login, int id) throws Exception {
         URL url = new URL(IP() + "/user/employer/" + id);
-        return GETInfoEmployer( login, url, id);
+        return GETInfoEmployer(login, url, id);
     }
+
+    /**
+     * Mostra Mostra os dados do funcionário
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] InfoEmployer(String login, int id) throws Exception {
         URL url = new URL(IP() + "/employer/" + id);
-        return GETInfoEmployer( login, url, id);
+        return GETInfoEmployer(login, url, id);
     }
-    public String[] GETInfoEmployer(String login,URL url, int id) throws Exception {
+
+    /**
+     * Mostra os dados de um funcionário
+     * @param login
+     * @param url
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public String[] GETInfoEmployer(String login, URL url, int id) throws Exception {
         String json = GETConnect(login, url, "GET");
         JSONObject newjson = (JSONObject) new JSONParser().parse(json);
         String data = newjson.get("data").toString();

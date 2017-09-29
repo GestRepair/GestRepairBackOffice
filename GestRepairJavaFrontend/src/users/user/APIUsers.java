@@ -16,10 +16,18 @@ import org.json.simple.parser.JSONParser;
  * @author Rui Barcelos
  */
 public class APIUsers extends Connect {
+
     /*
      *Users
      */
-
+    /**
+     * Serve para enviar os dados para a criação dos funcionários
+     *
+     * @param login
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] PostUser(String login, String[] data) throws Exception {
         URL url = new URL(IP() + "/user/desk");
         JSONObject objp = new JSONObject();
@@ -34,6 +42,14 @@ public class APIUsers extends Connect {
         return SendConnect(login, url, "POST", objp);
     }
 
+    /**
+     * Mostra os dados dos utilizadores nas tabelas
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @SuppressWarnings("empty-statement")
     public String[][] ShowUser(String login, int id) throws Exception {
         URL url = new URL(IP() + ((id == 2) ? "/user" : "/user/type/" + id));
@@ -59,6 +75,16 @@ public class APIUsers extends Connect {
         return dataTable;
     }
 
+    /**
+     * Envia os dados para a api para editar a password
+     *
+     * @param login
+     * @param id
+     * @param oldpassword
+     * @param newpassword
+     * @return
+     * @throws Exception
+     */
     public String[] PutPassword(String login, int id, String oldpassword, String newpassword) throws Exception {
         URL url = new URL(IP() + "/chpass/" + id);
         JSONObject objp = new JSONObject();
@@ -67,6 +93,15 @@ public class APIUsers extends Connect {
         return SendConnect(login, url, "PUT", objp);
     }
 
+    /**
+     * Envia os dados para a api para postriormente ser editada
+     *
+     * @param login
+     * @param numUser
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] PutUser(String login, int numUser, String[] data) throws Exception {
         URL url = new URL(IP() + "/user/" + numUser);
         JSONObject objp = new JSONObject();
@@ -80,6 +115,14 @@ public class APIUsers extends Connect {
         return SendConnect(login, url, "PUT", objp);
     }
 
+    /**
+     * Mostra a informação dos utilizadores
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] GetInfoUser(String login, int id) throws Exception {
         URL url = new URL(IP() + "/user/" + id);
         String json = GETConnect(login, url, "GET");

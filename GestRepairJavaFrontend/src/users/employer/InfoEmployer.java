@@ -23,7 +23,13 @@ public final class InfoEmployer extends javax.swing.JFrame {
         initComponents();
         GetInfo(login, idUser, api);
     }
-
+    /**
+     * Mostra as informações de um funcionário
+     * @param login
+     * @param idUser
+     * @param api
+     * @throws Exception 
+     */
     private void GetInfo(String login, int idUser, APIEmployer api) throws Exception {
         String emp[] = api.GetInfoEmployerUser(login, idUser);
         l_num.setText(emp[0]);

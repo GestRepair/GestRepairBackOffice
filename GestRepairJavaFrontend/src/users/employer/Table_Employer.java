@@ -42,6 +42,7 @@ public final class Table_Employer extends javax.swing.JFrame {
     }
 
     /**
+     * Insere os dados na tabela
      *
      * @param list
      */
@@ -60,11 +61,17 @@ public final class Table_Employer extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Limpa a tabela
+     */
     public void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Insere os dados na informação quando é clicado
+     */
     private void tbl_usersStart() {
         TableModel mod = tbl_users.getModel();
         if (mod.getRowCount() > 0) {
@@ -76,6 +83,14 @@ public final class Table_Employer extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param idService
+     * @param idEmployer
+     * @param api
+     */
     private void Events(final String login, final int idService, final int idEmployer, final APIEmployer api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -97,6 +112,12 @@ public final class Table_Employer extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Mostra a tabela ao clicar
+     *
+     * @param evt
+     * @param idEmployer
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
@@ -105,6 +126,12 @@ public final class Table_Employer extends javax.swing.JFrame {
         bt_disable.setVisible(idEmployer != parseInt(mod.getValueAt(i, 0) + ""));
     }
 
+    /**
+     * Abre a form editar
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -118,6 +145,7 @@ public final class Table_Employer extends javax.swing.JFrame {
     }
 
     /**
+     * "Despede" o funcionário
      *
      * @param evt
      * @param login
@@ -139,18 +167,6 @@ public final class Table_Employer extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro Interno");
         }
-    }
-
-    private void MI_UPC(java.awt.event.ActionEvent evt, String login, int idService, int idEmployer) {
-        try {
-            new Table_Users_Type(login, idService, idEmployer).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Table_Employer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void MI_Exit(java.awt.event.ActionEvent evt) {
-        dispose();
     }
 
     /**

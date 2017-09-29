@@ -26,7 +26,9 @@ public class AddUser extends javax.swing.JFrame {
         initComponents();
         Events(login, api);
     }
-
+    /**
+     * Validações
+     */
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NAME_REGEX = Pattern.compile("[A-zÀ-ÖØ-öø-ž ]+", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
@@ -46,6 +48,11 @@ public class AddUser extends javax.swing.JFrame {
         return matcher.find();
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @return
+     */
     private String[] Data() {
         String[] data = new String[8];
         data[0] = tfnome.getText();
@@ -59,6 +66,12 @@ public class AddUser extends javax.swing.JFrame {
         return data;
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APIUsers api) {
         bt_add_user.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -68,7 +81,12 @@ public class AddUser extends javax.swing.JFrame {
         });
     }
 
-    // validate the nif number
+    /**
+     * Algoritmo para validar o NIF
+     *
+     * @param nif
+     * @return
+     */
     private boolean validateNIF(String nif) {
         int zerm = 9 * nif.charAt(0);
         int firm = 8 * nif.charAt(1);
@@ -85,6 +103,14 @@ public class AddUser extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Envia para api os dados após confirmação de do utilizador para adicionar
+     * o utilizador
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_Add_User(java.awt.event.ActionEvent evt, String login, APIUsers api) {
         try {
             if (tf_username.getText().length() > 5 && tfnome.getText().length() > 5 && tfmorada.getText().length() > 5 && tflocalidade.getText().length() > 3) {

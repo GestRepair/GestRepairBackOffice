@@ -38,7 +38,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         insertCb(listcb, idEmployer);
         if (listcb.length > 0) {
             showTable(api.ShowEmployer(login, 0, newIdCb(cb_type.getSelectedIndex(), listcb)), idEmployer);
-        }else{
+        } else {
             dispose();
         }
         tbl_usersStart();
@@ -47,7 +47,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         Events(login, idEmployer, api);
     }
 
-    public void insertCb(String[][] list, int idEmployer) throws Exception {
+    /**
+     * Mostra os dados na combobox
+     *
+     * @param list
+     * @param idEmployer
+     * @throws Exception
+     */
+    private void insertCb(String[][] list, int idEmployer) throws Exception {
         if (list.length > 0) {
             cb_type.removeAllItems();
             for (String[] list1 : list) {
@@ -60,12 +67,23 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Limpa a tabela
+     */
     private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
         mod.setRowCount(0);
     }
 
-    public void upTable(String login, int idEmployer, APIEmployer api) throws Exception {
+    /**
+     * Actualiza a tabela
+     *
+     * @param login
+     * @param idEmployer
+     * @param api
+     * @throws Exception
+     */
+    private void upTable(String login, int idEmployer, APIEmployer api) throws Exception {
         cleanTable();
         int cb = cb_type.getSelectedIndex();
         String[][] listcb = api.ShowServiceEmployer(login, 0);
@@ -75,7 +93,13 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         tbl_usersStart();
     }
 
-    public void showTable(String[][] list, int idEmployer) {
+    /**
+     * Mostra a infomação na tabela
+     *
+     * @param list
+     * @param idEmployer
+     */
+    private void showTable(String[][] list, int idEmployer) {
         bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_users.getModel();
@@ -98,11 +122,19 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Vai buscar o id da informação
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     public int newIdCb(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
     /**
+     * Insere os dados iniciais da primeira linha da tabela
      *
      * @param login
      * @throws Exception
@@ -119,6 +151,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Define os eventos
+     *
+     * @param login
+     * @param idEmployer
+     * @param api
+     * @throws Exception
+     */
     private void Events(final String login, final int idEmployer, final APIEmployer api) throws Exception {
         bt_enable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,9 +182,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Ao clicar verifica qual é o id da linha e insere os dados no local onde
+     * mostra as informação
+     *
+     * @param evt
+     * @param idEmployer
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt, int idEmployer) {
-        // TODO add your handling code here:
-        //bt_enable.setVisible((tbl_users.getModel().getRowCount() > 0) ? idEmployer != parseInt(linfoUser.getText()) : false);
         int i = tbl_users.getSelectedRow();
         TableModel mod = tbl_users.getModel();
         linfoUser.setText(mod.getValueAt(i, 0) + "");
@@ -152,6 +197,12 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         bt_enable.setVisible(idEmployer != parseInt(linfoUser.getText()));
     }
 
+    /**
+     * Abre a form de editar da linha selecionada
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             int i = tbl_users.getSelectedRow();
@@ -164,6 +215,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Actualiza a tabela caso seja alterado o valor da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param api
+     */
     private void CB_TYPE(java.awt.event.ActionEvent evt, String login, int idEmployer, APIEmployer api) {
         try {
             upTable(login, idEmployer, api);
@@ -173,6 +232,14 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Readmite os funcionários
+     *
+     * @param evt
+     * @param login
+     * @param api
+     * @param idEmployer
+     */
     public void BT_ENABLE(java.awt.event.ActionEvent evt, String login, APIEmployer api, int idEmployer) {
         try {
             int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer readmitir o funcionário " + l_username.getText() + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -190,7 +257,7 @@ public final class Table_Employer_Service_Old extends javax.swing.JFrame {
                     insertCb(listcb, idEmployer);
                     if (listcb.length > 0) {
                         showTable(api.ShowEmployer(login, 0, newIdCb(cb, listcb)), idEmployer);
-                    }else{
+                    } else {
                         dispose();
                     }
                     tbl_usersStart();

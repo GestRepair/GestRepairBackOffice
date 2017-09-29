@@ -6,7 +6,6 @@
 package services;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -29,6 +28,11 @@ public class Create_Service extends javax.swing.JFrame {
         Events(login);
     }
 
+    /**
+     * Declara os eventos
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_upload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -43,6 +47,11 @@ public class Create_Service extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Função que faz o upload de imagens
+     *
+     * @param evt
+     */
     private void BT_UPLOAD(java.awt.event.ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
@@ -61,7 +70,12 @@ public class Create_Service extends javax.swing.JFrame {
             l_img.setIcon(null);
         }
     }
-
+    /**
+     * Botão de adicionar o serviço
+     * 
+     * @param evt
+     * @param login 
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login) {
         APIService pst = new APIService();
         if (tf_price.getText().length() > 0 && tf_service.getText().length() > 5 && tf_desc.getText().length() > 5) {
