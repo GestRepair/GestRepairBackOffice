@@ -33,6 +33,13 @@ public class MainVehicles extends javax.swing.JFrame {
         Events(login, idEmployer, idService);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void Events(final String login, final int idEmployer, final int idService) {
         bt_showvehicles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,11 +84,23 @@ public class MainVehicles extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre o formulário para adicionar marca
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_ADDBrand(java.awt.event.ActionEvent evt, String login) {
         new AddBrand(login).setVisible(true);
         dispose();
     }
 
+    /**
+     * Abre o formulário para adicionar modelo
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_ADDModel(java.awt.event.ActionEvent evt, String login) {
         try {
             new AddModel(login).setVisible(true);
@@ -91,6 +110,14 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela da lista de viaturas
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_SH_VH(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             new Table_Vehicles(login, idEmployer, idService).setVisible(true);
@@ -100,6 +127,12 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a lista de marcas
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_SH_BR(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Brand(login).setVisible(true);
@@ -109,6 +142,12 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a lista de modelos
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_SH_MO(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Model(login).setVisible(true);
@@ -118,6 +157,12 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a tabela para listar combustiveis
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_SH_FU(java.awt.event.ActionEvent evt, String login) {
         try {
             new Table_Fuel(login).setVisible(true);
@@ -127,6 +172,12 @@ public class MainVehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form para adicionar combustiveis
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_ADD_FU(java.awt.event.ActionEvent evt, String login) {
         try {
             new AddFuel(login).setVisible(true);

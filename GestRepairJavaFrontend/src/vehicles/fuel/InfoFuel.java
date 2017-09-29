@@ -26,15 +26,30 @@ public class InfoFuel extends javax.swing.JFrame {
         initComponents();
         Info(login, id, api);
         Events(login, id, api);
-
     }
-    private void Events(final String login, final int id,final APIFuel api) {
+
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
+    private void Events(final String login, final int id, final APIFuel api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_EDIT(evt, login, id);
             }
         });
     }
+
+    /**
+     * Introduz na form os valores
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
     private void Info(String login, int id, APIFuel api) {
         try {
             String[] info = api.InfoFuel(login, id);
@@ -45,14 +60,22 @@ public class InfoFuel extends javax.swing.JFrame {
             Logger.getLogger(InfoFuel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {                                        
+
+    /**
+     * Abre a form para editar o combustivel
+     *
+     * @param evt
+     * @param login
+     * @param id
+     */
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {
         try {
             new EditFuel(login, id).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(InfoFuel.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }     
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

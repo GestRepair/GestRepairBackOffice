@@ -40,6 +40,14 @@ public class InfoBrand extends javax.swing.JFrame {
         this.login = login;
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @param apiModel
+     */
     private void Events(final String login, final int id, final APIBrand api, final APIModel apiModel) {
         bt_edit_brand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,6 +71,14 @@ public class InfoBrand extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de editar marca
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_EDIT_Brand(java.awt.event.ActionEvent evt, String login, int id, APIBrand api) {
         try {
             try {
@@ -76,6 +92,14 @@ public class InfoBrand extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre form de editar modelo
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_EDIT_Model(java.awt.event.ActionEvent evt, String login, int id, APIBrand api) {
         try {
             new EditModel(login, parseInt(l_idModel.getText()), l_nameBrand.getText()).setVisible(true);
@@ -85,6 +109,13 @@ public class InfoBrand extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra a form de informar modelo
+     *
+     * @param evt
+     * @param login
+     * @param id
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login, int id) {
         try {
             new InfoModel(login, id, l_nameBrand.getText()).setVisible(true);
@@ -94,12 +125,18 @@ public class InfoBrand extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona uma linha ao clicar
+     *
+     * @param evt
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_model.getSelectedRow();
         row(i);
     }
 
     /**
+     * Mostra a informação da marca
      *
      * @param login
      * @param id
@@ -116,12 +153,22 @@ public class InfoBrand extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Depois da linha estar selecionada edita a informação
+     *
+     * @param selected
+     */
     private void row(int selected) {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         l_idModel.setText((String) mod.getValueAt(selected, 0));
         l_nameModel.setText((String) mod.getValueAt(selected, 1));
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void Table(String[][] list) {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         Object[] row = new Object[2];
@@ -254,13 +301,14 @@ public class InfoBrand extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(l_idModel))
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(l_nameModel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(bt_edit_model)
                         .addComponent(bt_edit_brand)
-                        .addComponent(bt_info)))
+                        .addComponent(bt_info))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(l_nameModel)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 

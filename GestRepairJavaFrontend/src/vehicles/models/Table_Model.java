@@ -30,6 +30,13 @@ public class Table_Model extends javax.swing.JFrame {
         Events(login, api, apiBrand);
     }
 
+    /**
+     * Mostra os eventos
+     *
+     * @param login
+     * @param api
+     * @param apiBrand
+     */
     private void Events(final String login, final APIModel api, final APIBrand apiBrand) {
         bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,6 +60,14 @@ public class Table_Model extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Actualiza a tabela quando altera-se o valor da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param api
+     * @param apiBrand
+     */
     private void CB_BRAND(java.awt.event.ActionEvent evt, String login, APIModel api, APIBrand apiBrand) {
         try {
             cleanTable();
@@ -65,6 +80,12 @@ public class Table_Model extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Abre a form de editar viatura
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
@@ -74,6 +95,12 @@ public class Table_Model extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de informação do modelo
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             new InfoModel(login, parseInt(l_idModel.getText()), (String) cb_brand.getSelectedItem()).setVisible(true);
@@ -83,6 +110,11 @@ public class Table_Model extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Ao clicar seleciona uma linha
+     *
+     * @param evt
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_model.getSelectedRow();
         row(i);
@@ -94,6 +126,7 @@ public class Table_Model extends javax.swing.JFrame {
     }
 
     /**
+     * Insere na dropdown a lista de viatutas
      *
      * @param login
      * @param id
@@ -112,17 +145,34 @@ public class Table_Model extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Encontra o id pela posição da dropdown
+     *
+     * @param list
+     * @return
+     * @throws Exception
+     */
     private int cb_val(String[][] list) throws Exception {
         int id = cb_brand.getSelectedIndex();
         return parseInt(list[id][0]);
     }
 
+    /**
+     * Ao selecionar a linha mostro informação no post
+     *
+     * @param selected
+     */
     private void row(int selected) {
         DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();
         l_idModel.setText((String) mod.getValueAt(selected, 0));
         l_nameModel.setText((String) mod.getValueAt(selected, 1));
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void Table(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_model.getModel();

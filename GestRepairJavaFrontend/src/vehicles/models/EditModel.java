@@ -5,7 +5,6 @@
  */
 package vehicles.models;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,6 +31,14 @@ public final class EditModel extends javax.swing.JFrame {
         Events(login, id, api);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void Events(final String login, final int id, final APIModel api) throws Exception {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -45,12 +52,29 @@ public final class EditModel extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Mostra a informação do modelo
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void InfoModel(String login, int id, APIModel api) throws Exception {
         String model[] = api.InfoModel(login, id);
         l_id.setText(model[0]);
         tf_name.setText(model[1]);
     }
 
+    /**
+     * Edita o nome do modelo depois de ser confirmado e verificado pelo sistema
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIModel api) throws Exception {
         if (tf_name.getText().length() < 25 && tf_name.getText().length() > 1) {
             String modelName = api.InfoModel(login, id)[1];

@@ -30,12 +30,29 @@ public final class EditBrand extends javax.swing.JFrame {
         Events(login, api);
     }
 
+    /**
+     * Insere os dados na form
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void InfoBrand(String login, int id, APIBrand api) throws Exception {
         String brand[] = api.InfoBrand(login, id);
         l_id.setText(brand[0]);
         tf_name.setText(brand[1]);
     }
 
+    /**
+     * Altera o nome da marca
+     *
+     * @param login
+     * @param id
+     * @param name
+     * @param api
+     * @throws Exception
+     */
     private void ChangeBrand(String login, int id, String name, APIBrand api) throws Exception {
         int lbrand = tf_name.getText().length();
         if (lbrand > 1 && lbrand < 25) {
@@ -50,11 +67,17 @@ public final class EditBrand extends javax.swing.JFrame {
             } else if (x == JOptionPane.NO_OPTION) {
                 JOptionPane.showMessageDialog(this, "A Marca " + api.InfoBrand(login, id)[1] + " não foi modificada");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Verifique se o número de caracteres é entre 2 a 24");
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APIBrand api) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,6 +86,13 @@ public final class EditBrand extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre o objeto para para editar a marca
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, APIBrand api) {
         try {
             ChangeBrand(login, parseInt(l_id.getText()), tf_name.getText(), api);

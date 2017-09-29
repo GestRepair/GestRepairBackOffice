@@ -33,6 +33,11 @@ public final class Table_Fuel extends javax.swing.JFrame {
         row(0);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     */
     private void Events(final String login) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -51,6 +56,11 @@ public final class Table_Fuel extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     public void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_fuels.getModel();
@@ -67,17 +77,33 @@ public final class Table_Fuel extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere a informação nas labels após o click na tabela
+     *
+     * @param val
+     */
     private void row(int val) {
         TableModel mod = tbl_fuels.getModel();
         l_id.setText((String) mod.getValueAt(val, 0));
         l_registration.setText((String) mod.getValueAt(val, 1));
     }
 
+    /**
+     * Seleciona a linha ao clicar
+     *
+     * @param evt
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_fuels.getSelectedRow();
         row(i);
     }
 
+    /**
+     * Abre a form para editar o combustível
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_fuels.getModel();
@@ -89,6 +115,12 @@ public final class Table_Fuel extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form para mostrar a informação do combustivel
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             TableModel mod = tbl_fuels.getModel();

@@ -16,16 +16,24 @@ public class InfoVehicle extends javax.swing.JFrame {
 
     /**
      * Creates new form Info_Vehicle
+     *
      * @param login
      * @param id
      */
     public InfoVehicle(String login, int id) {
         APIVehicles api = new APIVehicles();
         initComponents();
-        Info(login,id,api);
-        Events(login,id);
+        Info(login, id, api);
+        Events(login, id);
     }
-    private void Events(final String login,final int id) {
+
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     */
+    private void Events(final String login, final int id) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -33,16 +41,24 @@ public class InfoVehicle extends javax.swing.JFrame {
             }
         });
     }
-    private void Info(String login, int id,APIVehicles api) {
+
+    /**
+     * Mostra a informação da form
+     *
+     * @param login
+     * @param id
+     * @param api
+     */
+    private void Info(String login, int id, APIVehicles api) {
         try {
-            String[] info = api.InfoVehicle(login, id) ;
+            String[] info = api.InfoVehicle(login, id);
             l_id.setText(info[0]);
             l_brand.setText(info[1]);
             l_model.setText(info[2]);
             l_registration.setText(info[3]);
-            l_horsepower.setText((info[4]!=null)?info[4]:"");
-            l_displacement.setText((info[5]!=null)?info[5]:"");
-            l_kilometer.setText((info[6]!=null)?info[6]:"");
+            l_horsepower.setText((info[4] != null) ? info[4] : "");
+            l_displacement.setText((info[5] != null) ? info[5] : "");
+            l_kilometer.setText((info[6] != null) ? info[6] : "");
             l_fuel.setText(info[7]);
             l_fronrizetire.setText(info[8]);
             l_rearrizetire.setText(info[9]);
@@ -51,14 +67,23 @@ public class InfoVehicle extends javax.swing.JFrame {
             Logger.getLogger(InfoVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {                                        
+
+    /**
+     * Abre a form de editar viatura
+     *
+     * @param evt
+     * @param login
+     * @param id
+     */
+    private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id) {
         try {
             new EditVehicle(login, id).setVisible(true);
             dispose();
         } catch (Exception ex) {
             Logger.getLogger(InfoVehicle.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,11 +164,6 @@ public class InfoVehicle extends javax.swing.JFrame {
         l_rearrizetire.setText("medida traz");
 
         bt_edit.setText("Editar");
-        bt_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_editActionPerformed(evt);
-            }
-        });
 
         jLabel12.setText("Detalhes da viatura n.º:");
 
@@ -266,9 +286,6 @@ public class InfoVehicle extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(507, 288));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bt_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_editActionPerformed
-    }//GEN-LAST:event_bt_editActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;

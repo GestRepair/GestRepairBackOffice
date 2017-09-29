@@ -5,7 +5,6 @@
  */
 package vehicles.vehicles;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -39,6 +38,16 @@ public class EditVehicle extends javax.swing.JFrame {
         Events(login, id, api, apiModel, apiBrand, apiFuel);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     */
     private void Events(final String login, final int id, final APIVehicles api, final APIModel apiModel, final APIBrand apiBrand, final APIFuel apiFuel) {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -54,6 +63,14 @@ public class EditVehicle extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Altera o valor das dropdown modelo após a sua mudança
+     *
+     * @param evt
+     * @param login
+     * @param apiModel
+     * @param apiBrand
+     */
     private void CB_BRAND(java.awt.event.ActionEvent evt, String login, APIModel apiModel, APIBrand apiBrand) {
         try {
             String[][] brand = apiBrand.Brand(login);
@@ -63,8 +80,19 @@ public class EditVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Após a verificação e confirmação do utilizador os dados são alterados
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (tf_fronttire.getText().length()>8 && tf_reartire.getText().length()>8 && validateNumber(tf_displacement.getText()) == true && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
+        if (tf_fronttire.getText().length() > 8 && tf_reartire.getText().length() > 8 && validateNumber(tf_displacement.getText()) == true && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometer.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer alterar a viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
@@ -85,6 +113,17 @@ public class EditVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os detalhes do utilizador na form
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @param apiBrand
+     * @param apiModel
+     * @param apiFuel
+     * @throws Exception
+     */
     private void InfoVehicle(String login, int id, APIVehicles api, APIBrand apiBrand, APIModel apiModel, APIFuel apiFuel) throws Exception {
         l_id.setText(id + "");
         String[][] brand = apiBrand.Brand(login);
@@ -107,6 +146,11 @@ public class EditVehicle extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Insere os valores na dropdown das marcas
+     *
+     * @param list
+     */
     private void showBrand(String[][] list) {
         cb_brand.removeAllItems();
         for (int i = 0; i < list.length; i++) {
@@ -114,6 +158,11 @@ public class EditVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os valores na dropdown dos modelos
+     *
+     * @param list
+     */
     private void showModel(String[][] list) {
         cb_model.removeAllItems();
         for (int i = 0; i < list.length; i++) {
@@ -121,17 +170,29 @@ public class EditVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os valores na dropdown dos combustiveis
+     *
+     * @param list
+     */
     private void showFuel(String[][] list) {
         cb_fuel.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             cb_fuel.addItem(list[i][1]);
         }
     }
-
+    /**
+     * Verifica o id de um valor da dropdown
+     * @param val
+     * @param list
+     * @return 
+     */
     private int Cb_Val(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
-
+    /**
+     * Validação
+     */
     private static final Pattern VALID_NUMBER_REGEX = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
 
     private static boolean validateNumber(String numberStr) {
@@ -139,6 +200,16 @@ public class EditVehicle extends javax.swing.JFrame {
         return matcher.find();
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @param login
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     * @return
+     * @throws Exception
+     */
     private String[] data(String login, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) throws Exception {
         String vehicle[] = new String[10];
         vehicle[0] = l_id.getText();
@@ -337,8 +408,6 @@ public class EditVehicle extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(761, 280));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
     private javax.swing.JComboBox cb_brand;

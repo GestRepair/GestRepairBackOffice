@@ -30,12 +30,28 @@ public class EditFuel extends javax.swing.JFrame {
         Events(login, id, api);
     }
 
+    /**
+     * Mostra a informação dos combustíveis
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void InfoFuel(String login, int id, APIFuel api) throws Exception {
         String fuel[] = api.InfoFuel(login, id);
         l_id.setText(fuel[0]);
         tf_fuel.setText(fuel[1]);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @throws Exception
+     */
     private void Events(final String login, final int id, final APIFuel api) throws Exception {
         bt_edit.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -45,6 +61,14 @@ public class EditFuel extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Edita os dados de aós verificação dos dados e confirmação
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIFuel api) {
         try {
             int tfuel = tf_fuel.getText().length();

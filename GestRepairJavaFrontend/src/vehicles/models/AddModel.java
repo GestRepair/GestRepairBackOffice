@@ -5,7 +5,6 @@
  */
 package vehicles.models;
 
-import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,29 +31,57 @@ public final class AddModel extends javax.swing.JFrame {
         Events(login, api, apiBrand);
     }
 
-    public void showBrand(String[][] list) {
+    /**
+     * Insere dados na dropdown
+     *
+     * @param list
+     */
+    private void showBrand(String[][] list) {
         CB_Brands.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             CB_Brands.addItem(list[i][1]);
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param api
+     * @param apiBrand
+     */
     private void Events(final String login, final APIModel api, final APIBrand apiBrand) {
         bt_addModel.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_ADD(evt, login, api, apiBrand);
             }
         });
     }
 
+    /**
+     * Atravéz da posição da dropdown podereiinserir os dados
+     *
+     * @param val
+     * @param list
+     * @return
+     */
     public int newIdCb(int val, String[][] list) {
         return parseInt(list[val][0]);
     }
 
+    /**
+     * Após a verificação e confirmação é adicionado uma nova viatura
+     *
+     * @param evt
+     * @param login
+     * @param api
+     * @param apiBrand
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIModel api, APIBrand apiBrand) {
         try {
             int lmod = tf_model.getText().length();
-            if ( lmod < 25 && lmod > 1) {
+            if (lmod < 25 && lmod > 1) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar um novo modelo?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
                     String value[] = api.PostModel(login, newIdCb(CB_Brands.getSelectedIndex(), apiBrand.Brand(login)), tf_model.getText());

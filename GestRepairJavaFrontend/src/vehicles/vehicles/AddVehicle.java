@@ -47,28 +47,50 @@ public final class AddVehicle extends javax.swing.JFrame {
         Events(login, id, api, apiModel, apiBrand, apiFuel);
     }
 
-    public void showBrand(String[][] list) {
+    /**
+     * Insere os dados na dropdown Marcas
+     *
+     * @param list
+     */
+    private void showBrand(String[][] list) {
         cb_brand.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             cb_brand.addItem(list[i][1]);
         }
     }
 
-    public void showModel(String[][] list) {
+    /**
+     * Insere os dados na dropdown modelos
+     *
+     * @param list
+     */
+    private void showModel(String[][] list) {
         cb_model.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             cb_model.addItem(list[i][1]);
         }
     }
 
-    public void showFuel(String[][] list) {
+    /**
+     * Insere os dados na dropdown combustiveis
+     *
+     * @param list
+     */
+    private void showFuel(String[][] list) {
         cb_fuel.removeAllItems();
         for (int i = 0; i < list.length; i++) {
             cb_fuel.addItem(list[i][1]);
         }
     }
 
-    public int newIdCb(int val, String[][] list) {
+    /**
+     * Consulta o id das Dropdowns
+     *
+     * @param val
+     * @param list
+     * @return
+     */
+    private int newIdCb(int val, String[][] list) {
         if (val < 0) {
             return parseInt(list[0][0]);
         } else {
@@ -76,6 +98,16 @@ public final class AddVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @param login
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     * @return
+     * @throws Exception
+     */
     private String[] data(String login, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) throws Exception {
         String data[] = new String[9];
         data[0] = newIdCb(cb_model.getSelectedIndex(), apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login)))) + "";
@@ -97,6 +129,16 @@ public final class AddVehicle extends javax.swing.JFrame {
         return matcher.find();
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param api
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     */
     private void Events(final String login, final int id, final APIVehicles api, final APIModel apiModel, final APIBrand apiBrand, final APIFuel apiFuel) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -113,8 +155,20 @@ public final class AddVehicle extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Adiciona os dados na vitura depois da validação e confirmação do
+     * utilizador
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     * @param apiModel
+     * @param apiBrand
+     * @param apiFuel
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api, APIModel apiModel, APIBrand apiBrand, APIFuel apiFuel) {
-        if (tf_fronttire.getText().length()>8 && tf_reartire.getText().length()>8 &&validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length() > 8) {
+        if (tf_fronttire.getText().length() > 8 && tf_reartire.getText().length() > 8 && validateNumber(tf_displacement.getText()) && validateNumber(tf_horsepower.getText()) == true && validateNumber(tf_kilometers.getText()) == true && tf_date.getText().length() > 8) {
             try {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer adicionar uma nova viatura?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
@@ -135,6 +189,14 @@ public final class AddVehicle extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Altera o valor das tabelas após a mudança do valor da dropdown
+     *
+     * @param evt
+     * @param login
+     * @param apiModel
+     * @param apiBrand
+     */
     private void CB_BRAND(java.awt.event.ActionEvent evt, String login, APIModel apiModel, APIBrand apiBrand) {
         try {
             showModel(apiModel.Model(login, newIdCb(cb_brand.getSelectedIndex(), apiBrand.Brand(login))));

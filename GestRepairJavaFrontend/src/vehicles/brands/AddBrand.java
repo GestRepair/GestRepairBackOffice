@@ -29,6 +29,12 @@ public class AddBrand extends javax.swing.JFrame {
         Events(login, api);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APIBrand api) {
         bt_addBrand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -37,6 +43,13 @@ public class AddBrand extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Adiciona uma nova marca após confirmação
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIBrand api) {
         try {
             int lbrand = tf_brand.getText().length();

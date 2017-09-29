@@ -35,7 +35,13 @@ public class APIModel extends Connect {
         objp.put("model", model);
         return SendConnect(login, url, "POST", objp);
     }
-
+    /**
+     * Mostra a listagem dos dados nados modelos
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception 
+     */
     @SuppressWarnings("empty-statement")
     public String[][] Model(String login, int id) throws Exception {
         URL url = new URL(IP() + "/vehicle/" + id + "/model/");

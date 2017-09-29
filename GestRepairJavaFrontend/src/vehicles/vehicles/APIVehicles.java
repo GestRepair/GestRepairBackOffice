@@ -43,42 +43,108 @@ public class APIVehicles extends Connect {
         objp.put("date", data[8]);
         return SendConnect(login, url, "POST", objp);
     }
+
+    /**
+     * Verifica se a viatura existe no sistema
+     *
+     * @param login
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] POSTVerifyVehicle(String login, String data) throws Exception {
         URL url = new URL(IP() + "/vehicle/exists");
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnectResp(login, url, "POST", objp);
     }
+
+    /**
+     * Verifica se a viatuta tem dono
+     *
+     * @param login
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] POSTVerifyOwnerVehicle(String login, String data) throws Exception {
         URL url = new URL(IP() + "/vehicle/exists/nuser");
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnectResp(login, url, "POST", objp);
     }
+
+    /**
+     * Verifica se a viatura já pertenceu à pessoa
+     *
+     * @param login
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] POSTVerifyUserVehicle(String login, String data, int id) throws Exception {
-        URL url = new URL(IP() + "/vehicle/exists/user/"+id);
+        URL url = new URL(IP() + "/vehicle/exists/user/" + id);
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnectResp(login, url, "POST", objp);
     }
+
+    /**
+     * Caso exista e a relação não existe associa ao utilizador
+     *
+     * @param login
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] POSTVerifyADDVehicle(String login, String data, int id) throws Exception {
-        URL url = new URL(IP() + "/vehicle/exists/"+id);
+        URL url = new URL(IP() + "/vehicle/exists/" + id);
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnect(login, url, "POST", objp);
     }
+
+    /**
+     * Termina a relação com uma pessoa
+     *
+     * @param login
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] POSTDisableVehicle(String login, String data) throws Exception {
         URL url = new URL(IP() + "/vehicle/disable/desktop");
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnect(login, url, "PUT", objp);
     }
+
+    /**
+     * Caso a relação exista adiciona altera reactiva a ligação
+     *
+     * @param login
+     * @param data
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] PUTVerifyADDVehicle(String login, String data, int id) throws Exception {
-        URL url = new URL(IP() + "/vehicle/exists/"+id);
+        URL url = new URL(IP() + "/vehicle/exists/" + id);
         JSONObject objp = new JSONObject();
         objp.put("vehicle", data);
         return SendConnect(login, url, "PUT", objp);
     }
+
+    /**
+     * Mostra a lista de viaturas
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[][] vehicles(String login, int id) throws Exception {
         URL url;
         if (id == 0) {
@@ -103,7 +169,7 @@ public class APIVehicles extends Connect {
             dataTable[i][7] = (String) datas.get("nameFuel");
             dataTable[i][8] = (String) datas.get("fronttiresize");
             dataTable[i][9] = (String) datas.get("reartiresize");
-            dataTable[i][10] = (datas.get("date") != null) ? ((String) datas.get("date")).substring(0, 10):"";
+            dataTable[i][10] = (datas.get("date") != null) ? ((String) datas.get("date")).substring(0, 10) : "";
             if (id == 0) {
                 dataTable[i][11] = (String) datas.get("username") + "";
             }
@@ -111,6 +177,15 @@ public class APIVehicles extends Connect {
         return dataTable;
     }
 
+    /**
+     * Edita os dados da viatura
+     *
+     * @param login
+     * @param id
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public String[] PutVehicle(String login, int id, String[] data) throws Exception {
         URL url = new URL(IP() + "/vehicle/" + id);
         JSONObject objp = new JSONObject();
@@ -126,6 +201,14 @@ public class APIVehicles extends Connect {
         return SendConnect(login, url, "PUT", objp);
     }
 
+    /**
+     * Mostra os detalhes da viatura
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] InfoVehicle(String login, int id) throws Exception {
         URL url = new URL(IP() + "/vehicle/" + id);
         String json = GETConnect(login, url, "GET");

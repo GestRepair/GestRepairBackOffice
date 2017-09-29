@@ -38,6 +38,11 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         Events(login, idEmployer, idService, api);
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void showTable(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
@@ -56,6 +61,12 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Verifica qual é a linha selecionada
+     *
+     * @param val
+     * @return
+     */
     private String SelectRow(int val) {
         int i = tbl_vehicles.getSelectedRow();
         if (i < 0) {
@@ -65,6 +76,11 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         return (String) mod.getValueAt(i, val);
     }
 
+    /**
+     * Posta a informação da linha selecionada
+     *
+     * @param val
+     */
     private void row(int val) {
         TableModel mod = tbl_vehicles.getModel();
         if (mod.getRowCount() > 0) {
@@ -81,6 +97,14 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param idEmployer
+     * @param idService
+     * @param api
+     */
     private void Events(final String login, final int idEmployer, final int idService, final APIVehicles api) {
         bt_add_budgets.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -119,11 +143,21 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Limpa a tabela
+     */
     private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Retira após a confirmação associação do utilizador
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_Disable(java.awt.event.ActionEvent evt, String login, APIVehicles api) {
         int i = (tbl_vehicles.getSelectedRow() < 0) ? 0 : tbl_vehicles.getSelectedRow();
         TableModel mod = tbl_vehicles.getModel();
@@ -145,8 +179,15 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de adicionar orçamentos de um utilizador
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_ADD_BUDGETS(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
-        // TODO add your handling code here:
         try {
             new AddBudget(login, parseInt(SelectRow(0)), idEmployer, idService).setVisible(true);
             dispose();
@@ -155,6 +196,14 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de adicionar reparações de um utilizador
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_ADD_REPAIR(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             new AddRepair(login, parseInt(l_idVehicle.getText()), idEmployer, idService).setVisible(true);
@@ -164,6 +213,12 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form onde mostra os detalhes de uma viatura
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             new InfoVehicle(login, parseInt(l_idVehicle.getText())).setVisible(true);
@@ -173,6 +228,12 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de editar viatura
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_Edit(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditVehicle(login, parseInt(l_idVehicle.getText())).setVisible(true);
@@ -182,6 +243,11 @@ public final class Table_Vehicles extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Seleciona uma linha
+     *
+     * @param evt
+     */
     private void TBL_VehiclesClicked(java.awt.event.MouseEvent evt) {
         int i = tbl_vehicles.getSelectedRow();
         row(i);

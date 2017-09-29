@@ -29,6 +29,13 @@ public class InfoModel extends javax.swing.JFrame {
         Events(login, id, brand);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param brand
+     */
     private void Events(final String login, final int id, final String brand) {
         bt_edit_model.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -37,6 +44,14 @@ public class InfoModel extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Abre a form de editar o modelo
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param brand
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, String brand) {
         try {
             new EditModel(login, id, brand).setVisible(true);

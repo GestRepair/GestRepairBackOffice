@@ -58,6 +58,11 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Insere os dados nas labels quando a linha é a selecionada
+     *
+     * @param val
+     */
     private void row(int val) {
         TableModel mod = tbl_vehicles.getModel();
         if (mod.getRowCount() > 0) {
@@ -74,6 +79,15 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param idEmployer
+     * @param idService
+     * @param api
+     */
     private void Events(final String login, final int id, final int idEmployer, final int idService, final APIVehicles api) {
         bt_add_budgets.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -113,6 +127,12 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Seleciona uma linha ao clicar
+     *
+     * @param val
+     * @return
+     */
     private String SelectRow(int val) {
         int i = tbl_vehicles.getSelectedRow();
         if (i < 0) {
@@ -122,8 +142,15 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         return (String) mod.getValueAt(i, val);
     }
 
+    /**
+     * Abre a form de adicionar orçamentos de um utilizador
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_ADD_BUDGETS(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
-        // TODO add your handling code here:
         try {
             new AddBudget(login, parseInt(SelectRow(0)), idEmployer, idService).setVisible(true);
             dispose();
@@ -132,6 +159,14 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Abre a form de adicionar REPARAÇÕES de um utilizador
+     *
+     * @param evt
+     * @param login
+     * @param idEmployer
+     * @param idService
+     */
     private void BT_ADD_REPAIR(java.awt.event.ActionEvent evt, String login, int idEmployer, int idService) {
         try {
             new AddRepair(login, parseInt(l_idVehicle.getText()), idEmployer, idService).setVisible(true);
@@ -141,6 +176,11 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Ao clicar a linha é selecionada
+     *
+     * @param evt
+     */
     private void TBL_Clicked(java.awt.event.MouseEvent evt) {
         int i = tbl_vehicles.getSelectedRow();
         row(i);
@@ -155,6 +195,12 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os detalhes da viatura
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         try {
             new InfoVehicle(login, parseInt(l_idVehicle.getText())).setVisible(true);
@@ -164,11 +210,22 @@ public final class Table_Vehicles_PU extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Limpa a tabela
+     */
     private void cleanTable() {
         DefaultTableModel mod = (DefaultTableModel) tbl_vehicles.getModel();
         mod.setRowCount(0);
     }
 
+    /**
+     * Desassocia a viatura de um utilizador após a sua confirmação
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param api
+     */
     private void BT_Disable(java.awt.event.ActionEvent evt, String login, int id, APIVehicles api) {
         int i = (tbl_vehicles.getSelectedRow() < 0) ? 0 : tbl_vehicles.getSelectedRow();
         TableModel mod = tbl_vehicles.getModel();

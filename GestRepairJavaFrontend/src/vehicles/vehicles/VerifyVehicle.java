@@ -5,7 +5,6 @@
  */
 package vehicles.vehicles;
 
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,26 +24,52 @@ public class VerifyVehicle extends javax.swing.JFrame {
      * @param idService
      * @param idEmployer
      */
-    public VerifyVehicle(final String login, int id, String user,int idService,int idEmployer) {
+    public VerifyVehicle(final String login, int id, String user, int idService, int idEmployer) {
         APIVehicles api = new APIVehicles();
         initComponents();
-        Events(login, id,idService,idEmployer, user,api);
+        Events(login, id, idService, idEmployer, user, api);
     }
 
-    private void Events(final String login, final int id,final int idService ,final int idEmployer, final String user, final APIVehicles api) {
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param id
+     * @param idService
+     * @param idEmployer
+     * @param user
+     * @param api
+     */
+    private void Events(final String login, final int id, final int idService, final int idEmployer, final String user, final APIVehicles api) {
         bt_verify.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_VERIFY(evt, login, id,idService,idEmployer, user, api);
+                BT_VERIFY(evt, login, id, idService, idEmployer, user, api);
             }
         });
     }
 
+    /**
+     * Prepara os dados para enviar
+     *
+     * @return
+     */
     private String Data() {
         return tf_registration.getText();
     }
 
-    private void BT_VERIFY(java.awt.event.ActionEvent evt, String login, int id, int idService ,int idEmployer, String user, APIVehicles api) {
+    /**
+     * Confirma se o utilizador quer que verificar a viatura existe
+     *
+     * @param evt
+     * @param login
+     * @param id
+     * @param idService
+     * @param idEmployer
+     * @param user
+     * @param api
+     */
+    private void BT_VERIFY(java.awt.event.ActionEvent evt, String login, int id, int idService, int idEmployer, String user, APIVehicles api) {
         try {
             if (tf_registration.getText().length() > 5) {
                 int x = JOptionPane.showConfirmDialog(this, "Tem a certeza que quer verificar se viatura " + Data() + " faz parte do sistema?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -67,20 +92,19 @@ public class VerifyVehicle extends javax.swing.JFrame {
                                 if (p == 0) {;
                                     String[] value3 = api.POSTVerifyADDVehicle(login, Data(), id);
                                     if ("ok".equals(value3[0])) {
-                                        JOptionPane.showMessageDialog(this, value3[1] );
+                                        JOptionPane.showMessageDialog(this, value3[1]);
                                         dispose();
                                     }
-                                }else{
+                                } else {
                                     String[] value4 = api.PUTVerifyADDVehicle(login, Data(), id);
                                     if ("ok".equals(value4[0])) {
-                                        JOptionPane.showMessageDialog(this, value4[1] );
+                                        JOptionPane.showMessageDialog(this, value4[1]);
                                         dispose();
                                     }
                                 }
-                            }
-                            else{
+                            } else {
                                 JOptionPane.showMessageDialog(this, "Por favor desative a viatura!");
-                                new Table_Vehicles(login,idService,idEmployer).setVisible(true);
+                                new Table_Vehicles(login, idService, idEmployer).setVisible(true);
                                 dispose();
                             }
                         }

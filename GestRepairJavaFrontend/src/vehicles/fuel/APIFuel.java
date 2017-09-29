@@ -17,6 +17,13 @@ import org.json.simple.parser.JSONParser;
  */
 public class APIFuel extends Connect {
 
+    /**
+     * Vai reponder após o pedido, os combustiveis
+     *
+     * @param login
+     * @return
+     * @throws Exception
+     */
     public String[][] Fuel(String login) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel");
         String list = GETConnect(login, url, "GET");
@@ -31,6 +38,14 @@ public class APIFuel extends Connect {
         return dataTable;
     }
 
+    /**
+     * Mostra as informações do combustivel
+     *
+     * @param login
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public String[] InfoFuel(String login, int id) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel/" + id);
         String json = GETConnect(login, url, "GET");
@@ -43,12 +58,30 @@ public class APIFuel extends Connect {
         return emp;
     }
 
+    /**
+     * Edita o nome do combstivel
+     *
+     * @param login
+     * @param id
+     * @param fuel
+     * @return
+     * @throws Exception
+     */
     public String[] PutFuel(String login, int id, String fuel) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel/" + id);
         JSONObject objp = new JSONObject();
         objp.put("nameFuel", fuel);
         return SendConnect(login, url, "PUT", objp);
     }
+
+    /**
+     * Adiciona um novo nome de combustivel
+     *
+     * @param login
+     * @param fuel
+     * @return
+     * @throws Exception
+     */
     public String[] PostFuel(String login, String fuel) throws Exception {
         URL url = new URL(IP() + "/vehicle/fuel");
         JSONObject objp = new JSONObject();

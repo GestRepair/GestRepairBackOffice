@@ -25,9 +25,15 @@ public final class AddFuel extends javax.swing.JFrame {
     public AddFuel(String login) throws ParseException, Exception {
         APIFuel api = new APIFuel();
         initComponents();
-        Events(login,api);
+        Events(login, api);
     }
 
+    /**
+     * Eventos
+     *
+     * @param login
+     * @param api
+     */
     private void Events(final String login, final APIFuel api) {
         bt_add.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -37,6 +43,13 @@ public final class AddFuel extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Adiciona adiciona o nome dos combustivel após confirmação
+     *
+     * @param evt
+     * @param login
+     * @param api
+     */
     private void BT_ADD(java.awt.event.ActionEvent evt, String login, APIFuel api) {
         try {
             int tfuel = tf_fuel.getText().length();

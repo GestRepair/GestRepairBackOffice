@@ -27,6 +27,7 @@ public class Table_Brand extends javax.swing.JFrame {
         initComponents();
         Table(api.Brand(login));
         row(0);
+        Events(login);
     }
 
     private void Events(final String login) {
@@ -49,11 +50,22 @@ public class Table_Brand extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Seleciona a linha ao clicar
+     *
+     * @param evt
+     */
     private void TBL_CLICKED(java.awt.event.MouseEvent evt) {
         int i = tbl_brand.getSelectedRow();
         row(i);
     }
 
+    /**
+     * Abre a formpara editar marcas
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login) {
         try {
             new EditBrand(login, parseInt(l_idBrand.getText())).setVisible(true);
@@ -63,16 +75,32 @@ public class Table_Brand extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostra os dados para mostrar a informação dos dados
+     *
+     * @param evt
+     * @param login
+     */
     private void BT_INFO(java.awt.event.ActionEvent evt, String login) {
         new InfoBrand(login, parseInt(l_idBrand.getText())).setVisible(true);
     }
 
+    /**
+     * Mostra os dados após a seleção dos dados
+     *
+     * @param selected
+     */
     private void row(int selected) {
         DefaultTableModel mod = (DefaultTableModel) tbl_brand.getModel();
         l_idBrand.setText((String) mod.getValueAt(selected, 0));
         l_nameBrand.setText((String) mod.getValueAt(selected, 1));
     }
 
+    /**
+     * Insere os dados na tabela
+     *
+     * @param list
+     */
     private void Table(String[][] list) {
         if (list.length > 0) {
             DefaultTableModel mod = (DefaultTableModel) tbl_brand.getModel();
