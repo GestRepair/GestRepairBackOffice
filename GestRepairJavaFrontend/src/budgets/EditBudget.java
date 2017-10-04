@@ -5,6 +5,8 @@
  */
 package budgets;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.xml.bind.DatatypeConverter.parseInt;
 
@@ -13,7 +15,7 @@ import static javax.xml.bind.DatatypeConverter.parseInt;
  * @author Rui Barcelos
  */
 public class EditBudget extends javax.swing.JFrame {
-
+    private String login;
     /**
      * Cria um formulário para editar os dados do orçamento
      *
@@ -29,6 +31,7 @@ public class EditBudget extends javax.swing.JFrame {
         insertCb(api.ListStateComplete(login));
         ta_description.setLineWrap(true);
         ta_resolution.setLineWrap(true);
+        this.login = login;
 
     }
 
@@ -92,7 +95,7 @@ public class EditBudget extends javax.swing.JFrame {
         String[] data = new String[5];
         data[0] = (ta_description.getText().length() > 0) ? ta_description.getText() : "n/d";
         data[1] = (tf_price.getText().length() > 0) ? tf_price.getText().replace(',', '.') : "0";
-        data[2] = cbVal(api.ListState(login), cb_state.getSelectedIndex()) + "";
+        data[2] = cbVal(api.ListStateComplete(login), cb_state.getSelectedIndex()) + "";
         data[3] = (tf_time.getText().length() > 0) ? tf_time.getText() : "n/d";
         data[4] = (ta_resolution.getText().length() > 0) ? ta_resolution.getText() : "n/d";
         return data;
@@ -194,6 +197,11 @@ public class EditBudget extends javax.swing.JFrame {
         jLabel4.setText("Estado:");
 
         cb_state.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_state.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_stateActionPerformed(evt);
+            }
+        });
 
         ta_resolution.setColumns(20);
         ta_resolution.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -323,6 +331,10 @@ public class EditBudget extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(970, 357));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cb_stateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_stateActionPerformed
+
+    }//GEN-LAST:event_cb_stateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_edit;
