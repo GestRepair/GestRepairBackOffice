@@ -46,6 +46,7 @@ public class APILogin extends Connect{
         connection.setRequestProperty("Authorization", "Basic " + encoded);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("charset", "UTF-8");
         //Cria um JSON objp e insere os dados a enviar
         JSONObject objp;
         try (OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream())) {
@@ -59,7 +60,7 @@ public class APILogin extends Connect{
         connection.getResponseCode();
 
         InputStream is = connection.getInputStream();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
         String line = "";
         String json = "";
         //insere linha a linha a string json
