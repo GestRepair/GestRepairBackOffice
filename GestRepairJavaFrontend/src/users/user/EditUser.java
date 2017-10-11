@@ -146,7 +146,7 @@ public final class EditUser extends javax.swing.JFrame {
      * @throws Exception
      */
     private void BT_EDIT(java.awt.event.ActionEvent evt, String login, int id, APIUsers api) throws Exception {
-        if (tf_name.getText().length() > 5 && tf_street.getText().length() > 5 && tf_city.getText().length() > 3) {
+        if (tf_name.getText().length() > 0 && tf_street.getText().length() > 0 && tf_city.getText().length() > 0) {
             if (validateEmail(tf_email.getText()) == true && validateName(tf_name.getText()) == true && validateName(tf_city.getText()) == true && validateNumber(tf_contact.getText()) == true && validateNIF(tf_nif.getText()) == true) {
                 int x = JOptionPane.showConfirmDialog(this, "Quer modificar este utilizador?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (x == JOptionPane.YES_OPTION) {
